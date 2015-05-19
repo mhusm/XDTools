@@ -140,7 +140,7 @@ $(document).ready(function () {
     $(document).on("click", ".play", function (ev) {
         $(this).addClass("disabled");
         var deviceId = $(this).data("devid");
-        replayEvents(deviceId);
+        replayEvents(events[deviceId], deviceId);
     });
 
     //Save the recorded sequence with the specified name
@@ -169,14 +169,56 @@ $(document).ready(function () {
             visualizeEventSequence(deviceId, sequenceName);
         }
     });
+
+    $("#play-button").click(function (ev) {
+        for (var i = 0; i < activeDevices.length; ++i) {
+            var sequence = $("#timeline-" + activeDevices[i] + " select").val();
+            if (sequence !== "none") {
+                replayEvents(savedSequences[sequence], activeDevices[i]);
+            }
+        }
+    });
 });
 
 function logEvent(ev) {
     events[ev.data.deviceId].push({
-        "time": ev.timeStamp,
+        "time": ev.originalEvent.timeStamp,
         "type": ev.data.eventType,
-        "details": ev
+        "hierarchy": determineHierarchy(ev.originalEvent.path),
+        "details": ev.originalEvent
     });
+}
+
+function determineHierarchy(path) {
+    var curElement = path.shift();
+    var hierarchy = [];
+    while (curElement.nodeName !== "BODY") {
+        var index = 0;
+        var cur = curElement;
+        while (cur) {
+            index++;
+            cur  = cur.previousElementSibling;
+        }
+        hierarchy.push(index - 1);
+        curElement = path.shift();
+    }
+    return hierarchy;
+}
+
+function determineTarget(deviceId, hierarchy) {
+    var iframeDoc = $("#device-" + deviceId + " iframe")[0].contentWindow.document;
+    var curElement = iframeDoc.body;
+    var curIndex = hierarchy.length - 1;
+    while (curIndex >= 0) {
+        if (curElement.children[hierarchy[curIndex]]) {
+            curElement = curElement.children[hierarchy[curIndex]];
+        }
+        else {
+            curElement = curElement.shadowRoot;
+        }
+        curIndex--;
+    }
+    return curElement;
 }
 
 function visualizeEventSequence(deviceId, sequenceName) {
@@ -229,51 +271,50 @@ function stopRecording(deviceId) {
     $(iframeDoc).unbind(genericEvents.join(" "), logEvent);
 }
 
-function replayEvents(deviceId) {
-    var curEvents = events[deviceId];
-    dispatchEvent(curEvents[0]);
+function replayEvents(curEvents, deviceId) {
+    dispatchEvent(curEvents[0], deviceId);
     for (var i = 1, j = curEvents.length; i < j; ++i) {
-        setTimeout(dispatchEvent, curEvents[i].time - curEvents[0].time, curEvents[i]);
+        setTimeout(dispatchEvent, curEvents[i].time - curEvents[0].time, curEvents[i], deviceId);
     }
     setTimeout(function () {
         $("#device-" + deviceId + " .play").removeClass("disabled");
     }, curEvents[curEvents.length - 1].time - curEvents[0].time);
 }
 
-function dispatchEvent(event) {
+function dispatchEvent(event, deviceId) {
     if (event.type === "MouseEvent") {
-        dispatchMouseEvent(event.details);
+        dispatchMouseEvent(event.details, determineTarget(deviceId, event.hierarchy));
     }
     else if (event.type === "KeyboardEvent") {
-        dispatchKeyboardEvent(event.details);
+        dispatchKeyboardEvent(event.details, determineTarget(deviceId, event.hierarchy));
     }
     else if (event.type === "UIEvent") {
-        dispatchUIEvent(event.details);
+        dispatchUIEvent(event.details, determineTarget(deviceId, event.hierarchy));
     }
     else if (event.type === "MutationEvent") {
-        dispatchMutationEvent(event.details);
+        dispatchMutationEvent(event.details, determineTarget(deviceId, event.hierarchy));
     }
     else if (event.type === "WheelEvent") {
-        dispatchWheelEvent(event.details);
+        dispatchWheelEvent(event.details, determineTarget(deviceId, event.hierarchy));
     }
     else if (event.type === "OverflowEvent") {
-        dispatchOverflowEvent(event.details);
+        dispatchOverflowEvent(event.details, determineTarget(deviceId, event.hierarchy));
     }
     else {
-        dispatchGenericEvent(event.details);
+        dispatchGenericEvent(event.details, determineTarget(deviceId, event.hierarchy));
     }
 }
 
-function dispatchMouseEvent(event) {
+function dispatchMouseEvent(event, target) {
     var mouseEvent = document.createEvent("MouseEvent");
     mouseEvent.initMouseEvent(event.type, event.bubbles, event.cancelable, window, event.detail,
         event.screenX, event.screenY, event.clientX, event.clientY,
         event.ctrlKey, event.altKey, event.shiftKey, event.metaKey,
         event.button, event.relatedTarget);
-    event.target.dispatchEvent(mouseEvent);
+    target.dispatchEvent(mouseEvent);
 }
 
-function dispatchKeyboardEvent(event) {
+function dispatchKeyboardEvent(event, target) {
     var modifiers = [];
     if (event.altKey) {
         modifiers.push("Alt");
@@ -292,31 +333,31 @@ function dispatchKeyboardEvent(event) {
         event.keyCode, event.Location, modifiers.join(' '), event.repeat, '');
     event.target.dispatchEvent(keyboardEvent);
     if (event.type === "keypress") {
-        dispatchTextEvent(event);
+        dispatchTextEvent(event, target);
     }
 }
 
 //TextEvents are supported by IE, Safari, Chrome
-function dispatchTextEvent(event) {
+function dispatchTextEvent(event, target) {
     var textEvent = document.createEvent("TextEvent");
     var char = String.fromCharCode(event.which);
     textEvent.initTextEvent("textInput", event.bubbles, event.cancelable, window, char, event.detail, "en-US");
-    event.target.dispatchEvent(textEvent);
+    target.dispatchEvent(textEvent);
 }
 
-function dispatchUIEvent(event) {
+function dispatchUIEvent(event, target) {
     var uiEvent = document.createEvent("UIEvent");
     uiEvent.initUIEvent(event.type, event.bubbles, event.cancelable, window, event.detail);
-    event.target.dispatchEvent(uiEvent);
+    target.dispatchEvent(uiEvent);
 }
 
-function dispatchMutationEvent(event) {
+function dispatchMutationEvent(event, target) {
     var mutationEvent = document.createEvent("MutationEvent");
     mutationEvent.initMutationEvent(event.type, event.bubbles, event.cancelable, event.relatedNode, event.prevValue, event.newValue, event.attrName, event.attrChange);
-    event.target.dispatchEvent(mutationEvent);
+    target.dispatchEvent(mutationEvent);
 }
 
-function dispatchWheelEvent(event) {
+function dispatchWheelEvent(event, target) {
     var modifiers = [];
     if (event.altKey) {
         modifiers.push("Alt");
@@ -336,17 +377,17 @@ function dispatchWheelEvent(event) {
         event.button, event.relatedTarget, modifiers, event.deltaX, event.deltaY,
         event.deltaZ, event.deltaMode
     );
-    event.target.dispatchEvent(wheelEvent);
+    target.dispatchEvent(wheelEvent);
 }
 
-function dispatchOverflowEvent(event) {
+function dispatchOverflowEvent(event, target) {
     var overflowEvent = document.createEvent("OverflowEvent");
     overflowEvent.initOverflowEvent(event.orient, event.horizontalOverflow, event.verticalOverflow);
-    event.target.dispatchEvent(overflowEvent);
+    target.dispatchEvent(overflowEvent);
 }
 
-function dispatchGenericEvent(event) {
+function dispatchGenericEvent(event, target) {
     var ev = document.createEvent("event");
     ev.initEvent(event.type, event.bubbles, event.cancelable);
-    event.target.dispatchEvent(ev);
+    target.dispatchEvent(ev);
 }
