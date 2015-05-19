@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="js/lib/jquery-ui/jquery-ui.css">
+        <link rel="stylesheet" href="css/style.css">
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.1.min.js"></script>
+        <script src="js/lib/jquery-ui/jquery-ui.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body>
+        <div id="emulation-mode" class="hidden">
+            <h1>
+                Emulated devices
+                <button type="button" id="add-button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#deviceModal" title="Add new device">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-primary btn-lg" id="refresh-button" title="Refresh all pages">
+                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                </button>
+                <input type="text" class="form-control" id="session-name" name="session-name-save" aria-describedby="basic-addon2">
+                <button class="btn btn-primary btn-lg" id="save-button" title="Save configuration">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-primary btn-lg" id="load-button" title="Load configuration">
+                    <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-primary btn-lg right" id="settings-button"  data-toggle="modal" data-target="#settingsModal">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </button>
+            </h1>
+            <input type="url" class="form-control" id="url" value="http://www.w3schools.com" name="url" aria-describedby="basic-addon2">
+            <div id="devices" ondrop="drop(event)" ondragover="allowDrop(event)">
+            </div>
+            <div id="timeline">
+            </div>
+            <div class="modal fade" id="deviceModal" tabindex="-1" role="dialog" aria-labelledby="deviceModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 class="modal-title" id="deviceModalLabel">Add device</h3>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Select predefined device</h4>
+                            <label for="predefined-device">Predefined devices</label><br />
+                            <input type="text" class="form-control" name="predefined-device" id="predefined-device" />
+                            <h4>Create new device</h4>
+                            <label for="device-name">Device name</label>
+                            <input type="text" class="form-control" id="device-name" name="device-name" aria-describedby="basic-addon2" required>
+                            <label for="width">Screen resolution</label>
+                            <input type="number" class="form-control" id="width" placeholder="Enter width..." name="screen-width" aria-describedby="basic-addon2">
+                            <span>x</span>
+                            <input type="number" class="form-control" id="height" placeholder="Enter height..." name="screen-height" aria-describedby="basic-addon2">
+                            <label for="device-pixel-ratio">Device pixel ratio</label>
+                            <input type="number" class="form-control" id="device-pixel-ratio" name="device-pixel-ratio" aria-describedby="basic-addon2">
+                            <label for="type">Device type</label>
+                            <select class="form-control" name="type" id="type">
+                                <option value="phone">Mobile phone</option>
+                                <option value="tablet">Tablet</option>
+                                <option value="desktop">Desktop device</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="save-device">Save device</button>
+                            <button type="button" class="btn btn-primary" id="add-device">Add device</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 class="modal-title" id="settingsModalLabel">Manage Configurations</h3>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Configurations</h4>
+                            <ul id="settings-configurations"></ul>
+                            <h4>Devices</h4>
+                            <ul id="settings-devices"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="single-device-mode">
+            <input type="url" name="url" class="form-control" />
+            <iframe src=""></iframe>
+        </div>
+        <script src="js/event-capturing.js"></script>
+        <script src="js/index.js"></script>
+        <script src="js/configuration-management.js"></script>
+        <script src="js/device-management.js"></script>
+        <script src="js/device-interaction.js"></script>
+    </body>
+</html>
