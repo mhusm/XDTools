@@ -2,6 +2,10 @@ button {
     outline: 0 !important;
 }
 
+html {
+    height: 100%;
+}
+
 hr {
     clear: both;
 }
@@ -38,10 +42,14 @@ body {
     width: 30%;
     float: left;
     height: 100%;
+    overflow-y: auto;
+}
+
+#timeline .timeline-content {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    overflow-y: auto;
+    height: 100%;
 }
 
 #timeline select {
@@ -52,22 +60,32 @@ body {
 #timeline .content .label {
     display: inline-block;
     width: 90%;
-    margin: 5px auto;
-    padding: 5px;
+    margin: 0 auto;
+    padding: 3.5px 10px;
     font-size: 0.9em;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    opacity: 0.8;
+    opacity: 0.9;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+}
+
+#timeline .event-container {
+    height: 100%;
 }
 
 #timeline .content {
     margin: 10px;
     padding: 10px;
+    position: relative;
+    top: 0;
 }
 
 #timeline .device-timeline {
     width: 100%;
+    height: 100%;
     border-right: 2px solid #337ab7;
     text-align: center;
 }
@@ -94,6 +112,20 @@ body {
     height: 50px;
 }
 
+#break-button {
+    margin-bottom: 10px;
+}
+
+#break-button .text {
+    font-size: 12px;
+}
+
+.break {
+    width: calc(90% - 15px);
+    margin: 0 auto;
+    background-color: rgba(51, 122, 183, 0.1);
+}
+
 .device-container {
     display: inline-block;
     border: 10px solid #265a88;
@@ -113,6 +145,33 @@ body {
     transform-origin: 0 0;
 }
 
+.vertical-rule {
+    width: 0;
+    height: 100%;
+    margin: 0;
+    border: 2px solid black;
+    margin-top: 91px;
+    float: left;
+    clear: none;
+}
+
+.timeline-title {
+    height: 35px;
+    font-weight: bold;
+}
+
+.time {
+    height: 100px;
+}
+
+.timeline-wrapper {
+    width: 65px;
+    margin: 0 5px;
+    text-align: right;
+    margin-top: 35px;
+    height: 100%;
+    float: left;
+}
 .device-container .layer {
     width: 80px;
 }
@@ -159,9 +218,20 @@ body {
     margin: 5px;
 }
 
-h1 input {
+header input {
     width: 10% !important;
     display: inline-block !important;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+header h1 {
+    display: inline-block;
+    margin-right: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .ui-autocomplete {

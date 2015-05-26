@@ -1,9 +1,8 @@
-var origAddEventListener,
-    origRemoveEventListener,
-    capturing = false,
+var lastMouseUp = {},
     events = {},
     savedSequences = {},
     sequenceNames = [],
+    originalAddEventListener,
     mouseEvents = [
         "click",          //all major browsers
         "contextmenu",    //all major browsers
@@ -115,6 +114,7 @@ var origAddEventListener,
     ];
 
 $(document).ready(function () {
+
     //start/stop recording
     $(document).on("click", ".record", function (ev) {
         var recording = $(this).data("recording");
@@ -140,7 +140,8 @@ $(document).ready(function () {
     $(document).on("click", ".play", function (ev) {
         $(this).addClass("disabled");
         var deviceId = $(this).data("devid");
-        replayEvents(events[deviceId], deviceId);
+        var index = activeDevices.map(function(e) { return e.id; }).indexOf(deviceId);
+        replayEvents(events[deviceId], deviceId, activeDevices[index].timelinePosition * 10);
     });
 
     //Save the recorded sequence with the specified name
@@ -156,6 +157,10 @@ $(document).ready(function () {
         }
     });
 
+    socket.on("replay", function (sequence) {
+        replayRemoteSequence(JSON.parse(sequence));
+    });
+
     //Display the selected event sequence for a device
     $(document).on("change", "#timeline select", function (ev) {
         var deviceId = $(this).data("devid");
@@ -165,28 +170,81 @@ $(document).ready(function () {
             $("#timeline-" + deviceId + " .content").css("border", 0);
         }
         else {
-            $("#timeline-" + deviceId + " .content").css("border", "2px dotted #337ab7");
-            visualizeEventSequence(deviceId, sequenceName);
+            events[deviceId] = savedSequences[sequenceName].slice(0);
+            visualizeEventSequence(deviceId);
         }
     });
 
     $("#play-button").click(function (ev) {
+        //determine delays
         for (var i = 0; i < activeDevices.length; ++i) {
-            var sequence = $("#timeline-" + activeDevices[i] + " select").val();
             if (sequence !== "none") {
-                replayEvents(savedSequences[sequence], activeDevices[i]);
+                replayEvents(events[activeDevices[i].id], activeDevices[i].id, activeDevices[i].timelinePosition * 10);
+            }
+        }
+        for (var i = 0; i < remoteDevices.length; ++i) {
+            var sequence = $("#timeline-" + remoteDevices[i] + " select").val();
+            if (sequence !== "none") {
+                socket.emit("replayRemote", remoteDevices[i], JSON.stringify(savedSequences[sequence]));
             }
         }
     });
 });
 
 function logEvent(ev) {
-    events[ev.data.deviceId].push({
-        "time": ev.originalEvent.timeStamp,
-        "type": ev.data.eventType,
-        "hierarchy": determineHierarchy(ev.originalEvent.path),
-        "details": ev.originalEvent
-    });
+    if (ev.data.eventType === "MouseEvent") {
+        events[ev.data.deviceId].push(new CustomMouseEvent(ev));
+    }
+    else if (ev.data.eventType === "KeyboardEvent") {
+        events[ev.data.deviceId].push(new CustomKeyboardEvent(ev, getModifiers(ev)));
+    }
+    else if (ev.data.eventType === "UIEvent") {
+        events[ev.data.deviceId].push(new CustomUIEvent(ev));
+    }
+    else if (ev.data.eventType === "MutationEvent") {
+        events[ev.data.deviceId].push(new CustomMutationEvent(ev));
+    }
+    else if (ev.data.eventType === "WheelEvent") {
+        events[ev.data.deviceId].push(new CustomWheelEvent(ev, getModifiers(ev)));
+    }
+    else if (ev.data.eventType === "OverflowEvent") {
+        events[ev.data.deviceId].push(new CustomOverflowEvent(ev));
+    }
+    else {
+        events[ev.data.deviceId].push(new CustomEvent(ev));
+    }
+}
+
+function getModifiers(ev) {
+    var modifiers = [];
+    if (ev.originalEvent.altKey) {
+        modifiers.push("Alt");
+    }
+    if (ev.originalEvent.ctrlKey) {
+        modifiers.push("Control");
+    }
+    if (ev.originalEvent.metaKey) {
+        modifiers.push("Meta");
+    }
+    if (ev.originalEvent.shiftKey) {
+        modifiers.push("Shift");
+    }
+    return modifiers.join(" ");
+}
+
+function dropBreak(ev) {
+    var br = ev.dataTransfer.getData("break");
+    if (br) {
+        $(ev.target).css("height", parseInt($(ev.target).css("height")) + 100 + "px");
+        $(ev.target).css("line-height", parseInt($(ev.target).css("line-height")) + 100 + "px");
+        if ($(ev.target).text() === "") {
+            $(ev.target).text(parseInt($(ev.target).css("height")) * 10 + " ms");
+        }
+        else {
+            $(ev.target).text(parseInt($(ev.target).text()) + 1000 + " ms");
+        }
+        events[ev.target.dataset.devid].splice(parseInt(ev.target.dataset.eventIndex) + 1, 0, {"type": "BreakEvent"});
+    }
 }
 
 function determineHierarchy(path) {
@@ -205,8 +263,7 @@ function determineHierarchy(path) {
     return hierarchy;
 }
 
-function determineTarget(deviceId, hierarchy) {
-    var iframeDoc = $("#device-" + deviceId + " iframe")[0].contentWindow.document;
+function determineTarget(iframeDoc, hierarchy) {
     var curElement = iframeDoc.body;
     var curIndex = hierarchy.length - 1;
     while (curIndex >= 0) {
@@ -221,25 +278,77 @@ function determineTarget(deviceId, hierarchy) {
     return curElement;
 }
 
-function visualizeEventSequence(deviceId, sequenceName) {
-    var curEvents = savedSequences[sequenceName];
-    for (var i = 0, j = curEvents.length; i < j; ++i) {
-        if (curEvents[i].type === "MouseEvent") {
-            $("#timeline-" + deviceId + " .content").append("<span class='label label-success'>" + curEvents[i].details.type + "</span><br/>");
-        }
-        else if (curEvents[i].type === "KeyboardEvent") {
-            $("#timeline-" + deviceId + " .content").append("<span class='label label-info'>" + curEvents[i].details.type + "</span><br/>");
-        }
-        else if (curEvents[i].type === "UIEvent") {
-            $("#timeline-" + deviceId + " .content").append("<span class='label label-primary'>" + curEvents[i].details.type + "</span><br/>");
-        }
-        else if (curEvents[i].type === "MutationEvent") {
-            $("#timeline-" + deviceId + " .content").append("<span class='label label-warning'>" + curEvents[i].details.type + "</span><br/>");
+function dragBreak(ev) {
+    ev.dataTransfer.setData("break", true);
+}
+
+function visualizeEventSequence(deviceId) {
+    $("#timeline-" + deviceId + " .content").css("border", "2px dotted #337ab7");
+    var curEvents = events[deviceId];
+    var groups = groupEvents(curEvents);
+    var lastTime = groups[0][groups[0].length - 1].time;
+    var delay = 0;
+    var prevTime = groups[0][0].time;
+    for (var i = 0, j = groups.length; i < j; ++i) {
+        if (groups[i][0].event.type === "BreakEvent") {
+            delay = delay + 1000;
         }
         else {
-            $("#timeline-" + deviceId + " .content").append("<span class='label label-default'>" + curEvents[i].details.type + "</span><br/>");
+            var pause = Math.max(0, groups[i][0].event.time - lastTime) + delay;
+            var height = Math.max(0, groups[i][0].event.time - prevTime - 200) / 10 + delay / 10;
+            lastTime = groups[i][groups[i].length - 1].event.time;
+            prevTime = groups[i][0].event.time;
+            var html = "<span class='label label-primary'>";
+            var types = [];
+            for (var k = 0; k < groups[i].length; ++k) {
+                types.push(groups[i][k].event.event.type);
+            }
+            html = html + types.join(", ");
+            html = html + "</span>";
+            var divHtml = "";
+            if (height >= 14) {
+                divHtml = "<div data-devid='" + deviceId + "' data-event-index='" + groups[Math.max(i - 1, 0)][groups[Math.max(i - 1, 0)].length - 1].index + "' ondragover='allowDrop(event)' ondrop='dropBreak(event)' style='height:" + height + "px; line-height:" + height + "px' class='break'>" + pause + " ms</div>";
+            }
+            else {
+                divHtml = "<div data-devid='" + deviceId + "' data-event-index='" + groups[Math.max(i - 1, 0)][groups[Math.max(i - 1, 0)].length - 1].index + "' ondragover='allowDrop(event)' ondrop='dropBreak(event)' style='height:" + height + "px; line-height:" + height + "px' class='break'></div>";
+            }
+            $(divHtml).appendTo("#timeline-" + deviceId + " .content")
+            $(html)
+                .appendTo("#timeline-" + deviceId + " .content")
+            delay = 0;
         }
     }
+}
+
+//Group events that are less than 200ms apart
+function groupEvents(curEvents) {
+    var groups = [];
+    var curEvent = curEvents[0];
+    var curGroup = [{"event": curEvent, "index": 0}];
+    for (var i = 1, j = curEvents.length; i < j; ++i) {
+        if (curEvents[i].type === "BreakEvent") {
+            if (curGroup.length > 0) {
+                groups.push(curGroup);
+            }
+            curGroup = [];
+            groups.push([{"event": curEvents[i], "index": i}]);
+            curEvent = curEvents[i + 1];
+        }
+        else {
+            if (curEvents[i].time - curEvent.time <= 200) {
+                curGroup.push({"event": curEvents[i], "index": i});
+            }
+            else {
+                groups.push(curGroup);
+                curEvent = curEvents[i];
+                curGroup = [{"event": curEvent, "index": i}];
+            }
+        }
+    }
+    if (curGroup.length > 0) {
+        groups.push(curGroup);
+    }
+    return groups;
 }
 
 function saveEventSequence(deviceId,  name) {
@@ -269,125 +378,102 @@ function stopRecording(deviceId) {
     $(iframeDoc).unbind("mousewheel", logEvent);
     $(iframeDoc).unbind("overflowchanged", logEvent);
     $(iframeDoc).unbind(genericEvents.join(" "), logEvent);
+    $("#timeline-" + deviceId + " .content").html("");
+    visualizeEventSequence(deviceId);
 }
 
-function replayEvents(curEvents, deviceId) {
-    dispatchEvent(curEvents[0], deviceId);
+function replayEvents(curEvents, deviceId, delay) {
+    var iframeDoc = $("#device-" + deviceId + " iframe")[0].contentWindow.document;
+    setTimeout(dispatchEvent, delay, curEvents[0], iframeDoc);
+    var additionalDelay = 0;
     for (var i = 1, j = curEvents.length; i < j; ++i) {
-        setTimeout(dispatchEvent, curEvents[i].time - curEvents[0].time, curEvents[i], deviceId);
+        if (curEvents[i].type === "BreakEvent") {
+            additionalDelay = additionalDelay + 1000;
+        }
+        else {
+            setTimeout(dispatchEvent, curEvents[i].time - curEvents[0].time + delay + additionalDelay, curEvents[i], iframeDoc);
+        }
+    }
+    setTimeout(function () {
+        $("#device-" + deviceId + " .play").removeClass("disabled");
+    }, curEvents[curEvents.length - 1].time - curEvents[0].time + delay);
+}
+
+function replayRemoteSequence(curEvents) {
+    var iframeDoc = $("#single-device-mode iframe")[0].contentWindow.document;
+    dispatchEvent(curEvents[0], iframeDoc);
+    for (var i = 1, j = curEvents.length; i < j; ++i) {
+        setTimeout(dispatchEvent, curEvents[i].time - curEvents[0].time, curEvents[i], iframeDoc);
     }
     setTimeout(function () {
         $("#device-" + deviceId + " .play").removeClass("disabled");
     }, curEvents[curEvents.length - 1].time - curEvents[0].time);
 }
 
-function dispatchEvent(event, deviceId) {
-    if (event.type === "MouseEvent") {
-        dispatchMouseEvent(event.details, determineTarget(deviceId, event.hierarchy));
-    }
-    else if (event.type === "KeyboardEvent") {
-        dispatchKeyboardEvent(event.details, determineTarget(deviceId, event.hierarchy));
-    }
-    else if (event.type === "UIEvent") {
-        dispatchUIEvent(event.details, determineTarget(deviceId, event.hierarchy));
-    }
-    else if (event.type === "MutationEvent") {
-        dispatchMutationEvent(event.details, determineTarget(deviceId, event.hierarchy));
-    }
-    else if (event.type === "WheelEvent") {
-        dispatchWheelEvent(event.details, determineTarget(deviceId, event.hierarchy));
-    }
-    else if (event.type === "OverflowEvent") {
-        dispatchOverflowEvent(event.details, determineTarget(deviceId, event.hierarchy));
-    }
-    else {
-        dispatchGenericEvent(event.details, determineTarget(deviceId, event.hierarchy));
+function dispatchEvent(event, iframeDoc) {
+    var target = determineTarget(iframeDoc, event.hierarchy);
+    event.dispatch(target);
+}
+
+function CustomEvent(ev) {
+    this.type = ev.data.eventType;
+    this.time = ev.originalEvent.timeStamp;
+    this.hierarchy = determineHierarchy(ev.originalEvent.path);
+    this.event = document.createEvent("Event");
+    this.event.initEvent(ev.type, ev.bubbles, ev.cancelable);
+    this.dispatch = function (target) {
+        target.dispatchEvent(this.event);
     }
 }
 
-function dispatchMouseEvent(event, target) {
-    var mouseEvent = document.createEvent("MouseEvent");
-    mouseEvent.initMouseEvent(event.type, event.bubbles, event.cancelable, window, event.detail,
-        event.screenX, event.screenY, event.clientX, event.clientY,
-        event.ctrlKey, event.altKey, event.shiftKey, event.metaKey,
-        event.button, event.relatedTarget);
-    target.dispatchEvent(mouseEvent);
+function CustomMouseEvent(ev) {
+    CustomEvent.call(this, ev);
+    this.event = document.createEvent("MouseEvent");
+    this.event.initMouseEvent(ev.type, ev.bubbles, ev.cancelable, window, ev.detail, ev.screenX, ev.screenY,
+        ev.clientX, ev.clientY, ev.ctrlKey, ev.altKey, ev.shiftKey, ev.metaKey, ev.button, ev.relatedTarget);
 }
 
-function dispatchKeyboardEvent(event, target) {
-    var modifiers = [];
-    if (event.altKey) {
-        modifiers.push("Alt");
-    }
-    if (event.ctrlKey) {
-        modifiers.push("Control");
-    }
-    if (event.metaKey) {
-        modifiers.push("Meta");
-    }
-    if (event.shiftKey) {
-        modifiers.push("Shift");
-    }
-    var keyboardEvent = document.createEvent("KeyboardEvent");
-    keyboardEvent.initKeyboardEvent(event.type, event.bubbles, event.cancelable, window,
-        event.keyCode, event.Location, modifiers.join(' '), event.repeat, '');
-    event.target.dispatchEvent(keyboardEvent);
-    if (event.type === "keypress") {
-        dispatchTextEvent(event, target);
+function CustomKeyboardEvent(ev, modifiers) {
+    CustomEvent.call(this, ev);
+    this.event = document.createEvent("KeyboardEvent");
+    this.event.initKeyboardEvent(ev.type, ev.bubbles, ev.cancelable, window, ev.keyCode, ev.location,
+        modifiers, ev.repeat, '');
+    this.which = ev.which;
+    this.dispatch = function (target) {
+        target.dispatchEvent(this.event);
+        if (this.event.type === "keypress") {
+            var textEvent = document.createEvent("TextEvent"),
+                char = String.fromCharCode(this.which);
+            textEvent.initTextEvent("textInput", this.event.bubbles, this.event.cancelable, window, char,
+                this.event.detail, "en-US");
+            target.dispatchEvent(textEvent);
+        }
     }
 }
 
-//TextEvents are supported by IE, Safari, Chrome
-function dispatchTextEvent(event, target) {
-    var textEvent = document.createEvent("TextEvent");
-    var char = String.fromCharCode(event.which);
-    textEvent.initTextEvent("textInput", event.bubbles, event.cancelable, window, char, event.detail, "en-US");
-    target.dispatchEvent(textEvent);
+function CustomUIEvent(ev) {
+    CustomEvent.call(this, ev);
+    this.event = document.createEvent("UIEvent");
+    this.event.initUIEvent(ev.type, ev.bubbles, ev.cancelable, window, ev.detail);
 }
 
-function dispatchUIEvent(event, target) {
-    var uiEvent = document.createEvent("UIEvent");
-    uiEvent.initUIEvent(event.type, event.bubbles, event.cancelable, window, event.detail);
-    target.dispatchEvent(uiEvent);
+function CustomWheelEvent(ev, modifiers) {
+    CustomEvent.call(this, ev);
+    this.event = document.createEvent("WheelEvent");
+    this.event.initEvent(ev.type, ev.bubbles, ev.cancelable, window, ev.detail, ev.screenX, ev.screenY,
+        ev.clientX, ev.clientY, ev.button, ev.relatedTarget, modifiers, ev.deltaX, ev.deltaY, ev.deltaZ, ev.deltaMode);
 }
 
-function dispatchMutationEvent(event, target) {
-    var mutationEvent = document.createEvent("MutationEvent");
-    mutationEvent.initMutationEvent(event.type, event.bubbles, event.cancelable, event.relatedNode, event.prevValue, event.newValue, event.attrName, event.attrChange);
-    target.dispatchEvent(mutationEvent);
+function CustomMutationEvent(ev) {
+    CustomEvent.call(this, ev);
+    this.event = document.createEvent("MutationEvent");
+    this.event.initMutationEvent(ev.type, ev.bubbles, ev.cancelable, ev.relatedNode, ev.prevValue, ev.newValue,
+        ev.attrName, ev.attrChange);
 }
 
-function dispatchWheelEvent(event, target) {
-    var modifiers = [];
-    if (event.altKey) {
-        modifiers.push("Alt");
-    }
-    if (event.ctrlKey) {
-        modifiers.push("Control");
-    }
-    if (event.metaKey) {
-        modifiers.push("Meta");
-    }
-    if (event.shiftKey) {
-        modifiers.push("Shift");
-    }
-    var wheelEvent = document.createEvent("WheelEvent");
-    wheelEvent.initEvent(event.type, event.bubbles, event.cancelable, window,
-        event.detail, event.screenX, event.screenY, event.clientX, event.clientY,
-        event.button, event.relatedTarget, modifiers, event.deltaX, event.deltaY,
-        event.deltaZ, event.deltaMode
-    );
-    target.dispatchEvent(wheelEvent);
+function CustomOverflowEvent(ev) {
+    CustomEvent.call(this, ev);
+    this.event = document.createEvent("OverflowEvent");
+    this.event.initOverflowEvent(ev.orient, ev.horizontalOverflow, ev.verticalOverflow);
 }
 
-function dispatchOverflowEvent(event, target) {
-    var overflowEvent = document.createEvent("OverflowEvent");
-    overflowEvent.initOverflowEvent(event.orient, event.horizontalOverflow, event.verticalOverflow);
-    target.dispatchEvent(overflowEvent);
-}
-
-function dispatchGenericEvent(event, target) {
-    var ev = document.createEvent("event");
-    ev.initEvent(event.type, event.bubbles, event.cancelable);
-    target.dispatchEvent(ev);
-}

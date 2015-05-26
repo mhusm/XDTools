@@ -45,8 +45,7 @@ $(document).ready(function () {
 
     //show/hide device settings
     $(document).on("click", ".settings-button", function (ev) {
-        var deviceIndex = $(this).data("devid");
-        $("#device-" + deviceIndex + " .settings-panel").slideToggle();
+        $("#device-" + $(this).data("devid") + " .settings-panel").slideToggle();
     });
 
     //Make the device draggable when clicked on the border
@@ -58,38 +57,26 @@ $(document).ready(function () {
 
     //Update the z-index of the device
     $(document).on("change", ".layer", function () {
-        var deviceIndex = $(this).data("devid");
-        $("#device-" + deviceIndex).css("z-index", $(this).val());
+        var index = activeDevices.map(function (e) { return e.id; }).indexOf($(this).data("devid"));
+        activeDevices[index].setLayer($(this).val());
     });
 
     //Switch the orientation from landscape to portrait and vice versa
     $(document).on("click", ".rotate", function () {
-        var deviceIndex = $(this).data("devid"),
-            iframe = "#device-" + deviceIndex + " iframe",
-            oldWidth = $(iframe).css("width"),
-            oldRightMargin = $(iframe).css("margin-right");
-        $(iframe).css({
-            "width": $(iframe).css("height"),
-            "margin-right": $(iframe).css("margin-bottom"),
-            "height": oldWidth,
-            "margin-bottom": oldRightMargin
-        });
+        var index = activeDevices.map(function (e) { return e.id; }).indexOf($(this).data("devid"));
+        activeDevices[index].switchOrientation();
     });
 
     //Set the device scaling to 1
     $(document).on("click", ".scale", function () {
-        var deviceIndex = $(this).data("devid");
-        $("#deviceinput" + deviceIndex).val(1);
-        $("#device-" + deviceIndex + " iframe").css({
-            "margin-right": "0px",
-            "margin-bottom": "0px",
-            "transform": "scale(" + 1 + ")"
-        });
+        var index = activeDevices.map(function (e) { return e.id; }).indexOf($(this).data("devid"));
+        activeDevices[index].setScaling(1);
     });
 
     //Update the URL of a specific device
     $(document).on("blur", ".url", function () {
-        loadURL($(this).data("devid"), $(this).val());
+        var index = activeDevices.map(function (e) { return e.id; }).indexOf($(this).data("devid"));
+        activeDevices[index].loadURL($(this).val());
     });
     $(document).on("keyup", ".url", function (ev) {
         if (ev.which === 13) {
@@ -99,24 +86,15 @@ $(document).ready(function () {
 
     //Scale up/down the device
     $(document).on("change", ".range", function () {
-        var deviceIndex = $(this).data("devid"),
-            newVal = $(this).val(),
-            iframe = "#device-" + deviceIndex + " iframe";
-        if (newVal > 0 & newVal <= 2) {
-            $(iframe).css({
-                "margin-right": -parseInt($(iframe).css("width")) * (1 - newVal) + "px",
-                "margin-bottom": -parseInt($(iframe).css("height")) * (1 - newVal) + "px",
-                "transform": "scale(" + newVal + ")"
-            });
-            $("#device-" + deviceIndex + " .scale-factor").text(newVal);
-        }
+        var index = activeDevices.map(function (e) { return e.id; }).indexOf($(this).data("devid"));
+        activeDevices[index].setScaling($(this).val());
     });
 });
 
 function refreshAllDevices() {
     if (master) {
         for (var i = 0, j = activeDevices.length; i < j; ++i) {
-            $("#device-" + activeDevices[i] + " iframe").attr("src", $("#device-" + activeDevices[i] + " iframe").attr("src"));
+            activeDevices[i].reloadURL();
         }
     }
     else {
@@ -127,20 +105,13 @@ function refreshAllDevices() {
 function loadURLOnAllDevices(url) {
     if (master) {
         for (var i = 0, j = activeDevices.length; i < j; ++i) {
-            var tempUrl = rewriteURL(url, activeDevices[i]);
-            $("#device-" + activeDevices[i] + " iframe").attr("src", tempUrl);
-            $("#device-" + activeDevices[i] + " .url").val(url);
+            activeDevices[i].loadURL(url);
         }
     }
     else {
         $("#single-device-mode iframe").attr("src", url);
         $("#single-device-mode input").val(url);
     }
-}
-
-function loadURL(deviceIndex, url) {
-    url = rewriteURL(url, deviceIndex);
-    $("#device-" + deviceIndex + " iframe").attr("src", url);
 }
 
 //Rewrite URL for emulated devices so no data is shared between devices

@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function () {
-    var savedSessions = savedSessions = JSON.parse(localStorage.getItem("session-names")) || [];
+    var savedSessions = JSON.parse(localStorage.getItem("session-names")) || [];
 
     $("#session-name").autocomplete({
         source: savedSessions
@@ -34,34 +34,34 @@ $(document).ready(function () {
             elements = $("#devices").find(" > .device-container"),
             elementsToStore = [],
             i = 0;
-        for (i = 0, j = elements.length; i < j; ++i) {
-            var curElement = elements[i].outerHTML,
-                id = elements[i].id.match(/^device-(.*)$/i)[1],
-                url = $("#device" + id + " .url").val(),
-                scale = $("#deviceinput" + id).val(),
-                layer = $("#device" + id).css("z-index");
-            elementsToStore.push({"deviceIndex": id, "html": curElement, "layer": layer, "url": url, "scale": scale});
+        for (i = 0, j = activeDevices.length; i < j; ++i) {
+            elementsToStore.push(activeDevices[i]);
         }
         localStorage.setItem("stored-session-" + sessionName, JSON.stringify(elementsToStore));
         if (savedSessions.indexOf(sessionName) === -1) {
             savedSessions.push(sessionName);
             localStorage.setItem("session-names", JSON.stringify(savedSessions));
         }
+        $("#settings-configurations").append(
+            "<li class='config-row'>" +
+            savedSessions[i] +
+            "<button type='button' data-config-name='" + savedSessions[i] + "' class='btn btn-primary btn-sm right config-remove'>" +
+            "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
+            "</button><hr /></li>"
+        );
     });
 
     //Load an existing configuration
     $("#load-button").click(function () {
         var sessionName = $("#session-name").val(),
-            elements = JSON.parse(localStorage.getItem("stored-session-" + sessionName)),
+            devices = JSON.parse(localStorage.getItem("stored-session-" + sessionName)),
             i = 0;
         $("#devices").empty();
         activeDevices = [];
-        for (i = 0, j = elements.length; i < j; ++i) {
-            activeDevices.push(elements[i].deviceIndex)
-            $("#devices").append(elements[i].html);
-            $("#device-" + elements[i].deviceIndex + ".url").val(elements[i].url);
-            $("#deviceinput" + elements[i].deviceIndex).val(elements[i].scale);
-            $("#device-" + elements[i].deviceIndex + " .layer").val(elements[i].layer);
+        for (i = 0, j = devices.length; i < j; ++i) {
+            var device = new Device(devices[i].name, devices[i].id, devices[i].width, devices[i].height, devices[i].devicePixelRatio, devices[i].url, devices[i].scaling, devices[i].layer, devices[i].top, devices[i].left);
+            activeDevices.push(device);
+            device.create();
         }
     });
 });
