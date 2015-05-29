@@ -212,15 +212,15 @@ function appendDevice(device) {
     });
 }
 
-function addDeviceTimeline(device) {
-    var timeline = "<section class='device-timeline' id='timeline-" + device.id + "'>" +
-        "<h4>" + device.name + "</h4>" +
-        "<select name='timeline-" + device.id + "' data-devid='" + device.id + "' class='form-control'>" +
+function addDeviceTimeline(id, name) {
+    var timeline = "<section class='device-timeline' id='timeline-" + id + "'>" +
+        "<h4>" + name + "</h4>" +
+        "<select name='timeline-" + id + "' data-devid='" + id + "' class='form-control'>" +
         "<option value='none' selected='selected'>None</option>";
     for (var i = 0, j = sequenceNames.length; i < j; ++i) {
         timeline = timeline + "<option value='" + sequenceNames[i] + "'>" + sequenceNames[i] + "</option>";
     }
-    timeline = timeline + "</select><hr /><section class='event-container' ondragover='allowDrop(event)' ondrop='dropTimeline(event)'><section class='content' data-devid='" + device.id + "' draggable='true' ondragstart='dragTimeline(event)'></section></section>" +
+    timeline = timeline + "</select><hr /><section class='event-container' ondragover='allowDrop(event)' ondrop='dropTimeline(event)'><section class='content' data-devid='" + id + "' draggable='true' ondragstart='dragTimeline(event)'></section></section>" +
     "</section>"
     $("#timeline .timeline-content").append(timeline);
 }
@@ -345,6 +345,6 @@ function Device(name, id, width, height, devicePixelRatio, url, scaling, layer, 
     }
     this.create = function () {
         appendDevice(this);
-        addDeviceTimeline(this);
+        addDeviceTimeline(this.id, this.name);
     }
 }

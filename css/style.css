@@ -32,7 +32,7 @@ body {
     width: 25%;
 }
 
-#emulation-mode {
+body {
     padding: 10px;
     width: 100%;
     height: 100%;
@@ -98,26 +98,29 @@ body {
     border-right: 5px solid #337ab7;
 }
 
-#single-device-mode iframe {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    padding: 0;
-    margin: 0;
-}
-
-#single-device-mode input {
-    margin: 10px auto;
-    height: 50px;
-}
-
 #break-button {
     margin-bottom: 10px;
 }
 
 #break-button .text {
     font-size: 12px;
+}
+
+#breakpoint-container {
+    float: left;
+    height: 100%;
+    border-left: 1px solid #265a88;
+    border-right: 1px solid #265a88;
+    width: 25px;
+}
+
+#continue-button {
+    float: left;
+    background-color: transparent;
+    background-image: none;
+    width: 25px;
+    padding: 0;
+    height: 25px;
 }
 
 .break {
@@ -155,6 +158,18 @@ body {
     clear: none;
 }
 
+.breakpoint {
+    width: 15px;
+    height: 15px;
+    background-color: #f2dede;
+    border-radius: 9px;
+    position: relative;
+    left: 4px;
+    border: 3px solid #a94442;
+    margin-bottom: -15px;
+    opacity: 0.5;
+}
+
 .timeline-title {
     height: 35px;
     font-weight: bold;
@@ -162,6 +177,9 @@ body {
 
 .time {
     height: 100px;
+    width: 25px;
+    float: right;
+    clear: right;
 }
 
 .timeline-wrapper {
@@ -177,9 +195,6 @@ body {
 }
 
 .device-container h4 {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     cursor: default;
 }
@@ -221,6 +236,10 @@ body {
 header input {
     width: 10% !important;
     display: inline-block !important;
+}
+
+header button {
+    margin: 0 5px;
 }
 
 header {

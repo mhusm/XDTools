@@ -9,115 +9,134 @@
         <script src="js/lib/jquery-ui/jquery-ui.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
+        <script src="js/lib/jquery.qrcode.js"></script>
         <script src="js/event-capturing.js"></script>
         <script src="js/index.js"></script>
         <script src="js/configuration-management.js"></script>
         <script src="js/device-management.js"></script>
         <script src="js/device-interaction.js"></script>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
     </head>
     <body>
-        <section id="emulation-mode" class="hidden">
-            <header>
-                <h1>Emulated devices</h1>
-                <button type="button" id="add-button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#deviceModal" title="Add new device">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                </button>
-                <button class="btn btn-primary btn-lg" id="refresh-button" title="Refresh all pages">
-                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-                </button>
-                <input type="text" class="form-control" id="session-name" name="session-name-save" aria-describedby="basic-addon2">
-                <button class="btn btn-primary btn-lg" id="save-button" title="Save configuration">
-                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
-                </button>
-                <button class="btn btn-primary btn-lg" id="load-button" title="Load configuration">
-                    <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
-                </button>
-                <button class="btn btn-primary btn-lg" id="play-button">
-                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-                </button>
-                <button class="btn btn-primary btn-lg right" id="settings-button"  data-toggle="modal" data-target="#settingsModal">
-                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                </button>
-            </header>
-            <input type="url" class="form-control" id="url" value="http://www.w3schools.com" name="url" aria-describedby="basic-addon2">
-            <section id="devices" ondrop="drop(event)" ondragover="allowDrop(event)">
-            </section>
-            <section id="timeline">
-                <div class="timeline-wrapper">
-                    <button type="button" class="btn btn-primary btn-lg" id="break-button" draggable="true" ondragstart="dragBreak(event)"><span class="glyphicon glyphicon-time"></span><span class="text">1s</span></button>
-                    <div class="timeline-title">Time</div>
-                    <div class="time">0s</div>
-                    <div class="time">1s</div>
-                    <div class="time">2s</div>
-                    <div class="time">3s</div>
-                    <div class="time">4s</div>
-                    <div class="time">5s</div>
-                    <div class="time">6s</div>
-                    <div class="time">7s</div>
-                    <div class="time">8s</div>
-                    <div class="time">9s</div>
-                    <div class="time">10s</div>
-                    <div class="time">11s</div>
-                    <div class="time">12s</div>
+        <header>
+            <h1>Emulated devices</h1>
+            <button type="button" id="add-button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#deviceModal" title="Add new device">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-primary btn-lg" id="refresh-button" title="Refresh all pages">
+                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+            </button>
+            <input type="text" class="form-control" id="session-name" name="session-name-save" aria-describedby="basic-addon2">
+            <button class="btn btn-primary btn-lg" id="save-button" title="Save configuration">
+                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-primary btn-lg" id="load-button" title="Load configuration">
+                <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-primary btn-lg" id="play-button">
+                <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-primary btn-lg right" id="settings-button"  data-toggle="modal" data-target="#settingsModal">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-primary btn-lg right" id="qrcode-button"  data-toggle="modal" data-target="#qrCodeModal">
+                <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>
+            </button>
+        </header>
+        <input type="url" class="form-control" id="url" value="http://www.w3schools.com" name="url" aria-describedby="basic-addon2">
+        <section id="devices" ondrop="drop(event)" ondragover="allowDrop(event)">
+        </section>
+        <section id="timeline">
+            <div class="timeline-wrapper">
+                <button type="button" class="btn btn-primary btn-lg" id="break-button" draggable="true" ondragstart="dragBreak(event)"><span class="glyphicon glyphicon-time"></span><span class="text">1s</span></button>
+                <div class="timeline-title">
+                    <button class="btn btn-default btn-sm disabled" id="continue-button" ondragover="allowDrop(event)" ondrop="dropBreakpoint(event)">
+                        <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                    </button>
+                    Time
                 </div>
-                <hr class="vertical-rule" />
-                <div class="timeline-content"></div>
+                <div id="breakpoint-container"></div>
+                <div class="time">0s</div>
+                <div class="time">1s</div>
+                <div class="time">2s</div>
+                <div class="time">3s</div>
+                <div class="time">4s</div>
+                <div class="time">5s</div>
+                <div class="time">6s</div>
+                <div class="time">7s</div>
+                <div class="time">8s</div>
+                <div class="time">9s</div>
+                <div class="time">10s</div>
+                <div class="time">11s</div>
+                <div class="time">12s</div>
+            </div>
+            <hr class="vertical-rule" />
+            <div class="timeline-content"></div>
+        </section>
+        <div class="modal fade" id="deviceModal" tabindex="-1" role="dialog" aria-labelledby="deviceModalLabel" aria-hidden="true">
+            <section class="modal-dialog">
+                <section class="modal-content">
+                    <header class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="deviceModalLabel">Add device</h3>
+                    </header>
+                    <main class="modal-body">
+                        <h4>Select predefined device</h4>
+                        <label for="predefined-device">Predefined devices</label><br />
+                        <input type="text" class="form-control" name="predefined-device" id="predefined-device" />
+                        <h4>Create new device</h4>
+                        <label for="device-name">Device name</label>
+                        <input type="text" class="form-control" id="device-name" name="device-name" aria-describedby="basic-addon2" required>
+                        <label for="width">Screen resolution</label>
+                        <input type="number" class="form-control" id="width" placeholder="Enter width..." name="screen-width" aria-describedby="basic-addon2">
+                        <span>x</span>
+                        <input type="number" class="form-control" id="height" placeholder="Enter height..." name="screen-height" aria-describedby="basic-addon2">
+                        <label for="device-pixel-ratio">Device pixel ratio</label>
+                        <input type="number" class="form-control" id="device-pixel-ratio" name="device-pixel-ratio" aria-describedby="basic-addon2">
+                        <label for="type">Device type</label>
+                        <select class="form-control" name="type" id="type">
+                            <option value="phone">Mobile phone</option>
+                            <option value="tablet">Tablet</option>
+                            <option value="desktop">Desktop device</option>
+                        </select>
+                    </main>
+                    <footer class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="save-device">Save device</button>
+                        <button type="button" class="btn btn-primary" id="add-device">Add device</button>
+                    </footer>
+                </section>
             </section>
-            <div class="modal fade" id="deviceModal" tabindex="-1" role="dialog" aria-labelledby="deviceModalLabel" aria-hidden="true">
-                <section class="modal-dialog">
-                    <section class="modal-content">
-                        <header class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h3 class="modal-title" id="deviceModalLabel">Add device</h3>
-                        </header>
-                        <main class="modal-body">
-                            <h4>Select predefined device</h4>
-                            <label for="predefined-device">Predefined devices</label><br />
-                            <input type="text" class="form-control" name="predefined-device" id="predefined-device" />
-                            <h4>Create new device</h4>
-                            <label for="device-name">Device name</label>
-                            <input type="text" class="form-control" id="device-name" name="device-name" aria-describedby="basic-addon2" required>
-                            <label for="width">Screen resolution</label>
-                            <input type="number" class="form-control" id="width" placeholder="Enter width..." name="screen-width" aria-describedby="basic-addon2">
-                            <span>x</span>
-                            <input type="number" class="form-control" id="height" placeholder="Enter height..." name="screen-height" aria-describedby="basic-addon2">
-                            <label for="device-pixel-ratio">Device pixel ratio</label>
-                            <input type="number" class="form-control" id="device-pixel-ratio" name="device-pixel-ratio" aria-describedby="basic-addon2">
-                            <label for="type">Device type</label>
-                            <select class="form-control" name="type" id="type">
-                                <option value="phone">Mobile phone</option>
-                                <option value="tablet">Tablet</option>
-                                <option value="desktop">Desktop device</option>
-                            </select>
-                        </main>
-                        <footer class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" id="save-device">Save device</button>
-                            <button type="button" class="btn btn-primary" id="add-device">Add device</button>
-                        </footer>
-                    </section>
+        </div>
+        <div class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
+            <section class="modal-dialog">
+                <section class="modal-content">
+                    <header class="modal-header">
+                        <h3 class="modal-title" id="qrCodeModalLabel">Scan QR code to connect remote device</h3>
+                    </header>
+                    <main class="modal-body">
+                    </main>
+                    <footer class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </footer>
                 </section>
-            </div>
-            <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
-                <section class="modal-dialog">
-                    <section class="modal-content">
-                        <header class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h3 class="modal-title" id="settingsModalLabel">Manage Configurations</h3>
-                        </header>
-                        <main class="modal-body">
-                            <h4>Configurations</h4>
-                            <ul id="settings-configurations"></ul>
-                            <h4>Devices</h4>
-                            <ul id="settings-devices"></ul>
-                        </main>
-                    </section>
+            </section>
+        </div>
+        <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+            <section class="modal-dialog">
+                <section class="modal-content">
+                    <header class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="settingsModalLabel">Manage Configurations</h3>
+                    </header>
+                    <main class="modal-body">
+                        <h4>Configurations</h4>
+                        <ul id="settings-configurations"></ul>
+                        <h4>Devices</h4>
+                        <ul id="settings-devices"></ul>
+                    </main>
                 </section>
-            </div>
-        </section>
-        <section id="single-device-mode" class="hidden">
-            <input type="url" name="url" class="form-control" />
-            <iframe src=""></iframe>
-        </section>
+            </section>
+        </div>
     </body>
 </html>

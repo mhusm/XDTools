@@ -1,8 +1,7 @@
 "use strict";
 
 var activeDevices = [],
-    master = false,
-    socket = io(),
+    socket = io("/local"),
     remoteDevices = [];
 
 $(document).ready(function () {
@@ -14,44 +13,23 @@ $(document).ready(function () {
         trigger: "hover focus"
     });
 
+    $("#qrCodeModal .modal-body").qrcode({
+        "size": 200,
+        "text": "http://" + window.location.host + "/remote.html"
+    });
+
     var height = $(window).height(),
         i,
         j;
 
-    //Test if the DNS server is reachable. If not, the site is accessed from a device other than the main device and should only emulate itself.
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/",
-        contentType: "application/json",
-        complete: function (response) {
-            //TODO: uncomment if statement to use multiple devices
-            //if (response.status === 200) {
-                $("#single-device-mode iframe").attr("src", "");
-                master = true;
-                $("#single-device-mode").addClass("hidden");
-                $("#emulation-mode").removeClass("hidden");
-            /*}
-            else {
-                $("#single-device-mode").removeClass("hidden");
-                $("#emulation-mode").addClass("hidden");
-                //request device id, let server store it
-                socket.emit("remoteDeviceConnected");
-            }*/
-        }
-    });
-
     socket.on("remoteDeviceConnected", function (id) {
-        if (master) {
-            remoteDevices.push(id);
-            addDeviceTimeline(id, id);
-        }
+        remoteDevices.push(id);
+        addDeviceTimeline(id, id);
     });
 
     socket.on("remoteDeviceDisconnected", function (id) {
-        if (master) {
-            remoteDevices.splice(remoteDevices.indexOf(id), 1);
-            $("#timeline-" + id).remove();
-        }
+        remoteDevices.splice(remoteDevices.indexOf(id), 1);
+        $("#timeline-" + id).remove();
     });
 
     //set the body height to the window height, so elements can be dragged everywhere
@@ -61,6 +39,11 @@ $(document).ready(function () {
     $("html").on("dragend", function (ev) {
         $(".device-container iframe").css("pointer-events", "auto");
         $(".device-container").attr("draggable", "false");
+        $("#continue-button").addClass("disabled");
+        $("#continue-button span").removeClass("glyphicon-trash").addClass("glyphicon-play");
+        $("#continue-button").css({
+            "border": "1px solid #ccc"
+        });
     });
 
     $("#devices").resizable({
@@ -88,8 +71,8 @@ function allowDrop(ev) {
 function drop(ev) {
     ev.preventDefault();
     //update position of the element
-    var id = ev.dataTransfer.getData("id");
-    var index = activeDevices.map(function (e) { return e.id; }).indexOf(id);
+    var id = ev.dataTransfer.getData("id"),
+        index = activeDevices.map(function (e) { return e.id; }).indexOf(id);
     $("#device-" + id).css({
         "left": ev.clientX + parseInt(ev.dataTransfer.getData("xOffset")) + "px",
         "top": ev.clientY + parseInt(ev.dataTransfer.getData("yOffset")) + "px"
@@ -106,10 +89,10 @@ function dragTimeline(ev) {
 function dropTimeline(ev) {
     ev.preventDefault();
     if (!ev.dataTransfer.getData("break")) {
-        var deviceId = ev.dataTransfer.getData("devid");
-        var y = Math.max(0, ev.clientY + parseInt(ev.dataTransfer.getData("yOffset")));
+        var deviceId = ev.dataTransfer.getData("devid"),
+            y = Math.max(0, ev.clientY + parseInt(ev.dataTransfer.getData("yOffset"))),
+            index = activeDevices.map(function (e) { return e.id; }).indexOf(deviceId);
         $("#timeline-" + deviceId + " .content").css("top", y + "px");
-        var index = activeDevices.map(function (e) { return e.id; }).indexOf(deviceId);
         activeDevices[index].timelinePosition = y;
     }
 }

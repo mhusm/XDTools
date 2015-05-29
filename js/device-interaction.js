@@ -9,37 +9,25 @@
 
 $(document).ready(function () {
 
-    //Refresh all devices
-    socket.on("refresh", function (){
-        refreshAllDevices();
-    });
-    //Load URL on all devices
     socket.on("load", function (url) {
+        $("#url").val(url);
         loadURLOnAllDevices(url);
     });
 
     //Refresh all devices
     $("#refresh-button").click(function (ev) {
         socket.emit("refresh");
+        refreshAllDevices();
     });
 
     //reload URL on all device when the user hits enter or the input field loses focus
     $("#url").blur(function (ev) {
         socket.emit("load", $("#url").val());
+        loadURLOnAllDevices($("#url").val());
     });
     $("#url").keyup(function (ev) {
         if (ev.which === 13) {
             $("#url").blur();
-        }
-    });
-
-    //update URL of non-master devices
-    $("#single-device-mode input").blur(function () {
-        $("#single-device-mode iframe").attr("src", $("#single-device-mode input").val());
-    });
-    $("#single-device-mode input").keyup(function (ev) {
-        if (ev.which === 13) {
-            $("#single-device-mode input").blur();
         }
     });
 
@@ -50,7 +38,7 @@ $(document).ready(function () {
 
     //Make the device draggable when clicked on the border
     $(document).on("mousedown", ".device-container", function (ev) {
-        if ((ev.offsetY > $(this).outerHeight() - 10 || ev.offsetY < 10 || ev.offsetX < 10 || ev.offsetX > $(this).outerWidth() - 10 || (ev.offsetY < 60 && ev.offsetX < $(this).outerWidth() - 95)) && (ev.target.nodeName === "DIV" || ev.target.nodeName === "H4")) {
+        if ((ev.offsetY > $(this).outerHeight() - 10 || ev.offsetY < 10 || ev.offsetX < 10 || ev.offsetX > $(this).outerWidth() - 10 || (ev.offsetY < 60 && ev.offsetX < $(this).outerWidth() - 95)) && (ev.target.nodeName === "SECTION" || ev.target.nodeName === "H4")) {
             $(".device-container").attr('draggable', 'true');
         }
     });
@@ -92,32 +80,21 @@ $(document).ready(function () {
 });
 
 function refreshAllDevices() {
-    if (master) {
-        for (var i = 0, j = activeDevices.length; i < j; ++i) {
-            activeDevices[i].reloadURL();
-        }
-    }
-    else {
-        $("#single-device-mode iframe").attr("src", $("#single-device-mode iframe").attr("src"));
+    for (var i = 0, j = activeDevices.length; i < j; ++i) {
+        activeDevices[i].reloadURL();
     }
 }
 
 function loadURLOnAllDevices(url) {
-    if (master) {
-        for (var i = 0, j = activeDevices.length; i < j; ++i) {
-            activeDevices[i].loadURL(url);
-        }
-    }
-    else {
-        $("#single-device-mode iframe").attr("src", url);
-        $("#single-device-mode input").val(url);
+    for (var i = 0, j = activeDevices.length; i < j; ++i) {
+        activeDevices[i].loadURL(url);
     }
 }
 
 //Rewrite URL for emulated devices so no data is shared between devices
 function rewriteURL(url, deviceIndex) {
     var u = new URL(url);
-    if (!u.hostname.match(/[a-z]/i) && master) {
+    if (!u.hostname.match(/[a-z]/i)) {
         var ipRegex = "^(?:https?:\/\/)?(?:www\.)?([^\/|:]+)",
             d = {"name": deviceIndex, "A":[{"address":u.hostname}], "ttl":300, "domain": "bla.com","time": Date.now()};
         $.ajax({
@@ -128,8 +105,7 @@ function rewriteURL(url, deviceIndex) {
             data: JSON.stringify(d),
             async: false,
             complete: function () {
-                //TODO: temporarily disabled for debugging
-                //u.hostname = deviceIndex + ".bla.com";
+                u.hostname = deviceIndex + ".bla.com";
             }
         });
     }
