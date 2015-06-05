@@ -9,8 +9,11 @@ $(document).ready(function () {
 
     setupDeviceAutocomplete(customDevices.concat(devices));
 
+    if (customDevices.length > 0) {
+        $("#no-devices").addClass("hidden");
+    }
     //List all custom devices along with a button to remove them
-    for (i = 0, j = customDevices.length; i < j; ++i) {
+    for (var i = 0, j = customDevices.length; i < j; ++i) {
         $("#settings-devices").append(
             "<li class='device-row'>" +
             customDevices[i].label +
@@ -24,7 +27,10 @@ $(document).ready(function () {
         var index = customDevices.map(function(e) { return e.label; }).indexOf($(this).data("device-name"));
         customDevices.splice(index, 1);
         localStorage.setItem("custom-devices", JSON.stringify(customDevices));
-        $(this).parent("div").remove();
+        $(this).parent("li").remove();
+        if (customDevices.length === 0) {
+            $("#no-devices").removeClass("hidden");
+        }
     });
 
     //Remove an emulated device
@@ -42,7 +48,7 @@ $(document).ready(function () {
     });
 
     //Add a new emulated device
-    $("#add-device").click(function (ev) {
+    $("#add-device").click(function () {
         var deviceName = $("#device-name").val(),
             width = $("#width").val(),
             height = $("#height").val(),
@@ -53,7 +59,7 @@ $(document).ready(function () {
     });
 
     //Save a custom device and add it as a new emulated device
-    $("#save-device").click(function (ev) {
+    $("#save-device").click(function () {
         var deviceName = $("#device-name").val(),
             width = $("#width").val(),
             height = $("#height").val(),
@@ -67,12 +73,13 @@ $(document).ready(function () {
         addDevice(deviceName, width, height, devicePixelRatio);
         $("#deviceModal").modal("hide");
         $("#settings-devices").append(
-            "<div class='device-row'>" +
+            "<li class='device-row'>" +
             deviceName +
             "<button type='button' data-device-name='" + deviceName + "' class='btn btn-primary btn-sm right device-remove'>" +
             "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
-            "</button><hr /></div>"
+            "</button><hr /></li>"
         );
+        $("#no-devices").addClass("hidden");
     });
 });
 
@@ -160,7 +167,7 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
 
 function appendDevice(device) {
     $("#devices").append(
-        "<section draggable='false' ondragstart='drag(event)' class='device-container' id='device-" + device.id +"'>" +
+        "<section draggable='false' class='device-container' id='device-" + device.id +"'>" +
             "<h4>" + device.name + "</h4>" +
             "<button type='button' class='btn btn-primary remove' data-devid='" + device.id + "'>" +
                 "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
@@ -179,21 +186,12 @@ function appendDevice(device) {
                     "<span class='glyphicon glyphicon-fullscreen' aria-hidden='true'></span>" +
                 "</button>" +
                 "<span class='left'>Layer: <input type='number' data-devid='" + device.id + "' class='layer' value='1' /></span>" +
-                "<button type='button' class='btn btn-primary record' data-devid='" + device.id + "' data-recording='false' title='Start/stop recording'>" +
-                    "<span class='glyphicon glyphicon-record'></span>" +
-                "</button>" +
-                "<button type='button' class='btn btn-primary play disabled' data-devid='" + device.id + "' title='Replay recorded sequence'>" +
-                    "<span class='glyphicon glyphicon-play'></span>" +
-                "</button>" +
-                "<button type='button' class='btn btn-primary save disabled' data-devid='" + device.id + "' title='Save recorded sequence'>" +
-                    "<span class='glyphicon glyphicon-floppy-disk'></span>" +
-                "</button>" +
             "</section>" +
             "<iframe data-devid='" + device.id + "' src='" + device.url + "'></iframe>" +
         "</section>"
     );
     $("#device-" + device.id).css({
-       "top": device.top + "px",
+        "top": device.top + "px",
         "left": device.left + "px"
     });
     $("#device-" + device.id + " iframe").css({
@@ -203,26 +201,31 @@ function appendDevice(device) {
         "width": device.width,
         "height": device.height
     });
-    $("#device-" + device.id + " .save").popover({
-        html: true,
-        content: "<input type='text' class='recording-name form-control' placeholder='Enter name...' data-devid='" + device.id + "' autofocus />",
-        placement: "right",
-        container: "body",
-        trigger: "click"
-    });
+    $("#device-" + device.id + " h4").css("max-width", "calc(" + (device.width * device.scaling) + "px - 100px)");
 }
 
 function addDeviceTimeline(id, name) {
     var timeline = "<section class='device-timeline' id='timeline-" + id + "'>" +
         "<h4>" + name + "</h4>" +
+        "<button type='button' class='btn btn-primary btn-sm record' data-devid='" + id + "' data-recording='false' title='Start/stop recording'>" +
+            "<span class='glyphicon glyphicon-record'></span>" +
+        "</button>" +
+        "<button type='button' class='btn btn-primary btn-sm play disabled' data-devid='" + id + "' title='Replay recorded sequence'>" +
+            "<span class='glyphicon glyphicon-play'></span>" +
+        "</button>" +
         "<select name='timeline-" + id + "' data-devid='" + id + "' class='form-control'>" +
         "<option value='none' selected='selected'>None</option>";
     for (var i = 0, j = sequenceNames.length; i < j; ++i) {
         timeline = timeline + "<option value='" + sequenceNames[i] + "'>" + sequenceNames[i] + "</option>";
     }
-    timeline = timeline + "</select><hr /><section class='event-container' ondragover='allowDrop(event)' ondrop='dropTimeline(event)'><section class='content' data-devid='" + id + "' draggable='true' ondragstart='dragTimeline(event)'></section></section>" +
-    "</section>"
-    $("#timeline .timeline-content").append(timeline);
+    timeline = timeline + "</select>" +
+        "<hr /><section class='event-container' data-devid='" + id + "'></section>" +
+    "</section>";
+    $("#timeline").find(".timeline-content").append(timeline);
+}
+
+function getDeviceIndex(deviceId) {
+    return activeDevices.map(function(e) { return e.id; }).indexOf(deviceId);
 }
 
 //Returns a list of predefined devices
@@ -294,7 +297,6 @@ function Device(name, id, width, height, devicePixelRatio, url, scaling, layer, 
     this.layer = layer;
     this.top = top;
     this.left = left;
-    this.timelinePosition = 0;
     this.toString = function () {
         var dev = {
             "name": this.name,
@@ -309,7 +311,7 @@ function Device(name, id, width, height, devicePixelRatio, url, scaling, layer, 
             "left": this.left
         };
         return JSON.stringify(dev);
-    }
+    };
     this.setScaling = function (scale) {
         this.scaling = scale;
         $("#device-" + this.id + " .range").get(0).value = scale;
@@ -319,19 +321,20 @@ function Device(name, id, width, height, devicePixelRatio, url, scaling, layer, 
             "margin-bottom": -parseInt(this.height) * (1 - scale) + "px",
             "transform": "scale(" + scale + ")"
         });
-    }
+        $("#device-" + this.id + " h4").css("max-width", "calc(" + (this.width * scale) + "px - 100px)");
+    };
     this.setLayer = function (layer) {
         this.layer = layer;
         $("#device-" + this.id).css("z-index", $("#device-" + this.id + " .layer").val());
-    }
+    };
     this.loadURL = function (url) {
         url = rewriteURL(url, this.id);
         this.url = url;
         $("#device-" + this.id + " iframe").attr("src", url);
-    }
+    };
     this.reloadURL = function () {
         $("#device-" + this.id + " iframe").attr("src", this.url);
-    }
+    };
     this.switchOrientation = function () {
         $("#device-" + this.id + " iframe").css({
             "width": this.height,
@@ -342,9 +345,9 @@ function Device(name, id, width, height, devicePixelRatio, url, scaling, layer, 
         var oldWidth = this.width;
         this.width = this.height;
         this.height = oldWidth;
-    }
+    };
     this.create = function () {
         appendDevice(this);
         addDeviceTimeline(this.id, this.name);
-    }
+    };
 }

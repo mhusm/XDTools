@@ -3,8 +3,7 @@ var app = require("express")(),
     io = require("socket.io")(http),
     url = "http://w3schools.com",
     shortid = require("shortid"),
-    remoteDevices = [],
-    url = "";
+    remoteDevices = [];
 
 var StaticRoutes = require("./routes/routes");
 
@@ -61,19 +60,19 @@ remote.on("connection", function (socket) {
     socket.on("close", function () {
         console.log("Remote device disconnected");
         local.emit("remoteDeviceDisconnected", newID);
-        var index = remoteDevices.map(function(e) { return e.id; }).indexOf(newID);
+        var index = getDeviceIndex(newID);
         remoteDevices.splice(index, 1);
     });
     socket.on("end", function () {
         console.log("Remote device disconnected");
         local.emit("remoteDeviceDisconnected", newID);
-        var index = remoteDevices.map(function(e) { return e.id; }).indexOf(newID);
+        var index = getDeviceIndex(newID);
         remoteDevices.splice(index, 1);
     });
     socket.on("disconnect", function () {
         console.log("Remote device disconnected");
         local.emit("remoteDeviceDisconnected", newID);
-        var index = remoteDevices.map(function(e) { return e.id; }).indexOf(newID);
+        var index = getDeviceIndex(newID);
         remoteDevices.splice(index, 1);
     });
 });
@@ -81,3 +80,7 @@ remote.on("connection", function (socket) {
 http.listen(80, function () {
     console.log("Listening on port 80");
 });
+
+function getDeviceIndex(deviceId) {
+    return remoteDevices.map(function(e) { return e.id; }).indexOf(deviceId);
+}

@@ -44,13 +44,13 @@
             </button>
         </header>
         <input type="url" class="form-control" id="url" value="http://www.w3schools.com" name="url" aria-describedby="basic-addon2">
-        <section id="devices" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <section id="devices">
         </section>
         <section id="timeline">
             <div class="timeline-wrapper">
-                <button type="button" class="btn btn-primary btn-lg" id="break-button" draggable="true" ondragstart="dragBreak(event)"><span class="glyphicon glyphicon-time"></span><span class="text">1s</span></button>
+                <button type="button" class="btn btn-primary btn-lg" id="break-button" draggable="true"><span class="glyphicon glyphicon-time"></span><span class="text">1s</span></button>
                 <div class="timeline-title">
-                    <button class="btn btn-default btn-sm disabled" id="continue-button" ondragover="allowDrop(event)" ondrop="dropBreakpoint(event)">
+                    <button class="btn btn-default btn-sm disabled" id="continue-button">
                         <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
                     </button>
                     Time
@@ -131,9 +131,14 @@
                     </header>
                     <main class="modal-body">
                         <h4>Configurations</h4>
+                        <span id="no-configurations">No saved configurations.</span>
                         <ul id="settings-configurations"></ul>
                         <h4>Devices</h4>
+                        <span id="no-devices">No saved devices.</span>
                         <ul id="settings-devices"></ul>
+                        <h4>Sequences</h4>
+                        <span id="no-sequences">No saved sequences.</span>
+                        <ul id="settings-sequences"></ul>
                     </main>
                 </section>
             </section>

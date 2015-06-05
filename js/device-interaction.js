@@ -15,24 +15,27 @@ $(document).ready(function () {
     });
 
     //Refresh all devices
-    $("#refresh-button").click(function (ev) {
+    $("#refresh-button").click(function () {
         socket.emit("refresh");
         refreshAllDevices();
     });
 
     //reload URL on all device when the user hits enter or the input field loses focus
-    $("#url").blur(function (ev) {
+    $("#url").blur(function () {
         socket.emit("load", $("#url").val());
         loadURLOnAllDevices($("#url").val());
-    });
-    $("#url").keyup(function (ev) {
+    }).keyup(function (ev) {
         if (ev.which === 13) {
             $("#url").blur();
         }
     });
 
+    $("#devices").on("dragover", allowDrop).on("drop", dropDevice);
+
+    $(document).on("dragstart", ".device-container", dragDevice);
+
     //show/hide device settings
-    $(document).on("click", ".settings-button", function (ev) {
+    $(document).on("click", ".settings-button", function () {
         $("#device-" + $(this).data("devid") + " .settings-panel").slideToggle();
     });
 
@@ -45,25 +48,25 @@ $(document).ready(function () {
 
     //Update the z-index of the device
     $(document).on("change", ".layer", function () {
-        var index = activeDevices.map(function (e) { return e.id; }).indexOf($(this).data("devid"));
+        var index = getDeviceIndex($(this).data("devid"));
         activeDevices[index].setLayer($(this).val());
     });
 
     //Switch the orientation from landscape to portrait and vice versa
     $(document).on("click", ".rotate", function () {
-        var index = activeDevices.map(function (e) { return e.id; }).indexOf($(this).data("devid"));
+        var index = getDeviceIndex($(this).data("devid"));
         activeDevices[index].switchOrientation();
     });
 
     //Set the device scaling to 1
     $(document).on("click", ".scale", function () {
-        var index = activeDevices.map(function (e) { return e.id; }).indexOf($(this).data("devid"));
+        var index = getDeviceIndex($(this).data("devid"));
         activeDevices[index].setScaling(1);
     });
 
     //Update the URL of a specific device
     $(document).on("blur", ".url", function () {
-        var index = activeDevices.map(function (e) { return e.id; }).indexOf($(this).data("devid"));
+        var index = getDeviceIndex($(this).data("devid"));
         activeDevices[index].loadURL($(this).val());
     });
     $(document).on("keyup", ".url", function (ev) {
@@ -74,7 +77,7 @@ $(document).ready(function () {
 
     //Scale up/down the device
     $(document).on("change", ".range", function () {
-        var index = activeDevices.map(function (e) { return e.id; }).indexOf($(this).data("devid"));
+        var index = getDeviceIndex($(this).data("devid"));
         activeDevices[index].setScaling($(this).val());
     });
 });
@@ -95,8 +98,7 @@ function loadURLOnAllDevices(url) {
 function rewriteURL(url, deviceIndex) {
     var u = new URL(url);
     if (!u.hostname.match(/[a-z]/i)) {
-        var ipRegex = "^(?:https?:\/\/)?(?:www\.)?([^\/|:]+)",
-            d = {"name": deviceIndex, "A":[{"address":u.hostname}], "ttl":300, "domain": "bla.com","time": Date.now()};
+        var d = {"name": deviceIndex, "A":[{"address":u.hostname}], "ttl":300, "domain": "bla.com","time": Date.now()};
         $.ajax({
             type: "PUT",
             url: "http://localhost:8080/" + deviceIndex,
@@ -110,4 +112,26 @@ function rewriteURL(url, deviceIndex) {
         });
     }
     return u.href;
+}
+
+function dropDevice(ev) {
+    ev.preventDefault();
+    //update position of the element
+    var id = ev.originalEvent.dataTransfer.getData("id"),
+        index = activeDevices.map(function (e) { return e.id; }).indexOf(id);
+    $("#device-" + id).css({
+        "left": ev.originalEvent.clientX + parseInt(ev.originalEvent.dataTransfer.getData("xOffset")) + "px",
+        "top": ev.originalEvent.clientY + parseInt(ev.originalEvent.dataTransfer.getData("yOffset")) + "px"
+    });
+    activeDevices[index].left = ev.originalEvent.clientX + parseInt(ev.originalEvent.dataTransfer.getData("xOffset"));
+    activeDevices[index].top = ev.originalEvent.clientY + parseInt(ev.originalEvent.dataTransfer.getData("yOffset"));
+}
+
+function dragDevice(ev) {
+    $(".device-container iframe").css("pointer-events", "none");
+    console.log(parseInt(window.getComputedStyle(ev.originalEvent.target, null).getPropertyValue("left", 10)));
+    console.log(ev.originalEvent.clientX);
+    ev.originalEvent.dataTransfer.setData("id", ev.originalEvent.target.id.substring(7));
+    ev.originalEvent.dataTransfer.setData("xOffset", parseInt(window.getComputedStyle(ev.originalEvent.target, null).getPropertyValue("left", 10)) - ev.originalEvent.clientX);
+    ev.originalEvent.dataTransfer.setData("yOffset", parseInt(window.getComputedStyle(ev.originalEvent.target, null).getPropertyValue("top", 10)) - ev.originalEvent.clientY);
 }

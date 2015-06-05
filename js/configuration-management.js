@@ -9,8 +9,11 @@ $(document).ready(function () {
         source: savedSessions
     });
 
+    if (savedSessions.length > 0) {
+        $("#no-configurations").addClass("hidden");
+    }
     //List all device configurations along with a button to remove them
-    for (i = 0, j = savedSessions.length; i < j; ++i) {
+    for (var i = 0, j = savedSessions.length; i < j; ++i) {
         $("#settings-configurations").append(
             "<li class='config-row'>" +
                 savedSessions[i] +
@@ -25,15 +28,17 @@ $(document).ready(function () {
         savedSessions.splice(index, 1);
         localStorage.setItem("session-names", JSON.stringify(savedSessions));
         localStorage.removeItem("stored-session-" + $(this).data("config-name"));
-        $(this).parent("div").remove();
+        $(this).parent("li").remove();
+        if (savedSessions.length === 0) {
+            $("#no-configurations").removeClass("hidden");
+        }
     });
 
     //Save a new configuration
     $("#save-button").click(function () {
         var sessionName = $("#session-name").val(),
-            elements = $("#devices").find(" > .device-container"),
             elementsToStore = [],
-            i = 0;
+            i, j;
         for (i = 0, j = activeDevices.length; i < j; ++i) {
             elementsToStore.push(activeDevices[i]);
         }
@@ -44,18 +49,19 @@ $(document).ready(function () {
         }
         $("#settings-configurations").append(
             "<li class='config-row'>" +
-            savedSessions[i] +
-            "<button type='button' data-config-name='" + savedSessions[i] + "' class='btn btn-primary btn-sm right config-remove'>" +
+            sessionName +
+            "<button type='button' data-config-name='" + sessionName + "' class='btn btn-primary btn-sm right config-remove'>" +
             "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
             "</button><hr /></li>"
         );
+        $("#no-configurations").addClass("hidden");
     });
 
     //Load an existing configuration
     $("#load-button").click(function () {
         var sessionName = $("#session-name").val(),
             devices = JSON.parse(localStorage.getItem("stored-session-" + sessionName)),
-            i = 0;
+            i, j;
         $("#devices").empty();
         activeDevices = [];
         for (i = 0, j = devices.length; i < j; ++i) {
