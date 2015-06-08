@@ -38,7 +38,7 @@ $(document).ready(function () {
         var deviceIndex = $(this).data("devid");
         $("#device-" + deviceIndex).remove();
         $("#timeline-" + deviceIndex).remove();
-        $("body").tooltip("hide");
+        $("*").tooltip("hide");
         activeDevices.splice(activeDevices.indexOf(deviceIndex), 1);
         $.ajax({
             type: "DELETE",

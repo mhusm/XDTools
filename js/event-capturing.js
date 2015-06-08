@@ -136,10 +136,10 @@ $(document).ready(function () {
     $(document).on("dragstart", ".content", dragTimeline);
 
     $("#play-button").click(function () {
-        var i, j, k,
-            eventSequences = [];
+        var i, j, k;
         for (i = 0, j = activeDevices.length; i < j; ++i) {
             if (events[activeDevices[i].id] && events[activeDevices[i].id].length > 0) {
+                var eventSequences = [];
                 for (k = 0; k < events[activeDevices[i].id].length; ++k) {
                     var $timeline = $("#timeline-" + activeDevices[i].id),
                         curPos = $timeline.find(".content[data-seqid='" + k + "'] .label-primary").offset().top - $timeline.find(".content[data-seqid='" + k + "']").parent().offset().top;
