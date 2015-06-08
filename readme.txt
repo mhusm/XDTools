@@ -20,7 +20,7 @@ Installation
 
 Starting the application
 -----------------------
-1. Start rainbow-dns by typing "rainbow-dns --fwdhost [enter IP of your default DNS server] --domain bla.com" in the console
+1. Start rainbow-dns by typing "rainbow-dns --fwdhost [enter IP of your default DNS server] --domain xdtest.com" in the console
 2. Type "node server.js" in the main folder of the application
 3. Open "http://[hostname]" in Google Chrome. If you want to connect other devices, use a hostname that is reachable by those devices (do not use 127.0.0.1 or localhost)
 4. Insert "<script src='http://hostname/js/remote.js'></script>" in the beginning of the head tag of all pages that you want to test

@@ -7,14 +7,12 @@ var activeDevices = [],
 
 $(document).ready(function () {
 
-    var height = $(window).height();
-
     $("body").tooltip({
         selector: "button",
         container: "body",
         placement: "bottom",
         trigger: "hover focus"
-    }).css("height", height);
+    });
 
     $("#qrCodeModal").find(".modal-body").qrcode({
         "size": 200,
@@ -41,13 +39,24 @@ $(document).ready(function () {
         $(".content").attr('draggable', 'false');
     });
 
-    $("#devices").resizable({
+    $("#container").resizable({
         handles: 'e',
         resize: function (event, ui) {
             var currentWidth = ui.size.width;
             $(this).width(currentWidth);
             $("#timeline").width($("body").width() - currentWidth - 25);
         }
+    });
+
+    $("#javascript-console").resizable({
+        handles: 'n',
+        resize: function (event, ui) {
+            var currentHeight = ui.size.height;
+            $(this).height(currentHeight);
+            $("#devices").height($("#container").height() - currentHeight - 10);
+        }
+    }).bind("resize", function (e, ui) {
+        $(this).css("top", "auto");
     });
 
 });

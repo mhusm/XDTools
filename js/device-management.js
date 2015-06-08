@@ -16,9 +16,9 @@ $(document).ready(function () {
     for (var i = 0, j = customDevices.length; i < j; ++i) {
         $("#settings-devices").append(
             "<li class='device-row'>" +
-            customDevices[i].label +
-            "<button type='button' data-device-name='" + customDevices[i].label + "' class='btn btn-primary btn-sm right device-remove'>" +
-            "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
+                customDevices[i].label +
+                "<button type='button' data-device-name='" + customDevices[i].label + "' class='btn btn-primary btn-sm right device-remove'>" +
+                    "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
             "</button><hr /></li>"
         );
     }
@@ -190,18 +190,19 @@ function appendDevice(device) {
             "<iframe data-devid='" + device.id + "' src='" + device.url + "'></iframe>" +
         "</section>"
     );
-    $("#device-" + device.id).css({
+    var $device = $("#device-" + device.id);
+    $device.css({
         "top": device.top + "px",
         "left": device.left + "px"
     });
-    $("#device-" + device.id + " iframe").css({
+    $device.find("iframe").css({
         "margin-right": -device.width * (1 - device.scaling) + "px",
         "margin-bottom": -device.height * (1 - device.scaling) + "px",
         "transform": "scale(" + device.scaling + ")",
         "width": device.width,
         "height": device.height
     });
-    $("#device-" + device.id + " h4").css("max-width", "calc(" + (device.width * device.scaling) + "px - 100px)");
+    $device.find("h4").css("max-width", "calc(" + (device.width * device.scaling) + "px - 100px)");
 }
 
 function addDeviceTimeline(id, name) {
@@ -222,6 +223,7 @@ function addDeviceTimeline(id, name) {
         "<hr /><section class='event-container' data-devid='" + id + "'></section>" +
     "</section>";
     $("#timeline").find(".timeline-content").append(timeline);
+    $("#device-overview").append("<span class='js-device active' data-devid='" + id + "'>" + name + "</span>");
 }
 
 function getDeviceIndex(deviceId) {
@@ -297,6 +299,7 @@ function Device(name, id, width, height, devicePixelRatio, url, scaling, layer, 
     this.layer = layer;
     this.top = top;
     this.left = left;
+    this.$device = null;
     this.toString = function () {
         var dev = {
             "name": this.name,
@@ -314,29 +317,30 @@ function Device(name, id, width, height, devicePixelRatio, url, scaling, layer, 
     };
     this.setScaling = function (scale) {
         this.scaling = scale;
-        $("#device-" + this.id + " .range").get(0).value = scale;
-        $("#device-" + this.id + " .scale-factor").text(scale);
-        $("#device-" + this.id + " iframe").css({
+        this.$device.find(".range").get(0).value = scale;
+        this.$device.find(".scale-factor").text(scale);
+        this.$device.find("iframe").css({
             "margin-right": -parseInt(this.width) * (1 - scale) + "px",
             "margin-bottom": -parseInt(this.height) * (1 - scale) + "px",
             "transform": "scale(" + scale + ")"
         });
-        $("#device-" + this.id + " h4").css("max-width", "calc(" + (this.width * scale) + "px - 100px)");
+        this.$device.find("h4").css("max-width", "calc(" + (this.width * scale) + "px - 100px)");
     };
     this.setLayer = function (layer) {
         this.layer = layer;
-        $("#device-" + this.id).css("z-index", $("#device-" + this.id + " .layer").val());
+        this.$device.css("z-index", $("#device-" + this.id + " .layer").val());
     };
     this.loadURL = function (url) {
         url = rewriteURL(url, this.id);
         this.url = url;
-        $("#device-" + this.id + " iframe").attr("src", url);
+        this.$device.find("iframe").attr("src", url);
+        this.$device.find(".url").val(url);
     };
     this.reloadURL = function () {
-        $("#device-" + this.id + " iframe").attr("src", this.url);
+        this.$device.find("iframe").attr("src", this.url);
     };
     this.switchOrientation = function () {
-        $("#device-" + this.id + " iframe").css({
+        this.$device.find("iframe").css({
             "width": this.height,
             "margin-right": -parseInt(this.height) * (1 - this.scaling) + "px",
             "height": this.width,
@@ -349,5 +353,6 @@ function Device(name, id, width, height, devicePixelRatio, url, scaling, layer, 
     this.create = function () {
         appendDevice(this);
         addDeviceTimeline(this.id, this.name);
+        this.$device = $("#device-" + this.id);
     };
 }

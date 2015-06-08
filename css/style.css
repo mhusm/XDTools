@@ -33,15 +33,14 @@ body {
 }
 
 body {
-    padding: 10px;
     width: 100%;
-    height: 100%;
+    height: 100vh;
 }
 
 #timeline {
     width: 30%;
     float: left;
-    height: 100%;
+    height: calc(100% - 105px);
     overflow-y: auto;
 }
 
@@ -87,6 +86,8 @@ body {
     position: relative;
     top: 0;
     border: 2px dotted #337ab7;
+    -webkit-user-select: none;
+    cursor: default;
 }
 
 #timeline .device-timeline {
@@ -96,12 +97,17 @@ body {
     text-align: center;
 }
 
-#devices {
+#container {
     position: relative;
     width: 70%;
-    height: 100%;
+    height: calc(100% - 105px);
     float: left;
     border-right: 5px solid #337ab7;
+}
+
+#devices {
+    height: 70%;
+    width: 100%;
 }
 
 #break-button {
@@ -128,9 +134,60 @@ body {
     height: 25px;
 }
 
+#javascript-console {
+    float: left;
+    width: calc(100% - 10px);
+    height: calc(30% - 10px);
+    margin: 5px;
+    font-family: Courier;
+    display: flex;
+    flex-flow: column;
+    border-top: 5px solid #337ab7;
+}
+
+#history {
+    width: 100%;
+    border: 2px solid #265a88;
+    border-bottom: none;
+    border-top: none;
+    flex-grow: 1;
+    padding: 5px;
+}
+
+#code-input {
+    width: 100%;
+    border: 2px solid #265a88;
+    padding: 3px;
+}
+
+#device-overview {
+    border: 2px solid #265a88;
+    min-height: 24px;
+}
+
+#toggle-js-console {
+    background-image: none;
+}
+
 .record, .play {
     float: right;
     margin: 5px;
+}
+
+.history-line {
+    color: #265a88;
+    font-weight: bolder;
+}
+
+.js-device {
+    margin: 0 10px;
+    background-color: rgba(220, 220, 220, 0.5);
+    -webkit-user-select: none;
+    cursor: default;
+}
+
+.js-device.active {
+    background-color: rgba(51, 204, 51, 0.5);
 }
 
 .break {
@@ -222,7 +279,7 @@ body {
 }
 
 .device-container h4 {
-    user-select: none;
+    -webkit-user-select: none;
     cursor: default;
     overflow: hidden;
     text-overflow: ellipsis;

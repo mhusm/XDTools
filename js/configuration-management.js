@@ -49,9 +49,9 @@ $(document).ready(function () {
         }
         $("#settings-configurations").append(
             "<li class='config-row'>" +
-            sessionName +
-            "<button type='button' data-config-name='" + sessionName + "' class='btn btn-primary btn-sm right config-remove'>" +
-            "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
+                sessionName +
+                "<button type='button' data-config-name='" + sessionName + "' class='btn btn-primary btn-sm right config-remove'>" +
+                    "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
             "</button><hr /></li>"
         );
         $("#no-configurations").addClass("hidden");

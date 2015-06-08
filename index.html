@@ -15,6 +15,7 @@
         <script src="js/configuration-management.js"></script>
         <script src="js/device-management.js"></script>
         <script src="js/device-interaction.js"></script>
+        <script src="js/shared-console.js"></script>
         <meta name="viewport" content="width=device-width, user-scalable=no">
     </head>
     <body>
@@ -44,7 +45,18 @@
             </button>
         </header>
         <input type="url" class="form-control" id="url" value="http://www.w3schools.com" name="url" aria-describedby="basic-addon2">
-        <section id="devices">
+        <section id="container">
+            <section id="devices">
+            </section>
+            <section id="javascript-console">
+                <h4>
+                    JavaScript Console
+                </h4>
+                <section id="device-overview">
+                </section>
+                <section id="history"></section>
+                <input type="text" name="code-input" id="code-input" placeholder="Enter JavaScript code..." />
+            </section>
         </section>
         <section id="timeline">
             <div class="timeline-wrapper">

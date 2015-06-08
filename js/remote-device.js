@@ -2,21 +2,30 @@ $(document).ready(function () {
 
     var url = new URL(window.location.href),
         socket = io(":" + (url.port || 80) + "/remote"),
-        iframe = $("#iframe");
+        $iframe = $("iframe");
 
     //Refresh device
     socket.on("refresh", function (){
-        iframe.attr("src", iframe.attr("src"));
+        $iframe.attr("src", $iframe.attr("src"));
     });
     //Load URL on device
     socket.on("load", function (url) {
-        iframe.attr("src", url);
+        $iframe.attr("src", url);
         $("input").val(url);
+    });
+
+    //Execute JavaScript on device
+    socket.on("executeJS", function (code) {
+        var command = {
+            "name": "executeJS",
+            "code": code
+        };
+        $iframe[0].contentWindow.postMessage(JSON.stringify(command), $iframe.attr("src"));
     });
 
     //update URL of remote device
     $("input").blur(function () {
-        iframe.attr("src", $("input").val());
+        $iframe.attr("src", $("input").val());
     }).keyup(function (ev) {
         if (ev.which === 13) {
             $("input").blur();
@@ -30,14 +39,14 @@ $(document).ready(function () {
             "delay": delay,
             "breakpoints": JSON.parse(breakpoints)
         };
-        iframe[0].contentWindow.postMessage(JSON.stringify(command), iframe.attr("src"));
+        $iframe[0].contentWindow.postMessage(JSON.stringify(command), $iframe.attr("src"));
     });
 
     socket.on("continue", function () {
         var command = {
             "name": "continue"
         };
-        iframe[0].contentWindow.postMessage(JSON.stringify(command), iframe.attr("src"));
+        $iframe[0].contentWindow.postMessage(JSON.stringify(command), $iframe.attr("src"));
     });
 
 });

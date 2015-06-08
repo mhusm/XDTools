@@ -406,5 +406,11 @@ window.onload = function () {
                 }
             }
         }
+        else if (command.name === "updateCSS") {
+            $(command.target).css(command.property, command.value);
+        }
+        else if (command.name === "executeJS") {
+            eval(command.code);
+        }
     }, false);
 };

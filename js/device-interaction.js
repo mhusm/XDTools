@@ -98,7 +98,7 @@ function loadURLOnAllDevices(url) {
 function rewriteURL(url, deviceIndex) {
     var u = new URL(url);
     if (!u.hostname.match(/[a-z]/i)) {
-        var d = {"name": deviceIndex, "A":[{"address":u.hostname}], "ttl":300, "domain": "bla.com","time": Date.now()};
+        var d = {"name": deviceIndex, "A":[{"address":u.hostname}], "ttl":300, "domain": "xdtest.com","time": Date.now()};
         $.ajax({
             type: "PUT",
             url: "http://localhost:8080/" + deviceIndex,
@@ -107,7 +107,7 @@ function rewriteURL(url, deviceIndex) {
             data: JSON.stringify(d),
             async: false,
             complete: function () {
-                u.hostname = deviceIndex + ".bla.com";
+                u.hostname = deviceIndex + ".xdtest.com";
             }
         });
     }

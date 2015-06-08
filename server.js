@@ -48,6 +48,11 @@ local.on("connection", function (socket) {
     socket.on("continue", function () {
         remote.emit("continue");
     });
+    socket.on("executeJS", function (deviceID, code) {
+        console.log("Execute JavaScript on remote device");
+        var index = remoteDevices.map(function(e) { return e.id; }).indexOf(deviceID);
+        remoteDevices[index].socket.emit("executeJS", code);
+    });
 });
 
 //A remote device connected to the server
