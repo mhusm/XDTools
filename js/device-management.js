@@ -39,11 +39,19 @@ $(document).ready(function () {
         $("#device-" + deviceIndex).remove();
         $("#timeline-" + deviceIndex).remove();
         $("*").tooltip("hide");
-        activeDevices.splice(activeDevices.indexOf(deviceIndex), 1);
+        $(".js-device[data-devid='" + deviceIndex + "']").remove();
+        activeDevices.splice(getDeviceIndex(deviceIndex), 1);
+        var index = colors.map(function (e) { return e.id; }).indexOf(deviceIndex);
+        colors.splice(index, 1);
         $.ajax({
             type: "DELETE",
             url: "http://localhost:8080/" + deviceIndex,
             contentType: "application/json"
+        });
+        $(".line[data-devid='" + deviceIndex + "']").each(function () {
+            $(this.nextSibling.nextSibling).remove();
+            $(this.nextSibling).remove();
+            $(this).remove();
         });
     });
 
@@ -223,7 +231,8 @@ function addDeviceTimeline(id, name) {
         "<hr /><section class='event-container' data-devid='" + id + "'></section>" +
     "</section>";
     $("#timeline").find(".timeline-content").append(timeline);
-    $("#device-overview").append("<span class='js-device active' data-devid='" + id + "'>" + name + "</span>");
+    $("<span class='js-device active' data-devid='" + id + "'>" + name + "</span>").appendTo($("#device-overview"))
+        .css("background-color", "hsla(" + getNextColor(id) + ", 60%, 50%, 0.3)");
 }
 
 function getDeviceIndex(deviceId) {
@@ -335,9 +344,11 @@ function Device(name, id, width, height, devicePixelRatio, url, scaling, layer, 
         this.url = url;
         this.$device.find("iframe").attr("src", url);
         this.$device.find(".url").val(url);
+        addCSSProperties(this.id);
     };
     this.reloadURL = function () {
         this.$device.find("iframe").attr("src", this.url);
+        addCSSProperties(this.id);
     };
     this.switchOrientation = function () {
         this.$device.find("iframe").css({

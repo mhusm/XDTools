@@ -1,16 +1,9 @@
-/*
-    This file covers everything related to interacting with devices:
-        - Rotating
-        - Scaling
-        - Layer
-        - Loading URLs
-        - Refreshing
- */
-
 $(document).ready(function () {
 
+    var $url = $("#url");
+
     socket.on("load", function (url) {
-        $("#url").val(url);
+        $url.val(url);
         loadURLOnAllDevices(url);
     });
 
@@ -21,9 +14,9 @@ $(document).ready(function () {
     });
 
     //reload URL on all device when the user hits enter or the input field loses focus
-    $("#url").blur(function () {
-        socket.emit("load", $("#url").val());
-        loadURLOnAllDevices($("#url").val());
+    $url.blur(function () {
+        socket.emit("load", $url.val());
+        loadURLOnAllDevices($url.val());
     }).keyup(function (ev) {
         if (ev.which === 13) {
             $("#url").blur();
@@ -129,8 +122,6 @@ function dropDevice(ev) {
 
 function dragDevice(ev) {
     $(".device-container iframe").css("pointer-events", "none");
-    console.log(parseInt(window.getComputedStyle(ev.originalEvent.target, null).getPropertyValue("left", 10)));
-    console.log(ev.originalEvent.clientX);
     ev.originalEvent.dataTransfer.setData("id", ev.originalEvent.target.id.substring(7));
     ev.originalEvent.dataTransfer.setData("xOffset", parseInt(window.getComputedStyle(ev.originalEvent.target, null).getPropertyValue("left", 10)) - ev.originalEvent.clientX);
     ev.originalEvent.dataTransfer.setData("yOffset", parseInt(window.getComputedStyle(ev.originalEvent.target, null).getPropertyValue("top", 10)) - ev.originalEvent.clientY);

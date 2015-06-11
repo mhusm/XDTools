@@ -40,18 +40,14 @@ local.on("connection", function (socket) {
         var newID = shortid.generate();
         socket.emit("receiveID", newID.toLowerCase());
     });
-    socket.on("replayRemote", function (deviceID, sequence, delay, breakpoints) {
-        console.log("Replay sequence on remote device");
-        var index = remoteDevices.map(function(e) { return e.id; }).indexOf(deviceID);
-        remoteDevices[index].socket.emit("replay", sequence, delay, deviceID, breakpoints);
-    });
-    socket.on("continue", function () {
-        remote.emit("continue");
-    });
-    socket.on("executeJS", function (deviceID, code) {
-        console.log("Execute JavaScript on remote device");
-        var index = remoteDevices.map(function(e) { return e.id; }).indexOf(deviceID);
-        remoteDevices[index].socket.emit("executeJS", code);
+    socket.on("command", function (command, deviceID) {
+        if (deviceID) {
+            var index = remoteDevices.map(function(e) { return e.id; }).indexOf(deviceID);
+            remoteDevices[index].socket.emit("command", command);
+        }
+        else {
+            remote.emit("command", command)
+        }
     });
 });
 
@@ -62,6 +58,9 @@ remote.on("connection", function (socket) {
     socket.emit("load", url);
     remoteDevices.push({"id": newID, "socket": socket});
     local.emit("remoteDeviceConnected", newID);
+    socket.on("command", function (command) {
+        local.emit("command", command, newID);
+    });
     socket.on("close", function () {
         console.log("Remote device disconnected");
         local.emit("remoteDeviceDisconnected", newID);

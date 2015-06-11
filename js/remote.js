@@ -347,6 +347,26 @@ var XDTest = {
     dispatchEvent: function (event) {
         var target = XDTest.determineTarget(event.hierarchy);
         event.dispatch(target);
+    },
+    originalLog: console.log,
+    originalInfo: console.info,
+    originalWarn: console.warn,
+    originalError: console.error,
+    getIndex: function (properties, identifier) {
+        for (var i = 0, j = properties.length; i < j; ++i) {
+            if (properties[i].identifier === identifier) {
+                return i;
+            }
+        }
+        return -1;
+    },
+    getPropertyIndex: function (properties, index, property) {
+        for (var i = 0, j = properties[index].props.length; i < j; ++i) {
+            if (properties[index].props[i].property === property) {
+                return i;
+            }
+        }
+        return -1;
     }
 };
 
@@ -357,7 +377,49 @@ window.onload = function () {
     var eventIndex = 0,
         lastBreak = {"id": "", "time": 0},
         nextBreak = {"id": "", "time": Math.pow(2, 31)},
-        breakpoints = [];
+        breakpoints = [],
+        cssProperties = [];
+
+    var command = {
+        "name": "loaded"
+    };
+    window.parent.postMessage(JSON.stringify(command), "*");
+
+    console.log = function (args) {
+        var command = {
+            "name": "log",
+            "msg": args
+        };
+        window.parent.postMessage(JSON.stringify(command), "*");
+        XDTest.originalLog.call(console, args);
+    };
+
+    console.info = function (args) {
+        var command = {
+            "name": "info",
+            "msg": args
+        };
+        window.parent.postMessage(JSON.stringify(command), "*");
+        XDTest.originalInfo.call(console, args);
+    };
+
+    console.warn = function (args) {
+        var command = {
+            "name": "warn",
+            "msg": args
+        };
+        window.parent.postMessage(JSON.stringify(command), "*");
+        XDTest.originalWarn.call(console, args);
+    };
+
+    console.error = function (args) {
+        var command = {
+            "name": "error",
+            "msg": args
+        };
+        window.parent.postMessage(JSON.stringify(command), "*");
+        XDTest.originalError.call(console, args);
+    };
 
     window.addEventListener("message", function (ev) {
         var command = JSON.parse(ev.data);
@@ -407,7 +469,46 @@ window.onload = function () {
             }
         }
         else if (command.name === "updateCSS") {
-            $(command.target).css(command.property, command.value);
+            //TODO: remove this if statement
+            if (command.property && command.value) {
+                var index = XDTest.getIndex(cssProperties, command.identifier),
+                    elems = document.querySelectorAll(command.identifier);
+                if (index === -1) {
+                    cssProperties.push({
+                        "identifier": command.identifier,
+                        "props": [{"property": command.property, "value": command.value}]
+                    });
+                    index = 0;
+                }
+                else {
+                    cssProperties[index].props.push({
+                        "property": command.property,
+                        "value": command.value
+                    });
+                }
+                var properties = cssProperties[index].props;
+                var style = "";
+                for (var i = 0, j = properties.length; i < j; ++i) {
+                    style = style + properties[i].property + ": " + properties[i].value + ";";
+                }
+                for (var i = 0, j = elems.length; i < j; ++i) {
+                    elems[i].setAttribute("style", style);
+                }
+            }
+        }
+        else if (command.name === "restore") {
+            var index = XDTest.getIndex(cssProperties, command.identifier),
+                elems = document.querySelectorAll(command.identifier),
+                propertyIndex = XDTest.getPropertyIndex(cssProperties, index, command.property);
+            cssProperties[index].props.splice(propertyIndex, 1);
+            var properties = cssProperties[index].props;
+            var style = "";
+            for (var i = 0, j = properties.length; i < j; ++i) {
+                style = style + properties[i].property + ": " + properties[i].value + ";";
+            }
+            for (var i = 0, j = elems.length; i < j; ++i) {
+                elems[i].setAttribute("style", style);
+            }
         }
         else if (command.name === "executeJS") {
             eval(command.code);

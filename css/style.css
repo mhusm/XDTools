@@ -30,6 +30,7 @@ body {
 
 #url {
     width: 25%;
+    margin: 10px;
 }
 
 body {
@@ -134,39 +135,104 @@ body {
     height: 25px;
 }
 
-#javascript-console {
-    float: left;
-    width: calc(100% - 10px);
-    height: calc(30% - 10px);
+#console-container {
+    width: 100%;
+    height: 30%;
+    padding: 5px;
+    border-top: 5px solid #337ab7;
+    font-family: Consolas, Menlo, Monaco, monospace;
+}
+
+#css-console {
+    border-left: 5px solid #337ab7;
+    width: calc(30% - 10px);
+    float: right;
+    height: 100%;
     margin: 5px;
-    font-family: Courier;
+    padding-left: 10px;
+}
+
+#css-console .properties {
+    overflow-y: scroll;
+    height: calc(100% - 29px);
+}
+
+#javascript-console {
+    width: calc(70% - 10px);
+    height: calc(100% - 10px);
+    margin: 5px;
     display: flex;
     flex-flow: column;
-    border-top: 5px solid #337ab7;
+    float: left;
+}
+
+#console-container h4 {
+    margin-bottom: 10px;
+    margin-top: 0;
 }
 
 #history {
     width: 100%;
-    border: 2px solid #265a88;
+    border: 2px solid #337ab7;
     border-bottom: none;
     border-top: none;
     flex-grow: 1;
     padding: 5px;
+    overflow-y: scroll;
+    background-color: #f7f7f9;
 }
 
 #code-input {
     width: 100%;
-    border: 2px solid #265a88;
+    border: 2px solid #337ab7;
     padding: 3px;
+    min-height: 30px;
+    max-height: 30px;
+    background-color: #f7f7f9;
+}
+
+#code-input::-webkit-input-placeholder {
+    color: rgba(51, 122, 183, 0.5);
 }
 
 #device-overview {
-    border: 2px solid #265a88;
+    border: 2px solid #337ab7;
     min-height: 24px;
+    background-color: #f7f7f9;
 }
 
 #toggle-js-console {
     background-image: none;
+}
+
+.css-property {
+    background-color: #f7f7f9;
+    margin-right: 10px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.property {
+    margin-left: 10px;
+    color: #337ab7;
+}
+
+.identifier {
+    font-weight: bold;
+    color: #265a88;
+}
+
+.empty {
+    opacity: 0.5;
+}
+
+.line-wrapper input[type=checkbox] {
+    vertical-align: middle;
+    margin: 0 0 0 20px;
+}
+
+.line-wrapper {
+    line-height: 17px;
 }
 
 .record, .play {
@@ -174,9 +240,24 @@ body {
     margin: 5px;
 }
 
-.history-line {
-    color: #265a88;
+.log-line, .warn-line, .info-line, .error-line {
     font-weight: bolder;
+}
+
+.log-line {
+    color: black;
+}
+
+.info-line {
+    color: rgb(42, 83, 205);
+}
+
+.warn-line {
+    color: rgb(227, 179, 14);
+}
+
+.error-line {
+    color: rgb(235, 57, 65);
 }
 
 .js-device {
@@ -184,10 +265,6 @@ body {
     background-color: rgba(220, 220, 220, 0.5);
     -webkit-user-select: none;
     cursor: default;
-}
-
-.js-device.active {
-    background-color: rgba(51, 204, 51, 0.5);
 }
 
 .break {
@@ -330,7 +407,7 @@ header button {
 }
 
 header {
-    margin-bottom: 20px;
+    margin: 10px;
 }
 
 header h1 {
@@ -338,6 +415,7 @@ header h1 {
     margin-right: 20px;
     margin-top: 0;
     margin-bottom: 0;
+    vertical-align: middle;
 }
 
 .ui-autocomplete {

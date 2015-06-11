@@ -1,8 +1,17 @@
 $(document).ready(function () {
 
     var url = new URL(window.location.href),
+        deviceId = "",
         socket = io(":" + (url.port || 80) + "/remote"),
         $iframe = $("iframe");
+
+    socket.on("receiveID", function (id) {
+       deviceId = id;
+    });
+
+    window.addEventListener("message", function (ev) {
+        socket.emit("command", ev.data, deviceId);
+    }, false);
 
     //Refresh device
     socket.on("refresh", function (){
@@ -14,13 +23,8 @@ $(document).ready(function () {
         $("input").val(url);
     });
 
-    //Execute JavaScript on device
-    socket.on("executeJS", function (code) {
-        var command = {
-            "name": "executeJS",
-            "code": code
-        };
-        $iframe[0].contentWindow.postMessage(JSON.stringify(command), $iframe.attr("src"));
+    socket.on("command", function (command) {
+        $iframe[0].contentWindow.postMessage(command, $iframe.attr("src"));
     });
 
     //update URL of remote device
@@ -38,13 +42,6 @@ $(document).ready(function () {
             "eventSequence": JSON.parse(sequence),
             "delay": delay,
             "breakpoints": JSON.parse(breakpoints)
-        };
-        $iframe[0].contentWindow.postMessage(JSON.stringify(command), $iframe.attr("src"));
-    });
-
-    socket.on("continue", function () {
-        var command = {
-            "name": "continue"
         };
         $iframe[0].contentWindow.postMessage(JSON.stringify(command), $iframe.attr("src"));
     });

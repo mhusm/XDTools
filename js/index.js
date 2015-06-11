@@ -22,10 +22,14 @@ $(document).ready(function () {
     socket.on("remoteDeviceConnected", function (id) {
         remoteDevices.push(id);
         addDeviceTimeline(id, id);
+        addCSSProperties(id);
     });
 
     socket.on("remoteDeviceDisconnected", function (id) {
         remoteDevices.splice(remoteDevices.indexOf(id), 1);
+        var index = colors.map(function (e) { return e.id; }).indexOf(id);
+        colors.splice(index, 1);
+        $(".js-device[data-devid='" + id + "']").remove();
         $("#timeline-" + id).remove();
     });
 
@@ -48,14 +52,14 @@ $(document).ready(function () {
         }
     });
 
-    $("#javascript-console").resizable({
+    $("#console-container").resizable({
         handles: 'n',
         resize: function (event, ui) {
             var currentHeight = ui.size.height;
             $(this).height(currentHeight);
             $("#devices").height($("#container").height() - currentHeight - 10);
         }
-    }).bind("resize", function (e, ui) {
+    }).bind("resize", function () {
         $(this).css("top", "auto");
     });
 

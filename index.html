@@ -16,6 +16,8 @@
         <script src="js/device-management.js"></script>
         <script src="js/device-interaction.js"></script>
         <script src="js/shared-console.js"></script>
+        <script src="js/color-management.js"></script>
+        <script src="js/Command.js"></script>
         <meta name="viewport" content="width=device-width, user-scalable=no">
     </head>
     <body>
@@ -48,14 +50,28 @@
         <section id="container">
             <section id="devices">
             </section>
-            <section id="javascript-console">
-                <h4>
-                    JavaScript Console
-                </h4>
-                <section id="device-overview">
+            <section id="console-container">
+                <section id="javascript-console">
+                    <h4>
+                        JavaScript Console
+                    </h4>
+                    <section id="device-overview">
+                    </section>
+                    <section id="history"></section>
+                    <input type="text" name="code-input" id="code-input" placeholder="Enter JavaScript code..." />
                 </section>
-                <section id="history"></section>
-                <input type="text" name="code-input" id="code-input" placeholder="Enter JavaScript code..." />
+                <section id="css-console">
+                    <h4>
+                        CSS Editor
+                    </h4>
+                    <div class="properties">
+                        <div class="css-property">
+                            <span class="identifier empty">enter identifier...</span> {<br />
+                            <span class="content"></span>
+                            }<br />
+                        </div><br />
+                    </div>
+                </section>
             </section>
         </section>
         <section id="timeline">

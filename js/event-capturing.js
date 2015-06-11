@@ -62,12 +62,12 @@ $(document).ready(function () {
         for (var i = 0, j = activeDevices.length; i < j; ++i) {
             command.send($("#device-" + activeDevices[i].id + " iframe")[0], activeDevices[i].url);
         }
-        $("#continue-button").addClass("disabled").css({
+        $(this).addClass("disabled").css({
             "border": "1px solid #ccc"
         });
         $(".breakpoint").css("opacity", 0.5);
-        socket.emit("continue");
-    });
+        socket.emit("command", command.toString());
+    }).on("dragover", allowDrop).on("drop", dropBreakpoint);
 
     //start/stop recording
     $(document).on("click", ".record", function () {
@@ -127,8 +127,6 @@ $(document).ready(function () {
 
     $("#break-button").on("dragstart", dragBreak);
 
-    $("#continue-button").on("dragover", allowDrop).on("drop", dropBreakpoint);
-
     $(document).on("dragover", ".event-container", allowDrop).on("drop", ".event-container", dropTimeline);
 
     $(document).on("dragover", ".break", allowDrop).on("drop", ".break", dropBreak);
@@ -150,13 +148,15 @@ $(document).ready(function () {
             }
         }
         for (i = 0, j = remoteDevices.length; i < j; ++i) {
-            for (k = 0; k < events[remoteDevices[i]].length; ++k) {
-                var $timeline = $("#timeline-" + remoteDevices[i]),
-                    curPos = $timeline.find(".content[data-seqid='" + k + "']  .label-primary").offset().top - $timeline.find(".content[data-seqid='" + k + "']").parent().offset().top;
-                eventSequences.push({"startTime": curPos * 10, "sequence": events[remoteDevices[i]][k].sequence});
-            }
+            var eventSequences = [];
             if (events[remoteDevices[i]] && events[remoteDevices[i]].length > 0) {
-                socket.emit("replayRemote", remoteDevices[i], JSON.stringify(eventSequences), parseInt($("#timeline-" + remoteDevices[i] + " .content").css("top")) * 10, JSON.stringify(breakpoints));
+                for (k = 0; k < events[remoteDevices[i]].length; ++k) {
+                    var $timeline = $("#timeline-" + remoteDevices[i]),
+                        curPos = $timeline.find(".content[data-seqid='" + k + "']  .label-primary").offset().top - $timeline.find(".content[data-seqid='" + k + "']").parent().offset().top;
+                    eventSequences.push({"startTime": curPos * 10, "sequence": events[remoteDevices[i]][k].sequence});
+                }
+                var command = new ReplayCommand("startReplaying", remoteDevices[i], eventSequences, breakpoints);
+                socket.emit("command", command.toString(), remoteDevices[i]);
             }
         }
     });
@@ -208,7 +208,7 @@ $(document).ready(function () {
         $("#timeline").find("select").append("<option value='" + name + "'>" + name + "</option>");
         sequenceNames.push(name);
         localStorage.setItem("sequence-names", JSON.stringify(sequenceNames));
-        $("body").popover("hide");
+        $("*").popover("hide");
         visualizeEventSequences(deviceId);
     });
     $(document).on("keypress", ".seq-name", function (ev) {
@@ -367,27 +367,6 @@ function groupEvents(curEvents) {
         groups.push(curGroup);
     }
     return groups;
-}
-
-function Command(name, deviceId) {
-    this.name = name;
-    this.deviceId = deviceId;
-    this.parentDomain = "http://" + window.location.host;
-    this.toString = function () {
-        return JSON.stringify({"name": this.name, "deviceId": this.deviceId, "parentDomain": this.parentDomain});
-    };
-    this.send = function (targetIframe, url) {
-        targetIframe.contentWindow.postMessage(this.toString(), url);
-    };
-}
-
-function ReplayCommand(name, deviceId, sequence, breakpoints) {
-    Command.call(this, name, deviceId);
-    this.eventSequence = sequence;
-    this.breakpoints = breakpoints;
-    this.toString = function () {
-        return JSON.stringify({"name": this.name, "deviceId": this.deviceId, "parentDomain": this.parentDomain, "eventSequence": this.eventSequence, "breakpoints": this.breakpoints});
-    };
 }
 
 function dragTimeline(ev) {
