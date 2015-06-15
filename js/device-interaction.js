@@ -29,7 +29,7 @@ $(document).ready(function () {
 
     //show/hide device settings
     $(document).on("click", ".settings-button", function () {
-        $("#device-" + $(this).data("devid") + " .settings-panel").slideToggle();
+        $("#device-" + this.dataset.deviceId + " .settings-panel").slideToggle();
     });
 
     //Make the device draggable when clicked on the border
@@ -41,25 +41,25 @@ $(document).ready(function () {
 
     //Update the z-index of the device
     $(document).on("change", ".layer", function () {
-        var index = getDeviceIndex($(this).data("devid"));
+        var index = getDeviceIndex(this.dataset.deviceId);
         activeDevices[index].setLayer($(this).val());
     });
 
     //Switch the orientation from landscape to portrait and vice versa
     $(document).on("click", ".rotate", function () {
-        var index = getDeviceIndex($(this).data("devid"));
+        var index = getDeviceIndex(this.dataset.deviceId);
         activeDevices[index].switchOrientation();
     });
 
     //Set the device scaling to 1
     $(document).on("click", ".scale", function () {
-        var index = getDeviceIndex($(this).data("devid"));
+        var index = getDeviceIndex(this.dataset.deviceId);
         activeDevices[index].setScaling(1);
     });
 
     //Update the URL of a specific device
     $(document).on("blur", ".url", function () {
-        var index = getDeviceIndex($(this).data("devid"));
+        var index = getDeviceIndex(this.dataset.deviceId);
         activeDevices[index].loadURL($(this).val());
     });
     $(document).on("keyup", ".url", function (ev) {
@@ -70,7 +70,7 @@ $(document).ready(function () {
 
     //Scale up/down the device
     $(document).on("change", ".range", function () {
-        var index = getDeviceIndex($(this).data("devid"));
+        var index = getDeviceIndex(this.dataset.deviceId);
         activeDevices[index].setScaling($(this).val());
     });
 });

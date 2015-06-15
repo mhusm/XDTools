@@ -1,3 +1,9 @@
+/*
+    This file manages everything related to commands:
+        - It contains all commands that can be created.
+        - It receives all commands from remote and local devices and calls the appropriate function.
+*/
+
 $(document).ready(function () {
 
     socket.on("command", function (command, deviceId) {
@@ -24,6 +30,31 @@ $(document).ready(function () {
             console.error("Unknown command");
         }
     });
+
+    window.addEventListener("message", function (ev) {
+        var command = JSON.parse(ev.data),
+            url = new URL(ev.origin),
+            deviceId = url.hostname.substring(0, url.hostname.length - 11);
+        if (command.name === "log") {
+            appendLogToHistory(command.msg, deviceId);
+        }
+        else if (command.name === "info") {
+            appendInfoToHistory(command.msg, deviceId);
+        }
+        else if (command.name === "warn") {
+            appendWarnToHistory(command.msg, deviceId);
+        }
+        else if (command.name === "error") {
+            appendErrorToHistory(command.msg, deviceId);
+        }
+        else if (command.name === "loaded") {
+            addCSSProperties(deviceId);
+            $("#device-" + deviceId + " .url").val(command.url);
+        }
+        else {
+            console.error("Unknown command");
+        }
+    }, false);
 
 });
 

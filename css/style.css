@@ -14,7 +14,7 @@ body {
     overflow: hidden;
 }
 
-#settings-configurations, #settings-devices, #settings-sequences {
+#configuration-settings, #settings-devices, #settings-sequences {
     padding: 0;
     list-style-type: none;
     margin: 0;
@@ -222,7 +222,7 @@ body {
     color: #265a88;
 }
 
-.empty {
+.empty, .remainder {
     opacity: 0.5;
 }
 
@@ -240,7 +240,7 @@ body {
     margin: 5px;
 }
 
-.log-line, .warn-line, .info-line, .error-line {
+.log-line, .warn-line, .info-line, .error-line, .history-line {
     font-weight: bolder;
 }
 

@@ -1,20 +1,23 @@
 /*
     This file covers everything related to managing configurations, i.e. saving new configurations, loading configurations.
- */
+*/
 
 $(document).ready(function () {
-    var savedSessions = JSON.parse(localStorage.getItem("session-names")) || [];
+
+    var savedSessions = JSON.parse(localStorage.getItem("session-names")) || [],
+        $noConfigurations = $("#no-configurations"),
+        $configurationSettings = $("#configuration-settings");
 
     $("#session-name").autocomplete({
         source: savedSessions
     });
 
     if (savedSessions.length > 0) {
-        $("#no-configurations").addClass("hidden");
+        $noConfigurations.addClass("hidden");
     }
     //List all device configurations along with a button to remove them
     for (var i = 0, j = savedSessions.length; i < j; ++i) {
-        $("#settings-configurations").append(
+        $configurationSettings.append(
             "<li class='config-row'>" +
                 savedSessions[i] +
                 "<button type='button' data-config-name='" + savedSessions[i] + "' class='btn btn-primary btn-sm right config-remove'>" +
@@ -30,7 +33,7 @@ $(document).ready(function () {
         localStorage.removeItem("stored-session-" + $(this).data("config-name"));
         $(this).parent("li").remove();
         if (savedSessions.length === 0) {
-            $("#no-configurations").removeClass("hidden");
+            $noConfigurations.removeClass("hidden");
         }
     });
 
@@ -47,14 +50,14 @@ $(document).ready(function () {
             savedSessions.push(sessionName);
             localStorage.setItem("session-names", JSON.stringify(savedSessions));
         }
-        $("#settings-configurations").append(
+        $configurationSettings.append(
             "<li class='config-row'>" +
                 sessionName +
                 "<button type='button' data-config-name='" + sessionName + "' class='btn btn-primary btn-sm right config-remove'>" +
                     "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
             "</button><hr /></li>"
         );
-        $("#no-configurations").addClass("hidden");
+        $noConfigurations.addClass("hidden");
     });
 
     //Load an existing configuration

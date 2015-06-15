@@ -29,7 +29,7 @@ $(document).ready(function () {
         remoteDevices.splice(remoteDevices.indexOf(id), 1);
         var index = colors.map(function (e) { return e.id; }).indexOf(id);
         colors.splice(index, 1);
-        $(".js-device[data-devid='" + id + "']").remove();
+        $(".js-device[data-device-id='" + id + "']").remove();
         $("#timeline-" + id).remove();
     });
 

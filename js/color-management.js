@@ -1,5 +1,14 @@
+/*
+    This file is responsible for generating the colors that are assigned to devices in the Javascript console.
+*/
+
 var colors = [];
 
+/*
+    Calculates the next color (in the HSL color model) that should be used in the following way:
+        1. Traverses the hues of all colors in ascending order and calculates the greatest difference between two hues.
+        2. The hue in the middle of the two hues with the greatest distance is the hue of the new color.
+ */
 function getNextColor(deviceId) {
     if (colors.length === 0) {
         colors.push({"id": deviceId, "color": 0});

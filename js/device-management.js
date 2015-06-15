@@ -35,11 +35,11 @@ $(document).ready(function () {
 
     //Remove an emulated device
     $(document).on("click", ".remove", function () {
-        var deviceIndex = $(this).data("devid");
+        var deviceIndex = this.dataset.deviceId;
         $("#device-" + deviceIndex).remove();
         $("#timeline-" + deviceIndex).remove();
         $("*").tooltip("hide");
-        $(".js-device[data-devid='" + deviceIndex + "']").remove();
+        $(".js-device[data-device-id='" + deviceIndex + "']").remove();
         activeDevices.splice(getDeviceIndex(deviceIndex), 1);
         var index = colors.map(function (e) { return e.id; }).indexOf(deviceIndex);
         colors.splice(index, 1);
@@ -48,7 +48,7 @@ $(document).ready(function () {
             url: "http://localhost:8080/" + deviceIndex,
             contentType: "application/json"
         });
-        $(".line[data-devid='" + deviceIndex + "']").each(function () {
+        $(".line[data-device-id='" + deviceIndex + "']").each(function () {
             $(this.nextSibling.nextSibling).remove();
             $(this.nextSibling).remove();
             $(this).remove();
@@ -177,25 +177,25 @@ function appendDevice(device) {
     $("#devices").append(
         "<section draggable='false' class='device-container' id='device-" + device.id +"'>" +
             "<h4>" + device.name + "</h4>" +
-            "<button type='button' class='btn btn-primary remove' data-devid='" + device.id + "'>" +
+            "<button type='button' class='btn btn-primary remove' data-device-id='" + device.id + "'>" +
                 "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
             "</button>" +
-            "<button type='button' data-devid='" + device.id + "' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
+            "<button type='button' data-device-id='" + device.id + "' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
                 "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>" +
             "</button>" +
             "<hr />" +
             "<section class='settings-panel'>" +
-                "<input data-devid='" + device.id + "' type='url' class='form-control url' value='" + device.url + "' />" +
-                "<input draggable='false' class='range' type='range' data-devid='" + device.id + "' value='" + device.scaling + "' min='0.1' max='2' step='0.1' /><span class='scale-factor'>" + device.scaling + "</span>" +
-                "<button type='button' class='btn btn-primary rotate' data-devid='" + device.id + "' title='Switch orientation'>" +
+                "<input data-device-id='" + device.id + "' type='url' class='form-control url' value='" + device.url + "' />" +
+                "<input draggable='false' class='range' type='range' data-device-id='" + device.id + "' value='" + device.scaling + "' min='0.1' max='2' step='0.1' /><span class='scale-factor'>" + device.scaling + "</span>" +
+                "<button type='button' class='btn btn-primary rotate' data-device-id='" + device.id + "' title='Switch orientation'>" +
                     "<img class='rotate-img' src='../img/rotate.png' alt='rotate' />" +
                 "</button>" +
-                "<button type='button' class='btn btn-primary scale' title='Set scaling factor to 1' data-devid='" + device.id + "'>" +
+                "<button type='button' class='btn btn-primary scale' title='Set scaling factor to 1' data-device-id='" + device.id + "'>" +
                     "<span class='glyphicon glyphicon-fullscreen' aria-hidden='true'></span>" +
                 "</button>" +
-                "<span class='left'>Layer: <input type='number' data-devid='" + device.id + "' class='layer' value='1' /></span>" +
+                "<span class='left'>Layer: <input type='number' data-device-id='" + device.id + "' class='layer' value='1' /></span>" +
             "</section>" +
-            "<iframe data-devid='" + device.id + "' src='" + device.url + "'></iframe>" +
+            "<iframe data-device-id='" + device.id + "' src='" + device.url + "'></iframe>" +
         "</section>"
     );
     var $device = $("#device-" + device.id);
@@ -216,22 +216,22 @@ function appendDevice(device) {
 function addDeviceTimeline(id, name) {
     var timeline = "<section class='device-timeline' id='timeline-" + id + "'>" +
         "<h4>" + name + "</h4>" +
-        "<button type='button' class='btn btn-primary btn-sm record' data-devid='" + id + "' data-recording='false' title='Start/stop recording'>" +
+        "<button type='button' class='btn btn-primary btn-sm record' data-device-id='" + id + "' data-recording='false' title='Start/stop recording'>" +
             "<span class='glyphicon glyphicon-record'></span>" +
         "</button>" +
-        "<button type='button' class='btn btn-primary btn-sm play disabled' data-devid='" + id + "' title='Replay recorded sequence'>" +
+        "<button type='button' class='btn btn-primary btn-sm play disabled' data-device-id='" + id + "' title='Replay recorded sequence'>" +
             "<span class='glyphicon glyphicon-play'></span>" +
         "</button>" +
-        "<select name='timeline-" + id + "' data-devid='" + id + "' class='form-control'>" +
+        "<select name='timeline-" + id + "' data-device-id='" + id + "' class='form-control'>" +
         "<option value='none' selected='selected'>None</option>";
     for (var i = 0, j = sequenceNames.length; i < j; ++i) {
         timeline = timeline + "<option value='" + sequenceNames[i] + "'>" + sequenceNames[i] + "</option>";
     }
     timeline = timeline + "</select>" +
-        "<hr /><section class='event-container' data-devid='" + id + "'></section>" +
+        "<hr /><section class='event-container' data-device-id='" + id + "'></section>" +
     "</section>";
     $("#timeline").find(".timeline-content").append(timeline);
-    $("<span class='js-device active' data-devid='" + id + "'>" + name + "</span>").appendTo($("#device-overview"))
+    $("<span class='js-device active' data-device-id='" + id + "'>" + name + "</span>").appendTo($("#device-overview"))
         .css("background-color", "hsla(" + getNextColor(id) + ", 60%, 50%, 0.3)");
 }
 

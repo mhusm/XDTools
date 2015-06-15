@@ -1,16 +1,11 @@
 $(document).ready(function () {
 
     var url = new URL(window.location.href),
-        deviceId = "",
         socket = io(":" + (url.port || 80) + "/remote"),
         $iframe = $("iframe");
 
-    socket.on("receiveID", function (id) {
-       deviceId = id;
-    });
-
     window.addEventListener("message", function (ev) {
-        socket.emit("command", ev.data, deviceId);
+        socket.emit("command", ev.data);
     }, false);
 
     //Refresh device

@@ -221,10 +221,9 @@ var XDTest = {
     },
     generateEvents: function (eventSequence, delay) {
         var result = [],
-            initialTime = eventSequence[0].time,
-            pause = 0;
+            initialTime = eventSequence[0].time;
         for (var i = 0, j = eventSequence.length; i < j; ++i) {
-            eventSequence[i].time = eventSequence[i].time - initialTime + delay + pause;
+            eventSequence[i].time = eventSequence[i].time - initialTime + delay;
             if (eventSequence[i].eventType === "MouseEvent") {
                 result.push(new XDTest.MouseEvent(eventSequence[i]));
             }
@@ -242,9 +241,6 @@ var XDTest = {
             }
             else if (eventSequence[i].eventType === "OverflowEvent") {
                 result.push(new XDTest.OverflowEvent(eventSequence[i]));
-            }
-            else if (eventSequence[i].eventType === "BreakEvent") {
-                pause = pause + 1000;
             }
             else {
                 result.push(new XDTest.Event(eventSequence[i]));
@@ -421,6 +417,13 @@ window.onload = function () {
         window.parent.postMessage(JSON.stringify(command), "*");
         XDTest.originalError.call(console, args);
     };
+    window.onerror = function(error) {
+        var command = {
+            "name": "error",
+            "msg": error
+        };
+        window.parent.postMessage(JSON.stringify(command), "*");
+    };
 
     window.addEventListener("message", function (ev) {
         var command = JSON.parse(ev.data);
@@ -470,31 +473,34 @@ window.onload = function () {
             }
         }
         else if (command.name === "updateCSS") {
-            //TODO: remove this if statement
-            if (command.property && command.value) {
-                var index = XDTest.getIndex(cssProperties, command.identifier),
-                    elems = document.querySelectorAll(command.identifier);
-                if (index === -1) {
-                    cssProperties.push({
-                        "identifier": command.identifier,
-                        "props": [{"property": command.property, "value": command.value}]
-                    });
-                    index = 0;
-                }
-                else {
+            var index = XDTest.getIndex(cssProperties, command.identifier),
+                elems = document.querySelectorAll(command.identifier);
+            if (index === -1) {
+                cssProperties.push({
+                    "identifier": command.identifier,
+                    "props": [{"property": command.property, "value": command.value}]
+                });
+                index = 0;
+            }
+            else {
+                var propertyIndex = XDTest.getPropertyIndex(cssProperties, index, command.property);
+                if (propertyIndex === -1) {
                     cssProperties[index].props.push({
                         "property": command.property,
                         "value": command.value
                     });
                 }
-                var properties = cssProperties[index].props;
-                var style = "";
-                for (var i = 0, j = properties.length; i < j; ++i) {
-                    style = style + properties[i].property + ": " + properties[i].value + ";";
+                else {
+                    cssProperties[index].props[propertyIndex].value = command.value;
                 }
-                for (var i = 0, j = elems.length; i < j; ++i) {
-                    elems[i].setAttribute("style", style);
-                }
+            }
+            var properties = cssProperties[index].props,
+                style = "";
+            for (var i = 0, j = properties.length; i < j; ++i) {
+                style = style + properties[i].property + ": " + properties[i].value + ";";
+            }
+            for (var i = 0, j = elems.length; i < j; ++i) {
+                elems[i].setAttribute("style", style);
             }
         }
         else if (command.name === "restore") {
@@ -502,13 +508,34 @@ window.onload = function () {
                 elems = document.querySelectorAll(command.identifier),
                 propertyIndex = XDTest.getPropertyIndex(cssProperties, index, command.property);
             cssProperties[index].props.splice(propertyIndex, 1);
-            var properties = cssProperties[index].props;
-            var style = "";
+            var properties = cssProperties[index].props,
+                style = "";
             for (var i = 0, j = properties.length; i < j; ++i) {
                 style = style + properties[i].property + ": " + properties[i].value + ";";
             }
             for (var i = 0, j = elems.length; i < j; ++i) {
                 elems[i].setAttribute("style", style);
+            }
+        }
+        else if (command.name === "resetCSS") {
+            for (var i = 0, j = cssProperties.length; i < j; ++i) {
+                var elements = document.querySelectorAll(cssProperties[i].identifier);
+                for (var k = 0, l = elements.length; k < l; ++k) {
+                    elements[k].setAttribute("style", "");
+                }
+            }
+        }
+        else if (command.name === "reactivateCSS") {
+            for (var i = 0, j = cssProperties.length; i < j; ++i) {
+                var elements = document.querySelectorAll(cssProperties[i].identifier);
+                var properties = cssProperties[i].props,
+                    style = "";
+                for (var k = 0, l = properties.length; k < l; ++k) {
+                    style = style + properties[k].property + ": " + properties[k].value + ";";
+                }
+                for (var k = 0, l = elements.length; k < l; ++k) {
+                    elements[k].setAttribute("style", style);
+                }
             }
         }
         else if (command.name === "executeJS") {
