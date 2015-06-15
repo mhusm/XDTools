@@ -1,7 +1,8 @@
 $(document).ready(function (ev) {
 
     var history = [],
-        historyPosition = 0;
+        historyPosition = 0,
+        cssProperties = getAvailableCSSProperties();
 
     $(document).on("focus", ".identifier.empty, .property.empty, .value.empty", function () {
         $(this).text("");
@@ -12,7 +13,7 @@ $(document).ready(function (ev) {
            var prevValue = $(this).text();
            $(this).one("blur", {"prevValue": prevValue}, function (ev) {
                var identifier = $(this).parent().parent().parent().find(".identifier").text();
-               var value = $(this.nextSibling.nextSibling).text();
+               var value = $(this.nextSibling.nextSibling.nextSibling).text();
                addCSSProperty("restore", identifier, ev.data.prevValue, value);
            });
        }
@@ -39,8 +40,8 @@ $(document).ready(function (ev) {
     $(document).on("click", "#css-console .line-wrapper input[type=checkbox]", function () {
         var property = $(this.nextSibling).text();
         var identifier = $(this).parent().parent().parent().find(".identifier").text();
-        var value = $(this.nextSibling.nextSibling.nextSibling).text();
-        if ($(this).is(":checked") && !$(this.nextSibling).hasClass("empty") && !$(this.nextSibling.nextSibling.nextSibling).hasClass("empty")) {
+        var value = $(this.nextSibling.nextSibling.nextSibling.nextSibling).text();
+        if ($(this).is(":checked") && !$(this.nextSibling).hasClass("empty") && !$(this.nextSibling.nextSibling.nextSibling.nextSibling).hasClass("empty")) {
             addCSSProperty("updateCSS", identifier, property, value);
         }
         else if (!$(this.nextSibling).hasClass("empty") && !$(this.nextSibling.nextSibling.nextSibling).hasClass("empty")){
@@ -58,7 +59,7 @@ $(document).ready(function (ev) {
                 "}<br /></div><br />").prependTo("#css-console .properties");
                 $("<span class='line-wrapper'>" +
                     "<input type='checkbox' name='property4' value='property4' checked>" +
-                    "<span class='property empty'>enter property...</span>" +
+                    "<span class='property empty'>enter property...</span><span class='remainder'></span>" +
                     ": <span class='value empty'>enter value...</span>;</span><br />"
                 )
                     .appendTo($(this).parent().find(".content"))
@@ -101,9 +102,12 @@ $(document).ready(function (ev) {
         }
         else {
             var property = $(this).text();
-            var value = $(this.nextSibling.nextSibling).text();
+            var suggestion = $(this.nextSibling).text();
+            $(this.nextSibling).text("");
+            $(this).text(property + suggestion);
+            var value = $(this.nextSibling.nextSibling.nextSibling).text();
             var identifier = $(this).parent().parent().parent().find(".identifier").text();
-            addCSSProperty("updateCSS", identifier, property, value);
+            addCSSProperty("updateCSS", identifier, property + suggestion, value);
         }
     });
     $(document).on("keypress", ".property", function (ev) {
@@ -113,16 +117,18 @@ $(document).ready(function (ev) {
         }
     });
 
+    addKeyUpEvent(cssProperties, cssProperties, "");
+
     $(document).on("blur", ".value", function () {
         var value = $(this).text();
-        var property = $(this.previousSibling.previousSibling).text();
+        var property = $(this.previousSibling.previousSibling.previousSibling).text();
         var identifier = $(this).parent().parent().parent().find(".identifier").text();
         if ($(this).hasClass("empty")) {
             if ($(this).text()) {
                 $(this).removeClass("empty");
                 $("<span class='line-wrapper'>" +
                     "<input type='checkbox' name='property4' value='property4' checked>" +
-                    "<span class='property empty'>enter property...</span>" +
+                    "<span class='property empty'>enter property...</span><span class='remainder'></span>" +
                     ": <span class='value empty'>enter value...</span>;</span><br />"
                 ).appendTo($(this).parent().parent());
                 addCSSProperty("updateCSS", identifier, property, value);
@@ -150,12 +156,12 @@ $(document).ready(function (ev) {
     $(document).on("blur", ".property", function () {
         if (!$(this).hasClass("emtpy")) {
             var property = $(this).text();
-            var value = $(this.nextSibling.nextSibling).text();
+            var value = $(this.nextSibling.nextSibling.nextSibling).text();
             var identifier = $(this).parent().parent().parent().find(".identifier").text();
             addCSSProperty(identifier, property, value);
         }
         $(this).attr("contenteditable", "false");
-        $(this.nextSibling.nextSibling).attr("contenteditable", "true").focus();
+        $(this.nextSibling.nextSibling.nextSibling).attr("contenteditable", "true").focus();
     });
 
     $(document).on("blur", ".identifier, .value", function () {
@@ -168,50 +174,25 @@ $(document).ready(function (ev) {
         }
     });
 
-    socket.on("command", function (command, deviceId) {
-        command = JSON.parse(command);
-        if ($(".js-device[data-devid='" + deviceId + "']").hasClass("active")) {
-            if (command.name === "log") {
-                appendLogToHistory(command.msg, deviceId);
-            }
-            else if (command.name === "info") {
-                appendInfoToHistory(command.msg, deviceId)
-            }
-            else if (command.name === "warn") {
-                appendWarnToHistory(command.msg, deviceId);
-            }
-            else if (command.name === "error") {
-                appendErrorToHistory(command.msg, deviceId);
-            }
-            else if (command.name === "loaded") {
-                addCSSProperties(deviceId);
-            }
-            else {
-                console.error("Unknown command");
-            }
-        }
-    });
-
     window.addEventListener("message", function (ev) {
         var command = JSON.parse(ev.data);
         var url = new URL(ev.origin);
         var deviceId = url.hostname.substring(0, url.hostname.length - 11);
-        if ($(".js-device[data-devid='" + deviceId + "']").hasClass("active")) {
-            if (command.name === "log") {
-                appendLogToHistory(command.msg, deviceId);
-            }
-            else if (command.name === "info") {
-                appendInfoToHistory(command.msg, deviceId);
-            }
-            else if (command.name === "warn") {
-                appendWarnToHistory(command.msg, deviceId);
-            }
-            else if (command.name === "error") {
-                appendErrorToHistory(command.msg, deviceId);
-            }
-            else if (command.name === "loaded") {
-                addCSSProperties(deviceId);
-            }
+        if (command.name === "log") {
+            appendLogToHistory(command.msg, deviceId);
+        }
+        else if (command.name === "info") {
+            appendInfoToHistory(command.msg, deviceId);
+        }
+        else if (command.name === "warn") {
+            appendWarnToHistory(command.msg, deviceId);
+        }
+        else if (command.name === "error") {
+            appendErrorToHistory(command.msg, deviceId);
+        }
+        else if (command.name === "loaded") {
+            addCSSProperties(deviceId);
+            $("#device-" + deviceId + " .url").val(command.url);
         }
     }, false);
 
@@ -220,6 +201,7 @@ $(document).ready(function (ev) {
         if ($(this).hasClass("active")) {
             $(this).css("background-color", "rgba(220, 220, 220, 0.5)");
             $(".line[data-devid='" + deviceId + "']").each(function () {
+                $(this.nextSibling.nextSibling.nextSibling).addClass("hidden");
                 $(this.nextSibling.nextSibling).addClass("hidden");
                 $(this.nextSibling).addClass("hidden");
                 $(this).addClass("hidden");
@@ -230,6 +212,7 @@ $(document).ready(function (ev) {
             var index = colors.map(function (e) { return e.id; }).indexOf(this.dataset.devid);
             $(this).css("background-color", "hsla(" + colors[index].color + ", 60%, 50%, 0.3)");
             $(".line[data-devid='" + deviceId + "']").each(function () {
+                $(this.nextSibling.nextSibling.nextSibling).removeClass("hidden");
                 $(this.nextSibling.nextSibling).removeClass("hidden");
                 $(this.nextSibling).removeClass("hidden");
                 $(this).removeClass("hidden");
@@ -278,6 +261,30 @@ $(document).ready(function (ev) {
 
 });
 
+function addKeyUpEvent(suggestions, cssProperties, oldKeyword) {
+    $(document).one("keypress", ".property", {"suggestions": JSON.stringify(suggestions), "keyword": oldKeyword}, function (ev) {
+        var curVal = $(this).text();
+        var sugs = cssProperties;
+        if (curVal) {
+            var props = JSON.parse(ev.data.suggestions);
+            if (curVal.indexOf(ev.data.keyword) != 0) {
+                sugs = filter(curVal, props);
+            }
+            else {
+                sugs = filter(curVal, cssProperties);
+            }
+            if (sugs.length > 0) {
+                var remainder = sugs[0].substring(curVal.length + 1);
+                $(this.nextSibling).text(remainder);
+            }
+            else {
+                $(this.nextSibling).text("");
+            }
+        }
+        addKeyUpEvent(sugs, cssProperties, curVal);
+    });
+}
+
 function getCSSProperties() {
     var properties = [];
     $(".css-property").each(function () {
@@ -299,18 +306,20 @@ function getCSSProperties() {
 }
 
 function addCSSProperties(deviceId) {
-    var properties = getCSSProperties();
-    if (remoteDevices.indexOf(deviceId) !== -1) {
-        for (var i = 0, j = properties.length; i < j; ++i) {
-            var command = new CSSCommand("updateCSS", deviceId, properties[i].identifier, properties[i].property, properties[i].value);
-            socket.emit("command", command.toString(), deviceId);
+    if ($(".js-device[data-devid='" + deviceId + "']").hasClass("active")) {
+        var properties = getCSSProperties();
+        if (remoteDevices.indexOf(deviceId) !== -1) {
+            for (var i = 0, j = properties.length; i < j; ++i) {
+                var command = new CSSCommand("updateCSS", deviceId, properties[i].identifier, properties[i].property, properties[i].value);
+                socket.emit("command", command.toString(), deviceId);
+            }
         }
-    }
-    else {
-        for (var i = 0, j = properties.length; i < j; ++i) {
-            var command = new CSSCommand("updateCSS", deviceId, properties[i].identifier, properties[i].property, properties[i].value),
-                index = getDeviceIndex(deviceId);
-            command.send($("#device-" + deviceId + " iframe")[0], activeDevices[index].url);
+        else {
+            for (var i = 0, j = properties.length; i < j; ++i) {
+                var command = new CSSCommand("updateCSS", deviceId, properties[i].identifier, properties[i].property, properties[i].value),
+                    index = getDeviceIndex(deviceId);
+                command.send($("#device-" + deviceId + " iframe")[0], activeDevices[index].url);
+            }
         }
     }
 }
@@ -349,43 +358,59 @@ function addCSSProperty(name, identifier, property, value) {
 }
 
 function appendLogToHistory(msg, deviceId) {
-    var index = colors.map(function(e) { return e.id; }).indexOf(deviceId);
-    var $history = $("#history");
-    $("<span class='log-line line' data-devid='" + deviceId + "'>< </span>").appendTo($history);
-    $("<span>" + msg + "</span>").appendTo($history)
-        .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
-    $("<br />").appendTo($history);
-    $history.scrollTop($history[0].scrollHeight);
+    if ($(".js-device[data-devid='" + deviceId + "']").hasClass("active")) {
+        var index = colors.map(function (e) {
+            return e.id;
+        }).indexOf(deviceId);
+        var $history = $("#history");
+        $("<span class='log-line line' data-devid='" + deviceId + "'>< </span>").appendTo($history);
+        $("<span>" + msg + "</span>").appendTo($history)
+            .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
+        $("<br />").appendTo($history);
+        $history.scrollTop($history[0].scrollHeight);
+    }
 }
 
 function appendInfoToHistory(msg, deviceId) {
-    var index = colors.map(function(e) { return e.id; }).indexOf(deviceId);
-    var $history = $("#history");
-    $("<span class='info-line line' data-devid='" + deviceId + "'><span class='glyphicon glyphicon-info-sign'></span> </span>").appendTo($history);
-    $("<span>" + msg + "</span>").appendTo($history)
-        .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
-    $("<br />").appendTo($history);
-    $history.scrollTop($history[0].scrollHeight);
+    if ($(".js-device[data-devid='" + deviceId + "']").hasClass("active")) {
+        var index = colors.map(function (e) {
+            return e.id;
+        }).indexOf(deviceId);
+        var $history = $("#history");
+        $("<span class='info-line line' data-devid='" + deviceId + "'><span class='glyphicon glyphicon-info-sign'></span> </span>").appendTo($history);
+        $("<span>" + msg + "</span>").appendTo($history)
+            .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
+        $("<br />").appendTo($history);
+        $history.scrollTop($history[0].scrollHeight);
+    }
 }
 
 function appendWarnToHistory(msg, deviceId) {
-    var index = colors.map(function(e) { return e.id; }).indexOf(deviceId);
-    var $history = $("#history");
-    $("<span class='warn-line line' data-devid='" + deviceId + "'><span class='glyphicon glyphicon-warning-sign'></span> </span>").appendTo($history);
-    $("<span>" + msg + "</span>").appendTo($history)
-        .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
-    $("<br />").appendTo($history);
-    $history.scrollTop($history[0].scrollHeight);
+    if ($(".js-device[data-devid='" + deviceId + "']").hasClass("active")) {
+        var index = colors.map(function (e) {
+            return e.id;
+        }).indexOf(deviceId);
+        var $history = $("#history");
+        $("<span class='warn-line line' data-devid='" + deviceId + "'><span class='glyphicon glyphicon-warning-sign'></span> </span>").appendTo($history);
+        $("<span>" + msg + "</span>").appendTo($history)
+            .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
+        $("<br />").appendTo($history);
+        $history.scrollTop($history[0].scrollHeight);
+    }
 }
 
 function appendErrorToHistory(msg, deviceId) {
-    var index = colors.map(function(e) { return e.id; }).indexOf(deviceId);
-    var $history = $("#history");
-    $("<span class='error-line line' data-devid='" + deviceId + "'><span class='glyphicon glyphicon-remove-sign'></span> </span>").appendTo($history);
-    $("<span>" + msg + "</span>").appendTo($history)
-        .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
-    $("<br />").appendTo($history);
-    $history.scrollTop($history[0].scrollHeight);
+    if ($(".js-device[data-devid='" + deviceId + "']").hasClass("active")) {
+        var index = colors.map(function (e) {
+            return e.id;
+        }).indexOf(deviceId);
+        var $history = $("#history");
+        $("<span class='error-line line' data-devid='" + deviceId + "'><span class='glyphicon glyphicon-remove-sign'></span> </span>").appendTo($history);
+        $("<span>" + msg + "</span>").appendTo($history)
+            .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
+        $("<br />").appendTo($history);
+        $history.scrollTop($history[0].scrollHeight);
+    }
 }
 
 function sendJavascriptCommand(code) {
@@ -405,4 +430,23 @@ function sendJavascriptCommand(code) {
             }
         });
     }
+}
+
+function filter(prefix, cssProperties) {
+    var filteredWords = cssProperties.filter(function (item, index, array) {
+        return array[index].indexOf(prefix) === 0;
+    });
+    return filteredWords;
+}
+
+function getAvailableCSSProperties() {
+    var properties = [];
+    for (var item in document.body.style) {
+        item = item.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+        if (item.substring(0, 6) === "webkit") {
+            item = "-" + item;
+        }
+        properties.push(item);
+    }
+    return properties;
 }

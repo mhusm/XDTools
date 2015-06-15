@@ -381,7 +381,8 @@ window.onload = function () {
         cssProperties = [];
 
     var command = {
-        "name": "loaded"
+        "name": "loaded",
+        "url": window.location.href
     };
     window.parent.postMessage(JSON.stringify(command), "*");
 

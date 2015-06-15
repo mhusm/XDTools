@@ -38,15 +38,14 @@ $(document).ready(function () {
     window.addEventListener("message", function (ev) {
         var command = JSON.parse(ev.data);
         if (command.name === "sendEventSequence") {
-            events[command.deviceId] = [];
+            if (!events[command.deviceId]) {
+                events[command.deviceId] = [];
+            }
             events[command.deviceId].push({"name": "unnamed sequence", "sequence": adjustTiming(command.eventSequence), "position": -1});
             visualizeEventSequences(command.deviceId);
         }
         else if (command.name === "breakpointReached") {
-            $("#continue-button").removeClass("disabled").css({
-                "border": "3px solid rgb(145, 215, 105)"
-            });
-            $("#" + command.breakpoint.id).css("opacity", 1);
+            pause(command);
         }
     }, false);
 
@@ -79,7 +78,6 @@ $(document).ready(function () {
             $(this).find(".glyphicon").removeClass("glyphicon-stop").addClass("glyphicon-record");
             var command = new Command("stopRecording", deviceId);
             command.send($("#device-" + deviceId + " iframe")[0], activeDevices[index].url);
-            $("#timeline-" + deviceId + " .play").removeClass("disabled");
         }
         else {
             $(this).data("recording", true);
@@ -218,6 +216,13 @@ $(document).ready(function () {
     });
 });
 
+function pause(command) {
+    $("#continue-button").removeClass("disabled").css({
+        "border": "3px solid rgb(145, 215, 105)"
+    });
+    $("#" + command.breakpoint.id).css("opacity", 1);
+}
+
 function adjustTiming(eventSequence) {
     var initialTime = eventSequence[0].time;
     for (var i = 0, j = eventSequence.length; i < j; ++i) {
@@ -291,6 +296,7 @@ function dragBreak(ev) {
 function visualizeEventSequences(deviceId) {
     var $timeline = $("#timeline-" + deviceId);
     $timeline.find(".content").remove();
+    $timeline.find(".play").removeClass("disabled");
     var evs = events[deviceId];
     for (var z = 0; z < evs.length; ++z) {
         var curEvents = evs[z].sequence,

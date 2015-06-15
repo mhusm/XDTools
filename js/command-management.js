@@ -1,3 +1,32 @@
+$(document).ready(function () {
+
+    socket.on("command", function (command, deviceId) {
+        command = JSON.parse(command);
+        if (command.name === "log") {
+            appendLogToHistory(command.msg, deviceId);
+        }
+        else if (command.name === "info") {
+            appendInfoToHistory(command.msg, deviceId)
+        }
+        else if (command.name === "warn") {
+            appendWarnToHistory(command.msg, deviceId);
+        }
+        else if (command.name === "error") {
+            appendErrorToHistory(command.msg, deviceId);
+        }
+        else if (command.name === "loaded") {
+            addCSSProperties(deviceId);
+        }
+        else if (command.name === "breakpointReached") {
+            pause(command);
+        }
+        else {
+            console.error("Unknown command");
+        }
+    });
+
+});
+
 function Command(name, deviceId) {
     this.name = name;
     this.deviceId = deviceId;
