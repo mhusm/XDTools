@@ -31,6 +31,11 @@ $(document).ready(function () {
         colors.splice(index, 1);
         $(".js-device[data-device-id='" + id + "']").remove();
         $("#timeline-" + id).remove();
+        $(".line[data-device-id='" + id + "']").each(function () {
+            $(this.nextSibling.nextSibling).remove();
+            $(this.nextSibling).remove();
+            $(this).remove();
+        });
     });
 
     //Make elements non-draggable after dragging

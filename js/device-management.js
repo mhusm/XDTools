@@ -215,11 +215,13 @@ function appendDevice(device) {
 
 function addDeviceTimeline(id, name) {
     var timeline = "<section class='device-timeline' id='timeline-" + id + "'>" +
-        "<h4>" + name + "</h4>" +
-        "<button type='button' class='btn btn-primary btn-sm record' data-device-id='" + id + "' data-recording='false' title='Start/stop recording'>" +
-            "<span class='glyphicon glyphicon-record'></span>" +
-        "</button>" +
-        "<button type='button' class='btn btn-primary btn-sm play disabled' data-device-id='" + id + "' title='Replay recorded sequence'>" +
+        "<h4>" + name + "</h4>";
+    if (remoteDevices.indexOf(id) === -1) {
+        timeline = timeline + "<button type='button' class='btn btn-primary btn-sm record' data-device-id='" + id + "' data-recording='false' title='Start/stop recording'>" +
+        "<span class='glyphicon glyphicon-record'></span>" +
+        "</button>";
+    }
+    timeline = timeline + "<button type='button' class='btn btn-primary btn-sm play disabled' data-device-id='" + id + "' title='Replay recorded sequence'>" +
             "<span class='glyphicon glyphicon-play'></span>" +
         "</button>" +
         "<select name='timeline-" + id + "' data-device-id='" + id + "' class='form-control'>" +

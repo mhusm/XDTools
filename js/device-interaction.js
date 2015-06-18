@@ -91,7 +91,7 @@ function loadURLOnAllDevices(url) {
 function rewriteURL(url, deviceIndex) {
     var u = new URL(url);
     if (!u.hostname.match(/[a-z]/i)) {
-        var d = {"name": deviceIndex, "A":[{"address":u.hostname}], "ttl":300, "domain": "xdtest.com","time": Date.now()};
+        var d = {"name": deviceIndex, "A":[{"address":u.hostname}], "ttl":3000, "domain": "xdtest.com","time": Date.now()};
         $.ajax({
             type: "PUT",
             url: "http://localhost:8080/" + deviceIndex,

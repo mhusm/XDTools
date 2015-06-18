@@ -9,10 +9,6 @@ $(document).ready(function () {
 
     var cssProperties = getAvailableCSSProperties();
 
-    $(document).on("focus", ".identifier.empty, .property.empty, .value.empty", function () {
-        $(this).text("");
-    });
-
     $(document).on("focus", ".property", function () {
         if (!$(this).hasClass("empty")) {
             var prevValue = $(this).text();
@@ -65,19 +61,16 @@ $(document).ready(function () {
             if ($(this).text()) {
                 $(this).removeClass("empty");
                 $("<div class='css-property'>" +
-                "<span class='identifier empty'>enter identifier...</span> {<br />" +
+                "<span class='identifier empty' data-placeholder='enter identifier...'></span> {<br />" +
                 "<span class='content'></span>" +
                 "}<br /></div><br />").prependTo("#css-console .properties");
                 $("<span class='line-wrapper'>" +
                     "<input type='checkbox' name='property4' value='property4' checked>" +
-                    "<span class='property empty'>enter property...</span><span class='remainder'></span>" +
-                    ": <span class='value empty'>enter value...</span>;</span><br />"
+                    "<span class='property empty' data-placeholder='enter property...'></span><span class='remainder'></span>" +
+                    ": <span class='value empty' data-placeholder='enter value...'></span>;</span><br />"
                 )
                     .appendTo($(this).parent().find(".content"))
                     .find(".property:last").attr("contenteditable", true).focus();
-            }
-            else {
-                $(this).text("enter identifier...");
             }
         }
         else {
@@ -113,9 +106,6 @@ $(document).ready(function () {
                 $(this).removeClass("empty");
                 $value.attr("contenteditable", "true").focus();
             }
-            else {
-                $(this).text("enter property...");
-            }
         }
         else {
             $lineWrapper.find(".suggestion").text("");
@@ -144,13 +134,10 @@ $(document).ready(function () {
                 $(this).removeClass("empty");
                 $("<span class='line-wrapper'>" +
                     "<input type='checkbox' name='property4' value='property4' checked>" +
-                    "<span class='property empty'>enter property...</span><span class='remainder'></span>" +
-                    ": <span class='value empty'>enter value...</span>;</span><br />"
+                    "<span class='property empty' data-placeholder='enter property...'></span><span class='remainder'></span>" +
+                    ": <span class='value empty' data-placeholder='enter-value'></span>;</span><br />"
                 ).appendTo($cssProperty.find(".content"));
                 addCSSProperty("updateCSS", identifier, property, value);
-            }
-            else {
-                $(this).text("enter value...");
             }
         }
         else {
@@ -195,21 +182,21 @@ $(document).ready(function () {
 
 });
 
-//Assigns a keypress event to the property field of a CSS property and passes the current filtered propery list as event data
+//Assigns a keyup event to the property field of a CSS property and passes the current filtered propery list as event data
 function addKeyUpEvent(oldSuggestions, cssProperties, oldKeyword) {
-    $(document).one("keypress", ".property", {"suggestions": JSON.stringify(oldSuggestions), "keyword": oldKeyword}, function (ev) {
+    $(document).one("keyup", ".property", {"suggestions": JSON.stringify(oldSuggestions), "keyword": oldKeyword}, function (ev) {
         var curVal = $(this).text(),
             newSuggestions = cssProperties;
         if (curVal) {
             var props = JSON.parse(ev.data.suggestions);
-            if (curVal.indexOf(ev.data.keyword) != 0) {
+            if (curVal.indexOf(ev.data.keyword) !== -1) {
                 newSuggestions = filter(curVal, props);
             }
             else {
                 newSuggestions = filter(curVal, cssProperties);
             }
             if (newSuggestions.length > 0) {
-                var remainder = newSuggestions[0].substring(curVal.length + 1);
+                var remainder = newSuggestions[0].substring(curVal.length);
                 $(this.nextSibling).text(remainder);
             }
             else {

@@ -51,6 +51,16 @@ $(document).ready(function () {
             addCSSProperties(deviceId);
             $("#device-" + deviceId + " .url").val(command.url);
         }
+        else if (command.name === "sendEventSequence") {
+            if (!events[command.deviceId]) {
+                events[command.deviceId] = [];
+            }
+            events[command.deviceId].push({"name": "unnamed sequence", "sequence": adjustTiming(command.eventSequence), "position": -1});
+            visualizeEventSequences(command.deviceId);
+        }
+        else if (command.name === "breakpointReached") {
+            pause(command);
+        }
         else {
             console.error("Unknown command");
         }

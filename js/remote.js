@@ -14,9 +14,9 @@ var XDTest = {
         "drop",           //Safari, Chrome
         "mousedown",     //all major browsers
         //TODO: temporarily disabled for debugging
-        //"mousemove",   //all major browsers           deactivated because it causes too many events
-        //"mouseout",      //all major browsers
-        //"mouseover",     //all major browsers
+        "mousemove",   //all major browsers           deactivated because it causes too many events
+        "mouseout",      //all major browsers
+        "mouseover",     //all major browsers
         "mouseup"        //all major browsers
         /* The following events are not supported by Chrome
          "mousewheel",       //Opera
@@ -157,7 +157,7 @@ var XDTest = {
     MutationEvent: function (ev) {
         XDTest.Event.call(this, ev);
         this.event = document.createEvent("MutationEvent");
-        this.event.initMutationEvent(ev.type, ev.bubbles, ev.cancelable, ev.relatedNode, ev.prevValue, ev.newValue,
+        this.event.initMutationEvent(ev.type, ev.bubbles, ev.cancelable, null, ev.prevValue, ev.newValue,
             ev.attrName, ev.attrChange);
     },
     OverflowEvent: function (ev) {
@@ -175,7 +175,7 @@ var XDTest = {
                     "hierarchy": XDTest.determineHierarchy(ev.path), "type": ev.type, "bubbles": ev.bubbles,
                     "cancelable": ev.cancelable, "detail": ev.detail, "screenX": ev.screenX, "screenY": ev.screenY,
                     "clientX": ev.clientX, "clientY": ev.clientY, "ctrlKey": ev.ctrlKey, "altKey": ev.altKey,
-                    "shiftKey": ev.shiftKey, "metaKey": ev.metaKey, "button": ev.button, "relatedTarget": ev.relatedTarget
+                    "shiftKey": ev.shiftKey, "metaKey": ev.metaKey, "button": ev.button, "relatedTarget": null
                 });
             }
             else if (type === "KeyboardEvent") {
@@ -194,7 +194,7 @@ var XDTest = {
             else if (type === "MutationEvent") {
                 XDTest.events.push({"eventType": type, "time": ev.timeStamp,
                     "hierarchy": XDTest.determineHierarchy(ev.path), "type": ev.type, "bubbles": ev.bubbles,
-                    "cancelable": ev.cancelable, "relatedNode": ev.relatedNode, "prevValue": ev.prevValue,
+                    "cancelable": ev.cancelable, "relatedNode": null, "prevValue": ev.prevValue,
                     "newValue": ev.newValue, "attrName": ev.attrName, "attrChange": ev.attrChange
                 });
             }
@@ -202,7 +202,7 @@ var XDTest = {
                 XDTest.events.push({"eventType": type, "time": ev.timeStamp,
                     "hierarchy": XDTest.determineHierarchy(ev.path), "type": ev.type, "bubbles": ev.bubbles,
                     "cancelable": ev.cancelable, "detail": ev.detail, "screenX": ev.screenX, "screenY": ev.screenY,
-                    "clientX": ev.clientX, "clientY": ev.clientY, "button": ev.button, "relatedTarget": ev.relatedTarget,
+                    "clientX": ev.clientX, "clientY": ev.clientY, "button": ev.button, "relatedTarget": null,
                     "deltaX": ev.deltaX, "deltaY": ev.deltaY, "deltaZ": ev.deltaZ, "deltaMode": ev.deltaMode
                 });
             }
@@ -267,14 +267,19 @@ var XDTest = {
     determineHierarchy: function (path) {
         var curElement = path.shift(),
             hierarchy = [];
-        while (curElement.nodeName !== "BODY") {
+        while (curElement.nodeName !== "BODY" && curElement.nodeName !== "HTML" && curElement.nodeName !== "#document") {
             var index = 0,
                 cur = curElement;
             while (cur) {
                 index++;
                 cur  = cur.previousElementSibling;
             }
-            hierarchy.push(index - 1);
+            if (curElement.parentElement || curElement.parentNode) {
+                hierarchy.push(index - 1);
+            }
+            else {
+                hierarchy.push(-1);
+            }
             curElement = path.shift();
         }
         return hierarchy;
@@ -283,11 +288,11 @@ var XDTest = {
         var curElement = document.body,
             curIndex = hierarchy.length - 1;
         while (curIndex >= 0) {
-            if (curElement.children[hierarchy[curIndex]]) {
-                curElement = curElement.children[hierarchy[curIndex]];
+            if (hierarchy[curIndex] === -1) {
+                curElement = curElement.shadowRoot;
             }
             else {
-                curElement = curElement.shadowRoot;
+                curElement = curElement.children[hierarchy[curIndex]];
             }
             curIndex--;
         }
@@ -374,7 +379,13 @@ window.onload = function () {
         lastBreak = {"id": "", "time": 0},
         nextBreak = {"id": "", "time": Math.pow(2, 31)},
         breakpoints = [],
-        cssProperties = [];
+        cssProperties = [],
+        style = document.createElement("style");
+
+    style.appendChild(document.createTextNode(""));
+    document.head.appendChild(style);
+
+    var stylesheet = style.sheet;
 
     var command = {
         "name": "loaded",
@@ -475,6 +486,9 @@ window.onload = function () {
         else if (command.name === "updateCSS") {
             var index = XDTest.getIndex(cssProperties, command.identifier),
                 elems = document.querySelectorAll(command.identifier);
+            for (var i = 0, j = stylesheet.cssRules.length; i < j; ++i) {
+                stylesheet.removeRule(0);
+            }
             if (index === -1) {
                 cssProperties.push({
                     "identifier": command.identifier,
@@ -495,47 +509,46 @@ window.onload = function () {
                 }
             }
             var properties = cssProperties[index].props,
-                style = "";
+                style = command.identifier + " {";
+
             for (var i = 0, j = properties.length; i < j; ++i) {
-                style = style + properties[i].property + ": " + properties[i].value + ";";
+                style = style + properties[i].property + ": " + properties[i].value + " !important;";
             }
-            for (var i = 0, j = elems.length; i < j; ++i) {
-                elems[i].setAttribute("style", style);
-            }
+            style = style + "}";
+            stylesheet.insertRule(style, 0);
         }
         else if (command.name === "restore") {
             var index = XDTest.getIndex(cssProperties, command.identifier),
                 elems = document.querySelectorAll(command.identifier),
                 propertyIndex = XDTest.getPropertyIndex(cssProperties, index, command.property);
+            for (var i = 0, j = stylesheet.cssRules.length; i < j; ++i) {
+                stylesheet.removeRule(0);
+            }
             cssProperties[index].props.splice(propertyIndex, 1);
             var properties = cssProperties[index].props,
-                style = "";
+                style = command.identifier + " {";
+
             for (var i = 0, j = properties.length; i < j; ++i) {
-                style = style + properties[i].property + ": " + properties[i].value + ";";
+                style = style + properties[i].property + ": " + properties[i].value + " !important;";
             }
-            for (var i = 0, j = elems.length; i < j; ++i) {
-                elems[i].setAttribute("style", style);
-            }
+            style = style + "}";
+            stylesheet.insertRule(style, 0);
         }
         else if (command.name === "resetCSS") {
-            for (var i = 0, j = cssProperties.length; i < j; ++i) {
-                var elements = document.querySelectorAll(cssProperties[i].identifier);
-                for (var k = 0, l = elements.length; k < l; ++k) {
-                    elements[k].setAttribute("style", "");
-                }
+            for (var i = 0, j = stylesheet.cssRules.length; i < j; ++i) {
+                stylesheet.removeRule(0);
             }
         }
         else if (command.name === "reactivateCSS") {
             for (var i = 0, j = cssProperties.length; i < j; ++i) {
-                var elements = document.querySelectorAll(cssProperties[i].identifier);
                 var properties = cssProperties[i].props,
-                    style = "";
-                for (var k = 0, l = properties.length; k < l; ++k) {
-                    style = style + properties[k].property + ": " + properties[k].value + ";";
+                    style = cssProperties[i].identifier + " {";
+
+                for (var i = 0, j = properties.length; i < j; ++i) {
+                    style = style + properties[i].property + ": " + properties[i].value + " !important;";
                 }
-                for (var k = 0, l = elements.length; k < l; ++k) {
-                    elements[k].setAttribute("style", style);
-                }
+                style = style + "}";
+                stylesheet.insertRule(style, 0);
             }
         }
         else if (command.name === "executeJS") {

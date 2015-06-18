@@ -35,20 +35,6 @@ $(document).ready(function () {
         }
     });
 
-    window.addEventListener("message", function (ev) {
-        var command = JSON.parse(ev.data);
-        if (command.name === "sendEventSequence") {
-            if (!events[command.deviceId]) {
-                events[command.deviceId] = [];
-            }
-            events[command.deviceId].push({"name": "unnamed sequence", "sequence": adjustTiming(command.eventSequence), "position": -1});
-            visualizeEventSequences(command.deviceId);
-        }
-        else if (command.name === "breakpointReached") {
-            pause(command);
-        }
-    }, false);
-
     $("#breakpoint-container").click(function (ev) {
         var top = ev.offsetY - 7.5;
         breakpoints.push({"time": top * 10, "id": "bp-" + breakpointIndex});
@@ -83,19 +69,6 @@ $(document).ready(function () {
             $(this).data("recording", true);
             $(this).find(".glyphicon").removeClass("glyphicon-record").addClass("glyphicon-stop");
         }
-        command.send($("#device-" + deviceId + " iframe")[0], activeDevices[index].url);
-    });
-
-    //Replay recorded sequence
-    $(document).on("click", ".play", function () {
-        var deviceId = this.dataset.deviceId,
-            index = getDeviceIndex(this.dataset.deviceId);
-        var eventSequences = [];
-        for (var k = 0; k < events[deviceId].length; ++k) {
-            var curPos = $("#timeline-" + index + " .content[data-sequence-id='" + k + "']  .label-primary").offset().top - $("#timeline-" + index + " .content[data-sequence-id='" + k + "']").parent().offset().top;
-            eventSequences.push({"startTime": curPos * 10, "sequence": events[index].sequence[k]});
-        }
-        var command = new ReplayCommand("startReplaying", deviceId, eventSequences, breakpoints);
         command.send($("#device-" + deviceId + " iframe")[0], activeDevices[index].url);
     });
 
@@ -155,6 +128,24 @@ $(document).ready(function () {
                 var command = new ReplayCommand("startReplaying", remoteDevices[i], eventSequences, breakpoints);
                 socket.emit("command", command.toString(), remoteDevices[i]);
             }
+        }
+    });
+
+    //Replay recorded sequence
+    $(document).on("click", ".play", function () {
+        var deviceId = this.dataset.deviceId,
+            index = getDeviceIndex(this.dataset.deviceId);
+        var eventSequences = [];
+        for (var k = 0; k < events[deviceId].length; ++k) {
+            var curPos = $("#timeline-" + deviceId + " .content[data-sequence-id='" + k + "']  .label-primary").offset().top - $("#timeline-" + deviceId + " .content[data-sequence-id='" + k + "']").parent().offset().top;
+            eventSequences.push({"startTime": curPos * 10, "sequence": events[deviceId][k].sequence});
+        }
+        var command = new ReplayCommand("startReplaying", deviceId, eventSequences, breakpoints);
+        if (remoteDevices.indexOf(deviceId) !== -1) {
+            socket.emit("command", command.toString(), remoteDevices[i]);
+        }
+        else {
+            command.send($("#device-" + deviceId + " iframe")[0], activeDevices[index].url);
         }
     });
 

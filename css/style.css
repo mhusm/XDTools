@@ -226,6 +226,11 @@ body {
     opacity: 0.5;
 }
 
+.identifier:empty:not(:focus):before, .property:empty:not(:focus):before, .value:empty:not(:focus):before {
+    content: attr(data-placeholder);
+    cursor: text;
+}
+
 .line-wrapper input[type=checkbox] {
     vertical-align: middle;
     margin: 0 0 0 20px;
