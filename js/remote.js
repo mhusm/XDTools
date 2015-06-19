@@ -373,7 +373,9 @@ var XDTest = {
 
 XDTest.startRecording();
 
-window.onload = function () {
+window.addEventListener("load", initialize, false);
+
+function initialize() {
 
     var eventIndex = 0,
         lastBreak = {"id": "", "time": 0},
@@ -555,4 +557,4 @@ window.onload = function () {
             eval(command.code);
         }
     }, false);
-};
+}

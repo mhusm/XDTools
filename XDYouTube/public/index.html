@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="http://129.132.173.2/js/remote.js"></script>
+       <!-- 1. Load platform support before any code that touches the DOM. -->
+        <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+        <link rel="import" href="bower_components/polymer/polymer.html">
+        <!-- 2. Load the component using an HTML Import -->
+        <script src="bower_components/xdmvcclient/js/queryParams.js"></script>
+
+        <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-synchronised.html">
+        <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-connection.html">
+        <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-roles.html">
+        <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-devices.html">
+        <link rel="import" href="bower_components/google-youtube/google-youtube.html">
+        <link rel="import" href="bower_components/paper-input/paper-input.html">
+        <link rel="import" href="bower_components/paper-button/paper-button.html">
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.1.min.js"></script>
+        <script src="https://apis.google.com/js/client.js"></script>
+
+        <!--
+        <link rel="import"
+              href="bower_components/font-roboto/roboto.html">
+        <link rel="import" href="bower_components/paper-input/paper-input-decorator.html">
+        <link rel="import" href="bower_components/paper-input/paper-input.html">
+        <link href="css/app.css" rel="stylesheet" >
+        -->
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <script>
+            function initializeYoutubeAPI() {
+                gapi.client.setApiKey("AIzaSyDOd1930V0WNcPnmYgM1uXM2NbcYNs7RgI");
+                gapi.client.load('youtube', 'v3');
+            }
+
+            window.onload = initializeYoutubeAPI;
+        </script>
+        <style>
+            body, html {
+                height: 100%;
+                overflow-y: hidden;
+            }
+        </style>
+
+    </head>
+    <body>
+        <dom-module id="youtube-app">
+            <template>
+                <xdmvc-connection reconnect="false" peerport="9005" ajaxport="9006"></xdmvc-connection>
+                <xdmvc-synchronised id="sync"
+                                    objects='{{synced}}'>
+                </xdmvc-synchronised>
+                <xdmvc-roles id="roles"
+                             available='["player", "controller"]'
+                             roles="{{roles}}">
+                </xdmvc-roles>
+                <xdmvc-devices id="devices" devices="{{devices}}"></xdmvc-devices>
+                <template is="dom-if" if="{{roles.isselected.player}}">
+                    <template is="dom-if" if="{{synced.current.index}}">
+                        <google-youtube
+                                id="yt"
+                                video-id="{{synced.current.index}}"
+                                rel="0"
+                                start="0"
+                                autoplay="1"
+                                fluid
+                                on-google-youtube-state-change="handleStateChange">
+                        </google-youtube>
+                        <h3>{{synced.current.title}}</h3>
+                    </template>
+                    <template is="dom-if" if="{{!synced.current.index}}">
+                        <google-youtube
+                                id="yt"
+                                video-id=""
+                                rel="0"
+                                start="0"
+                                autoplay="0"
+                                fluid
+                                on-google-youtube-state-change="handleStateChange">
+                        </google-youtube>
+                    </template>
+                </template>
+                <template is="dom-if" if="{{roles.isselected.controller}}">
+                    <style>
+                        div {
+                            font-family: "Roboto";
+                        }
+
+                        h4, h3, img {
+                            margin: 5px;
+                        }
+
+                        h4 {
+                            text-shadow: 1px 1px 2px rgba(150, 150, 150, 1);
+                        }
+
+                        hr {
+                            clear: both;
+                        }
+
+                        .thumbnail {
+                            float: left;
+                            border-radius: 5px;
+                            box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.75);
+                        }
+
+                        span {
+                            font-size: 0.9em;
+                        }
+
+                        paper-button {
+                            float: right;
+                            margin: 5px;
+                            background-color: rgb(248, 248, 248);
+                        }
+
+                        paper-input {
+                            padding-top: 45px;
+                        }
+
+                        #youtube-logo {
+                            float: right;
+                            box-shadow: none;
+                            border-radius: 0px;
+                            width: 30vw;
+                        }
+
+                        #results {
+                            overflow-y: scroll;
+                            overflow-x: hidden;
+                            height: calc(100vh - 132px);
+                            width: calc(100vw - 16px);
+                        }
+                    </style>
+                    <img src="img/youtube.png" id="youtube-logo" alt="YouTube" />
+                    <paper-input label="Search video" id="query" value="{{searchTerm}}" on-keypress="inputKeyPressed" floatingLabel></paper-input>
+                    <paper-button id="searchButton" on-click="searchVideo" raised>Search</paper-button>
+                    <div>
+                        <div id="results">
+                            <template is="dom-repeat" items="{{searchResult}}">
+                                <div class="video" data-id="{{item.id}}">
+                                    <h4>{{item.title}}</h4>
+                                    <img class="thumbnail" src="{{item.thumbnail}}" />
+                                    <span>{{item.description}}</span>
+                                    <br />
+                                    <paper-button on-click="addToQueue" raised>Add to Queue</paper-button>
+                                    <hr />
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </dom-module>
+        <script>
+
+            Polymer({
+                is: "youtube-app",
+
+                properties: {
+                    synced: {
+                        type: Object,
+                        value: {"current": { "index": "", "title": ""}, "videoQueue": []},
+                        notify: true
+                    },
+                    searchResult: {
+                        type: Array,
+                        value: [],
+                        notify: true
+                    }
+                },
+
+                inputKeyPressed: function (ev) {
+                    if (ev.which === 13) {
+                        var button = document.getElementById("searchButton");
+                        button.click();
+                    }
+                },
+
+                contained: function(id) {
+                    var contained = this.synced.videoQueue.indexOf(id) !== -1;
+                    return contained;
+                },
+
+                updateVideo: function () {
+                    if (this.synced.videoQueue.length > 0) {
+                        var next = this.synced.videoQueue.shift();
+                        this.set("synced.current.index", next.id);
+                        this.set("synced.current.title", next.title);
+                    }
+                    else {
+                        this.set("synced.current.index", "");
+                    }
+                },
+
+                handleStateChange: function (ev) {
+                    //TODO: should be ev.data === YT.PlayerState.ENDED, but that does not work
+                    if (ev.detail.data === 0) {
+                        this.updateVideo();
+                    }
+                },
+
+                searchVideo: function () {
+                    var q = this.searchTerm,
+                        request = gapi.client.youtube.search.list({
+                        q: q,
+                        part: "snippet",
+                        type: "video",
+                        maxResults: 50
+                    });
+
+                    request.execute(function (response) {
+                        var result = response.items,
+                                videos = [];
+                        for (var i = 0, j = result.length; i < j; ++i) {
+                            videos.push({
+                                "id": result[i].id.videoId,
+                                "title": result[i].snippet.title,
+                                "description": result[i].snippet.description,
+                                "thumbnail": result[i].snippet.thumbnails.default.url
+                            });
+                        }
+                        var el = document.getElementById("app");
+                        el.searchResult = videos;
+                    });
+                },
+
+                addToQueue: function (ev) {
+                    var id = $(ev.target).closest(".video")[0].dataId;
+                    var index = this.searchResult.map(function (e) { return e.id; }).indexOf(id);
+                    this.synced.videoQueue.push({"id": id, "title": this.searchResult[index].title});
+                    if (this.synced.videoQueue.length === 1 && this.synced.current.index === "") {
+                        this.updateVideo();
+                    }
+                },
+
+                ready: function () {
+
+                    var connect = getQueryParams(window.location.search).connect;
+                    if (!connect) {
+                        var connectString = 'connect=' + XDmvc.deviceId;
+                        console.log("http://129.132.173.2:8082/galleryp2p.html/?" + connectString);
+                        window.history.pushState('', '', window.location.search.length > 0 ? window.location.search + "&" + connectString : '?' + connectString);
+                        this.$.roles.addRole('player');
+                    } else {
+                        if (connect !== XDmvc.deviceId) {
+                            if (XDmvc.server) {
+                                XDmvc.connectTo(getQueryParams(window.location.search).connect);
+                            } else { // not yet connected to server, wait for the connection event
+                                document.addEventListener("XDServer", function(){
+                                    XDmvc.connectTo(getQueryParams(window.location.search).connect);
+                                });
+                            }
+                            this.$.roles.addRole('controller');
+                        } else {
+                            this.$.roles.addRole('player');
+                        }
+                    }
+                }
+            });
+        </script>
+
+
+        <youtube-app id="app"></youtube-app>
+
+    </body>
+</html>
