@@ -37,27 +37,9 @@ $(document).ready(function () {
 
     //Remove an emulated device
     $(document).on("click", ".remove", function () {
-        var deviceIndex = this.dataset.deviceId;
-        $("#device-" + deviceIndex).remove();
-        $("#timeline-" + deviceIndex).remove();
-        $("*").tooltip("hide");
-        $(".js-device[data-device-id='" + deviceIndex + "']").remove();
-        activeDevices.splice(getDeviceIndex(deviceIndex), 1);
-        if (mainDevices.indexOf(deviceIndex) !== -1) {
-            removeMainDevice(deviceIndex);
-        }
-        var index = colors.map(function (e) { return e.id; }).indexOf(deviceIndex);
-        colors.splice(index, 1);
-        $.ajax({
-            type: "DELETE",
-            url: "http://localhost:8080/" + deviceIndex,
-            contentType: "application/json"
-        });
-        $(".line[data-device-id='" + deviceIndex + "']").each(function () {
-            $(this.nextSibling.nextSibling).remove();
-            $(this.nextSibling).remove();
-            $(this).remove();
-        });
+        var deviceId = this.dataset.deviceId,
+            index = getDeviceIndex(deviceId);
+        activeDevices[index].destroy();
     });
 
     //Add a new emulated device
@@ -173,9 +155,8 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
             defaultScaling = 1;
         }
         var url = new URL($("#url").val()),
-            device = new Device(deviceName, id, width, height, devicePixelRatio, $("#url").val(), url.hostname, defaultScaling, 1, 0, 0);
+            device = new LocalDevice(deviceName, id, width, height, devicePixelRatio, $("#url").val(), url.hostname, defaultScaling, 1, 0, 0);
         activeDevices.push(device);
-        makeMainDevice(device.id);
         device.create();
     });
 }
@@ -238,22 +219,22 @@ function appendDevice(device) {
     $device.find("h4").css("max-width", "calc(" + (device.width * device.scaling) + "px - 100px)");
 }
 
-function appendRemoteDevice(id) {
+function appendRemoteDevice(device) {
     $("#devices").append(
-        "<section draggable='false' data-device-id='" + id + "' class='device-container remote' id='device-" + id +"'>" +
+        "<section draggable='false' data-device-id='" + device.id + "' class='device-container remote' id='device-" + device.id +"'>" +
         "<div class='overlay hidden'></div>" +
         "<h4>Remote device</h4>" +
-        "<button type='button' data-device-id='" + id + "' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
+        "<button type='button' data-device-id='" + device.id + "' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
         "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>" +
         "</button>" +
-        "<span class='device-id'><b>Device ID: </b>" + id + "</span>" +
+        "<span class='device-id'><b>Device ID: </b>" + device.id + "</span>" +
         "<hr />" +
         "<section class='settings-panel'>" +
-        "<input data-device-id='" + id + "' type='url' class='form-control url' value='" + $("#url").val() + "' />" +
-        "<button type='button' class='btn btn-primary refresh' title='Refresh device' data-device-id='" + id + "'>" +
+        "<input data-device-id='" + device.id + "' type='url' class='form-control url' value='" + $("#url").val() + "' />" +
+        "<button type='button' class='btn btn-primary refresh' title='Refresh device' data-device-id='" + device.id + "'>" +
             "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
         "</button>" +
-        "<span class='left'>Layer: <input type='number' data-device-id='" + id + "' class='layer' value='1' /></span>" +
+        "<span class='left'>Layer: <input type='number' data-device-id='" + device.id + "' class='layer' value='1' /></span>" +
         "<br />" +
         "<div class='main'>" +
         "<input type='checkbox' name='main' class='toggle-main' value='main' checked>Main device" +
@@ -262,7 +243,7 @@ function appendRemoteDevice(id) {
         "</select>" +
         "</div>"
     );
-    var deviceSelect = $("#device-" + id + " .main-devices");
+    var deviceSelect = $("#device-" + device.id + " .main-devices");
     for (var i = 0, j = mainDevices.length; i < j; ++i) {
         $(deviceSelect).append(
             "<option data-device-id='" + mainDevices[i] + "' value='" + mainDevices[i] + "'>" + mainDevices[i] + "</option>"
@@ -272,8 +253,9 @@ function appendRemoteDevice(id) {
 
 function addDeviceTimeline(id, name) {
     var timeline = "<section class='device-timeline' id='timeline-" + id + "'>" +
-        "<h4>" + name + "</h4>";
-    if (remoteDevices.indexOf(id) === -1) {
+        "<h4>" + name + "</h4>",
+        index = getDeviceIndex(id);
+    if (!activeDevices[index].isRemote) {
         timeline = timeline + "<button type='button' class='btn btn-primary btn-sm record' data-device-id='" + id + "' data-recording='false' title='Start/stop recording'>" +
         "<span class='glyphicon glyphicon-record'></span>" +
         "</button>";
@@ -356,9 +338,19 @@ function getDevices() {
     ];
 }
 
-function Device(name, id, width, height, devicePixelRatio, url, originalHost, scaling, layer, top, left) {
-    this.name = name;
+function Device(id, url, layer, top, left, isRemote) {
     this.id = id;
+    this.url = url;
+    this.layer = layer;
+    this.top = top;
+    this.left = left;
+    this.isRemote = isRemote;
+    this.$device = null;
+}
+
+function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHost, scaling, layer, top, left, isRemote) {
+    Device.call(this, id, url, layer, top, left, isRemote);
+    this.name = name;
     this.width = width;
     this.height = height;
     this.devicePixelRatio = devicePixelRatio;
@@ -366,11 +358,11 @@ function Device(name, id, width, height, devicePixelRatio, url, originalHost, sc
     this.originalHost = "http://" + originalHost;
     this.host = "http://" + id + ".xdtest.com";
     this.scaling = scaling;
-    this.layer = layer;
-    this.top = top;
-    this.left = left;
     this.$device = null;
     this.toString = function () {
+        return JSON.stringify(this.getDevice());
+    };
+    this.getDevice = function () {
         var dev = {
             "name": this.name,
             "id": this.id,
@@ -383,8 +375,8 @@ function Device(name, id, width, height, devicePixelRatio, url, originalHost, sc
             "top": this.top,
             "left": this.left
         };
-        return JSON.stringify(dev);
-    };
+        return dev;
+    }
     this.setScaling = function (scale) {
         this.scaling = scale;
         this.$device.find(".range").get(0).value = scale;
@@ -424,6 +416,78 @@ function Device(name, id, width, height, devicePixelRatio, url, originalHost, sc
     this.create = function () {
         appendDevice(this);
         addDeviceTimeline(this.id, this.name);
+        makeMainDevice(this.id);
+        addCSSProperties(this.id);
         this.$device = $("#device-" + this.id);
+    };
+    this.sendCommand = function (command) {
+        this.$device.find("iframe")[0].contentWindow.postMessage(command.toString(), this.url);
+    };
+    this.destroy = function () {
+        this.$device.remove();
+        $("#timeline-" + this.id).remove();
+        $(".js-device[data-device-id='" + this.id + "']").remove();
+        if (mainDevices.indexOf(this.id) !== -1) {
+            removeMainDevice(this.id);
+        }
+        var index = colors.map(function (e) { return e.id; }).indexOf(this.id);
+        colors.splice(index, 1);
+        $.ajax({
+            type: "DELETE",
+            url: "http://localhost:8080/" + this.id,
+            contentType: "application/json"
+        });
+        $(".line[data-device-id='" + this.id + "']").each(function () {
+            $(this.nextSibling.nextSibling).remove();
+            $(this.nextSibling).remove();
+            $(this).remove();
+        });
+    };
+}
+
+function RemoteDevice(id, url, layer, top, left, isRemote) {
+    Device.call(this, id, url, layer, top, left, isRemote);
+    this.name = this.id;
+    this.setLayer = function (layer) {
+        this.layer = layer;
+        this.$device.css("z-index", $("#device-" + this.id + " .layer").val());
+    };
+    this.loadURL = function (url) {
+        this.url = url;
+        this.$device.find(".url").val(url);
+        socket.emit("load", url, this.id);
+    };
+    this.reloadURL = function () {
+        socket.emit("refresh", this.id);
+    };
+    this.create = function () {
+        appendRemoteDevice(this);
+        addDeviceTimeline(this.id, this.name);
+        makeMainDevice(this.id);
+        addCSSProperties(this.id);
+        this.$device = $("#device-" + this.id);
+    };
+    this.sendCommand = function (command) {
+        socket.emit("command", command.toString(), this.id);
+    };
+    this.destroy = function () {
+        this.$device.remove();
+        $("#timeline-" + this.id).remove();
+        $(".js-device[data-device-id='" + this.id + "']").remove();
+        if (mainDevices.indexOf(this.id) !== -1) {
+            removeMainDevice(this.id);
+        }
+        var index = colors.map(function (e) { return e.id; }).indexOf(this.id);
+        colors.splice(index, 1);
+        $.ajax({
+            type: "DELETE",
+            url: "http://localhost:8080/" + this.id,
+            contentType: "application/json"
+        });
+        $(".line[data-device-id='" + this.id + "']").each(function () {
+            $(this.nextSibling.nextSibling).remove();
+            $(this.nextSibling).remove();
+            $(this).remove();
+        });
     };
 }

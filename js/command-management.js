@@ -8,70 +8,51 @@ $(document).ready(function () {
 
     socket.on("command", function (command, deviceId) {
         command = JSON.parse(command);
-        if (command.name === "log") {
-            appendLogToHistory(command.msg, deviceId);
-        }
-        else if (command.name === "info") {
-            appendInfoToHistory(command.msg, deviceId)
-        }
-        else if (command.name === "warn") {
-            appendWarnToHistory(command.msg, deviceId);
-        }
-        else if (command.name === "error") {
-            appendErrorToHistory(command.msg, deviceId);
-        }
-        else if (command.name === "loaded") {
-            addCSSProperties(deviceId);
-            $("#device-" + deviceId + " .url").val(command.url);
-            //var index = getDeviceIndex(deviceId);
-            //activeDevices[index].url = command.url;
-        }
-        else if (command.name === "breakpointReached") {
-            pause(command);
-        }
-        else {
-            console.error("Unknown command");
-        }
+        processCommand(command, deviceId);
     });
 
     window.addEventListener("message", function (ev) {
         var command = JSON.parse(ev.data),
             url = new URL(ev.origin),
             deviceId = url.hostname.substring(0, url.hostname.length - 11);
-        if (command.name === "log") {
-            appendLogToHistory(command.msg, deviceId);
-        }
-        else if (command.name === "info") {
-            appendInfoToHistory(command.msg, deviceId);
-        }
-        else if (command.name === "warn") {
-            appendWarnToHistory(command.msg, deviceId);
-        }
-        else if (command.name === "error") {
-            appendErrorToHistory(command.msg, deviceId);
-        }
-        else if (command.name === "loaded") {
-            addCSSProperties(deviceId);
-            $("#device-" + deviceId + " .url").val(command.url);
-            var index = getDeviceIndex(deviceId);
-            activeDevices[index].url = command.url;
-        }
-        else if (command.name === "sendEventSequence") {
-            if (!events[command.deviceId]) {
-                events[command.deviceId] = [];
-            }
-            events[command.deviceId].push({"name": "unnamed sequence", "sequence": adjustTiming(command.eventSequence), "position": -1});
-            visualizeEventSequences(command.deviceId);
-        }
-        else if (command.name === "breakpointReached") {
-            pause(command);
-        }
-        else {
-            console.error("Unknown command");
-        }
+        processCommand(command, deviceId);
     }, false);
 
 });
+
+function processCommand(command, deviceId) {
+    if (command.name === "log") {
+        appendLogToHistory(command.msg, deviceId);
+    }
+    else if (command.name === "info") {
+        appendInfoToHistory(command.msg, deviceId);
+    }
+    else if (command.name === "warn") {
+        appendWarnToHistory(command.msg, deviceId);
+    }
+    else if (command.name === "error") {
+        appendErrorToHistory(command.msg, deviceId);
+    }
+    else if (command.name === "loaded") {
+        addCSSProperties(deviceId);
+        $("#device-" + deviceId + " .url").val(command.url);
+        var index = getDeviceIndex(deviceId);
+        activeDevices[index].url = command.url;
+    }
+    else if (command.name === "sendEventSequence") {
+        if (!events[command.deviceId]) {
+            events[command.deviceId] = [];
+        }
+        events[command.deviceId].push({"name": "unnamed sequence", "sequence": adjustTiming(command.eventSequence), "position": -1});
+        visualizeEventSequences(command.deviceId);
+    }
+    else if (command.name === "breakpointReached") {
+        pause(command);
+    }
+    else {
+        console.error("Unknown command");
+    }
+}
 
 function Command(name, deviceId) {
     this.name = name;

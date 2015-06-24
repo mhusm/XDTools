@@ -9,8 +9,15 @@ $(document).ready(function () {
 
     //Refresh all devices
     $("#refresh-button").click(function () {
-        socket.emit("refresh");
         refreshAllDevices();
+    });
+
+    //Remove all devices
+    $("#clear-button").click(function () {
+        for (var i = 0; i < activeDevices.length; ++i) {
+            activeDevices[i].destroy();
+        }
+        activeDevices = [];
     });
 
     //Load URL on all device when the user hits enter or the input field loses focus
@@ -103,42 +110,23 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".refresh", function () {
-        var deviceId = $(this).data("device-id");
-        if (remoteDevices.indexOf(deviceId) !== -1) {
-            socket.emit("refresh", deviceId);
-        }
-        else {
-            var index = getDeviceIndex(deviceId);
-            activeDevices[index].reloadURL();
-        }
+        var index = getDeviceIndex(this.dataset.deviceId);
+        activeDevices[index].reloadURL();
     });
 });
 
 function connectDevice(deviceId, mainDeviceId) {
-    if (remoteDevices.indexOf(mainDeviceId) !== -1) {
+    var deviceIndex = getDeviceIndex(deviceId),
+        mainDeviceIndex = getDeviceIndex(mainDeviceId);
+    if (activeDevices[mainDeviceIndex].isRemote) {
         //Connect to remote device
         var url = $("#device-" + mainDeviceId + " .url").val();
-        if (remoteDevices.indexOf(deviceId) !== -1) {
-            $("#device-" + deviceId + " .url").val(url);
-            socket.emit("load", url, deviceId);
-        }
-        else {
-            var deviceIndex = getDeviceIndex(deviceId);
-            activeDevices[deviceIndex].loadURL(url);
-        }
+        activeDevices[deviceIndex].loadURL(url);
     }
     else {
         //Connect to local device
-        var mainDeviceIndex = getDeviceIndex(mainDeviceId),
-            url = activeDevices[mainDeviceIndex].url.replace(activeDevices[mainDeviceIndex].host, activeDevices[mainDeviceIndex].originalHost);
-        if (remoteDevices.indexOf(deviceId) !== -1) {
-            $("#device-" + deviceId + " .url").val(url);
-            socket.emit("load", url, deviceId);
-        }
-        else {
-            var deviceIndex = getDeviceIndex(deviceId);
-            activeDevices[deviceIndex].loadURL(url);
-        }
+        var url = activeDevices[mainDeviceIndex].url.replace(activeDevices[mainDeviceIndex].host, activeDevices[mainDeviceIndex].originalHost);
+        activeDevices[deviceIndex].loadURL(url);
     }
     $("#sessions").find("li[data-device-id='" + deviceId + "']").remove();
     $(".session[data-device-id='" + mainDeviceId + "'] ul").append("<li data-device-id='" + deviceId + "'><span class='session-device'>" + deviceId + "</span></li>");
@@ -198,7 +186,7 @@ function dropDevice(ev) {
     ev.preventDefault();
     //update position of the element
     var id = ev.originalEvent.dataTransfer.getData("id"),
-        index = activeDevices.map(function (e) { return e.id; }).indexOf(id);
+        index = getDeviceIndex(id);
     $("#device-" + id).css({
         "left": ev.originalEvent.clientX + parseInt(ev.originalEvent.dataTransfer.getData("xOffset")) + "px",
         "top": ev.originalEvent.clientY + parseInt(ev.originalEvent.dataTransfer.getData("yOffset")) + "px"

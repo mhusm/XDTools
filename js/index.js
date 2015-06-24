@@ -2,8 +2,7 @@
 
 var activeDevices = [],
     url = new URL(window.location.href),
-    socket = io(":" + (url.port || 80) + "/local"),
-    remoteDevices = [];
+    socket = io(":" + (url.port || 80) + "/local");
 
 $(document).ready(function () {
 
@@ -20,26 +19,15 @@ $(document).ready(function () {
     });
 
     socket.on("remoteDeviceConnected", function (id) {
-        remoteDevices.push(id);
-        appendRemoteDevice(id);
-        addDeviceTimeline(id, id);
-        addCSSProperties(id);
-        makeMainDevice(id);
+        var device = new RemoteDevice(id, $("#url").val(), 0, 0, 0, true);
+        activeDevices.push(device);
+        device.create();
     });
 
     socket.on("remoteDeviceDisconnected", function (id) {
-        remoteDevices.splice(remoteDevices.indexOf(id), 1);
-        var index = colors.map(function (e) { return e.id; }).indexOf(id);
-        colors.splice(index, 1);
-        $(".js-device[data-device-id='" + id + "']").remove();
-        $("#timeline-" + id).remove();
-        $(".line[data-device-id='" + id + "']").each(function () {
-            $(this.nextSibling.nextSibling).remove();
-            $(this.nextSibling).remove();
-            $(this).remove();
-        });
-        $("#device-" + id).remove();
-        removeMainDevice(id);
+        var index = getDeviceIndex(id);
+        activeDevices[index].destroy();
+        activeDevices.splice(index, 1);
     });
 
     //Make elements non-draggable after dragging

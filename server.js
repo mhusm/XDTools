@@ -47,12 +47,12 @@ local.on("connection", function (socket) {
         else {
             console.log("Load URL '" + newUrl + "' on all devices");
             url = newUrl;
-            remote.emit("load", url);
+            //remote.emit("load", url);
         }
     });
-    socket.on("requestID", function () {
+    socket.on("requestID", function (index) {
         var newID = shortid.generate();
-        socket.emit("receiveID", newID.toLowerCase());
+        socket.emit("receiveID", newID.toLowerCase(), index);
     });
     socket.on("command", function (command, deviceID) {
         if (deviceID) {

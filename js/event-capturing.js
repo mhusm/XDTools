@@ -45,13 +45,12 @@ $(document).ready(function () {
     $("#continue-button").click(function () {
         var command = new Command("continue", 0);
         for (var i = 0, j = activeDevices.length; i < j; ++i) {
-            command.send($("#device-" + activeDevices[i].id + " iframe")[0], activeDevices[i].url);
+            activeDevices[i].sendCommand(command);
         }
         $(this).addClass("disabled").css({
             "border": "1px solid #ccc"
         });
         $(".breakpoint").css("opacity", 0.5);
-        socket.emit("command", command.toString());
     }).on("dragover", allowDrop).on("drop", dropBreakpoint);
 
     //start/stop recording
@@ -69,7 +68,7 @@ $(document).ready(function () {
             $(this).data("recording", true);
             $(this).find(".glyphicon").removeClass("glyphicon-record").addClass("glyphicon-stop");
         }
-        command.send($("#device-" + deviceId + " iframe")[0], activeDevices[index].url);
+        activeDevices[index].sendCommand(command);
     });
 
     //Display the selected event sequence for a device
@@ -114,19 +113,7 @@ $(document).ready(function () {
                     eventSequences.push({"startTime": curPos * 10, "sequence": events[activeDevices[i].id][k].sequence});
                 }
                 var command = new ReplayCommand("startReplaying", activeDevices[i].id, eventSequences, breakpoints);
-                command.send($("#device-" + activeDevices[i].id + " iframe")[0], activeDevices[i].url);
-            }
-        }
-        for (i = 0, j = remoteDevices.length; i < j; ++i) {
-            eventSequences = [];
-            if (events[remoteDevices[i]] && events[remoteDevices[i]].length > 0) {
-                for (k = 0; k < events[remoteDevices[i]].length; ++k) {
-                    var $timeline = $("#timeline-" + remoteDevices[i]),
-                        curPos = $timeline.find(".content[data-sequence-id='" + k + "']  .label-primary").offset().top - $timeline.find(".content[data-sequence-id='" + k + "']").parent().offset().top;
-                    eventSequences.push({"startTime": curPos * 10, "sequence": events[remoteDevices[i]][k].sequence});
-                }
-                var command = new ReplayCommand("startReplaying", remoteDevices[i], eventSequences, breakpoints);
-                socket.emit("command", command.toString(), remoteDevices[i]);
+                activeDevices[i].sendCommand(command);
             }
         }
     });
@@ -141,12 +128,7 @@ $(document).ready(function () {
             eventSequences.push({"startTime": curPos * 10, "sequence": events[deviceId][k].sequence});
         }
         var command = new ReplayCommand("startReplaying", deviceId, eventSequences, breakpoints);
-        if (remoteDevices.indexOf(deviceId) !== -1) {
-            socket.emit("command", command.toString(), remoteDevices[i]);
-        }
-        else {
-            command.send($("#device-" + deviceId + " iframe")[0], activeDevices[index].url);
-        }
+        activeDevices[index].sendCommand(command);
     });
 
     $(document).on("mousedown", ".content", function (ev) {

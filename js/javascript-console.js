@@ -133,15 +133,9 @@ function sendJavascriptCommand(code) {
     }
     else {
         $(".js-device.active").each(function () {
-            if (remoteDevices.indexOf(this.dataset.deviceId) !== -1) {
-                var command = new JSCommand("executeJS", this.dataset.deviceId, code);
-                socket.emit("command", command.toString(), this.dataset.deviceId);
-            }
-            else {
-                var i = getDeviceIndex(this.dataset.deviceId),
-                    command = new JSCommand("executeJS", activeDevices[i].id, code);
-                command.send($("#device-" + activeDevices[i].id + " iframe")[0], activeDevices[i].url);
-            }
+            var index = getDeviceIndex(this.dataset.deviceId),
+                command = new JSCommand("executeJS", activeDevices[index].id, code);
+            activeDevices[index].sendCommand(command);
         });
     }
 }

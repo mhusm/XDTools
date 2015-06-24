@@ -43,7 +43,9 @@ $(document).ready(function () {
             elementsToStore = [],
             i, j;
         for (i = 0, j = activeDevices.length; i < j; ++i) {
-            elementsToStore.push(activeDevices[i]);
+            if (!activeDevices[i].isRemote) {
+                elementsToStore.push(activeDevices[i].getDevice());
+            }
         }
         localStorage.setItem("stored-session-" + sessionName, JSON.stringify(elementsToStore));
         if (savedSessions.indexOf(sessionName) === -1) {
@@ -67,10 +69,20 @@ $(document).ready(function () {
             i, j;
         $("#devices").empty();
         activeDevices = [];
-        for (i = 0, j = devices.length; i < j; ++i) {
-            var device = new Device(devices[i].name, devices[i].id, devices[i].width, devices[i].height, devices[i].devicePixelRatio, devices[i].url, devices[i].scaling, devices[i].layer, devices[i].top, devices[i].left);
-            activeDevices.push(device);
-            device.create();
-        }
+        loadDevice(devices, 0);
     });
 });
+
+function loadDevice(devices, i) {
+    socket.emit("requestID", i);
+    socket.once("receiveID", function(id, index) {
+        var url = new URL($("#url").val()),
+            device = new LocalDevice(devices[index].name, id, devices[index].width, devices[index].height, devices[index].devicePixelRatio, $("#url").val(), url.hostname, devices[index].scaling, devices[index].scaling, devices[index].top, devices[index].left);
+        activeDevices.push(device);
+        makeMainDevice(device.id);
+        device.create();
+        if (index + 1 < devices.length) {
+            loadDevice(devices, index + 1);
+        }
+    });
+}

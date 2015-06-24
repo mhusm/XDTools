@@ -231,62 +231,36 @@ function getCSSProperties() {
 //Adds all CSS properties from the editor to a specific device
 function addCSSProperties(deviceId) {
     if ($(".js-device[data-device-id='" + deviceId + "']").hasClass("active")) {
-        var properties = getCSSProperties();
-        if (remoteDevices.indexOf(deviceId) !== -1) {
-            for (var i = 0, j = properties.length; i < j; ++i) {
-                var command = new CSSCommand("updateCSS", deviceId, properties[i].identifier, properties[i].property, properties[i].value);
-                socket.emit("command", command.toString(), deviceId);
-            }
-        }
-        else {
-            for (var i = 0, j = properties.length; i < j; ++i) {
-                var command = new CSSCommand("updateCSS", deviceId, properties[i].identifier, properties[i].property, properties[i].value),
-                    index = getDeviceIndex(deviceId);
-                command.send($("#device-" + deviceId + " iframe")[0], activeDevices[index].url);
-            }
+        var properties = getCSSProperties(),
+            index = getDeviceIndex(deviceId);
+        for (var i = 0, j = properties.length; i < j; ++i) {
+            var command = new CSSCommand("updateCSS", deviceId, properties[i].identifier, properties[i].property, properties[i].value);
+            activeDevices[index].sendCommand(command);
         }
     }
 }
 
 //Removes all CSS properties from a device if it is deactivated
 function removeCSSProperties(deviceId) {
-    if (remoteDevices.indexOf(deviceId) !== -1) {
-        var command = new CSSCommand("resetCSS", deviceId, "", "", "");
-        socket.emit("command", command.toString(), deviceId);
-    }
-    else {
-        var command = new CSSCommand("resetCSS", deviceId, "", "", ""),
-            index = getDeviceIndex(deviceId);
-        command.send($("#device-" + deviceId + " iframe")[0], activeDevices[index].url);
-    }
+    var index = getDeviceIndex(deviceId),
+        command = new CSSCommand("resetCSS", deviceId, "", "", "");
+    activeDevices[index].sendCommand(command);
 }
 
 //Reactivates all CSS properties that are in the editor when a device is reactivated
 function reactivateCSSProperties(deviceId) {
-    if (remoteDevices.indexOf(deviceId) !== -1) {
-        var command = new CSSCommand("reactivateCSS", deviceId, "", "", "");
-        socket.emit("command", command.toString(), deviceId);
-    }
-    else {
-        var command = new CSSCommand("reactivateCSS", deviceId, "", "", ""),
-            index = getDeviceIndex(deviceId);
-        command.send($("#device-" + deviceId + " iframe")[0], activeDevices[index].url);
-    }
+    var command = new CSSCommand("reactivateCSS", deviceId, "", "", ""),
+        index = getDeviceIndex(deviceId);
+    activeDevices[index].sendCommand(command);
 }
 
 //Adds a CSS property to all devices that are active
 function addCSSProperty(name, identifier, property, value) {
     if (property && property in document.body.style && identifier && (value || name === "restore")) {
         $(".js-device.active").each(function () {
-            if (remoteDevices.indexOf(this.dataset.deviceId) !== -1) {
-                var command = new CSSCommand(name, this.dataset.deviceId, identifier, property, value);
-                socket.emit("command", command.toString(), this.dataset.deviceId);
-            }
-            else {
-                var i = getDeviceIndex(this.dataset.deviceId),
-                    command = new CSSCommand(name, activeDevices[i].id, identifier, property, value);
-                command.send($("#device-" + activeDevices[i].id + " iframe")[0], activeDevices[i].url);
-            }
+            var index = getDeviceIndex(this.dataset.deviceId),
+                command = new CSSCommand(name, activeDevices[index].id, identifier, property, value);
+            activeDevices[index].sendCommand(command);
         });
     }
 }
