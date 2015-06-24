@@ -146,7 +146,7 @@ body {
 #css-console {
     border-left: 5px solid #337ab7;
     width: calc(30% - 10px);
-    float: right;
+    float: left;
     height: 100%;
     margin: 5px;
     padding-left: 10px;
@@ -157,8 +157,29 @@ body {
     height: calc(100% - 29px);
 }
 
+#sessions {
+    margin: 5px;
+    padding-left: 10px;
+    border-left: 5px solid #337ab7;
+    width: calc(20% - 10px);
+    height: 100%;
+    float: left;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.session {
+    background-color: #f7f7f9;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-weight: bold;
+}
+
 #javascript-console {
-    width: calc(70% - 10px);
+    width: calc(50% - 10px);
     height: calc(100% - 10px);
     margin: 5px;
     display: flex;
@@ -203,6 +224,26 @@ body {
 
 #toggle-js-console {
     background-image: none;
+}
+
+.device-id {
+    clear: left;
+    float: left;
+    margin: 5px 0;
+}
+
+.main  {
+    clear: both;
+}
+
+.overlay {
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
+    background-color: rgba(227, 227, 229, 0.5);
+    z-index: 20;
+    position: absolute;
+    left: -10px;
+    top: -10px;
 }
 
 .css-property {
@@ -303,9 +344,17 @@ body {
     z-index: 1;
 }
 
+.device-container.remote {
+    width: 300px;
+}
+
 .device-container iframe {
     transform: scale(0.5);
     transform-origin: 0 0;
+}
+
+.device-container h4 {
+    margin-bottom: 0;
 }
 
 .vertical-rule {

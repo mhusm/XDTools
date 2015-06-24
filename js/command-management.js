@@ -22,6 +22,9 @@ $(document).ready(function () {
         }
         else if (command.name === "loaded") {
             addCSSProperties(deviceId);
+            $("#device-" + deviceId + " .url").val(command.url);
+            //var index = getDeviceIndex(deviceId);
+            //activeDevices[index].url = command.url;
         }
         else if (command.name === "breakpointReached") {
             pause(command);
@@ -50,6 +53,8 @@ $(document).ready(function () {
         else if (command.name === "loaded") {
             addCSSProperties(deviceId);
             $("#device-" + deviceId + " .url").val(command.url);
+            var index = getDeviceIndex(deviceId);
+            activeDevices[index].url = command.url;
         }
         else if (command.name === "sendEventSequence") {
             if (!events[command.deviceId]) {

@@ -2,6 +2,8 @@
     This file covers everything related to creating/removing devices and saving custom devices.
 */
 
+var mainDevices = [];
+
 $(document).ready(function () {
 
     var devices = getDevices(),
@@ -41,6 +43,9 @@ $(document).ready(function () {
         $("*").tooltip("hide");
         $(".js-device[data-device-id='" + deviceIndex + "']").remove();
         activeDevices.splice(getDeviceIndex(deviceIndex), 1);
+        if (mainDevices.indexOf(deviceIndex) !== -1) {
+            removeMainDevice(deviceIndex);
+        }
         var index = colors.map(function (e) { return e.id; }).indexOf(deviceIndex);
         colors.splice(index, 1);
         $.ajax({
@@ -167,15 +172,18 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
         if (width < 500 || height < 500) {
             defaultScaling = 1;
         }
-        var device = new Device(deviceName, id, width, height, devicePixelRatio, rewriteURL($("#url").val(), id), defaultScaling, 1, 0, 0);
+        var url = new URL($("#url").val()),
+            device = new Device(deviceName, id, width, height, devicePixelRatio, $("#url").val(), url.hostname, defaultScaling, 1, 0, 0);
         activeDevices.push(device);
+        makeMainDevice(device.id);
         device.create();
     });
 }
 
 function appendDevice(device) {
     $("#devices").append(
-        "<section draggable='false' class='device-container' id='device-" + device.id +"'>" +
+        "<section draggable='false' data-device-id='" + device.id + "' class='device-container' id='device-" + device.id +"'>" +
+            "<div class='overlay hidden'></div>" +
             "<h4>" + device.name + "</h4>" +
             "<button type='button' class='btn btn-primary remove' data-device-id='" + device.id + "'>" +
                 "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
@@ -183,6 +191,7 @@ function appendDevice(device) {
             "<button type='button' data-device-id='" + device.id + "' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
                 "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>" +
             "</button>" +
+            "<span class='device-id'><b>Device ID: </b>" + device.id + "</span>" +
             "<hr />" +
             "<section class='settings-panel'>" +
                 "<input data-device-id='" + device.id + "' type='url' class='form-control url' value='" + device.url + "' />" +
@@ -193,11 +202,27 @@ function appendDevice(device) {
                 "<button type='button' class='btn btn-primary scale' title='Set scaling factor to 1' data-device-id='" + device.id + "'>" +
                     "<span class='glyphicon glyphicon-fullscreen' aria-hidden='true'></span>" +
                 "</button>" +
+                "<button type='button' class='btn btn-primary refresh' title='Refresh device' data-device-id='" + device.id + "'>" +
+                    "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
+                "</button>" +
                 "<span class='left'>Layer: <input type='number' data-device-id='" + device.id + "' class='layer' value='1' /></span>" +
+                "<br />" +
+                "<div class='main'>" +
+                    "<input type='checkbox' name='main' class='toggle-main' value='main' checked>Main device" +
+                    "<select class='form-control main-devices hidden' name='main-devices' placeholder='Connect to device'>" +
+                        "<option value='' disabled selected style='display:none;'>Connect to device</option>" +
+                    "</select>" +
+                "</div><br />" +
             "</section>" +
             "<iframe data-device-id='" + device.id + "' src='" + device.url + "'></iframe>" +
         "</section>"
     );
+    var deviceSelect = $("#device-" + device.id + " .main-devices");
+    for (var i = 0, j = mainDevices.length; i < j; ++i) {
+        $(deviceSelect).append(
+            "<option data-device-id='" + mainDevices[i] + "' value='" + mainDevices[i] + "'>" + mainDevices[i] + "</option>"
+        );
+    }
     var $device = $("#device-" + device.id);
     $device.css({
         "top": device.top + "px",
@@ -211,6 +236,38 @@ function appendDevice(device) {
         "height": device.height
     });
     $device.find("h4").css("max-width", "calc(" + (device.width * device.scaling) + "px - 100px)");
+}
+
+function appendRemoteDevice(id) {
+    $("#devices").append(
+        "<section draggable='false' data-device-id='" + id + "' class='device-container remote' id='device-" + id +"'>" +
+        "<div class='overlay hidden'></div>" +
+        "<h4>Remote device</h4>" +
+        "<button type='button' data-device-id='" + id + "' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
+        "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>" +
+        "</button>" +
+        "<span class='device-id'><b>Device ID: </b>" + id + "</span>" +
+        "<hr />" +
+        "<section class='settings-panel'>" +
+        "<input data-device-id='" + id + "' type='url' class='form-control url' value='" + $("#url").val() + "' />" +
+        "<button type='button' class='btn btn-primary refresh' title='Refresh device' data-device-id='" + id + "'>" +
+            "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
+        "</button>" +
+        "<span class='left'>Layer: <input type='number' data-device-id='" + id + "' class='layer' value='1' /></span>" +
+        "<br />" +
+        "<div class='main'>" +
+        "<input type='checkbox' name='main' class='toggle-main' value='main' checked>Main device" +
+        "<select class='form-control main-devices hidden' name='main-devices' placeholder='Connect to device'>" +
+            "<option value='' disabled selected style='display:none;'>Connect to device</option>" +
+        "</select>" +
+        "</div>"
+    );
+    var deviceSelect = $("#device-" + id + " .main-devices");
+    for (var i = 0, j = mainDevices.length; i < j; ++i) {
+        $(deviceSelect).append(
+            "<option data-device-id='" + mainDevices[i] + "' value='" + mainDevices[i] + "'>" + mainDevices[i] + "</option>"
+        );
+    }
 }
 
 function addDeviceTimeline(id, name) {
@@ -299,13 +356,15 @@ function getDevices() {
     ];
 }
 
-function Device(name, id, width, height, devicePixelRatio, url, scaling, layer, top, left) {
+function Device(name, id, width, height, devicePixelRatio, url, originalHost, scaling, layer, top, left) {
     this.name = name;
     this.id = id;
     this.width = width;
     this.height = height;
     this.devicePixelRatio = devicePixelRatio;
-    this.url = url;
+    this.url = rewriteURL(url, this.id);
+    this.originalHost = "http://" + originalHost;
+    this.host = "http://" + id + ".xdtest.com";
     this.scaling = scaling;
     this.layer = layer;
     this.top = top;
@@ -342,10 +401,9 @@ function Device(name, id, width, height, devicePixelRatio, url, scaling, layer, 
         this.$device.css("z-index", $("#device-" + this.id + " .layer").val());
     };
     this.loadURL = function (url) {
-        url = rewriteURL(url, this.id);
-        this.url = url;
-        this.$device.find("iframe").attr("src", url);
-        this.$device.find(".url").val(url);
+        this.url = rewriteURL(url, this.id);
+        this.$device.find("iframe").attr("src", this.url);
+        this.$device.find(".url").val(this.url);
         addCSSProperties(this.id);
     };
     this.reloadURL = function () {

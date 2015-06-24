@@ -21,8 +21,10 @@ $(document).ready(function () {
 
     socket.on("remoteDeviceConnected", function (id) {
         remoteDevices.push(id);
+        appendRemoteDevice(id);
         addDeviceTimeline(id, id);
         addCSSProperties(id);
+        makeMainDevice(id);
     });
 
     socket.on("remoteDeviceDisconnected", function (id) {
@@ -36,6 +38,8 @@ $(document).ready(function () {
             $(this.nextSibling).remove();
             $(this).remove();
         });
+        $("#device-" + id).remove();
+        removeMainDevice(id);
     });
 
     //Make elements non-draggable after dragging

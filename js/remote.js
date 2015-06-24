@@ -14,9 +14,9 @@ var XDTest = {
         "drop",           //Safari, Chrome
         "mousedown",     //all major browsers
         //TODO: temporarily disabled for debugging
-        "mousemove",   //all major browsers           deactivated because it causes too many events
-        "mouseout",      //all major browsers
-        "mouseover",     //all major browsers
+        //"mousemove",   //all major browsers           deactivated because it causes too many events
+        //"mouseout",      //all major browsers
+        //"mouseover",     //all major browsers
         "mouseup"        //all major browsers
         /* The following events are not supported by Chrome
          "mousewheel",       //Opera
@@ -47,12 +47,13 @@ var XDTest = {
          */
     ],
     mutationEvents: [
-        "DOMCharacterDataModified",    //all major browsers
-        "DOMNodeInserted",             //all major browsers
-        "DOMNodeInsertedIntoDocument", //Opera, Safari, Chrome
-        "DOMNodeRemoved",              //all major browsers
-        "DOMNodeRemovedFromDocument",  //Opera, Safari, Chrome
-        "DOMSubtreeModified"          //IE, Firefox, Safari, Chrome
+        //TODO: The following events are temporarily disabled because of bugs
+        //"DOMCharacterDataModified",    //all major browsers
+        //"DOMNodeInserted",             //all major browsers
+        //"DOMNodeInsertedIntoDocument", //Opera, Safari, Chrome
+        //"DOMNodeRemoved",              //all major browsers
+        //"DOMNodeRemovedFromDocument",  //Opera, Safari, Chrome
+        //"DOMSubtreeModified"          //IE, Firefox, Safari, Chrome
         /* The following events are not supported by Chrome
          "DOMAttrModified"              //IE, Firefox, Opera
          */
@@ -92,7 +93,7 @@ var XDTest = {
         "focus",                       //Firefox, Opera, Safari, Chrome
         "hashchange",                  //all major browsers
         "input",                       //all major browsers
-        "load",                        //all major browsers
+        //"load",                        //all major browsers
         "message",                     //all major browsers
         "paste",                       //Firefox, Safari, Chrome
         "RadioStateChange",            //Firefox, Safari, Chrome
@@ -250,21 +251,24 @@ var XDTest = {
     },
     getModifiers: function (ev) {
         var modifiers = [];
-        if (ev.originalEvent.altKey) {
+        if (ev.altKey) {
             modifiers.push("Alt");
         }
-        if (ev.originalEvent.ctrlKey) {
+        if (ev.ctrlKey) {
             modifiers.push("Control");
         }
-        if (ev.originalEvent.metaKey) {
+        if (ev.metaKey) {
             modifiers.push("Meta");
         }
-        if (ev.originalEvent.shiftKey) {
+        if (ev.shiftKey) {
             modifiers.push("Shift");
         }
         return modifiers.join(" ");
     },
     determineHierarchy: function (path) {
+        if (path.length === 0) {
+            return [];
+        }
         var curElement = path.shift(),
             hierarchy = [];
         while (curElement.nodeName !== "BODY" && curElement.nodeName !== "HTML" && curElement.nodeName !== "#document") {
@@ -394,6 +398,20 @@ function initialize() {
         "url": window.location.href
     };
     window.parent.postMessage(JSON.stringify(command), "*");
+
+    var location = window.location.href;
+    setInterval(function()
+    {
+        if(location != window.location.href)
+        {
+            location = window.location.href;
+            var command = {
+                "name": "loaded",
+                "url": window.location.href
+            };
+            window.parent.postMessage(JSON.stringify(command), "*");
+        }
+    }, 200);
 
     console.log = function (args) {
         var command = {

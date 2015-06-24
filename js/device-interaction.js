@@ -13,13 +13,13 @@ $(document).ready(function () {
         refreshAllDevices();
     });
 
-    //reload URL on all device when the user hits enter or the input field loses focus
+    //Load URL on all device when the user hits enter or the input field loses focus
     $url.blur(function () {
         socket.emit("load", $url.val());
         loadURLOnAllDevices($url.val());
     }).keyup(function (ev) {
         if (ev.which === 13) {
-            $("#url").blur();
+            $url.blur();
         }
     });
 
@@ -30,6 +30,34 @@ $(document).ready(function () {
     //show/hide device settings
     $(document).on("click", ".settings-button", function () {
         $("#device-" + this.dataset.deviceId + " .settings-panel").slideToggle();
+    });
+
+    $(document).on("click", ".toggle-main", function () {
+        var parent = $(this).closest(".device-container");
+        parent.find(".main-devices").toggleClass("hidden");
+        var deviceId = parent.data("device-id");
+        if ($(this).is(":checked")) {
+            makeMainDevice(deviceId);
+        }
+        else {
+            removeMainDevice(deviceId);
+        }
+    });
+
+    $(document).on("mouseover", ".session-device", function () {
+        var deviceId = $(this).text();
+        $("#device-" + deviceId).find(".overlay").removeClass("hidden");
+    });
+
+    $(document).on("mouseout", ".session-device", function () {
+        var deviceId = $(this).text();
+        $("#device-" + deviceId).find(".overlay").addClass("hidden");
+    });
+
+    $(document).on("change", ".main-devices", function () {
+        var deviceId = $(this).closest(".device-container").data("device-id"),
+            mainDeviceId = $(this).val();
+        connectDevice(deviceId, mainDeviceId);
     });
 
     //Make the device draggable when clicked on the border
@@ -73,7 +101,66 @@ $(document).ready(function () {
         var index = getDeviceIndex(this.dataset.deviceId);
         activeDevices[index].setScaling($(this).val());
     });
+
+    $(document).on("click", ".refresh", function () {
+        var deviceId = $(this).data("device-id");
+        if (remoteDevices.indexOf(deviceId) !== -1) {
+            socket.emit("refresh", deviceId);
+        }
+        else {
+            var index = getDeviceIndex(deviceId);
+            activeDevices[index].reloadURL();
+        }
+    });
 });
+
+function connectDevice(deviceId, mainDeviceId) {
+    if (remoteDevices.indexOf(mainDeviceId) !== -1) {
+        //Connect to remote device
+        var url = $("#device-" + mainDeviceId + " .url").val();
+        if (remoteDevices.indexOf(deviceId) !== -1) {
+            $("#device-" + deviceId + " .url").val(url);
+            socket.emit("load", url, deviceId);
+        }
+        else {
+            var deviceIndex = getDeviceIndex(deviceId);
+            activeDevices[deviceIndex].loadURL(url);
+        }
+    }
+    else {
+        //Connect to local device
+        var mainDeviceIndex = getDeviceIndex(mainDeviceId),
+            url = activeDevices[mainDeviceIndex].url.replace(activeDevices[mainDeviceIndex].host, activeDevices[mainDeviceIndex].originalHost);
+        if (remoteDevices.indexOf(deviceId) !== -1) {
+            $("#device-" + deviceId + " .url").val(url);
+            socket.emit("load", url, deviceId);
+        }
+        else {
+            var deviceIndex = getDeviceIndex(deviceId);
+            activeDevices[deviceIndex].loadURL(url);
+        }
+    }
+    $("#sessions").find("li[data-device-id='" + deviceId + "']").remove();
+    $(".session[data-device-id='" + mainDeviceId + "'] ul").append("<li data-device-id='" + deviceId + "'><span class='session-device'>" + deviceId + "</span></li>");
+}
+
+function makeMainDevice(deviceId) {
+    mainDevices.push(deviceId);
+    $(".main-devices").append(
+        "<option data-device-id='" + deviceId + "' value='" + deviceId + "'>" + deviceId + "</option>"
+    );
+    $("<div class='session' data-device-id='" + deviceId + "'>" +
+        "<span class='title'>Main device: </span><span class='session-device'>" + deviceId + "</span>" +
+        "<br /><span class='title'>Connected devices:</span><br />" +
+        "<ul></ul></div>"
+    ).appendTo("#sessions");
+}
+
+function removeMainDevice(deviceId) {
+    mainDevices.splice(mainDevices.indexOf(deviceId), 1);
+    $(".main-devices option[data-device-id='" + deviceId + "']").remove();
+    $(".session[data-device-id='" + deviceId + "']").remove();
+}
 
 function refreshAllDevices() {
     for (var i = 0, j = activeDevices.length; i < j; ++i) {

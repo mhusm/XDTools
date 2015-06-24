@@ -27,14 +27,28 @@ local.on("connection", function (socket) {
     for (var i = 0; i < remoteDevices.length; ++i) {
         socket.emit("remoteDeviceConnected", remoteDevices[i].id);
     }
-    socket.on("refresh", function () {
-        console.log("Refresh all devices");
-        remote.emit("refresh");
+    socket.on("refresh", function (deviceID) {
+        if (deviceID) {
+            console.log("Refresh device " + deviceID);
+            var index = remoteDevices.map(function(e) { return e.id; }).indexOf(deviceID);
+            remoteDevices[index].socket.emit("refresh");
+        }
+        else {
+            console.log("Refresh all devices");
+            remote.emit("refresh");
+        }
     });
-    socket.on("load", function (newUrl) {
-        console.log("Load URL '" + newUrl + "' on all devices");
-        url = newUrl;
-        remote.emit("load", url);
+    socket.on("load", function (newUrl, deviceID) {
+        if (deviceID) {
+            console.log("Load URL '" + newUrl + "' on device " + deviceID);
+            var index = remoteDevices.map(function(e) { return e.id; }).indexOf(deviceID);
+            remoteDevices[index].socket.emit("load", newUrl);
+        }
+        else {
+            console.log("Load URL '" + newUrl + "' on all devices");
+            url = newUrl;
+            remote.emit("load", url);
+        }
     });
     socket.on("requestID", function () {
         var newID = shortid.generate();
