@@ -158,6 +158,11 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
             device = new LocalDevice(deviceName, id, width, height, devicePixelRatio, $("#url").val(), url.hostname, defaultScaling, 1, 0, 0);
         activeDevices.push(device);
         device.create();
+        $("#sessions").find(".auto-connect input").each(function () {
+            if ($(this).is(":checked")) {
+                connectDevice(id, this.dataset.deviceId);
+            }
+        });
     });
 }
 
@@ -346,6 +351,43 @@ function Device(id, url, layer, top, left, isRemote) {
     this.left = left;
     this.isRemote = isRemote;
     this.$device = null;
+    this.firstConnect = true;
+    this.oldURL = "";
+    this.connect = function (url) {
+        if (this.firstConnect) {
+            this.oldURL = this.url;
+            this.firstConnect = false;
+        }
+        this.loadURL(url);
+    };
+    this.disconnect = function () {
+        this.loadURL(this.oldURL);
+        this.firstConnect = true;
+        this.$device.find(".toggle-main").click();
+    };
+    this.destroy = function () {
+        this.$device.remove();
+        $("#timeline-" + this.id).remove();
+        $(".js-device[data-device-id='" + this.id + "']").remove();
+        if (mainDevices.indexOf(this.id) !== -1) {
+            removeMainDevice(this.id);
+        }
+        else {
+            $("#sessions").find("li[data-device-id='" + this.id + "']").remove();
+        }
+        var index = colors.map(function (e) { return e.id; }).indexOf(this.id);
+        colors.splice(index, 1);
+        $.ajax({
+            type: "DELETE",
+            url: "http://localhost:8080/" + this.id,
+            contentType: "application/json"
+        });
+        $(".line[data-device-id='" + this.id + "']").each(function () {
+            $(this.nextSibling.nextSibling).remove();
+            $(this.nextSibling).remove();
+            $(this).remove();
+        });
+    };
 }
 
 function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHost, scaling, layer, top, left, isRemote) {
@@ -423,26 +465,6 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
     this.sendCommand = function (command) {
         this.$device.find("iframe")[0].contentWindow.postMessage(command.toString(), this.url);
     };
-    this.destroy = function () {
-        this.$device.remove();
-        $("#timeline-" + this.id).remove();
-        $(".js-device[data-device-id='" + this.id + "']").remove();
-        if (mainDevices.indexOf(this.id) !== -1) {
-            removeMainDevice(this.id);
-        }
-        var index = colors.map(function (e) { return e.id; }).indexOf(this.id);
-        colors.splice(index, 1);
-        $.ajax({
-            type: "DELETE",
-            url: "http://localhost:8080/" + this.id,
-            contentType: "application/json"
-        });
-        $(".line[data-device-id='" + this.id + "']").each(function () {
-            $(this.nextSibling.nextSibling).remove();
-            $(this.nextSibling).remove();
-            $(this).remove();
-        });
-    };
 }
 
 function RemoteDevice(id, url, layer, top, left, isRemote) {
@@ -469,25 +491,5 @@ function RemoteDevice(id, url, layer, top, left, isRemote) {
     };
     this.sendCommand = function (command) {
         socket.emit("command", command.toString(), this.id);
-    };
-    this.destroy = function () {
-        this.$device.remove();
-        $("#timeline-" + this.id).remove();
-        $(".js-device[data-device-id='" + this.id + "']").remove();
-        if (mainDevices.indexOf(this.id) !== -1) {
-            removeMainDevice(this.id);
-        }
-        var index = colors.map(function (e) { return e.id; }).indexOf(this.id);
-        colors.splice(index, 1);
-        $.ajax({
-            type: "DELETE",
-            url: "http://localhost:8080/" + this.id,
-            contentType: "application/json"
-        });
-        $(".line[data-device-id='" + this.id + "']").each(function () {
-            $(this.nextSibling.nextSibling).remove();
-            $(this.nextSibling).remove();
-            $(this).remove();
-        });
     };
 }

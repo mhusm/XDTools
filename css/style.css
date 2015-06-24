@@ -357,6 +357,17 @@ body {
     margin-bottom: 0;
 }
 
+.session-refresh {
+    float: right;
+    background-image: none;
+    background-color: transparent;
+}
+
+.auto-connect {
+    float: right;
+    margin-right: 5px;
+}
+
 .vertical-rule {
     width: 0;
     height: 100%;

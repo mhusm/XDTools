@@ -113,6 +113,25 @@ $(document).ready(function () {
         var index = getDeviceIndex(this.dataset.deviceId);
         activeDevices[index].reloadURL();
     });
+
+    $(document).on("click", ".session-refresh", function () {
+        var parent = $(this).closest(".session");
+        parent.find(".session-device").each(function () {
+            var deviceId = $(this).text(),
+                index = getDeviceIndex(deviceId);
+            activeDevices[index].reloadURL();
+        });
+    });
+
+    $(document).on("click", ".auto-connect input", function () {
+        if ($(this).is(":checked")) {
+            $(".auto-connect input").not("[data-device-id='" + this.dataset.deviceId + "']").each(function () {
+                if ($(this).is(":checked")) {
+                    $(this).click();
+                }
+            });
+        }
+    });
 });
 
 function connectDevice(deviceId, mainDeviceId) {
@@ -121,12 +140,12 @@ function connectDevice(deviceId, mainDeviceId) {
     if (activeDevices[mainDeviceIndex].isRemote) {
         //Connect to remote device
         var url = $("#device-" + mainDeviceId + " .url").val();
-        activeDevices[deviceIndex].loadURL(url);
+        activeDevices[deviceIndex].connect(url);
     }
     else {
         //Connect to local device
         var url = activeDevices[mainDeviceIndex].url.replace(activeDevices[mainDeviceIndex].host, activeDevices[mainDeviceIndex].originalHost);
-        activeDevices[deviceIndex].loadURL(url);
+        activeDevices[deviceIndex].connect(url);
     }
     $("#sessions").find("li[data-device-id='" + deviceId + "']").remove();
     $(".session[data-device-id='" + mainDeviceId + "'] ul").append("<li data-device-id='" + deviceId + "'><span class='session-device'>" + deviceId + "</span></li>");
@@ -138,6 +157,8 @@ function makeMainDevice(deviceId) {
         "<option data-device-id='" + deviceId + "' value='" + deviceId + "'>" + deviceId + "</option>"
     );
     $("<div class='session' data-device-id='" + deviceId + "'>" +
+        "<button type='button' class='btn btn-sm btn-default session-refresh'><span class='glyphicon glyphicon-refresh'></span></button>" +
+        "<span class='auto-connect'><input data-device-id='" + deviceId + "' type='checkbox' /> Auto-Connect</span>" +
         "<span class='title'>Main device: </span><span class='session-device'>" + deviceId + "</span>" +
         "<br /><span class='title'>Connected devices:</span><br />" +
         "<ul></ul></div>"
@@ -147,6 +168,11 @@ function makeMainDevice(deviceId) {
 function removeMainDevice(deviceId) {
     mainDevices.splice(mainDevices.indexOf(deviceId), 1);
     $(".main-devices option[data-device-id='" + deviceId + "']").remove();
+    $(".session[data-device-id='" + deviceId + "']").find("ul").find(".session-device").each(function () {
+       var deviceId = $(this).text(),
+           index = getDeviceIndex(deviceId);
+        activeDevices[index].disconnect();
+    });
     $(".session[data-device-id='" + deviceId + "']").remove();
 }
 
