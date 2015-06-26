@@ -265,6 +265,9 @@ var XDTest = {
         }
         return modifiers.join(" ");
     },
+    /*
+        Deprecated, but not yet deleted in case there are bugs with the new function
+
     determineHierarchy: function (path) {
         if (path.length === 0) {
             return [];
@@ -288,6 +291,50 @@ var XDTest = {
         }
         return hierarchy;
     },
+    */
+    determineHierarchy: function (path) {
+        if (path.length === 0) {
+            return [];
+        }
+        var curElement = path.shift(),
+            hierarchy = [];
+        while (curElement.nodeName !== "BODY" && curElement.nodeName !== "HTML" && curElement.nodeName !== "#document") {
+            if (!curElement.parentElement && !curElement.parentNode) {
+                //curElement is shadowRoot
+                hierarchy.push(-1);
+            }
+            else if (curElement.id) {
+                hierarchy.push(curElement.id);
+            }
+            else {
+                var index = 0,
+                    cur = curElement;
+                while (cur) {
+                    index++;
+                    cur = cur.previousElementSibling;
+                }
+                hierarchy.push(index - 1);
+            }
+            curElement = path.shift();
+        }
+        var realHierarchy = [],
+            idFound = false;
+        for (var i = 0; i < hierarchy.length; ++i) {
+            if (hierarchy[i] === -1 || !idFound) {
+                realHierarchy.push(hierarchy[i]);
+                if (typeof hierarchy[i] === "string" || hierarchy[i] instanceof String) {
+                    idFound = true;
+                }
+                if (hierarchy[i] === -1) {
+                    idFound = false;
+                }
+            }
+        }
+        return realHierarchy;
+    },
+    /*
+       Deprecated, but not yet deleted in case there are bugs with the new function
+
     determineTarget: function (hierarchy) {
         var curElement = document.body,
             curIndex = hierarchy.length - 1;
@@ -299,6 +346,26 @@ var XDTest = {
                 curElement = curElement.children[hierarchy[curIndex]];
             }
             curIndex--;
+        }
+        return curElement;
+    },
+    */
+    determineTarget: function (hierarchy) {
+        var curElement = document.body,
+            curIndex = hierarchy.length - 1;
+        if (hierarchy) {
+            while (curIndex >= 0) {
+                if (typeof hierarchy[curIndex] === "string" || hierarchy[curIndex] instanceof String) {
+                    curElement = curElement.getElementById(hierarchy[curIndex]);
+                }
+                else if (hierarchy[curIndex] === -1) {
+                    curElement = curElement.shadowRoot;
+                }
+                else {
+                    curElement = curElement.children[hierarchy[curIndex]];
+                }
+                curIndex--;
+            }
         }
         return curElement;
     },
