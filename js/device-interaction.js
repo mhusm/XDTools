@@ -123,6 +123,12 @@ $(document).ready(function () {
         });
     });
 
+    $(document).on("click", "#sessions .reset", function () {
+        var deviceId = $(this).closest(".session").data("device-id"),
+            index = getDeviceIndex(deviceId);
+        activeDevices[index].reset();
+    });
+
     $(document).on("click", ".auto-connect input", function () {
         if ($(this).is(":checked")) {
             $(".auto-connect input").not("[data-device-id='" + this.dataset.deviceId + "']").each(function () {
@@ -137,6 +143,9 @@ $(document).ready(function () {
 function connectDevice(deviceId, mainDeviceId) {
     var deviceIndex = getDeviceIndex(deviceId),
         mainDeviceIndex = getDeviceIndex(mainDeviceId);
+    if (mainDevices.indexOf(deviceId) !== -1) {
+        removeMainDevice(deviceId);
+    }
     if (activeDevices[mainDeviceIndex].isRemote) {
         //Connect to remote device
         var url = $("#device-" + mainDeviceId + " .url").val();
@@ -152,11 +161,15 @@ function connectDevice(deviceId, mainDeviceId) {
 }
 
 function makeMainDevice(deviceId) {
+    var index = getDeviceIndex(deviceId);
+    activeDevices[index].disconnect();
+    $("#sessions").find("li[data-device-id='" + deviceId + "']").remove();
     mainDevices.push(deviceId);
     $(".main-devices").append(
         "<option data-device-id='" + deviceId + "' value='" + deviceId + "'>" + deviceId + "</option>"
     );
     $("<div class='session' data-device-id='" + deviceId + "'>" +
+        "<button type='button' class='btn btn-sm btn-default reset'>Reset Session</button><br />" +
         "<button type='button' class='btn btn-sm btn-default session-refresh'><span class='glyphicon glyphicon-refresh'></span></button>" +
         "<span class='auto-connect'><input data-device-id='" + deviceId + "' type='checkbox' /> Auto-Connect</span>" +
         "<span class='title'>Main device: </span><span class='session-device'>" + deviceId + "</span>" +

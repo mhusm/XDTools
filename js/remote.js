@@ -416,7 +416,7 @@ function initialize() {
     console.log = function (args) {
         var command = {
             "name": "log",
-            "msg": args
+            "msg": JSON.stringify(args)
         };
         window.parent.postMessage(JSON.stringify(command), "*");
         XDTest.originalLog.call(console, args);
@@ -425,7 +425,7 @@ function initialize() {
     console.info = function (args) {
         var command = {
             "name": "info",
-            "msg": args
+            "msg": JSON.stringify(args)
         };
         window.parent.postMessage(JSON.stringify(command), "*");
         XDTest.originalInfo.call(console, args);
@@ -434,7 +434,7 @@ function initialize() {
     console.warn = function (args) {
         var command = {
             "name": "warn",
-            "msg": args
+            "msg": JSON.stringify(args)
         };
         window.parent.postMessage(JSON.stringify(command), "*");
         XDTest.originalWarn.call(console, args);
@@ -443,16 +443,25 @@ function initialize() {
     console.error = function (args) {
         var command = {
             "name": "error",
-            "msg": args
+            "msg": JSON.stringify(args)
         };
         window.parent.postMessage(JSON.stringify(command), "*");
         XDTest.originalError.call(console, args);
     };
-    window.onerror = function(error) {
-        var command = {
-            "name": "error",
-            "msg": error
-        };
+    window.onerror = function (message, filename, lineno, colno, error) {
+        var command;
+        if (error && error.stack) {
+            command = {
+                "name": "exception",
+                "msg": error.stack
+            };
+        }
+        else {
+            command = {
+                "name": "exception",
+                "msg": message
+            };
+        }
         window.parent.postMessage(JSON.stringify(command), "*");
     };
 
@@ -572,7 +581,14 @@ function initialize() {
             }
         }
         else if (command.name === "executeJS") {
-            eval(command.code);
+            var returnVal = eval(command.code);
+            if (returnVal) {
+                var command = {
+                    "name": "return",
+                    "msg": JSON.stringify(returnVal)
+                };
+                window.parent.postMessage(JSON.stringify(command), "*");
+            }
         }
     }, false);
 }

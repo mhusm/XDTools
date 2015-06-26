@@ -33,11 +33,17 @@ function processCommand(command, deviceId) {
     else if (command.name === "error") {
         appendErrorToHistory(command.msg, deviceId);
     }
+    else if (command.name === "exception") {
+        appendExceptionToHistory(command.msg, deviceId);
+    }
+    else if (command.name ==="return") {
+        appendReturnValueToHistory(command.msg, deviceId);
+    }
     else if (command.name === "loaded") {
         addCSSProperties(deviceId);
         $("#device-" + deviceId + " .url").val(command.url);
         var index = getDeviceIndex(deviceId);
-        activeDevices[index].url = command.url;
+        activeDevices[index].setUrl(command.url);
     }
     else if (command.name === "sendEventSequence") {
         if (!events[command.deviceId]) {

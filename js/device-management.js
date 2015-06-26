@@ -147,7 +147,7 @@ function customRenderMenu(ul, items) {
 //Add a new device and adjust its default scaling based on resolution
 function addDevice(deviceName, width, height, devicePixelRatio) {
     socket.emit("requestID");
-    socket.once("receiveID", function(id) {
+    socket.once("receiveID", function (id) {
         var defaultScaling = 0.5;
         width = width / devicePixelRatio;
         height = height / devicePixelRatio;
@@ -160,6 +160,8 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
         device.create();
         $("#sessions").find(".auto-connect input").each(function () {
             if ($(this).is(":checked")) {
+                $("#device-" + id).find(".main input").click();
+                $("#device-" + id + " select").val(id);
                 connectDevice(id, this.dataset.deviceId);
             }
         });
@@ -361,9 +363,13 @@ function Device(id, url, layer, top, left, isRemote) {
         this.loadURL(url);
     };
     this.disconnect = function () {
-        this.loadURL(this.oldURL);
-        this.firstConnect = true;
-        this.$device.find(".toggle-main").click();
+        if (this.oldURL) {
+            this.loadURL(this.oldURL);
+            this.firstConnect = true;
+            if (!this.$device.find(".toggle-main").is(":checked")) {
+                this.$device.find(".toggle-main").click();
+            }
+        }
     };
     this.destroy = function () {
         this.$device.remove();
@@ -382,12 +388,52 @@ function Device(id, url, layer, top, left, isRemote) {
             url: "http://localhost:8080/" + this.id,
             contentType: "application/json"
         });
-        $(".line[data-device-id='" + this.id + "']").each(function () {
-            $(this.nextSibling.nextSibling).remove();
-            $(this.nextSibling).remove();
+        $(".history-line[data-device-id='" + this.id + "']").each(function () {
             $(this).remove();
         });
     };
+    this.setUrl = function (url) {
+        this.url = url;
+        var connectedDevices = [];
+        var mainDevice = this.id
+        $(".session[data-device-id='" + this.id + "'] ul").find(".session-device").each(function () {
+            connectDevice($(this).text(), mainDevice);
+        });
+    };
+    this.reset = function () {
+        var oldId = this.id;
+        socket.emit("requestID", oldId);
+        socket.once("receiveID", function (id, oldId) {
+            var connectedDevices = [];
+            $(".session[data-device-id='" + oldId + "'] ul").find(".session-device").each(function () {
+                connectedDevices.push($(this).text());
+            });
+            var device = activeDevices[getDeviceIndex(oldId)];
+            device.destroy();
+
+            device.id = id;
+            device.url = rewriteURL(device.originalUrl, device.id);
+            device.host = device.host.replace(oldId, device.id);
+            device.name = device.name.replace(oldId, device.id);
+            var u = new URL(device.originalHost),
+                d = {"name": device.id, "A":[{"address":u.hostname}], "ttl":3000, "domain": "xdtest.com","time": Date.now()};
+            $.ajax({
+                type: "PUT",
+                url: "http://localhost:8080/" + device.id,
+                contentType: "application/json",
+                id: device.id,
+                data: JSON.stringify(d),
+                async: false,
+                complete: function () {
+                    device.create();
+                    //TODO: fix this, connect when url has loaded
+                    for (var i = 0, j = connectedDevices.length; i < j; ++i) {
+                        connectDevice(connectedDevices[i], device.id);
+                    }
+                }
+            });
+        });
+    }
 }
 
 function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHost, scaling, layer, top, left, isRemote) {
@@ -401,6 +447,7 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
     this.host = "http://" + id + ".xdtest.com";
     this.scaling = scaling;
     this.$device = null;
+    this.originalUrl = url;
     this.toString = function () {
         return JSON.stringify(this.getDevice());
     };

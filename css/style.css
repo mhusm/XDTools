@@ -286,7 +286,7 @@ body {
     margin: 5px;
 }
 
-.log-line, .warn-line, .info-line, .error-line, .history-line {
+.log-line, .warn-line, .info-line, .error-line, .hist-line {
     font-weight: bolder;
 }
 
@@ -304,6 +304,21 @@ body {
 
 .error-line {
     color: rgb(235, 57, 65);
+}
+
+.history-line {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.stack-line {
+    margin-left: 40px;
+    width: calc(100% - 40px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .js-device {
@@ -492,7 +507,7 @@ header h1 {
     display: inline-block;
 }
 
-.settings-panel {
+.settings-panel, .stack {
     display: none;
 }
 

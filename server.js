@@ -50,9 +50,14 @@ local.on("connection", function (socket) {
             //remote.emit("load", url);
         }
     });
-    socket.on("requestID", function (index) {
+    socket.on("requestID", function (index, oldId) {
         var newID = shortid.generate();
-        socket.emit("receiveID", newID.toLowerCase(), index);
+        if (oldId) {
+            socket.emit("receiveID", newID.toLowerCase(), index, oldId);
+        }
+        else {
+            socket.emit("receiveID", newID.toLowerCase(), index);
+        }
     });
     socket.on("command", function (command, deviceID) {
         if (deviceID) {
