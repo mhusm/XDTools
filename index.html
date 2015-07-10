@@ -19,6 +19,8 @@
         <script src="js/css-editor.js"></script>
         <script src="js/color-management.js"></script>
         <script src="js/command-management.js"></script>
+        <script src="js/Device.js"></script>
+        <script src="js/function-debugging.js"></script>
         <meta name="viewport" content="width=device-width, user-scalable=no">
     </head>
     <body>
@@ -50,34 +52,50 @@
                 <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>
             </button>
         </header>
-        <input type="url" class="form-control" id="url" value="http://www.w3schools.com" name="url" aria-describedby="basic-addon2">
+        <input type="url" class="form-control" id="url" value="" name="url" aria-describedby="basic-addon2">
         <section id="container">
             <section id="devices">
             </section>
             <section id="console-container">
-                <section id="javascript-console">
-                    <h4>
-                        JavaScript Console
-                    </h4>
-                    <section id="device-overview">
-                    </section>
-                    <section id="history"></section>
-                    <input type="text" name="code-input" id="code-input" placeholder="Enter JavaScript code..." />
+                <section id="device-overview">
                 </section>
-                <section id="css-console">
-                    <h4>
-                        CSS Editor
-                    </h4>
-                    <div class="properties">
-                        <div class="css-property">
-                            <span class="identifier empty" data-placeholder="enter identifier..."></span> {<br />
-                            <span class="content"></span>
-                            }<br />
-                        </div><br />
-                    </div>
+                <section id="subcontainer">
+                    <section id="javascript-console">
+                        <h4>
+                            JavaScript Console
+                        </h4>
+                        <section id="history"></section>
+                        <input type="text" name="code-input" id="code-input" placeholder="Enter JavaScript code..." />
+                    </section>
+                    <section id="debug-list">
+                        <h4>
+                            Function debugging
+                        </h4>
+                        <input type="text" class="form-control" name="function-input" id="function-input" placeholder="Enter function name..."  />
+                        <button type="button" id="debug-button" class="btn btn-small btn-default">Debug</button>
+                        <section id="debugged-functions">
+
+                        </section>
+                    </section>
+                    <section id="css-console">
+                        <h4>
+                            CSS Editor
+                        </h4>
+                        <div class="properties">
+                            <div class="css-property">
+                                <span class="identifier empty" data-placeholder="enter identifier..."></span> {
+                                <span class="glyphicon glyphicon-remove remove-css hidden"></span>
+                                <br />
+                                <span class="content"></span>
+                                }<br />
+                            </div><br />
+                        </div>
+                    </section>
                 </section>
                 <section id="sessions">
                     <h4>Sessions</h4>
+                    <section class="content">
+                    </section>
                 </section>
             </section>
         </section>
@@ -133,6 +151,7 @@
                             <option value="phone">Mobile phone</option>
                             <option value="tablet">Tablet</option>
                             <option value="desktop">Desktop device</option>
+                            <option value="wearable">Wearable</option>
                         </select>
                     </main>
                     <footer class="modal-footer">
@@ -162,18 +181,42 @@
                 <section class="modal-content">
                     <header class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h3 class="modal-title" id="settingsModalLabel">Manage Configurations</h3>
+                        <h3 class="modal-title" id="settingsModalLabel">Options</h3>
                     </header>
                     <main class="modal-body">
-                        <h4>Configurations</h4>
-                        <span id="no-configurations">No saved configurations.</span>
-                        <ul id="configuration-settings"></ul>
-                        <h4>Devices</h4>
-                        <span id="no-devices">No saved devices.</span>
-                        <ul id="settings-devices"></ul>
-                        <h4>Sequences</h4>
-                        <span id="no-sequences">No saved sequences.</span>
-                        <ul id="settings-sequences"></ul>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General options</a></li>
+                            <li role="presentation"><a href="#custom-devices" aria-controls="custom-devices" role="tab" data-toggle="tab">Custom Devices</a></li>
+                            <li role="presentation"><a href="#configurations" aria-controls="configurations" role="tab" data-toggle="tab">Configurations</a></li>
+                            <li role="presentation"><a href="#event-sequences" aria-controls="event-sequences" role="tab" data-toggle="tab">Event Sequences</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="general">
+                                <h4>Enable/Disable Options</h4>
+                                <ul id="options">
+                                    <li><input type="checkbox" id="enable-dns" checked /> DNS Server</li>
+                                    <li><input type="checkbox" id="enable-record-replay" checked /> Record/Replay</li>
+                                    <li><input type="checkbox" id="enable-js-console" checked /> JavaScript Console</li>
+                                    <li><input type="checkbox" id="enable-function-debugging" checked /> Function Debugging</li>
+                                    <li><input type="checkbox" id="enable-css-editor" checked /> CSS Editor</li>
+                                </ul>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="custom-devices">
+                                <h4>Devices</h4>
+                                <span id="no-devices">No saved devices.</span>
+                                <ul id="settings-devices"></ul>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="configurations">
+                                <h4>Configurations</h4>
+                                <span id="no-configurations">No saved configurations.</span>
+                                <ul id="configuration-settings"></ul>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="event-sequences">
+                                <h4>Sequences</h4>
+                                <span id="no-sequences">No saved sequences.</span>
+                                <ul id="settings-sequences"></ul>
+                            </div>
+                        </div>
                     </main>
                 </section>
             </section>

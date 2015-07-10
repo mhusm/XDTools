@@ -37,9 +37,8 @@ $(document).ready(function () {
 
     //Remove an emulated device
     $(document).on("click", ".remove", function () {
-        var deviceId = this.dataset.deviceId,
-            index = getDeviceIndex(deviceId);
-        activeDevices[index].destroy();
+        var deviceID = $(this).closest(".device-container").data("device-id");
+       deleteDevice(deviceID);
     });
 
     //Add a new emulated device
@@ -142,6 +141,16 @@ function customRenderMenu(ul, items) {
             self._renderItemData(ul, item);
         }
     });
+    first = true;
+    $.each(items, function (index, item) {
+        if (item.type === "wearable") {
+            if (first) {
+                ul.append("<li class='ui-autocomplete-group bold blue ui-state-disabled'>Wearables</li><hr />");
+                first = false;
+            }
+            self._renderItemData(ul, item);
+        }
+    });
 }
 
 //Add a new device and adjust its default scaling based on resolution
@@ -154,55 +163,69 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
         if (width < 500 || height < 500) {
             defaultScaling = 1;
         }
+        if (width > 1440 || height > 1440) {
+            defaultScaling = 0.4;
+        }
+        if (width > 1920 || height > 1920) {
+            defaultScaling = 0.2;
+        }
         var url = new URL($("#url").val()),
-            device = new LocalDevice(deviceName, id, width, height, devicePixelRatio, $("#url").val(), url.hostname, defaultScaling, 1, 0, 0);
+            device = new LocalDevice(deviceName, id, width, height, devicePixelRatio, url.href, url.hostname, defaultScaling, 1, 0, 0);
         activeDevices.push(device);
         device.create();
         $("#sessions").find(".auto-connect input").each(function () {
             if ($(this).is(":checked")) {
-                $("#device-" + id).find(".main input").click();
-                $("#device-" + id + " select").val(id);
+                $device = $("#device-" + id);
+                $device.find(".main input").click();
+                $device.find("select").val(id);
                 connectDevice(id, this.dataset.deviceId);
             }
         });
     });
 }
 
+//Add the HTML for displaying the emulated device
 function appendDevice(device) {
     $("#devices").append(
         "<section draggable='false' data-device-id='" + device.id + "' class='device-container' id='device-" + device.id +"'>" +
             "<div class='overlay hidden'></div>" +
             "<h4>" + device.name + "</h4>" +
-            "<button type='button' class='btn btn-primary remove' data-device-id='" + device.id + "'>" +
+            "<button type='button' class='btn btn-primary remove'>" +
                 "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
             "</button>" +
-            "<button type='button' data-device-id='" + device.id + "' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
+            "<button type='button' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
                 "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>" +
             "</button>" +
             "<span class='device-id'><b>Device ID: </b>" + device.id + "</span>" +
             "<hr />" +
             "<section class='settings-panel'>" +
-                "<input data-device-id='" + device.id + "' type='url' class='form-control url' value='" + device.url + "' />" +
-                "<input draggable='false' class='range' type='range' data-device-id='" + device.id + "' value='" + device.scaling + "' min='0.1' max='2' step='0.1' /><span class='scale-factor'>" + device.scaling + "</span>" +
-                "<button type='button' class='btn btn-primary rotate' data-device-id='" + device.id + "' title='Switch orientation'>" +
+                "<input type='url' class='form-control url' value='" + device.url + "' />" +
+                "<input draggable='false' class='range' type='range' value='" + device.scaling + "' min='0.1' max='2' step='0.1' /><span class='scale-factor'>" + device.scaling + "</span>" +
+                "<button type='button' class='btn btn-primary rotate' title='Switch orientation'>" +
                     "<img class='rotate-img' src='../img/rotate.png' alt='rotate' />" +
                 "</button>" +
-                "<button type='button' class='btn btn-primary scale' title='Set scaling factor to 1' data-device-id='" + device.id + "'>" +
+                "<button type='button' class='btn btn-primary scale' title='Set scaling factor to 1'>" +
                     "<span class='glyphicon glyphicon-fullscreen' aria-hidden='true'></span>" +
                 "</button>" +
-                "<button type='button' class='btn btn-primary refresh' title='Refresh device' data-device-id='" + device.id + "'>" +
+                "<button type='button' class='btn btn-primary refresh' title='Refresh device'>" +
                     "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
                 "</button>" +
-                "<span class='left'>Layer: <input type='number' data-device-id='" + device.id + "' class='layer' value='1' /></span>" +
+                "<button type='button' class='btn btn-primary inspect' title='Inspect HTML of device'>" +
+                    "Inspect HTML" +
+                "</button>" +
+                "<button type='button' class='btn btn-primary inspect-js hidden' title='Inspect JS files'>" +
+                    "Inspect JS files" +
+                "</button>" +
+                "<span class='left'>Layer: <input type='number' class='layer' value='1' /></span>" +
                 "<br />" +
                 "<div class='main'>" +
                     "<input type='checkbox' name='main' class='toggle-main' value='main' checked>Main device" +
-                    "<select class='form-control main-devices hidden' name='main-devices' placeholder='Connect to device'>" +
-                        "<option value='' disabled selected style='display:none;'>Connect to device</option>" +
+                    "<select class='form-control main-devices hidden' name='main-devices'>" +
+                        "<option value='none' disabled selected style='display:none;'>Connect to device</option>" +
                     "</select>" +
                 "</div><br />" +
             "</section>" +
-            "<iframe data-device-id='" + device.id + "' src='" + device.url + "'></iframe>" +
+            "<iframe src='" + device.url + "'></iframe>" +
         "</section>"
     );
     var deviceSelect = $("#device-" + device.id + " .main-devices");
@@ -224,31 +247,35 @@ function appendDevice(device) {
         "height": device.height
     });
     $device.find("h4").css("max-width", "calc(" + (device.width * device.scaling) + "px - 100px)");
+    debugDevice(device.id);
 }
 
+//Add the HTML for the displaying of the remote device
 function appendRemoteDevice(device) {
     $("#devices").append(
         "<section draggable='false' data-device-id='" + device.id + "' class='device-container remote' id='device-" + device.id +"'>" +
-        "<div class='overlay hidden'></div>" +
-        "<h4>Remote device</h4>" +
-        "<button type='button' data-device-id='" + device.id + "' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
-        "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>" +
-        "</button>" +
-        "<span class='device-id'><b>Device ID: </b>" + device.id + "</span>" +
-        "<hr />" +
-        "<section class='settings-panel'>" +
-        "<input data-device-id='" + device.id + "' type='url' class='form-control url' value='" + $("#url").val() + "' />" +
-        "<button type='button' class='btn btn-primary refresh' title='Refresh device' data-device-id='" + device.id + "'>" +
-            "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
-        "</button>" +
-        "<span class='left'>Layer: <input type='number' data-device-id='" + device.id + "' class='layer' value='1' /></span>" +
-        "<br />" +
-        "<div class='main'>" +
-        "<input type='checkbox' name='main' class='toggle-main' value='main' checked>Main device" +
-        "<select class='form-control main-devices hidden' name='main-devices' placeholder='Connect to device'>" +
-            "<option value='' disabled selected style='display:none;'>Connect to device</option>" +
-        "</select>" +
-        "</div>"
+            "<div class='overlay hidden'></div>" +
+            "<h4>Remote device</h4>" +
+            "<button type='button' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
+                "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>" +
+            "</button>" +
+            "<span class='device-id'><b>Device ID: </b>" + device.id + "</span>" +
+            "<hr />" +
+            "<section class='settings-panel'>" +
+                "<input type='url' class='form-control url' value='" + $("#url").val() + "' />" +
+                "<button type='button' class='btn btn-primary refresh' title='Refresh device'>" +
+                    "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
+                "</button>" +
+                "<span class='left'>Layer: <input type='number' class='layer' value='1' /></span>" +
+                "<br />" +
+                "<div class='main'>" +
+                    "<input type='checkbox' name='main' class='toggle-main' value='main' checked>Main device" +
+                    "<select class='form-control main-devices hidden' name='main-devices' placeholder='Connect to device'>" +
+                        "<option value='' disabled selected style='display:none;'>Connect to device</option>" +
+                    "</select>" +
+                "</div>" +
+            "</section>" +
+        "</section>"
     );
     var deviceSelect = $("#device-" + device.id + " .main-devices");
     for (var i = 0, j = mainDevices.length; i < j; ++i) {
@@ -258,33 +285,40 @@ function appendRemoteDevice(device) {
     }
 }
 
+//Add the HTML for the timeline of a device
 function addDeviceTimeline(id, name) {
-    var timeline = "<section class='device-timeline' id='timeline-" + id + "'>" +
+    var timeline = "<section class='device-timeline' id='timeline-" + id + "' data-device-id='" + id + "'>" +
         "<h4>" + name + "</h4>",
         index = getDeviceIndex(id);
     if (!activeDevices[index].isRemote) {
-        timeline = timeline + "<button type='button' class='btn btn-primary btn-sm record' data-device-id='" + id + "' data-recording='false' title='Start/stop recording'>" +
+        timeline = timeline + "<button type='button' class='btn btn-primary btn-sm record' data-recording='false' title='Start/stop recording'>" +
         "<span class='glyphicon glyphicon-record'></span>" +
         "</button>";
     }
-    timeline = timeline + "<button type='button' class='btn btn-primary btn-sm play disabled' data-device-id='" + id + "' title='Replay recorded sequence'>" +
+    timeline = timeline + "<button type='button' class='btn btn-primary btn-sm play disabled' title='Replay recorded sequence'>" +
             "<span class='glyphicon glyphicon-play'></span>" +
         "</button>" +
-        "<select name='timeline-" + id + "' data-device-id='" + id + "' class='form-control'>" +
+        "<select name='timeline-" + id + "' class='form-control'>" +
         "<option value='none' selected='selected'>None</option>";
     for (var i = 0, j = sequenceNames.length; i < j; ++i) {
         timeline = timeline + "<option value='" + sequenceNames[i] + "'>" + sequenceNames[i] + "</option>";
     }
     timeline = timeline + "</select>" +
-        "<hr /><section class='event-container' data-device-id='" + id + "'></section>" +
+        "<hr /><section class='event-container'></section>" +
     "</section>";
     $("#timeline").find(".timeline-content").append(timeline);
     $("<span class='js-device active' data-device-id='" + id + "'>" + name + "</span>").appendTo($("#device-overview"))
         .css("background-color", "hsla(" + getNextColor(id) + ", 60%, 50%, 0.3)");
 }
 
-function getDeviceIndex(deviceId) {
-    return activeDevices.map(function(e) { return e.id; }).indexOf(deviceId);
+function getDeviceIndex(deviceID) {
+    return activeDevices.map(function(e) { return e.id; }).indexOf(deviceID);
+}
+
+function deleteDevice(deviceID) {
+    var index = getDeviceIndex(deviceID);
+    activeDevices[index].destroy();
+    activeDevices.splice(index, 1);
 }
 
 //Returns a list of predefined devices
@@ -341,202 +375,15 @@ function getDevices() {
         {value: 49, "label": "Sony Xperia Sola/U", "width": 480, "height": 854, "devicePixelRatio": 1, type: "phone"},
         {value: 50, "label": "Sony Xperia Z/Z1", "width": 1080, "height": 1920, "devicePixelRatio": 3, type: "phone"},
         {value: 51, "label": "Sony Xperia Z3", "width": 1080, "height": 1920, "devicePixelRatio": 3, type: "phone"},
-        {value: 52, "label": "Amazon Kindle Fire", "width": 1024, "height": 600, "devicePixelRatio": 1, type: "tablet"}
+        {value: 52, "label": "Amazon Kindle Fire", "width": 1024, "height": 600, "devicePixelRatio": 1, type: "tablet"},
+        {value: 53, "label": "LG G Watch", "width": 280, "height": 280, "devicePixelRatio": 1, type: "wearable"},
+        {value: 54, "label": "LG G Watch R", "width": 320, "height": 320, "devicePixelRatio": 1, type: "wearable"},
+        {value: 55, "label": "Apple Watch (38mm)", "width": 272, "height": 340, "devicePixelRatio": 1, type: "wearable"},
+        {value: 56, "label": "Apple Watch (42mm)", "width": 312, "height": 390, "devicePixelRatio": 1, type: "wearable"},
+        {value: 57, "label": "Motorola Moto 360", "width": 320, "height": 290, "devicePixelRatio": 1, type: "wearable"},
+        {value: 58, "label": "Samsung Gear S", "width": 360, "height": 480, "devicePixelRatio": 1, type: "wearable"},
+        {value: 59, "label": "Full HD Display (1080p)", "width": 1920, "height": 1080, "devicePixelRatio": 1, type: "desktop"},
+        {value: 60, "label": "HD Display (720p)", "width": 1280, "height": 720, "devicePixelRatio": 1, type: "desktop"},
+        {value: 61, "label": "4K Display (UHDTV)", "width": 3840, "height": 2160, "devicePixelRatio": 1, type: "desktop"}
     ];
-}
-
-function Device(id, url, layer, top, left, isRemote) {
-    this.id = id;
-    this.url = url;
-    this.layer = layer;
-    this.top = top;
-    this.left = left;
-    this.isRemote = isRemote;
-    this.$device = null;
-    this.firstConnect = true;
-    this.oldURL = "";
-    this.connect = function (url) {
-        if (this.firstConnect) {
-            this.oldURL = this.url;
-            this.firstConnect = false;
-        }
-        this.loadURL(url);
-    };
-    this.disconnect = function () {
-        if (this.oldURL) {
-            this.loadURL(this.oldURL);
-            this.firstConnect = true;
-            if (!this.$device.find(".toggle-main").is(":checked")) {
-                this.$device.find(".toggle-main").click();
-            }
-        }
-    };
-    this.destroy = function () {
-        this.$device.remove();
-        $("#timeline-" + this.id).remove();
-        $(".js-device[data-device-id='" + this.id + "']").remove();
-        if (mainDevices.indexOf(this.id) !== -1) {
-            removeMainDevice(this.id);
-        }
-        else {
-            $("#sessions").find("li[data-device-id='" + this.id + "']").remove();
-        }
-        var index = colors.map(function (e) { return e.id; }).indexOf(this.id);
-        colors.splice(index, 1);
-        $.ajax({
-            type: "DELETE",
-            url: "http://localhost:8080/" + this.id,
-            contentType: "application/json"
-        });
-        $(".history-line[data-device-id='" + this.id + "']").each(function () {
-            $(this).remove();
-        });
-    };
-    this.setUrl = function (url) {
-        this.url = url;
-        var connectedDevices = [];
-        var mainDevice = this.id
-        $(".session[data-device-id='" + this.id + "'] ul").find(".session-device").each(function () {
-            connectDevice($(this).text(), mainDevice);
-        });
-    };
-    this.reset = function () {
-        var oldId = this.id;
-        socket.emit("requestID", oldId);
-        socket.once("receiveID", function (id, oldId) {
-            var connectedDevices = [];
-            $(".session[data-device-id='" + oldId + "'] ul").find(".session-device").each(function () {
-                connectedDevices.push($(this).text());
-            });
-            var device = activeDevices[getDeviceIndex(oldId)];
-            device.destroy();
-
-            device.id = id;
-            device.url = rewriteURL(device.originalUrl, device.id);
-            device.host = device.host.replace(oldId, device.id);
-            device.name = device.name.replace(oldId, device.id);
-            var u = new URL(device.originalHost),
-                d = {"name": device.id, "A":[{"address":u.hostname}], "ttl":3000, "domain": "xdtest.com","time": Date.now()};
-            $.ajax({
-                type: "PUT",
-                url: "http://localhost:8080/" + device.id,
-                contentType: "application/json",
-                id: device.id,
-                data: JSON.stringify(d),
-                async: false,
-                complete: function () {
-                    device.create();
-                    //TODO: fix this, connect when url has loaded
-                    for (var i = 0, j = connectedDevices.length; i < j; ++i) {
-                        connectDevice(connectedDevices[i], device.id);
-                    }
-                }
-            });
-        });
-    }
-}
-
-function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHost, scaling, layer, top, left, isRemote) {
-    Device.call(this, id, url, layer, top, left, isRemote);
-    this.name = name;
-    this.width = width;
-    this.height = height;
-    this.devicePixelRatio = devicePixelRatio;
-    this.url = rewriteURL(url, this.id);
-    this.originalHost = "http://" + originalHost;
-    this.host = "http://" + id + ".xdtest.com";
-    this.scaling = scaling;
-    this.$device = null;
-    this.originalUrl = url;
-    this.toString = function () {
-        return JSON.stringify(this.getDevice());
-    };
-    this.getDevice = function () {
-        var dev = {
-            "name": this.name,
-            "id": this.id,
-            "width": this.width,
-            "height": this.height,
-            "devicePixelRatio": this.devicePixelRatio,
-            "url": this.url,
-            "scaling": this.scaling,
-            "layer": this.layer,
-            "top": this.top,
-            "left": this.left
-        };
-        return dev;
-    }
-    this.setScaling = function (scale) {
-        this.scaling = scale;
-        this.$device.find(".range").get(0).value = scale;
-        this.$device.find(".scale-factor").text(scale);
-        this.$device.find("iframe").css({
-            "margin-right": -parseInt(this.width) * (1 - scale) + "px",
-            "margin-bottom": -parseInt(this.height) * (1 - scale) + "px",
-            "transform": "scale(" + scale + ")"
-        });
-        this.$device.find("h4").css("max-width", "calc(" + (this.width * scale) + "px - 100px)");
-    };
-    this.setLayer = function (layer) {
-        this.layer = layer;
-        this.$device.css("z-index", $("#device-" + this.id + " .layer").val());
-    };
-    this.loadURL = function (url) {
-        this.url = rewriteURL(url, this.id);
-        this.$device.find("iframe").attr("src", this.url);
-        this.$device.find(".url").val(this.url);
-        addCSSProperties(this.id);
-    };
-    this.reloadURL = function () {
-        this.$device.find("iframe").attr("src", this.url);
-        addCSSProperties(this.id);
-    };
-    this.switchOrientation = function () {
-        this.$device.find("iframe").css({
-            "width": this.height,
-            "margin-right": -parseInt(this.height) * (1 - this.scaling) + "px",
-            "height": this.width,
-            "margin-bottom": -parseInt(this.width) * (1 - this.scaling) + "px"
-        });
-        var oldWidth = this.width;
-        this.width = this.height;
-        this.height = oldWidth;
-    };
-    this.create = function () {
-        appendDevice(this);
-        addDeviceTimeline(this.id, this.name);
-        makeMainDevice(this.id);
-        addCSSProperties(this.id);
-        this.$device = $("#device-" + this.id);
-    };
-    this.sendCommand = function (command) {
-        this.$device.find("iframe")[0].contentWindow.postMessage(command.toString(), this.url);
-    };
-}
-
-function RemoteDevice(id, url, layer, top, left, isRemote) {
-    Device.call(this, id, url, layer, top, left, isRemote);
-    this.name = this.id;
-    this.setLayer = function (layer) {
-        this.layer = layer;
-        this.$device.css("z-index", $("#device-" + this.id + " .layer").val());
-    };
-    this.loadURL = function (url) {
-        this.url = url;
-        this.$device.find(".url").val(url);
-        socket.emit("load", url, this.id);
-    };
-    this.reloadURL = function () {
-        socket.emit("refresh", this.id);
-    };
-    this.create = function () {
-        appendRemoteDevice(this);
-        addDeviceTimeline(this.id, this.name);
-        makeMainDevice(this.id);
-        addCSSProperties(this.id);
-        this.$device = $("#device-" + this.id);
-    };
-    this.sendCommand = function (command) {
-        socket.emit("command", command.toString(), this.id);
-    };
 }

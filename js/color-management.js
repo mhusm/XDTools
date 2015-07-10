@@ -9,9 +9,9 @@ var colors = [];
         1. Traverses the hues of all colors in ascending order and calculates the greatest difference between two hues.
         2. The hue in the middle of the two hues with the greatest distance is the hue of the new color.
  */
-function getNextColor(deviceId) {
+function getNextColor(deviceID) {
     if (colors.length === 0) {
-        colors.push({"id": deviceId, "color": 0});
+        colors.push({"id": deviceID, "color": 0});
         return 0;
     }
     else {
@@ -30,7 +30,7 @@ function getNextColor(deviceId) {
             minColor = colors[colors.length - 1].color;
             minIndex = colors.length;
         }
-        colors.splice(minIndex, 0, {"id": deviceId, "color": minColor + maxDistance / 2});
+        colors.splice(minIndex, 0, {"id": deviceID, "color": minColor + maxDistance / 2});
         return minColor + maxDistance / 2;
     }
 }

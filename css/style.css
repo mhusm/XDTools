@@ -20,6 +20,11 @@ body {
     margin: 0;
 }
 
+#options {
+    list-style-type: none;
+    padding: 0;
+}
+
 #deviceModal input {
     width: 50%;
 }
@@ -138,33 +143,50 @@ body {
 #console-container {
     width: 100%;
     height: 30%;
-    padding: 5px;
     border-top: 5px solid #337ab7;
     font-family: Consolas, Menlo, Monaco, monospace;
 }
 
 #css-console {
     border-left: 5px solid #337ab7;
-    width: calc(30% - 10px);
+    width: calc(35% - 10px);
     float: left;
     height: 100%;
     margin: 5px;
     padding-left: 10px;
+    flex: 2 auto;
 }
 
 #css-console .properties {
-    overflow-y: scroll;
-    height: calc(100% - 29px);
+    overflow-y: auto;
+    height: calc(100% - 49px);
 }
 
 #sessions {
-    margin: 5px;
-    padding-left: 10px;
+    padding: 5px;
     border-left: 5px solid #337ab7;
-    width: calc(20% - 10px);
+    width: 20%;
     height: 100%;
     float: left;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#sessions .content {
+    width: 100%;
+    height: calc(100% - 35px);
+    overflow-y: auto;
+}
+
+.remove-css {
+    float: right;
+}
+
+.tab-pane {
+    padding: 10px;
+}
+
+.remove-css:first-of-type {
+    display: none;
 }
 
 .session {
@@ -178,28 +200,83 @@ body {
     font-weight: bold;
 }
 
+.ui-widget-content {
+    background: none !important;
+    background-color: white !important;
+}
+
+#subcontainer {
+    width: 80%;
+    height: 100%;
+    float: left;
+    display: flex;
+}
+
 #javascript-console {
-    width: calc(50% - 10px);
-    height: calc(100% - 10px);
+    width: calc(45% - 10px);
+    height: calc(100% - 39px);
     margin: 5px;
     display: flex;
     flex-flow: column;
     float: left;
+    flex: 2 auto;
+}
+
+#debug-list {
+    width: 20%;
+    float: left;
+    height: 100%;
+    flex: 1 auto;
+}
+
+#debug-list input {
+    float: left;
+    width: 75%;
+}
+
+#debug-list hr {
+    margin: 0;
+    margin-top: 10px;
+}
+
+#debug-button {
+    float: right;
+}
+
+.function {
+    margin: 10px 5px;
+}
+
+.function .inspect-function {
+    float: right;
+    margin: 0 5px;
+    height: 20px;
+    padding: 0;
+}
+
+.function .remove-function {
+    float: right;
+}
+
+#debugged-functions {
+    width: 100%;
+    height: calc(100% - 95px);
+    overflow-y: auto;
 }
 
 #console-container h4 {
     margin-bottom: 10px;
     margin-top: 0;
+    min-height: 18px;
 }
 
 #history {
     width: 100%;
     border: 2px solid #337ab7;
     border-bottom: none;
-    border-top: none;
     flex-grow: 1;
     padding: 5px;
-    overflow-y: scroll;
+    overflow-y: auto;
     background-color: #f7f7f9;
 }
 
@@ -217,9 +294,10 @@ body {
 }
 
 #device-overview {
-    border: 2px solid #337ab7;
     min-height: 24px;
-    background-color: #f7f7f9;
+    padding-top: 5px;
+    width: 80%;
+    float: left;
 }
 
 #toggle-js-console {

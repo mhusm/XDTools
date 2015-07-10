@@ -166,9 +166,11 @@ var XDTest = {
         this.event = document.createEvent("OverflowEvent");
         this.event.initOverflowEvent(ev.orient, ev.horizontalOverflow, ev.verticalOverflow);
     },
+    //Send a message to the parent page of the iframe
     sendMessage: function (ev, message, parentDomain) {
         ev.source.postMessage(message, parentDomain);
     },
+    //Logs an event if the user is currently capturing events
     logEvent: function (ev, type) {
         if (XDTest.capturing) {
             if (type === "MouseEvent") {
@@ -220,35 +222,37 @@ var XDTest = {
             }
         }
     },
-    generateEvents: function (eventSequence, delay) {
+    //Generates actual events from an event log
+    generateEvents: function (eventLog, delay) {
         var result = [],
-            initialTime = eventSequence[0].time;
-        for (var i = 0, j = eventSequence.length; i < j; ++i) {
-            eventSequence[i].time = eventSequence[i].time - initialTime + delay;
-            if (eventSequence[i].eventType === "MouseEvent") {
-                result.push(new XDTest.MouseEvent(eventSequence[i]));
+            initialTime = eventLog[0].time;
+        for (var i = 0, j = eventLog.length; i < j; ++i) {
+            eventLog[i].time = eventLog[i].time - initialTime + delay;
+            if (eventLog[i].eventType === "MouseEvent") {
+                result.push(new XDTest.MouseEvent(eventLog[i]));
             }
-            else if (eventSequence[i].eventType === "KeyboardEvent") {
-                result.push(new XDTest.KeyboardEvent(eventSequence[i], eventSequence[i].modifiers));
+            else if (eventLog[i].eventType === "KeyboardEvent") {
+                result.push(new XDTest.KeyboardEvent(eventLog[i], eventLog[i].modifiers));
             }
-            else if (eventSequence[i].eventType === "UIEvent") {
-                result.push(new XDTest.UIEvent(eventSequence[i]));
+            else if (eventLog[i].eventType === "UIEvent") {
+                result.push(new XDTest.UIEvent(eventLog[i]));
             }
-            else if (eventSequence[i].eventType === "MutationEvent") {
-                result.push(new XDTest.MutationEvent(eventSequence[i]));
+            else if (eventLog[i].eventType === "MutationEvent") {
+                result.push(new XDTest.MutationEvent(eventLog[i]));
             }
-            else if (eventSequence[i].eventType === "WheelEvent") {
-                result.push(new XDTest.WheelEvent(eventSequence[i], eventSequence[i].modifiers));
+            else if (eventLog[i].eventType === "WheelEvent") {
+                result.push(new XDTest.WheelEvent(eventLog[i], eventLog[i].modifiers));
             }
-            else if (eventSequence[i].eventType === "OverflowEvent") {
-                result.push(new XDTest.OverflowEvent(eventSequence[i]));
+            else if (eventLog[i].eventType === "OverflowEvent") {
+                result.push(new XDTest.OverflowEvent(eventLog[i]));
             }
             else {
-                result.push(new XDTest.Event(eventSequence[i]));
+                result.push(new XDTest.Event(eventLog[i]));
             }
         }
         return result;
     },
+    //Returns the modifiers of an event in string form
     getModifiers: function (ev) {
         var modifiers = [];
         if (ev.altKey) {
@@ -292,21 +296,26 @@ var XDTest = {
         return hierarchy;
     },
     */
+    //Determines the hierarchy that an event must traverse to reach the target of the event
     determineHierarchy: function (path) {
         if (path.length === 0) {
             return [];
         }
         var curElement = path.shift(),
             hierarchy = [];
+        //Calculate hierarchy until top of the document is reached
         while (curElement.nodeName !== "BODY" && curElement.nodeName !== "HTML" && curElement.nodeName !== "#document") {
+            //If the current element does not have a parent node, it must be a shadowRoot element
             if (!curElement.parentElement && !curElement.parentNode) {
-                //curElement is shadowRoot
                 hierarchy.push(-1);
             }
+            //If the current element has an id, it can simply be reached via id
             else if (curElement.id) {
                 hierarchy.push(curElement.id);
             }
+            //Otherwise the current element can be reached by taking the x-th child of the parent node
             else {
+                //Calculate child index of the current element
                 var index = 0,
                     cur = curElement;
                 while (cur) {
@@ -319,13 +328,18 @@ var XDTest = {
         }
         var realHierarchy = [],
             idFound = false;
+        //If an element has an id, the rest of the hierarchy must not be traversed,
+        //but this must be done for each shadowRoot element
         for (var i = 0; i < hierarchy.length; ++i) {
+            // if we already encountered an id deeper in the hierarchy and the current element is not a shadowRoot,
+            // we do not need the current step of the hierarchy
             if (hierarchy[i] === -1 || !idFound) {
                 realHierarchy.push(hierarchy[i]);
                 if (typeof hierarchy[i] === "string" || hierarchy[i] instanceof String) {
                     idFound = true;
                 }
                 if (hierarchy[i] === -1) {
+                    //inside a shadowRoot element, we need to look for an id again
                     idFound = false;
                 }
             }
@@ -350,13 +364,19 @@ var XDTest = {
         return curElement;
     },
     */
+    //Determines the actual target element based on the hierarchy
     determineTarget: function (hierarchy) {
         var curElement = document.body,
             curIndex = hierarchy.length - 1;
         if (hierarchy) {
-            while (curIndex >= 0) {
+            while (curIndex >= 0 && curElement) {
                 if (typeof hierarchy[curIndex] === "string" || hierarchy[curIndex] instanceof String) {
-                    curElement = curElement.getElementById(hierarchy[curIndex]);
+                    if (curElement.getElementById) {
+                        curElement = curElement.getElementById(hierarchy[curIndex]);
+                    }
+                    else {
+                        curElement = document.getElementById(hierarchy[curIndex]);
+                    }
                 }
                 else if (hierarchy[curIndex] === -1) {
                     curElement = curElement.shadowRoot;
@@ -369,6 +389,7 @@ var XDTest = {
         }
         return curElement;
     },
+    //Adds event listeners for all events that we want to capture
     startRecording: function () {
         var i, j;
         for (i = 0, j = XDTest.mouseEvents.length; i < j; ++i) {
@@ -403,46 +424,125 @@ var XDTest = {
             XDTest.logEvent(ev, "OverflowEvent");
         }, true);
     },
+    //Replays a sequence of events
     replayEvents: function (curEvents, delay, eventIndex, lastBreak, nextBreak) {
         var i = eventIndex,
             j = curEvents.length;
+        //Execute all events (until the next breakpoint)
         for (i, j; i < j && curEvents[i].time < nextBreak; ++i) {
             setTimeout(XDTest.dispatchEvent, curEvents[i].time - lastBreak, curEvents[i]);
         }
         if (i < j) {
+            //Not all events have been executed yet --> we reached a breakpoint
             return i;
         }
         else {
+            //All events have been executed
             return -1;
         }
     },
     dispatchEvent: function (event) {
         var target = XDTest.determineTarget(event.hierarchy);
-        event.dispatch(target);
+        if (target) {
+            event.dispatch(target);
+        }
     },
+    //Store the original console functions
     originalLog: console.log,
     originalInfo: console.info,
     originalWarn: console.warn,
     originalError: console.error,
-    getIndex: function (properties, identifier) {
-        for (var i = 0, j = properties.length; i < j; ++i) {
-            if (properties[i].identifier === identifier) {
+    //Get the index of a CSS selector in the list of css rules
+    getIndex: function (cssRules, selector) {
+        for (var i = 0, j = cssRules.length; i < j; ++i) {
+            if (cssRules[i].identifier === selector) {
                 return i;
             }
         }
         return -1;
     },
-    getPropertyIndex: function (properties, index, property) {
-        for (var i = 0, j = properties[index].props.length; i < j; ++i) {
-            if (properties[index].props[i].property === property) {
+    //Get the index of a property within a specific CSS selector
+    getPropertyIndex: function (cssRules, selectorIndex, property) {
+        for (var i = 0, j = cssRules[selectorIndex].props.length; i < j; ++i) {
+            if (cssRules[selectorIndex].props[i].property === property) {
                 return i;
             }
         }
         return -1;
+    },
+    //add all rules from a given set of css rules to the stylesheet that is attached to the document
+    addAllRules: function (cssRules, stylesheet) {
+        for (var i = 0, j = stylesheet.cssRules.length; i < j; ++i) {
+            stylesheet.removeRule(0);
+        }
+        for (var i = 0, j = cssRules.length; i < j; ++i) {
+            var properties = cssRules[i].props,
+                style = cssRules[i].identifier + " {";
+
+            for (var k = 0, l = properties.length; k < l; ++k) {
+                style = style + properties[k].property + ": " + properties[k].value + " !important;";
+            }
+            style = style + "}";
+            stylesheet.insertRule(style, 0);
+        }
+    },
+    startErrorCapturing: function () {
+        //Overwrite all console logging functions and send messages to the parent frame before calling the actual function
+        console.log = function (args) {
+            var command = {
+                "name": "log",
+                "msg": JSON.stringify(args)
+            };
+            window.parent.postMessage(JSON.stringify(command), "*");
+            XDTest.originalLog.call(console, args);
+        };
+        console.info = function (args) {
+            var command = {
+                "name": "info",
+                "msg": JSON.stringify(args)
+            };
+            window.parent.postMessage(JSON.stringify(command), "*");
+            XDTest.originalInfo.call(console, args);
+        };
+        console.warn = function (args) {
+            var command = {
+                "name": "warn",
+                "msg": JSON.stringify(args)
+            };
+            window.parent.postMessage(JSON.stringify(command), "*");
+            XDTest.originalWarn.call(console, args);
+        };
+        console.error = function (args) {
+            var command = {
+                "name": "error",
+                "msg": JSON.stringify(args)
+            };
+            window.parent.postMessage(JSON.stringify(command), "*");
+            XDTest.originalError.call(console, args);
+        };
+
+        //If a JS error occurs, forward it to the parent domain along with the stack trace
+        window.onerror = function (message, filename, lineno, colno, error) {
+            var command;
+            if (error && error.stack) {
+                command = {
+                    "name": "exception",
+                    "msg": error.stack
+                };
+            }
+            else {
+                command = {
+                    "name": "exception",
+                    "msg": message
+                };
+            }
+            window.parent.postMessage(JSON.stringify(command), "*");
+        };
     }
 };
 
 XDTest.startRecording();
+XDTest.startErrorCapturing();
 
 window.addEventListener("load", initialize, false);
 
@@ -452,20 +552,21 @@ function initialize() {
         lastBreak = {"id": "", "time": 0},
         nextBreak = {"id": "", "time": Math.pow(2, 31)},
         breakpoints = [],
-        cssProperties = [],
-        style = document.createElement("style");
+        cssRules = [],
+        style = document.createElement("style"),
+        active = true;
 
+    //Append a new stylesheet to the document
     style.appendChild(document.createTextNode(""));
     document.head.appendChild(style);
-
-    var stylesheet = style.sheet;
-
-    var command = {
-        "name": "loaded",
-        "url": window.location.href
-    };
+    var stylesheet = style.sheet,
+        command = {
+            "name": "loaded",
+            "url": window.location.href
+        };
     window.parent.postMessage(JSON.stringify(command), "*");
 
+    //Periodically check if the URL of the iframe has changed and send changes to the parent frame
     var location = window.location.href;
     setInterval(function()
     {
@@ -480,74 +581,26 @@ function initialize() {
         }
     }, 200);
 
-    console.log = function (args) {
-        var command = {
-            "name": "log",
-            "msg": JSON.stringify(args)
-        };
-        window.parent.postMessage(JSON.stringify(command), "*");
-        XDTest.originalLog.call(console, args);
-    };
-
-    console.info = function (args) {
-        var command = {
-            "name": "info",
-            "msg": JSON.stringify(args)
-        };
-        window.parent.postMessage(JSON.stringify(command), "*");
-        XDTest.originalInfo.call(console, args);
-    };
-
-    console.warn = function (args) {
-        var command = {
-            "name": "warn",
-            "msg": JSON.stringify(args)
-        };
-        window.parent.postMessage(JSON.stringify(command), "*");
-        XDTest.originalWarn.call(console, args);
-    };
-
-    console.error = function (args) {
-        var command = {
-            "name": "error",
-            "msg": JSON.stringify(args)
-        };
-        window.parent.postMessage(JSON.stringify(command), "*");
-        XDTest.originalError.call(console, args);
-    };
-    window.onerror = function (message, filename, lineno, colno, error) {
-        var command;
-        if (error && error.stack) {
-            command = {
-                "name": "exception",
-                "msg": error.stack
-            };
-        }
-        else {
-            command = {
-                "name": "exception",
-                "msg": message
-            };
-        }
-        window.parent.postMessage(JSON.stringify(command), "*");
-    };
-
+    //Process all received messages
     window.addEventListener("message", function (ev) {
         var command = JSON.parse(ev.data);
         if (command.name === "startRecording") {
+            //Reset previously recorded events before starting recording
             XDTest.events = [];
             XDTest.capturing = true;
         }
         else if (command.name === "stopRecording") {
             XDTest.capturing = false;
+            //After stopping recording, send the recorded events to the parent frame
             var message = {
                 "name": "sendEventSequence",
                 "eventSequence": XDTest.events,
-                "deviceId": command.deviceId
+                "deviceID": command.deviceID
             };
-            ev.source.postMessage(JSON.stringify(message), command.parentDomain);
+            window.parent.postMessage(JSON.stringify(message), "*");
         }
         else if (command.name === "startReplaying") {
+            //Replay the received event sequence
             var eventSequence = [];
             for (var i = 0; i < command.eventSequence.length; ++i) {
                 eventSequence = eventSequence.concat(XDTest.generateEvents(command.eventSequence[i].sequence, command.eventSequence[i].startTime));
@@ -556,6 +609,7 @@ function initialize() {
             XDTest.events = eventSequence;
             breakpoints = command.breakpoints;
             nextBreak = breakpoints.shift() || {"id": "", "time": Math.pow(2, 31)};
+            //Execute events until the next breakpoint
             eventIndex = XDTest.replayEvents(eventSequence, command.delay, eventIndex, lastBreak.time, nextBreak.time);
             if (eventIndex > 0) {
                 var message = {
@@ -567,6 +621,7 @@ function initialize() {
         }
         else if (command.name === "continue") {
             if (eventIndex != -1) {
+                //Continue execution until the next breakpoint is reached
                 lastBreak = nextBreak;
                 nextBreak = breakpoints.shift() || {"id": "", "time": Math.pow(2, 31)};
                 eventIndex = XDTest.replayEvents(XDTest.events, command.delay, eventIndex, lastBreak.time, nextBreak.time);
@@ -580,79 +635,66 @@ function initialize() {
             }
         }
         else if (command.name === "updateCSS") {
-            var index = XDTest.getIndex(cssProperties, command.identifier),
-                elems = document.querySelectorAll(command.identifier);
-            for (var i = 0, j = stylesheet.cssRules.length; i < j; ++i) {
-                stylesheet.removeRule(0);
-            }
+            var index = XDTest.getIndex(cssRules, command.identifier);
+            //Add a new CSS rule to the document
             if (index === -1) {
-                cssProperties.push({
+                cssRules.push({
                     "identifier": command.identifier,
                     "props": [{"property": command.property, "value": command.value}]
                 });
-                index = 0;
             }
             else {
-                var propertyIndex = XDTest.getPropertyIndex(cssProperties, index, command.property);
+                var propertyIndex = XDTest.getPropertyIndex(cssRules, index, command.property);
                 if (propertyIndex === -1) {
-                    cssProperties[index].props.push({
+                    cssRules[index].props.push({
                         "property": command.property,
                         "value": command.value
                     });
                 }
                 else {
-                    cssProperties[index].props[propertyIndex].value = command.value;
+                    cssRules[index].props[propertyIndex].value = command.value;
                 }
             }
-            var properties = cssProperties[index].props,
-                style = command.identifier + " {";
-
-            for (var i = 0, j = properties.length; i < j; ++i) {
-                style = style + properties[i].property + ": " + properties[i].value + " !important;";
+            if (active) {
+                XDTest.addAllRules(cssRules, stylesheet);
             }
-            style = style + "}";
-            stylesheet.insertRule(style, 0);
         }
         else if (command.name === "restore") {
-            var index = XDTest.getIndex(cssProperties, command.identifier),
-                elems = document.querySelectorAll(command.identifier),
-                propertyIndex = XDTest.getPropertyIndex(cssProperties, index, command.property);
-            for (var i = 0, j = stylesheet.cssRules.length; i < j; ++i) {
-                stylesheet.removeRule(0);
-            }
-            cssProperties[index].props.splice(propertyIndex, 1);
-            var properties = cssProperties[index].props,
-                style = command.identifier + " {";
-
-            for (var i = 0, j = properties.length; i < j; ++i) {
-                style = style + properties[i].property + ": " + properties[i].value + " !important;";
-            }
-            style = style + "}";
-            stylesheet.insertRule(style, 0);
-        }
-        else if (command.name === "resetCSS") {
-            for (var i = 0, j = stylesheet.cssRules.length; i < j; ++i) {
-                stylesheet.removeRule(0);
+            //Remove a CSS rule from the document
+            var index = XDTest.getIndex(cssRules, command.identifier),
+                propertyIndex = XDTest.getPropertyIndex(cssRules, index, command.property);
+            cssRules[index].props.splice(propertyIndex, 1);
+            if (active) {
+                XDTest.addAllRules(cssRules, stylesheet);
             }
         }
-        else if (command.name === "reactivateCSS") {
-            for (var i = 0, j = cssProperties.length; i < j; ++i) {
-                var properties = cssProperties[i].props,
-                    style = cssProperties[i].identifier + " {";
-
-                for (var i = 0, j = properties.length; i < j; ++i) {
-                    style = style + properties[i].property + ": " + properties[i].value + " !important;";
-                }
-                style = style + "}";
-                stylesheet.insertRule(style, 0);
+        else if (command.name === "active") {
+            //The device was activated, apply CSS rules
+            active = true;
+            XDTest.addAllRules(cssRules, stylesheet);
+        }
+        else if (command.name === "inactive") {
+            //The device was deactivated, remove all CSS rules
+            active = false;
+            for (var i = 0, j = stylesheet.cssRules.length; i < j; ++i) {
+                stylesheet.removeRule(0);
             }
         }
         else if (command.name === "executeJS") {
+            //Execute a JS command and send the return value to the parent frame
+            //TODO: Handle circular structures in return values
             var returnVal = eval(command.code);
-            if (returnVal) {
+            if (returnVal !== undefined) {
                 var command = {
                     "name": "return",
                     "msg": JSON.stringify(returnVal)
+                };
+                window.parent.postMessage(JSON.stringify(command), "*");
+            }
+            else {
+                var command = {
+                    "name": "return",
+                    "msg": JSON.stringify("undefined")
                 };
                 window.parent.postMessage(JSON.stringify(command), "*");
             }

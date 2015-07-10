@@ -1,3 +1,5 @@
+var rewriteURL = rewriteURLwithDNS;
+
 $(document).ready(function () {
 
     var $url = $("#url");
@@ -36,35 +38,36 @@ $(document).ready(function () {
 
     //show/hide device settings
     $(document).on("click", ".settings-button", function () {
-        $("#device-" + this.dataset.deviceId + " .settings-panel").slideToggle();
+        var deviceID = $(this).closest(".device-container").data("device-id");
+        $("#device-" + deviceID + " .settings-panel").slideToggle();
     });
 
     $(document).on("click", ".toggle-main", function () {
         var parent = $(this).closest(".device-container");
         parent.find(".main-devices").toggleClass("hidden");
-        var deviceId = parent.data("device-id");
+        var deviceID = parent.data("device-id");
         if ($(this).is(":checked")) {
-            makeMainDevice(deviceId);
+            makeMainDevice(deviceID);
         }
         else {
-            removeMainDevice(deviceId);
+            removeMainDevice(deviceID);
         }
     });
 
+    //Highlight a device when the user hovers over its id in the session management
     $(document).on("mouseover", ".session-device", function () {
-        var deviceId = $(this).text();
-        $("#device-" + deviceId).find(".overlay").removeClass("hidden");
+        var deviceID = $(this).text();
+        $("#device-" + deviceID).find(".overlay").removeClass("hidden");
     });
-
     $(document).on("mouseout", ".session-device", function () {
-        var deviceId = $(this).text();
-        $("#device-" + deviceId).find(".overlay").addClass("hidden");
+        var deviceID = $(this).text();
+        $("#device-" + deviceID).find(".overlay").addClass("hidden");
     });
 
     $(document).on("change", ".main-devices", function () {
-        var deviceId = $(this).closest(".device-container").data("device-id"),
+        var deviceID = $(this).closest(".device-container").data("device-id"),
             mainDeviceId = $(this).val();
-        connectDevice(deviceId, mainDeviceId);
+        connectDevice(deviceID, mainDeviceId);
     });
 
     //Make the device draggable when clicked on the border
@@ -76,25 +79,29 @@ $(document).ready(function () {
 
     //Update the z-index of the device
     $(document).on("change", ".layer", function () {
-        var index = getDeviceIndex(this.dataset.deviceId);
+        var deviceID = $(this).closest(".device-container").data("device-id"),
+            index = getDeviceIndex(deviceID);
         activeDevices[index].setLayer($(this).val());
     });
 
     //Switch the orientation from landscape to portrait and vice versa
     $(document).on("click", ".rotate", function () {
-        var index = getDeviceIndex(this.dataset.deviceId);
+        var deviceID = $(this).closest(".device-container").data("device-id"),
+            index = getDeviceIndex(deviceID);
         activeDevices[index].switchOrientation();
     });
 
     //Set the device scaling to 1
     $(document).on("click", ".scale", function () {
-        var index = getDeviceIndex(this.dataset.deviceId);
+        var deviceID = $(this).closest(".device-container").data("device-id"),
+            index = getDeviceIndex(deviceID);
         activeDevices[index].setScaling(1);
     });
 
     //Update the URL of a specific device
     $(document).on("blur", ".url", function () {
-        var index = getDeviceIndex(this.dataset.deviceId);
+        var deviceID = $(this).closest(".device-container").data("device-id"),
+            index = getDeviceIndex(deviceID);
         activeDevices[index].loadURL($(this).val());
     });
     $(document).on("keyup", ".url", function (ev) {
@@ -105,30 +112,45 @@ $(document).ready(function () {
 
     //Scale up/down the device
     $(document).on("change", ".range", function () {
-        var index = getDeviceIndex(this.dataset.deviceId);
+        var deviceID = $(this).closest(".device-container").data("device-id"),
+            index = getDeviceIndex(deviceID);
         activeDevices[index].setScaling($(this).val());
     });
 
     $(document).on("click", ".refresh", function () {
-        var index = getDeviceIndex(this.dataset.deviceId);
+        var deviceID = $(this).closest(".device-container").data("device-id"),
+            index = getDeviceIndex(deviceID);
         activeDevices[index].reloadURL();
     });
 
+    $(document).on("click", ".inspect", function () {
+        var deviceID = $(this).closest(".device-container").data("device-id");
+        socket.emit("inspect", $(this).closest(".device-container").find(".url").val());
+    });
+
+    $(document).on("click", ".debug", function () {
+        var deviceID = $(this).closest(".device-container").data("device-id");
+        socket.emit("debug", $(this).closest(".device-container").find(".url").val(), $(this).closest(".device-container").find(".function").val());
+    });
+
+    //Refresh all devices that share a session
     $(document).on("click", ".session-refresh", function () {
         var parent = $(this).closest(".session");
         parent.find(".session-device").each(function () {
-            var deviceId = $(this).text(),
-                index = getDeviceIndex(deviceId);
+            var deviceID = $(this).text(),
+                index = getDeviceIndex(deviceID);
             activeDevices[index].reloadURL();
         });
     });
 
+    //Reset a session --> assign a new id to the main device and re-connect the other devices
     $(document).on("click", "#sessions .reset", function () {
-        var deviceId = $(this).closest(".session").data("device-id"),
-            index = getDeviceIndex(deviceId);
+        var deviceID = $(this).closest(".session").data("device-id"),
+            index = getDeviceIndex(deviceID);
         activeDevices[index].reset();
     });
 
+    //Enable/disable auto-connect for a main device
     $(document).on("click", ".auto-connect input", function () {
         if ($(this).is(":checked")) {
             $(".auto-connect input").not("[data-device-id='" + this.dataset.deviceId + "']").each(function () {
@@ -140,11 +162,12 @@ $(document).ready(function () {
     });
 });
 
-function connectDevice(deviceId, mainDeviceId) {
-    var deviceIndex = getDeviceIndex(deviceId),
+//Connect a side device to a main device
+function connectDevice(deviceID, mainDeviceId) {
+    var deviceIndex = getDeviceIndex(deviceID),
         mainDeviceIndex = getDeviceIndex(mainDeviceId);
-    if (mainDevices.indexOf(deviceId) !== -1) {
-        removeMainDevice(deviceId);
+    if (mainDevices.indexOf(deviceID) !== -1) {
+        removeMainDevice(deviceID);
     }
     if (activeDevices[mainDeviceIndex].isRemote) {
         //Connect to remote device
@@ -156,37 +179,39 @@ function connectDevice(deviceId, mainDeviceId) {
         var url = activeDevices[mainDeviceIndex].url.replace(activeDevices[mainDeviceIndex].host, activeDevices[mainDeviceIndex].originalHost);
         activeDevices[deviceIndex].connect(url);
     }
-    $("#sessions").find("li[data-device-id='" + deviceId + "']").remove();
-    $(".session[data-device-id='" + mainDeviceId + "'] ul").append("<li data-device-id='" + deviceId + "'><span class='session-device'>" + deviceId + "</span></li>");
+    $("#sessions").find("li[data-device-id='" + deviceID + "']").remove();
+    $(".session[data-device-id='" + mainDeviceId + "'] ul").append("<li data-device-id='" + deviceID + "'><span class='session-device'>" + deviceID + "</span></li>");
 }
 
-function makeMainDevice(deviceId) {
-    var index = getDeviceIndex(deviceId);
+function makeMainDevice(deviceID) {
+    var index = getDeviceIndex(deviceID);
     activeDevices[index].disconnect();
-    $("#sessions").find("li[data-device-id='" + deviceId + "']").remove();
-    mainDevices.push(deviceId);
+    $("#sessions").find("li[data-device-id='" + deviceID + "']").remove();
+    mainDevices.push(deviceID);
     $(".main-devices").append(
-        "<option data-device-id='" + deviceId + "' value='" + deviceId + "'>" + deviceId + "</option>"
+        "<option data-device-id='" + deviceID + "' value='" + deviceID + "'>" + deviceID + "</option>"
     );
-    $("<div class='session' data-device-id='" + deviceId + "'>" +
+    $("<div class='session' data-device-id='" + deviceID + "'>" +
         "<button type='button' class='btn btn-sm btn-default reset'>Reset Session</button><br />" +
         "<button type='button' class='btn btn-sm btn-default session-refresh'><span class='glyphicon glyphicon-refresh'></span></button>" +
-        "<span class='auto-connect'><input data-device-id='" + deviceId + "' type='checkbox' /> Auto-Connect</span>" +
-        "<span class='title'>Main device: </span><span class='session-device'>" + deviceId + "</span>" +
+        "<span class='auto-connect'><input data-device-id='" + deviceID + "' type='checkbox' /> Auto-Connect</span>" +
+        "<span class='title'>Main device: </span><span class='session-device'>" + deviceID + "</span>" +
         "<br /><span class='title'>Connected devices:</span><br />" +
         "<ul></ul></div>"
-    ).appendTo("#sessions");
+    ).appendTo("#sessions .content");
+    $("#device-" + deviceID).find("select").val("none");
 }
 
-function removeMainDevice(deviceId) {
-    mainDevices.splice(mainDevices.indexOf(deviceId), 1);
-    $(".main-devices option[data-device-id='" + deviceId + "']").remove();
-    $(".session[data-device-id='" + deviceId + "']").find("ul").find(".session-device").each(function () {
-       var deviceId = $(this).text(),
-           index = getDeviceIndex(deviceId);
+function removeMainDevice(deviceID) {
+    mainDevices.splice(mainDevices.indexOf(deviceID), 1);
+    $(".main-devices option[data-device-id='" + deviceID + "']").remove();
+    var $session = $(".session[data-device-id='" + deviceID + "']");
+    $session.find("ul").find(".session-device").each(function () {
+       var deviceID = $(this).text(),
+           index = getDeviceIndex(deviceID);
         activeDevices[index].disconnect();
     });
-    $(".session[data-device-id='" + deviceId + "']").remove();
+    $session.remove();
 }
 
 function refreshAllDevices() {
@@ -202,7 +227,7 @@ function loadURLOnAllDevices(url) {
 }
 
 //Rewrite URL for emulated devices so no data is shared between devices
-function rewriteURL(url, deviceIndex) {
+function rewriteURLwithDNS(url, deviceIndex) {
     var u = new URL(url);
     if (!u.hostname.match(/[a-z]/i)) {
         var d = {"name": deviceIndex, "A":[{"address":u.hostname}], "ttl":3000, "domain": "xdtest.com","time": Date.now()};
@@ -221,6 +246,11 @@ function rewriteURL(url, deviceIndex) {
     return u.href;
 }
 
+function rewriteURLWithoutDNS(url, deviceIndex) {
+    return url;
+}
+
+//Move the device to the position where it was dropped
 function dropDevice(ev) {
     ev.preventDefault();
     //update position of the element

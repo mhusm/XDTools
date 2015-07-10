@@ -17,8 +17,9 @@ app.get("/*", function(request, response) {
     response.sendFile(__dirname + "/index.html");
 });
 
-var remote = io.of("/remote");
-var local = io.of("/local");
+var remote = io.of("/remote"),
+    local = io.of("/local"),
+    devtools = io.of("/devtools");
 
 //A local device connected to the server
 local.on("connection", function (socket) {
@@ -68,6 +69,19 @@ local.on("connection", function (socket) {
             remote.emit("command", command)
         }
     });
+    socket.on("inspect", function (deviceURL) {
+        devtools.emit("inspect", deviceURL);
+    });
+    socket.on("debug", function (deviceURL, functionName) {
+        devtools.emit("debug", deviceURL, functionName);
+    });
+    socket.on("undebug", function (deviceURL, functionName) {
+        devtools.emit("undebug", deviceURL, functionName);
+    });
+
+    socket.on("inspectFunction", function (deviceURL, functionName) {
+       devtools.emit("inspectFunction", deviceURL, functionName);
+    });
 });
 
 //A remote device connected to the server
@@ -100,10 +114,14 @@ remote.on("connection", function (socket) {
     });
 });
 
+devtools.on("connection", function (socket) {
+   console.log("Developer Tools connected");
+});
+
 http.listen(80, function () {
     console.log("Listening on port 80");
 });
 
-function getDeviceIndex(deviceId) {
-    return remoteDevices.map(function(e) { return e.id; }).indexOf(deviceId);
+function getDeviceIndex(deviceID) {
+    return remoteDevices.map(function(e) { return e.id; }).indexOf(deviceID);
 }

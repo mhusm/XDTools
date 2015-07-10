@@ -6,51 +6,56 @@
 
 $(document).ready(function () {
 
-    socket.on("command", function (command, deviceId) {
+    socket.on("command", function (command, deviceID) {
         command = JSON.parse(command);
-        processCommand(command, deviceId);
+        processCommand(command, deviceID);
     });
 
     window.addEventListener("message", function (ev) {
-        var command = JSON.parse(ev.data),
-            url = new URL(ev.origin),
-            deviceId = url.hostname.substring(0, url.hostname.length - 11);
-        processCommand(command, deviceId);
+        //Checking if ev.data is JSON is needed because YouTube API sends some strange messages that cannot be parsed
+        //TODO: find another solution?
+        if (isJson(ev.data)) {
+            var command = JSON.parse(ev.data),
+                url = new URL(ev.origin),
+                deviceID = url.hostname.substring(0, url.hostname.length - 11);
+            processCommand(command, deviceID);
+        }
     }, false);
 
 });
 
-function processCommand(command, deviceId) {
+//Process the command and call the appropriate function
+function processCommand(command, deviceID) {
     if (command.name === "log") {
-        appendLogToHistory(command.msg, deviceId);
+        appendLogToHistory(command.msg, deviceID);
     }
     else if (command.name === "info") {
-        appendInfoToHistory(command.msg, deviceId);
+        appendInfoToHistory(command.msg, deviceID);
     }
     else if (command.name === "warn") {
-        appendWarnToHistory(command.msg, deviceId);
+        appendWarnToHistory(command.msg, deviceID);
     }
     else if (command.name === "error") {
-        appendErrorToHistory(command.msg, deviceId);
+        appendErrorToHistory(command.msg, deviceID);
     }
     else if (command.name === "exception") {
-        appendExceptionToHistory(command.msg, deviceId);
+        appendExceptionToHistory(command.msg, deviceID);
     }
     else if (command.name ==="return") {
-        appendReturnValueToHistory(command.msg, deviceId);
+        appendReturnValueToHistory(command.msg, deviceID);
     }
     else if (command.name === "loaded") {
-        addCSSProperties(deviceId);
-        $("#device-" + deviceId + " .url").val(command.url);
-        var index = getDeviceIndex(deviceId);
+        addCSSProperties(deviceID);
+        $("#device-" + deviceID + " .url").val(command.url);
+        var index = getDeviceIndex(deviceID);
         activeDevices[index].setUrl(command.url);
     }
     else if (command.name === "sendEventSequence") {
-        if (!events[command.deviceId]) {
-            events[command.deviceId] = [];
+        if (!events[command.deviceID]) {
+            events[command.deviceID] = [];
         }
-        events[command.deviceId].push({"name": "unnamed sequence", "sequence": adjustTiming(command.eventSequence), "position": -1});
-        visualizeEventSequences(command.deviceId);
+        events[command.deviceID].push({"name": "unnamed sequence", "sequence": adjustTiming(command.eventSequence), "position": -1});
+        visualizeEventSequences(command.deviceID);
     }
     else if (command.name === "breakpointReached") {
         pause(command);
@@ -60,41 +65,50 @@ function processCommand(command, deviceId) {
     }
 }
 
-function Command(name, deviceId) {
+function Command(name, deviceID) {
     this.name = name;
-    this.deviceId = deviceId;
+    this.deviceID = deviceID;
     this.parentDomain = "http://" + window.location.host;
     this.toString = function () {
-        return JSON.stringify({"name": this.name, "deviceId": this.deviceId, "parentDomain": this.parentDomain});
+        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain});
     };
     this.send = function (targetIframe, url) {
         targetIframe.contentWindow.postMessage(this.toString(), url);
     };
 }
 
-function ReplayCommand(name, deviceId, sequence, breakpoints) {
-    Command.call(this, name, deviceId);
+function ReplayCommand(name, deviceID, sequence, breakpoints) {
+    Command.call(this, name, deviceID);
     this.eventSequence = sequence;
     this.breakpoints = breakpoints;
     this.toString = function () {
-        return JSON.stringify({"name": this.name, "deviceId": this.deviceId, "parentDomain": this.parentDomain, "eventSequence": this.eventSequence, "breakpoints": this.breakpoints});
+        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain, "eventSequence": this.eventSequence, "breakpoints": this.breakpoints});
     };
 }
 
-function CSSCommand(name, deviceId, identifier, property, value) {
-    Command.call(this, name, deviceId);
+function CSSCommand(name, deviceID, identifier, property, value) {
+    Command.call(this, name, deviceID);
     this.identifier = identifier;
     this.property = property;
     this.value = value;
     this.toString = function ()  {
-        return JSON.stringify({"name": this.name, "deviceId": this.deviceId, "parentDomain": this.parentDomain, "identifier": this.identifier, "property": this.property, "value": this.value});
+        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain, "identifier": this.identifier, "property": this.property, "value": this.value});
     }
 }
 
-function JSCommand(name, deviceId, code) {
-    Command.call(this, name, deviceId);
+function JSCommand(name, deviceID, code) {
+    Command.call(this, name, deviceID);
     this.code = code;
     this.toString = function () {
-        return JSON.stringify({"name": this.name, "deviceId": this.deviceId, "parentDomain": this.parentDomain, "code": this.code});
+        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain, "code": this.code});
     }
+}
+
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }
