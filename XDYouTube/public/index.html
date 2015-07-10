@@ -1,11 +1,9 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
     <head>
         <script src="http://129.132.173.2/js/remote.js"></script>
-       <!-- 1. Load platform support before any code that touches the DOM. -->
         <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
         <link rel="import" href="bower_components/polymer/polymer.html">
-        <!-- 2. Load the component using an HTML Import -->
         <script src="bower_components/xdmvcclient/js/queryParams.js"></script>
 
         <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-synchronised.html">
@@ -18,28 +16,20 @@
         <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.1.min.js"></script>
         <script src="https://apis.google.com/js/client.js"></script>
 
-        <!--
-        <link rel="import"
-              href="bower_components/font-roboto/roboto.html">
-        <link rel="import" href="bower_components/paper-input/paper-input-decorator.html">
-        <link rel="import" href="bower_components/paper-input/paper-input.html">
-        <link href="css/app.css" rel="stylesheet" >
-        -->
         <meta name="viewport" content="width=device-width, user-scalable=no">
+        <style>
+            body, html {
+                height: 100%;
+            }
+        </style>
         <script>
             function initializeYoutubeAPI() {
                 gapi.client.setApiKey("AIzaSyDOd1930V0WNcPnmYgM1uXM2NbcYNs7RgI");
                 gapi.client.load('youtube', 'v3');
             }
 
-            window.onload = initializeYoutubeAPI;
+            document.addEventListener("load", initializeYoutubeAPI, false);
         </script>
-        <style>
-            body, html {
-                height: 100%;
-                overflow-y: hidden;
-            }
-        </style>
 
     </head>
     <body>
@@ -53,7 +43,7 @@
                              available='["player", "controller"]'
                              roles="{{roles}}">
                 </xdmvc-roles>
-                <xdmvc-devices id="devices" devices="{{devices}}"></xdmvc-devices>
+                <xdmvc-devices devices="{{devices}}" id="devices"></xdmvc-devices>
                 <template is="dom-if" if="{{roles.isselected.player}}">
                     <template is="dom-if" if="{{synced.current.index}}">
                         <google-youtube
@@ -100,7 +90,19 @@
                         .thumbnail {
                             float: left;
                             border-radius: 5px;
-                            box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.75);
+                            box-shadow: 2px 2px 9px 0 rgba(0,0,0,0.75);
+                        }
+
+                        .queued-video {
+                            float: left;
+                            max-width: 130px;
+                        }
+
+                        .queued-video div {
+                            width: 100%;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
                         }
 
                         span {
@@ -108,7 +110,6 @@
                         }
 
                         paper-button {
-                            float: right;
                             margin: 5px;
                             background-color: rgb(248, 248, 248);
                         }
@@ -120,7 +121,7 @@
                         #youtube-logo {
                             float: right;
                             box-shadow: none;
-                            border-radius: 0px;
+                            border-radius: 0;
                             width: 30vw;
                         }
 
@@ -130,23 +131,123 @@
                             height: calc(100vh - 132px);
                             width: calc(100vw - 16px);
                         }
+
+                        @media all and (max-aspect-ratio: 13/9) {
+                            #video-overview {
+                                display: none;
+                            }
+                        }
+
+                        @media all and (min-aspect-ratio: 13/9) {
+                            #search-panel {
+                                display: none;
+                            }
+                        }
                     </style>
+                    <template is="dom-if" if="{{isExtraLargeDevice()}}">
+                        <style>
+                            #search-panel, #video-overview {
+                                display: block;
+                                width: 50%;
+                            }
+
+                            .queued-video {
+                                max-width: 30% !important;
+                                margin: 1.5%;
+                            }
+
+                            .queued-video img {
+                                width: 100%;
+                            }
+
+                            #video-overview {
+                                float: right;
+                            }
+
+                            #search-panel {
+                                float: left;
+                            }
+
+                            #youtube-logo {
+                                width: 10vw;
+                                margin-right: 90vw;
+                                float: left;
+                            }
+
+                            #results {
+                                width: 100%;
+                            }
+
+                            div {
+                                font-size: 1.2em;
+                            }
+
+                            h4 {
+                                font-size: 1.5em;
+                            }
+                        </style>
+                    </template>
                     <img src="img/youtube.png" id="youtube-logo" alt="YouTube" />
-                    <paper-input label="Search video" id="query" value="{{searchTerm}}" on-keypress="inputKeyPressed" floatingLabel></paper-input>
-                    <paper-button id="searchButton" on-click="searchVideo" raised>Search</paper-button>
-                    <div>
-                        <div id="results">
-                            <template is="dom-repeat" items="{{searchResult}}">
-                                <div class="video" data-id="{{item.id}}">
-                                    <h4>{{item.title}}</h4>
-                                    <img class="thumbnail" src="{{item.thumbnail}}" />
-                                    <span>{{item.description}}</span>
-                                    <br />
-                                    <paper-button on-click="addToQueue" raised>Add to Queue</paper-button>
-                                    <hr />
+                    <div id="video-overview">
+                        <h3>Current Video</h3>
+                        <template is="dom-if" if="{{!synced.current.index}}">
+                            <div>No video currently playing.</div>
+                        </template>
+                        <template is="dom-if" if="{{synced.current.index}}">
+                            <h4>{{synced.current.title}}</h4>
+                            <img class="thumbnail" src="{{synced.current.thumbnail.small}}" alt="" />
+                            <div>{{synced.current.description}}</div>
+                        </template>
+                        <hr />
+                        <h3>Queued Videos</h3>
+                        <template is="dom-if" if="{{synced.videoQueue}}">
+                            <template is="dom-repeat" items="{{synced.videoQueue}}">
+                                <div class="queued-video" data-id="{{item.id}}">
+                                    <template is="dom-if" if="{{!isLargeDevice()}}">
+                                        <img class="thumbnail" src="{{item.thumbnail.small}}" />
+                                    </template>
+                                    <template is="dom-if" if="{{isLargeDevice()}}">
+                                        <style>
+                                            .queued-video {
+                                                max-width: 330px;
+                                            }
+                                        </style>
+                                        <img class="thumbnail" src="{{item.thumbnail.medium}}" />
+                                    </template>
+                                    <div>{{item.title}}</div>
                                 </div>
                             </template>
+                        </template>
+                    </div>
+                    <div id="search-panel">
+                        <paper-input label="Search video" id="query" value="{{searchTerm}}" on-keypress="inputKeyPressed" floatingLabel></paper-input>
+                        <paper-button id="searchButton" on-click="searchVideo" raised>Search</paper-button>
+                        <div>
+                            <div id="results">
+                                <template is="dom-repeat" items="{{searchResult}}">
+                                    <div class="video" data-id="{{item.id}}">
+                                        <h4>{{item.title}}</h4>
+                                        <template is="dom-if" if="{{!isLargeDevice()}}">
+                                            <img class="thumbnail" src="{{item.thumbnail.small}}" />
+                                        </template>
+                                        <template is="dom-if" if="{{isLargeDevice()}}">
+                                            <style>
+                                                .queued-video {
+                                                    max-width: 330px;
+                                                }
+                                            </style>
+                                            <img class="thumbnail" src="{{item.thumbnail.medium}}" />
+                                        </template>
+                                        <span>{{item.description}}</span>
+                                        <br />
+                                        <paper-button on-click="addToQueue" raised>Add to Queue</paper-button>
+                                        <hr />
+                                    </div>
+                                </template>
+                            </div>
                         </div>
+                        <paper-button on-click="getPreviousPage" raised><</paper-button>
+                        <paper-button on-click="getNextPage" raised>></paper-button>
                     </div>
                 </template>
             </template>
@@ -159,14 +260,33 @@
                 properties: {
                     synced: {
                         type: Object,
-                        value: {"current": { "index": "", "title": ""}, "videoQueue": []},
+                        value: {"current": { "index": "", "title": "", "thumbnail": {"small": "", "medium": ""}, "description": ""}, "videoQueue": []},
                         notify: true
                     },
                     searchResult: {
                         type: Array,
                         value: [],
                         notify: true
+                    },
+                    previousPageToken: {
+                        type: String,
+                        value: "",
+                        notify: true
+                    },
+                    nextPageToken: {
+                        type: String,
+                        value: "",
+                        notify: true
                     }
+                },
+
+                isLargeDevice: function () {
+                    return this.$.devices.devices.thisDevice.width > 1000;
+                    //return this.$.devices.devices.thisDevice.type === "large" || this.$.devices.devices.thisDevice.type === "xlarge";
+                },
+
+                isExtraLargeDevice: function () {
+                    return this.$.devices.devices.thisDevice.type === "xlarge"
                 },
 
                 inputKeyPressed: function (ev) {
@@ -177,15 +297,19 @@
                 },
 
                 contained: function(id) {
-                    var contained = this.synced.videoQueue.indexOf(id) !== -1;
-                    return contained;
+                    return this.synced.videoQueue.indexOf(id) !== -1;
                 },
 
                 updateVideo: function () {
                     if (this.synced.videoQueue.length > 0) {
-                        var next = this.synced.videoQueue.shift();
+                        //var next = this.shift("synced.videoQueue");
+                        var next = this.shift("synced.videoQueue");
+                        //this.splice("synced.videoQueue", 0, 1);
                         this.set("synced.current.index", next.id);
                         this.set("synced.current.title", next.title);
+                        this.set("synced.current.thumbnail.small", next.thumbnail.small);
+                        this.set("synced.current.thumbnail.medium", next.thumbnail.medium);
+                        this.set("synced.current.description", next.description);
                     }
                     else {
                         this.set("synced.current.index", "");
@@ -199,14 +323,28 @@
                     }
                 },
 
-                searchVideo: function () {
+                searchVideo: function (pageToken) {
                     var q = this.searchTerm,
+                        request = {};
+                    if (typeof(pageToken) === 'string' || pageToken instanceof String) {
                         request = gapi.client.youtube.search.list({
-                        q: q,
-                        part: "snippet",
-                        type: "video",
-                        maxResults: 50
-                    });
+                            q: q,
+                            part: "snippet",
+                            type: "video",
+                            maxResults: 10,
+                            pageToken: pageToken
+                        });
+                    }
+                    else {
+                        this.previousPageToken = "";
+                        this.nextPageToken = "";
+                        request = gapi.client.youtube.search.list({
+                            q: q,
+                            part: "snippet",
+                            type: "video",
+                            maxResults: 10
+                        })
+                    }
 
                     request.execute(function (response) {
                         var result = response.items,
@@ -216,20 +354,52 @@
                                 "id": result[i].id.videoId,
                                 "title": result[i].snippet.title,
                                 "description": result[i].snippet.description,
-                                "thumbnail": result[i].snippet.thumbnails.default.url
+                                "thumbnail": {"small": result[i].snippet.thumbnails.default.url, "medium": result[i].snippet.thumbnails.medium.url}
                             });
                         }
                         var el = document.getElementById("app");
                         el.searchResult = videos;
+                        if (response.nextPageToken) {
+                            el.nextPageToken = response.nextPageToken;
+                        }
+                        else {
+                            //disable next button
+                        }
+                        if (response.prevPageToken) {
+                            el.previousPageToken = response.prevPageToken;
+                        }
+                        else {
+                            //disable previous button
+                        }
+                        var resultEl = document.getElementById("results");
+                        resultEl.scrollTop = 0;
                     });
+                },
+
+                getNextPage: function () {
+                    if (this.nextPageToken) {
+                        this.searchVideo(this.nextPageToken);
+                    }
+                },
+
+                getPreviousPage: function () {
+                    if (this.previousPageToken) {
+                        this.searchVideo(this.previousPageToken);
+                    }
                 },
 
                 addToQueue: function (ev) {
                     var id = $(ev.target).closest(".video")[0].dataId;
                     var index = this.searchResult.map(function (e) { return e.id; }).indexOf(id);
-                    this.synced.videoQueue.push({"id": id, "title": this.searchResult[index].title});
-                    if (this.synced.videoQueue.length === 1 && this.synced.current.index === "") {
-                        this.updateVideo();
+                    if (this.synced.videoQueue.length === 0 && this.synced.current.index === "") {
+                        this.set("synced.current.index", this.searchResult[index].id);
+                        this.set("synced.current.title", this.searchResult[index].title);
+                        this.set("synced.current.thumbnail.small", this.searchResult[index].thumbnail.small);
+                        this.set("synced.current.thumbnail.medium", this.searchResult[index].thumbnail.medium);
+                        this.set("synced.current.description", this.searchResult[index].description);
+                    }
+                    else {
+                        this.push("synced.videoQueue", {"id": id, "title": this.searchResult[index].title, "thumbnail": this.searchResult[index].thumbnail, "description": this.searchResult[index].description});
                     }
                 },
 
@@ -256,6 +426,7 @@
                         }
                     }
                 }
+
             });
         </script>
 
