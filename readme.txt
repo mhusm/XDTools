@@ -35,3 +35,7 @@ Using the application
 - The "1s" button can be dragged and dropped between two elements in the event sequence to add a 1 second pause between the elements
 - Breakpoints can be added by clicking in the area on the left of the timeline
 - Breakpoints can be removed by dragging them and then dropping them into the trash button
+- Debugging functions: To debug a function in your application, open the Chrome developer tools and add the function to the list of debugging functions. If the function is called, execution will be paused and the function can be debugged in the developer tools.
+- Inspecting HTML: To inspect the HTML of an emulated device, click its "Inspect HTML" button with open developer tools, the body of the iframe will then be opened in the developer tools.
+- Debugging functions/inspecting HTML will only work if the developer tools are opened AFTER creating emulated devices/after the URL of an emulated device has changed.
+- If you use any port other from 80, line 16 in devtools.js in the Chrome Extension must be adjusted.
