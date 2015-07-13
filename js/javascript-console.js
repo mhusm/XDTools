@@ -3,6 +3,31 @@ $(document).ready(function () {
     var history = [],
         historyPosition = 0;
 
+    $("#filter").keyup(function () {
+        var filterVal = $(this).val();
+        filterByName(filterVal.toLowerCase());
+    });
+
+    $("#javascript-console").find(".category").click(function () {
+        $("#javascript-console").find(".category").removeClass("marked");
+        $(this).addClass("marked");
+        if ($(this).text() === "All") {
+            filterAll();
+        }
+        else if ($(this).text() === "Errors") {
+            filterErrors();
+        }
+        else if ($(this).text() === "Warnings") {
+            filterWarnings();
+        }
+        else if ($(this).text() === "Info") {
+            filterInfo();
+        }
+        else if ($(this).text() === "Logs") {
+            filterLogs();
+        }
+    });
+
     $(document).on("click", ".collapse-stack", function () {
         var $history = $("#history");
         $(this.nextSibling).slideToggle();
@@ -75,6 +100,62 @@ $(document).ready(function () {
 
 });
 
+function filterByName(filter) {
+    $("#javascript-console").find(".content").each(function () {
+        var text = $(this).text();
+        if (text.toLowerCase().indexOf(filter) === -1) {
+            $(this).closest(".history-line").addClass("filteredOutByName");
+        }
+        else {
+            $(this).closest(".history-line").removeClass("filteredOutByName");
+        }
+    });
+}
+
+function filterAll() {
+    $("#javascript-console").find(".history-line").removeClass("filteredOut");
+}
+
+function filterErrors() {
+    $jsConsole = $("#javascript-console");
+    $jsConsole.find(".history-line").removeClass("filteredOut");
+    $jsConsole.find(".history-line").each(function () {
+        if ($(this).find(".error-line").length === 0) {
+            $(this).closest(".history-line").addClass("filteredOut");
+        }
+    });
+}
+
+function filterWarnings() {
+    $jsConsole = $("#javascript-console");
+    $jsConsole.find(".history-line").removeClass("filteredOut");
+    $jsConsole.find(".history-line").each(function () {
+        if ($(this).find(".warn-line").length === 0) {
+            $(this).closest(".history-line").addClass("filteredOut");
+        }
+    });
+}
+
+function filterInfo() {
+    $jsConsole = $("#javascript-console");
+    $jsConsole.find(".history-line").removeClass("filteredOut");
+    $jsConsole.find(".history-line").each(function () {
+        if ($(this).find(".info-line").length === 0) {
+            $(this).closest(".history-line").addClass("filteredOut");
+        }
+    });
+}
+
+function filterLogs() {
+    $jsConsole = $("#javascript-console");
+    $jsConsole.find(".history-line").removeClass("filteredOut");
+    $jsConsole.find(".history-line").each(function () {
+        if ($(this).find(".log-line").length === 0) {
+            $(this).closest(".history-line").addClass("filteredOut");
+        }
+    });
+}
+
 function appendLogToHistory(msg, deviceID) {
     if ($(".js-device[data-device-id='" + deviceID + "']").hasClass("active")) {
         var index = colors.map(function (e) {
@@ -82,7 +163,7 @@ function appendLogToHistory(msg, deviceID) {
         }).indexOf(deviceID);
         var $history = $("#history");
         var message = "<div class='history-line' data-device-id='" + deviceID + "'><span class='log-line'>< </span>";
-        message = message + "<span>" + process(msg) + "</span>";
+        message = message + "<span class='content'>" + process(msg) + "</span>";
         message = message + "</div>";
         $(message).appendTo($history)
             .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
@@ -97,7 +178,7 @@ function appendInfoToHistory(msg, deviceID) {
         }).indexOf(deviceID);
         var $history = $("#history");
         var message = "<div class='history-line' data-device-id='" + deviceID + "'><span class='info-line'><span class='glyphicon glyphicon-info-sign'></span> </span>";
-        message = message + "<span>" + process(msg) + "</span>";
+        message = message + "<span class='content'>" + process(msg) + "</span>";
         message = message + "</div>";
         $(message).appendTo($history)
             .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
@@ -112,7 +193,7 @@ function appendWarnToHistory(msg, deviceID) {
         }).indexOf(deviceID);
         var $history = $("#history");
         var message = "<div class='history-line' data-device-id='" + deviceID + "'><span class='warn-line'><span class='glyphicon glyphicon-warning-sign'></span> </span>";
-        message = message + "<span>" + process(msg) + "</span></div>";
+        message = message + "<span class='content'>" + process(msg) + "</span></div>";
         $(message).appendTo($history)
             .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
         $history.scrollTop($history[0].scrollHeight);
@@ -126,7 +207,7 @@ function appendErrorToHistory(msg, deviceID) {
         }).indexOf(deviceID);
         var $history = $("#history");
         var message = "<div class='history-line' data-device-id='" + deviceID + "'><span class='error-line'><span class='glyphicon glyphicon-remove-sign'></span> </span>";
-        message = message + "<span>" + process(msg) + "</span>";
+        message = message + "<span class='content'>" + process(msg) + "</span>";
         message = message + "</div>";
         $(message).appendTo($history)
             .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
@@ -141,17 +222,17 @@ function appendExceptionToHistory(msg, deviceID) {
         }).indexOf(deviceID);
         var $history = $("#history");
         var splittedError = msg.split(" at ");
-        var message = "<div class='history-line' data-device-id='" + deviceID + "'><span class='error-line'><span class='glyphicon glyphicon-remove-sign'></span> </span>";
+        var message = "<div class='history-line' data-device-id='" + deviceID + "'><span class='error-line'><span class='glyphicon glyphicon-remove-sign'></span></span>";
         if (splittedError.length > 1) {
-            message = "<span>" + message + splittedError[0] + "<span class='glyphicon glyphicon-collapse-down collapse-stack'></span><span class='stack'>";
+            message = message + "<span class='content'>" + splittedError[0] + "</span><span class='glyphicon glyphicon-collapse-down collapse-stack'></span><span class='stack'>";
             for (var i = 1, j = splittedError.length; i < j; ++i) {
                 message = message + "<div class='stack-line'>at " + splittedError[i] + "</div>";
             }
-            message = message + "</span></span></div>";
+            message = message + "</span></div>";
         }
         else {
-            message = "<span>" + message + splittedError[0] + "</span>";
-            message = message + "</span></span></div>";
+            message = message + "<span class='content'>" + splittedError[0] + "</span>";
+            message = message + "</div>";
         }
         $(message).appendTo($history)
             .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
@@ -166,7 +247,7 @@ function appendReturnValueToHistory(msg, deviceID) {
         }).indexOf(deviceID);
         var $history = $("#history");
         var message = "<div class='history-line' data-device-id='" + deviceID + "'><span class='log-line'><- </span>";
-        message = message + "<span>" + process(msg) + "</span></div>";
+        message = message + "<span class='content'>" + process(msg) + "</span></div>";
         $(message).appendTo($history)
             .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
         $history.scrollTop($history[0].scrollHeight);

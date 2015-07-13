@@ -189,6 +189,10 @@ body {
     display: none;
 }
 
+.dev-tools-closed {
+    display: none;
+}
+
 .session {
     background-color: #f7f7f9;
     border-radius: 10px;
@@ -220,6 +224,34 @@ body {
     flex-flow: column;
     float: left;
     flex: 2 auto;
+}
+
+#filter-overview {
+    width: 100%;
+    border: 2px solid #337ab7;
+    min-height: 30px;
+    max-height: 30px;
+    background-color: #f7f7f9;
+}
+
+#filter {
+    height: 20px;
+    margin-top: 3px;
+    margin-left: 3px;
+    border: none;
+    width: 120px;
+}
+
+#javascript-console .category {
+    margin: 0 10px;
+    cursor: default;
+}
+
+#javascript-console .category.marked {
+    background-color: #337ab7;
+    color: #f7f7f9;
+    border-radius: 5px;
+    padding: 3px;
 }
 
 #debug-list {
@@ -258,6 +290,14 @@ body {
     float: right;
 }
 
+.filteredOut {
+    display: none;
+}
+
+.filteredOutByName {
+    display: none;
+}
+
 #debugged-functions {
     width: 100%;
     height: calc(100% - 95px);
@@ -274,6 +314,7 @@ body {
     width: 100%;
     border: 2px solid #337ab7;
     border-bottom: none;
+    border-top: none;
     flex-grow: 1;
     padding: 5px;
     overflow-y: auto;

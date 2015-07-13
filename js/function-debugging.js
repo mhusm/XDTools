@@ -1,5 +1,16 @@
 $(document).ready(function () {
 
+    socket.on("devToolsConnected", function () {
+        var $debugList = $("#debug-list");
+        $debugList.removeClass("dev-tools-closed");
+        $debugList.find(".name").each(function () {
+            debugAllDevices($(this).text());
+        });
+    });
+    socket.on("devToolsDisconnected", function () {
+        $("#debug-list").addClass("dev-tools-closed");
+    });
+
     $("#debug-button").click(function () {
         var functionName = $("#function-input").val();
         appendDebugFunction(functionName);

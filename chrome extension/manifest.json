@@ -8,6 +8,6 @@
     
   "permissions": [
       "debugger",
-      "https://cdnjs.cloudflare.com"
+      "management"
   ]
 }

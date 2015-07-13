@@ -115,7 +115,20 @@ remote.on("connection", function (socket) {
 });
 
 devtools.on("connection", function (socket) {
-   console.log("Developer Tools connected");
+    console.log("Developer Tools connected");
+    local.emit("devToolsConnected");
+    socket.on("close", function () {
+        console.log("Developer tools disconnected");
+        local.emit("devToolsDisconnected");
+    });
+    socket.on("end", function () {
+        console.log("Developer tools disconnected");
+        local.emit("devToolsDisconnected");
+    });
+    socket.on("disconnect", function () {
+        console.log("Developer tools disconnected");
+        local.emit("devToolsDisconnected");
+    });
 });
 
 http.listen(80, function () {
