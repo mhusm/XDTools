@@ -4,6 +4,7 @@
         - Sending CSS Update commands to devices
         - Autocompleting CSS properties
 */
+var cssRules = [];
 
 $(document).ready(function () {
 
@@ -11,50 +12,29 @@ $(document).ready(function () {
 
     $(document).on("click", ".remove-css", function () {
         var $cssProperty = $($(this).closest(".css-property")[0]),
-        identifier = $cssProperty.find(".identifier").text(),
-        props = $cssProperty.find(".content .line-wrapper");
-        for (var i = 0; i < props.length; ++i) {
-            if (!$(props[i]).find(".property").hasClass("empty") && !$(props[i]).find(".value").hasClass("empty")) {
-                var property = $(props[i]).find(".property").text(),
-                    value = $(props[i]).find(".value").text();
-                if (property) {
-                    addCSSProperty("restore", identifier, property, value);
-                }
-            }
-        }
-        $(this).closest(".css-property").remove();
+            cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($cssProperty.data("index"));
+        cssRules[cssIndex].destroy();
+        cssRules.splice(cssIndex, 1);
+        $cssProperty.remove();
     });
 
     //If the user changes the property field, remove the CSS rule with that property
     $(document).on("focus", ".property", function () {
         if (!$(this).hasClass("empty")) {
             var prevValue = $(this).text();
-            $(this).one("blur", {"prevValue": prevValue}, function (ev) {
-                var $cssProperty = $($(this).closest(".css-property")[0]),
-                    $lineWrapper = $($(this).closest(".line-wrapper")[0]),
-                    identifier = $cssProperty.find(".identifier").text(),
-                    value = $lineWrapper.find(".value").text();
-                addCSSProperty("restore", identifier, ev.data.prevValue, value);
-            });
+            var cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($($(this).closest(".css-property")[0]).data("index")),
+                $lineWrapper = $($(this).closest(".line-wrapper")[0]);
+            cssRules[cssIndex].removeAttribute(prevValue, $lineWrapper.find(".value").text());
         }
     });
 
     //If the selector changes, remove all old CSS rules for that selector
     $(document).on("focus", ".identifier", function () {
         if (!$(this).hasClass("empty")) {
-            var prevValue = $(this).text();
-            $(this).one("blur", {"prevValue": prevValue}, function (ev) {
-                var props = $(this.parentNode).find(".content .line-wrapper");
-                for (var i = 0; i < props.length; ++i) {
-                    if (!$(props[i]).find(".property").hasClass("empty") && !$(props[i]).find(".value").hasClass("empty")) {
-                        var property = $(props[i]).find(".property").text(),
-                            value = $(props[i]).find(".value").text();
-                        if (property) {
-                            addCSSProperty("restore", ev.data.prevValue, property, value);
-                        }
-                    }
-                }
-            });
+            var index = $($(this).closest(".css-property")[0]).data("index"),
+                cssIndex = cssRules.map(function (e) { return e.index; }).indexOf(index);
+            cssRules[cssIndex].destroy();
+            cssRules.splice(cssIndex, 1);
         }
     });
 
@@ -64,14 +44,12 @@ $(document).ready(function () {
             $lineWrapper = $($(this).closest(".line-wrapper")[0]),
             $property = $lineWrapper.find(".property"),
             $value = $lineWrapper.find(".value"),
-            property = $property.text(),
-            identifier = $cssProperty.find(".identifier").text(),
-            value = $value.text();
+            cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($cssProperty.data("index"));
         if ($(this).is(":checked") && !$property.hasClass("empty") && !$value.hasClass("empty")) {
-            addCSSProperty("updateCSS", identifier, property, value);
+            cssRules[cssIndex].addAttribute($property.text(), $value.text());
         }
         else if (!$property.hasClass("empty") && !$property.hasClass("empty")){
-            addCSSProperty("restore", identifier, property, value);
+            cssRules[cssIndex].removeAttribute($property.text(), $value.text());
         }
     });
 
@@ -79,50 +57,32 @@ $(document).ready(function () {
         if ($(this).hasClass("empty")) {
             //If an empty selector is set, add a new empty identifier for the next selector to be added
             if ($(this).text()) {
-                $(this).removeClass("empty");
+                var selectedLayer = $("#layer option:selected").val();
+                $(this).removeClass("empty").attr("data-layer", selectedLayer);
                 $(".remove-css").removeClass("hidden");
                 $("<div class='css-property'>" +
-                "<span class='identifier empty' data-placeholder='enter identifier...'></span> {<span class='glyphicon glyphicon-remove remove-css hidden'></span><br />" +
-                "<span class='content'></span>" +
+                    "<span class='identifier empty' data-placeholder='enter identifier...'></span> {<span class='glyphicon glyphicon-remove remove-css hidden'></span><br />" +
+                    "<span class='content'></span>" +
                 "}<br /></div><br />").prependTo("#css-console .properties");
                 $("<span class='line-wrapper'>" +
                     "<input type='checkbox' name='property4' value='property4' checked>" +
                     "<span class='property empty' data-placeholder='enter property...'></span><span class='remainder'></span>" +
                     ": <span class='value empty' data-placeholder='enter value...'></span>;</span><br />"
-                )
-                    .appendTo($(this).parent().find(".content"))
-                    .find(".property:last").attr("contenteditable", true).focus();
+                ).appendTo($(this).parent().find(".content")).find(".property:last").attr("contenteditable", true).focus();
             }
         }
         else {
             //If a selector is modified, add the rules for the old selector
             var identifier = $(this).text(),
-                props = $(this.parentNode).find(".content .line-wrapper");
-            for (var i = 0; i < props.length; ++i) {
-                if (!$(props[i]).find(".property").hasClass("empty") && !$(props[i]).find(".value").hasClass("empty")) {
-                    var property = $(props[i]).find(".property").text();
-                    var value = $(props[i]).find(".value").text();
-                    if (property && value) {
-                        addCSSProperty("updateCSS", identifier, property, value);
-                    }
-                }
-            }
-        }
-    });
-    $(document).on("keypress", ".identifier.empty", function (ev) {
-        if (ev.which === 13) {
-            ev.preventDefault();
-            $(this).blur();
+                cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($($(this).closest(".css-property")[0]).data("index"));
+            cssRules[cssIndex].modifySelector(identifier);
         }
     });
 
     $(document).on("blur", ".property", function () {
-        var $cssProperty = $($(this).closest(".css-property")[0]),
-            $lineWrapper = $($(this).closest(".line-wrapper")[0]),
-            property = $lineWrapper.find(".property").text(),
-            suggestion = $lineWrapper.find(".suggestion").text(),
-            identifier = $cssProperty.find(".identifier").text(),
-            $value = $lineWrapper.find(".value");
+        var $lineWrapper = $($(this).closest(".line-wrapper")[0]),
+            $value = $lineWrapper.find(".value"),
+            cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($($(this).closest(".css-property")[0]).data("index"));
         if ($(this).hasClass("empty")) {
             //If an empty property is set, focus the value field corresponding to the property
             if ($(this).text()) {
@@ -132,10 +92,11 @@ $(document).ready(function () {
         }
         else {
             //If a property field is modified, add the new CSS rule
+            var property = $lineWrapper.find(".property").text() + $lineWrapper.find(".suggestion").text();
             $lineWrapper.find(".suggestion").text("");
-            $(this).text(property + suggestion);
+            $(this).text(text);
             var value = $value.text();
-            addCSSProperty("updateCSS", identifier, property + suggestion, value);
+            cssRules[cssIndex].addAttribute(property, value);
         }
     });
 
@@ -144,7 +105,9 @@ $(document).ready(function () {
             $lineWrapper = $($(this).closest(".line-wrapper")[0]),
             property = $lineWrapper.find(".property").text(),
             identifier = $cssProperty.find(".identifier").text(),
-            value = $lineWrapper.find(".value").text();
+            layer = $cssProperty.find(".identifier").data("layer"),
+            value = $lineWrapper.find(".value").text(),
+            cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($cssProperty.data("index"));
         if ($(this).hasClass("empty")) {
             //If an empty value field is set, add the CSS rule and add a new property-value line
             if ($(this).text()) {
@@ -154,18 +117,24 @@ $(document).ready(function () {
                     "<span class='property empty' data-placeholder='enter property...'></span><span class='remainder'></span>" +
                     ": <span class='value empty' data-placeholder='enter-value'></span>;</span><br />"
                 ).appendTo($cssProperty.find(".content"));
-                addCSSProperty("updateCSS", identifier, property, value);
+                if (cssIndex >= 0) {
+                    cssRules[cssIndex].addAttribute(property, value);
+                }
+                else {
+                    var rule = new CSSRule(identifier, property, value, layer);
+                    cssRules.push(rule);
+                    $(this).closest(".css-property").attr("data-index", rule.index);
+                }
             }
         }
         else {
             //If a value field is modified, add the new CSS rule
-            addCSSProperty("updateCSS", identifier, property, value);
+            cssRules[cssIndex].modifyAttribute(property, value);
         }
     });
 
     $(document).on("click", ".identifier, .property, .value", function () {
-        $(this).attr("contenteditable", "true");
-        $(this).focus();
+        $(this).attr("contenteditable", "true").focus();
     });
 
     $(document).on("blur", ".identifier, .value", function () {
@@ -207,60 +176,25 @@ function addKeyUpEvent(oldSuggestions, cssProperties, oldKeyword) {
     });
 }
 
-//Returns all CSS properties that are currently in the editor
-function getCSSProperties() {
-    var properties = [];
-    $(".css-property").each(function () {
-        var identifier = $(this).find(".identifier").text();
-        if (!$(this).find(".identifier").hasClass("empty") && identifier) {
-            var props = $(this).find(".content .line-wrapper");
-            for (var i = 0; i < props.length; ++i) {
-                if (!$(props[i]).find(".property").hasClass("empty") && !$(props[i]).find(".value").hasClass("empty") && $(props[i]).find("input[type=checkbox]").is(":checked")) {
-                    var property = $(props[i]).find(".property").text(),
-                        value = $(props[i]).find(".value").text();
-                    if (property && value) {
-                        properties.push({"identifier": identifier, "property": property, "value": value});
-                    }
-                }
-            }
-        }
-    });
-    return properties;
-}
-
 //Adds all CSS properties from the editor to a specific device
 function addCSSProperties(deviceID) {
-    var properties = getCSSProperties(),
-        index = getDeviceIndex(deviceID);
-    for (var i = 0, j = properties.length; i < j; ++i) {
-        var command = new CSSCommand("updateCSS", deviceID, properties[i].identifier, properties[i].property, properties[i].value);
-        activeDevices[index].sendCommand(command);
+    for (var i = 0; i < cssRules.length; ++i) {
+        cssRules[i].apply(deviceID);
     }
 }
 
 //Removes all CSS properties from a device if it is deactivated
 function removeCSSProperties(deviceID) {
     var index = getDeviceIndex(deviceID),
-        command = new CSSCommand("inactive", deviceID, "", "", "");
+        command = new CSSCommand("inactive", deviceID, "", "", "", "");
     activeDevices[index].sendCommand(command);
 }
 
 //Reactivates all CSS properties that are in the editor when a device is reactivated
 function reactivateCSSProperties(deviceID) {
-    var command = new CSSCommand("active", deviceID, "", "", ""),
+    var command = new CSSCommand("active", deviceID, "", "", "", ""),
         index = getDeviceIndex(deviceID);
     activeDevices[index].sendCommand(command);
-}
-
-//Adds a CSS property to all devices that are active
-function addCSSProperty(name, identifier, property, value) {
-    if (property && property in document.body.style && identifier && (value || name === "restore")) {
-        $(".js-device").each(function () {
-            var index = getDeviceIndex(this.dataset.deviceId),
-                command = new CSSCommand(name, activeDevices[index].id, identifier, property, value);
-            activeDevices[index].sendCommand(command);
-        });
-    }
 }
 
 //Returns all CSS properties that begin with the prefix
@@ -282,4 +216,89 @@ function getAvailableCSSProperties() {
         properties.push(item);
     }
     return properties;
+}
+
+var ruleIndex = 0;
+
+function CSSRule(selector, property, value, layer) {
+    this.selector = selector;
+    this.attributes = [{"property": property, "value": value}];
+    this.index = ruleIndex;
+    ruleIndex++;
+    this.layer = layer;
+    for (var i = 0, j = activeDevices.length; i < j; ++i) {
+        var command = new CSSCommand("updateCSS", activeDevices[i].id, this.selector, property, value, this.layer);
+        activeDevices[i].sendCommand(command);
+    }
+    this.modifyAttribute = function (property, value) {
+        var index = this.attributes.map(function (e) { return e.property; }).indexOf(property);
+        for (var i = 0, j = activeDevices.length; i < j; ++i) {
+            var command = new CSSCommand("restore", activeDevices[i].id, this.selector, property, this.attributes[index].value, this.layer);
+            activeDevices[i].sendCommand(command);
+        }
+        this.attributes[index].value = value;
+        for (var i = 0, j = activeDevices.length; i < j; ++i) {
+            var command = new CSSCommand("updateCSS", activeDevices[i].id, this.selector, property, value, this.layer);
+            activeDevices[i].sendCommand(command);
+        }
+    };
+    this.addAttribute = function (property, value) {
+        this.attributes.push({"property": property, "value": value});
+        for (var i = 0, j = activeDevices.length; i < j; ++i) {
+            var command = new CSSCommand("updateCSS", activeDevices[i].id, this.selector, property, value, this.layer);
+            activeDevices[i].sendCommand(command);
+        }
+    };
+    this.removeAttribute = function (property, value) {
+        var index = -1;
+        for (var i = 0; i < this.attributes.length; ++i) {
+            if (this.attributes[i].property === property && this.attributes[i].value === value) {
+                index = i;
+            }
+        }
+        if (index !== -1) {
+            this.attributes.splice(index, 1);
+            for (var i = 0, j = activeDevices.length; i < j; ++i) {
+                var command = new CSSCommand("restore", activeDevices[i].id, this.selector, property, value, this.layer);
+                activeDevices[i].sendCommand(command);
+            }
+        }
+    };
+    this.modifySelector = function (selector) {
+        for (var i = 0; i < this.attributes.length; ++i) {
+            for (var j = 0, k = activeDevices.length; j < k; ++j) {
+                var command = new CSSCommand("restore", activeDevices[j].id, this.selector, this.attributes[i].property, this.attributes[i].value, this.layer);
+                activeDevices[j].sendCommand(command);
+            }
+        }
+        this.selector = selector;
+        for (var i = 0; i < this.attributes.length; ++i) {
+            for (var j = 0, k = activeDevices.length; j < k; ++j) {
+                var command = new CSSCommand("updateCSS", activeDevices[j].id, this.selector, this.attributes[i].property, this.attributes[i].value, this.layer);
+                activeDevices[j].sendCommand(command);
+            }
+        }
+    };
+    this.destroy = function () {
+        for (var i = 0; i < this.attributes.length; ++i) {
+            for (var j = 0, k = activeDevices.length; j < k; ++j) {
+                var command = new CSSCommand("restore", activeDevices[j].id, this.selector, this.attributes[i].property, this.attributes[i].value, this.layer);
+                activeDevices[j].sendCommand(command);
+            }
+        }
+    };
+    this.apply = function (deviceID) {
+        var index = getDeviceIndex(deviceID);
+        for (var i = 0, j = this.attributes.length; i < j; ++i) {
+            var command = new CSSCommand("updateCSS", activeDevices[index].id, this.selector, this.attributes[i].property, this.attributes[i].value, this.layer);
+            activeDevices[index].sendCommand(command);
+        }
+    };
+    this.restore = function (deviceID) {
+        for (var i = 0, j = this.attributes.length; i < j; ++i) {
+            var index = getDeviceIndex(deviceID),
+                command = new CSSCommand("restore", activeDevices[index].id, this.selector, this.attributes[i].property, this.attributes[i].value, this.layer);
+            activeDevices[index].sendCommand(command);
+        }
+    };
 }

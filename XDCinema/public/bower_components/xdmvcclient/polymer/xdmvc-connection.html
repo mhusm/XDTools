@@ -1,0 +1,55 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="xdmvc.html">
+
+<script>
+    Polymer({
+        is: "xdmvc-connection",
+
+        properties: {
+            reconnect: {
+                type: Boolean,
+                value: XDmvc.reconnect
+            },
+            server: {
+                type: String,
+                value: document.location.hostname
+            },
+            peerport: {
+                type: Number,
+                value: XDmvc.defaultPeerPort
+            } ,
+            ajaxport: {
+                type: Number,
+                value: XDmvc.defaultAjaxPort
+            } ,
+            socketport: {
+                type: Number,
+                value: XDmvc.defaultSocketIoPort
+            } ,
+            deviceid:  {
+                type: String,
+                value: XDmvc.deviceId
+            },
+            architecture:  {
+                type: String,
+                value: XDmvc.network_architecture
+            }
+        },
+                /*
+TODO reflect changes in XDmvc (e.g. different ports ect.) back into this element?
+                 */
+
+        attached: function(){
+            XDmvc.init(this.reconnect);
+            XDmvc.reconnect = this.reconnect;
+            if (this.architecture === XDmvc.clientServer) {
+                XDmvc.setClientServer();
+            }
+            XDmvc.connectToServer(this.url, this.peerport, this.socketport, this.ajaxport);
+        },
+
+        changeDeviceId: function(newID){
+            XDmvc.changeDeviceId(newID);
+        }
+    });
+</script>

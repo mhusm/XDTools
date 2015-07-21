@@ -290,6 +290,10 @@ body {
     float: right;
 }
 
+.function .name {
+    word-wrap: break-word;
+}
+
 .filteredOut {
     display: none;
 }
@@ -328,6 +332,20 @@ body {
     min-height: 30px;
     max-height: 30px;
     background-color: #f7f7f9;
+}
+
+#layer {
+    width: 10%;
+    float: left;
+    height: 20px;
+    padding: 0;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+.dropdown-menu {
+    margin-top: 40px;
+    left: 30px;
 }
 
 #code-input::-webkit-input-placeholder {

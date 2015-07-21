@@ -210,9 +210,14 @@ function appendDevice(device) {
                 "<button type='button' class='btn btn-primary refresh' title='Refresh device'>" +
                     "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
                 "</button>" +
-                "<button type='button' class='btn btn-primary inspect' title='Inspect HTML of device'>" +
-                    "Inspect HTML" +
-                "</button>" +
+                "<div class='dropdown'>" +
+                    "<button type='button' class='btn btn-primary inspect dropdown-toggle' title='Inspect HTML of device' data-toggle='dropdown' id='dropdown-" + device.id + "' aria-haspopup='true' aria-expanded='true'>" +
+                        "Inspect HTML " + "<span class='caret'></span>" +
+                    "</button>" +
+                    "<ul class='dropdown-menu' aria-labelledby='dropdown-" + device.id + "'>" +
+                        "<li><a href='#'>body</a></li>" +
+                    "</ul>" +
+                "</div>" +
                 "<button type='button' class='btn btn-primary inspect-js hidden' title='Inspect JS files'>" +
                     "Inspect JS files" +
                 "</button>" +

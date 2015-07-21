@@ -39,3 +39,4 @@ Using the application
 - Inspecting HTML: To inspect the HTML of an emulated device, click its "Inspect HTML" button with open developer tools, the body of the iframe will then be opened in the developer tools.
 - Debugging functions/inspecting HTML will only work if the developer tools are opened AFTER creating emulated devices/after the URL of an emulated device has changed.
 - If you use any port other from 80, line 16 in devtools.js in the Chrome Extension must be adjusted.
+- When typing in the URL of the application that you want to test, please enter the IP address if you are using the DNS server.

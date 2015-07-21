@@ -12,25 +12,30 @@
         <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-devices.html">
         <link rel="import" href="bower_components/google-youtube/google-youtube.html">
         <link rel="import" href="bower_components/paper-input/paper-input.html">
+        <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
         <link rel="import" href="bower_components/paper-button/paper-button.html">
         <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.1.min.js"></script>
         <script src="https://apis.google.com/js/client.js"></script>
 
         <meta name="viewport" content="width=device-width, user-scalable=no">
-        <style>
-            body, html {
-                height: 100%;
-            }
-        </style>
         <script>
             function initializeYoutubeAPI() {
                 gapi.client.setApiKey("AIzaSyDOd1930V0WNcPnmYgM1uXM2NbcYNs7RgI");
                 gapi.client.load('youtube', 'v3');
             }
 
-            document.addEventListener("load", initializeYoutubeAPI, false);
+            window.addEventListener("load", initializeYoutubeAPI, false);
         </script>
+        <style>
+            body, html {
+                height: 100%;
+                overflow-x: hidden;
+            }
 
+            body {
+                margin: 0 8px;
+            }
+        </style>
     </head>
     <body>
         <dom-module id="youtube-app">
@@ -40,34 +45,36 @@
                                     objects='{{synced}}'>
                 </xdmvc-synchronised>
                 <xdmvc-roles id="roles"
-                             available='["player", "controller"]'
+                             available='["player", "controller", "all"]'
                              roles="{{roles}}">
                 </xdmvc-roles>
                 <xdmvc-devices devices="{{devices}}" id="devices"></xdmvc-devices>
                 <template is="dom-if" if="{{roles.isselected.player}}">
-                    <template is="dom-if" if="{{synced.current.index}}">
-                        <google-youtube
-                                id="yt"
-                                video-id="{{synced.current.index}}"
-                                rel="0"
-                                start="0"
-                                autoplay="1"
-                                fluid
-                                on-google-youtube-state-change="handleStateChange">
-                        </google-youtube>
-                        <h3>{{synced.current.title}}</h3>
-                    </template>
-                    <template is="dom-if" if="{{!synced.current.index}}">
-                        <google-youtube
-                                id="yt"
-                                video-id=""
-                                rel="0"
-                                start="0"
-                                autoplay="0"
-                                fluid
-                                on-google-youtube-state-change="handleStateChange">
-                        </google-youtube>
-                    </template>
+                    <div id="yt-div">
+                        <template is="dom-if" if="{{synced.current.index}}">
+                            <google-youtube
+                                    id="yt"
+                                    video-id="{{synced.current.index}}"
+                                    rel="0"
+                                    start="0"
+                                    autoplay="1"
+                                    fluid
+                                    on-google-youtube-state-change="handleStateChange">
+                            </google-youtube>
+                        </template>
+                        <template is="dom-if" if="{{!synced.current.index}}">
+                            <google-youtube
+                                    id="yt"
+                                    video-id=""
+                                    rel="0"
+                                    start="0"
+                                    autoplay="0"
+                                    fluid
+                                    controls="1"
+                                    on-google-youtube-state-change="handleStateChange">
+                            </google-youtube>
+                        </template>
+                    </div>
                 </template>
                 <template is="dom-if" if="{{roles.isselected.controller}}">
                     <style>
@@ -111,11 +118,52 @@
 
                         paper-button {
                             margin: 5px;
-                            background-color: rgb(248, 248, 248);
+                        }
+
+                        paper-button.navigation {
+                            height: 30px;
+                            min-width: 30px;
+                            max-width: 30px;
+                        }
+
+                        .content.paper-button {
+                            padding: 5px;
                         }
 
                         paper-input {
                             padding-top: 45px;
+                        }
+
+                        paper-dialog {
+                            display: block !important;
+                            margin: 6px !important;
+                            padding: 5px !important;
+                        }
+
+                        paper-dialog h4 {
+                            margin: 0 !important;
+                            padding: 0 !important;
+                        }
+
+                        paper-dialog img {
+                            float: left;
+                            padding: 0 !important;
+                        }
+
+                        paper-dialog div {
+                            padding: 0 !important;
+                            margin: 0 !important;
+                        }
+
+                        paper-dialog span {
+                            padding: 0 !important;
+                            margin: 0 !important;
+                        }
+
+                        paper-dialog paper-button {
+                            float: right;
+                            padding: 0 !important;
+                            margin: 5px !important;
                         }
 
                         #youtube-logo {
@@ -128,8 +176,13 @@
                         #results {
                             overflow-y: scroll;
                             overflow-x: hidden;
-                            height: calc(100vh - 132px);
+                            max-height: calc(100vh - 184px);
                             width: calc(100vw - 16px);
+                        }
+
+                        #search-navigation {
+                            display: flex;
+                            justify-content: center;
                         }
 
                         @media all and (max-aspect-ratio: 13/9) {
@@ -218,6 +271,9 @@
                                 </div>
                             </template>
                         </template>
+                        <template is="dom-if" if="{{!synced.videoQueue}}">
+                            No queued videos.
+                        </template>
                     </div>
                     <div id="search-panel">
                         <paper-input label="Search video" id="query" value="{{searchTerm}}" on-keypress="inputKeyPressed" floatingLabel></paper-input>
@@ -226,6 +282,7 @@
                             <div id="results">
                                 <template is="dom-repeat" items="{{searchResult}}">
                                     <div class="video" data-id="{{item.id}}">
+                                        <paper-dialog>
                                         <h4>{{item.title}}</h4>
                                         <template is="dom-if" if="{{!isLargeDevice()}}">
                                             <img class="thumbnail" src="{{item.thumbnail.small}}" />
@@ -238,16 +295,19 @@
                                             </style>
                                             <img class="thumbnail" src="{{item.thumbnail.medium}}" />
                                         </template>
-                                        <span>{{item.description}}</span>
-                                        <br />
+                                        <div>{{item.description}}</div>
                                         <paper-button on-click="addToQueue" raised>Add to Queue</paper-button>
-                                        <hr />
+                                        </paper-dialog>
                                     </div>
                                 </template>
                             </div>
                         </div>
-                        <paper-button on-click="getPreviousPage" raised><</paper-button>
-                        <paper-button on-click="getNextPage" raised>></paper-button>
+                        <template is="dom-if" if="{{searched}}">
+                            <div id="search-navigation">
+                                <paper-button class="navigation" on-click="getPreviousPage" raised><</paper-button>
+                                <paper-button class="navigation" on-click="getNextPage" raised>></paper-button>
+                            </div>
+                        </template>
                     </div>
                 </template>
             </template>
@@ -268,6 +328,11 @@
                         value: [],
                         notify: true
                     },
+                    searched: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
                     previousPageToken: {
                         type: String,
                         value: "",
@@ -278,6 +343,14 @@
                         value: "",
                         notify: true
                     }
+                },
+
+                makeSingleDevice: function () {
+                    alert("hi");
+                },
+
+                isOnlyDevice: function () {
+                    return XDmvc.othersDevices.small === 0 && XDmvc.othersDevices.medium === 0 && XDmvc.othersDevices.large === 0 && XDmvc.othersDevices.xlarge === 0;
                 },
 
                 isLargeDevice: function () {
@@ -346,6 +419,8 @@
                         })
                     }
 
+                    var that = this;
+
                     request.execute(function (response) {
                         var result = response.items,
                                 videos = [];
@@ -357,16 +432,16 @@
                                 "thumbnail": {"small": result[i].snippet.thumbnails.default.url, "medium": result[i].snippet.thumbnails.medium.url}
                             });
                         }
-                        var el = document.getElementById("app");
-                        el.searchResult = videos;
+                        that.set("searchResult", videos);
+                        that.set("searched", true);
                         if (response.nextPageToken) {
-                            el.nextPageToken = response.nextPageToken;
+                            that.nextPageToken = response.nextPageToken;
                         }
                         else {
                             //disable next button
                         }
                         if (response.prevPageToken) {
-                            el.previousPageToken = response.prevPageToken;
+                            that.previousPageToken = response.prevPageToken;
                         }
                         else {
                             //disable previous button
@@ -403,14 +478,50 @@
                     }
                 },
 
+                updateViews: function () {
+                    if (this.$.devices.devices.connectedDevices.length === 0) {
+                        this.$.roles.addRole('player');
+                        this.$.roles.addRole('controller');
+                        var el = document.getElementById("yt-div");
+                        el.setAttribute("style", "");
+                        document.body.setAttribute("style", "");
+                    }
+                    else {
+                        var largest = true;
+                        for (var i = 0, j = this.$.devices.devices.connectedDevices.length; i < j; ++i) {
+                            if (this.$.devices.devices.connectedDevices[i].device.width > this.$.devices.devices.thisDevice.width) {
+                                largest = false;
+                            }
+                            else if (this.$.devices.devices.connectedDevices[i].device.width === this.$.devices.devices.thisDevice.width) {
+                                var id = parseInt(XDmvc.deviceId.substring(2));
+                                var otherId = parseInt(this.$.devices.devices.connectedDevices[i].id.substring(2));
+                                if (id > otherId) {
+                                    largest = false;
+                                }
+                            }
+                        }
+                        if (largest) {
+                            this.$.roles.addRole("player");
+                            this.$.roles.removeRole("controller");
+                        }
+                        else {
+                            this.$.roles.addRole("controller");
+                            this.$.roles.removeRole("player");
+                        }
+                        var el = document.getElementById("yt-div");
+                        el.setAttribute("style", "background-color: black; width: 100%; height: 100%;");
+                        document.body.setAttribute("style", "margin: 0;");
+                    }
+                },
+
                 ready: function () {
 
                     var connect = getQueryParams(window.location.search).connect;
                     if (!connect) {
                         var connectString = 'connect=' + XDmvc.deviceId;
-                        console.log("http://129.132.173.2:8082/galleryp2p.html/?" + connectString);
                         window.history.pushState('', '', window.location.search.length > 0 ? window.location.search + "&" + connectString : '?' + connectString);
                         this.$.roles.addRole('player');
+                        this.$.roles.addRole('controller');
                     } else {
                         if (connect !== XDmvc.deviceId) {
                             if (XDmvc.server) {
@@ -423,8 +534,16 @@
                             this.$.roles.addRole('controller');
                         } else {
                             this.$.roles.addRole('player');
+                            this.$.roles.addRole('controller');
                         }
                     }
+
+                    var that = this;
+
+                    var observer = new ObjectObserver(this.$.devices.devices.othersDevices);
+                    observer.open(function(changes){
+                        that.updateViews();
+                    });
                 }
 
             });

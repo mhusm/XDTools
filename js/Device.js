@@ -8,6 +8,23 @@ function Device(id, url, layer, top, left, isRemote) {
     this.$device = null;
     this.firstConnect = true;
     this.oldURL = "";
+    this.layers = [{"name": "document.body", "id": "", "path": ["document.body"]}];
+    this.setLayers = function (layers) {
+        this.layers = [{"name": "document.body", "id": "", "path": ["document.body"]}];
+        this.layers = this.layers.concat(layers);
+        this.$device.find(".dropdown-menu").html("");
+        this.$device.find(".dropdown-menu").append("<li data-value='document.body'><a href='#'>body</a></li>");
+        for (var i = 1, j = this.layers.length; i < j; ++i) {
+            var name = this.layers[i].name;
+            if (this.layers[i].id) {
+                name = name + "#" + this.layers[i].id;
+            }
+            this.$device.find(".dropdown-menu").append("<li data-value='" + this.layers[i].path.join(".") + ".shadowRoot'><a href='#'>" + name + "</a></li>");
+        }
+    };
+    this.hasLayer = function (name) {
+        return this.layers.map(function (e) { return e.path.join(".")}).indexOf(name) !== -1;
+    };
     this.connect = function (url) {
         if (this.firstConnect) {
             this.oldURL = this.url;

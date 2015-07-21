@@ -1,0 +1,49 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="xdmvc.html">
+
+<script>
+    Polymer({
+        is: "xdmvc-devices",
+
+        properties: {
+
+            devices:{
+                type: Object,
+                readOnly: true,
+                notify: true,
+                value: function(){return {thisDevice: {}, availableDevices: [], connectedDevices: [], othersDevices: {}}}
+            },
+            /*
+            device: {
+                type: Object,
+                notify: true,
+                value: XDmvc.device
+            },
+            othersDevices: {
+                type: Object,
+                notify: true,
+                value: XDmvc.othersDevices
+            },
+            connectedDevices: {
+                type: Array,
+                notify: true,
+                value: XDmvc.connectedDevices
+            } ,
+            availableDevices: {
+                type: Array,
+                notify: true,
+                value: XDmvc.availableDevices
+            }
+            */
+        },
+
+
+        created: function(){
+            synchronizeArray("devices.connectedDevices", XDmvc.connectedDevices, this);
+            synchronizeArray("devices.availableDevices", XDmvc.availableDevices, this);
+            synchronizeObject("devices.othersDevices", XDmvc.othersDevices, this);
+            synchronizeObject("devices.thisDevice", XDmvc.device, this);
+        }
+
+    });
+</script>

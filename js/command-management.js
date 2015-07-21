@@ -60,6 +60,11 @@ function processCommand(command, deviceID) {
     else if (command.name === "breakpointReached") {
         pause(command);
     }
+    else if (command.name === "layers") {
+        updateLayers(command.layers);
+        var index = getDeviceIndex(deviceID);
+        activeDevices[index].setLayers(command.layers);
+    }
     else {
         console.error("Unknown command");
     }
@@ -86,21 +91,31 @@ function ReplayCommand(name, deviceID, sequence, breakpoints) {
     };
 }
 
-function CSSCommand(name, deviceID, identifier, property, value) {
+function CSSCommand(name, deviceID, identifier, property, value, layer) {
     Command.call(this, name, deviceID);
     this.identifier = identifier;
     this.property = property;
     this.value = value;
+    this.layer = layer;
+    if (layer) {
+        this.layer = this.layer + ".shadowRoot";
+    }
     this.toString = function ()  {
-        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain, "identifier": this.identifier, "property": this.property, "value": this.value});
+        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain, "identifier": this.identifier, "property": this.property, "value": this.value, "layer": this.layer});
     }
 }
 
 function JSCommand(name, deviceID, code) {
+    var selectedLayer = $("#layer option:selected").val(),
+        index = getDeviceIndex(deviceID);
+    this.layer = "";
+    if (activeDevices[index].hasLayer(selectedLayer)) {
+        this.layer = selectedLayer;
+    }
     Command.call(this, name, deviceID);
     this.code = code;
     this.toString = function () {
-        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain, "code": this.code});
+        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain, "code": this.code, "layer": this.layer});
     }
 }
 

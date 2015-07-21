@@ -471,19 +471,28 @@ var XDTest = {
         return -1;
     },
     //add all rules from a given set of css rules to the stylesheet that is attached to the document
-    addAllRules: function (cssRules, stylesheet) {
-        for (var i = 0, j = stylesheet.cssRules.length; i < j; ++i) {
-            stylesheet.removeRule(0);
-        }
+    addAllRules: function (cssRules, stylesheets) {
+        this.removeAllRules(cssRules, stylesheets);
         for (var i = 0, j = cssRules.length; i < j; ++i) {
             var properties = cssRules[i].props,
-                style = cssRules[i].identifier + " {";
-
+                style = cssRules[i].identifier + " {",
+                layer = cssRules[i].layer,
+                index = stylesheets.map(function (e) { return e.layer; }).indexOf(layer);
+            if (index === -1) {
+                return;
+            }
             for (var k = 0, l = properties.length; k < l; ++k) {
                 style = style + properties[k].property + ": " + properties[k].value + " !important;";
             }
             style = style + "}";
-            stylesheet.insertRule(style, 0);
+            stylesheets[index].stylesheet.insertRule(style, 0);
+        }
+    },
+    removeAllRules: function (cssRules, stylesheets) {
+        for (var i = 0, j = stylesheets.length; i < j; ++i) {
+            for (var k = 0, l = stylesheets[i].stylesheet.cssRules.length; k < l; ++k) {
+                stylesheets[i].stylesheet.deleteRule(0);
+            }
         }
     },
     startErrorCapturing: function () {
@@ -491,7 +500,7 @@ var XDTest = {
         console.log = function (args) {
             var command = {
                 "name": "log",
-                "msg": JSON.stringify(args)
+                "msg": JSON.stringify(JSON.decycle(args, true))
             };
             window.parent.postMessage(JSON.stringify(command), "*");
             XDTest.originalLog.call(console, args);
@@ -499,7 +508,7 @@ var XDTest = {
         console.info = function (args) {
             var command = {
                 "name": "info",
-                "msg": JSON.stringify(args)
+                "msg": JSON.stringify(JSON.decycle(args, true))
             };
             window.parent.postMessage(JSON.stringify(command), "*");
             XDTest.originalInfo.call(console, args);
@@ -507,7 +516,7 @@ var XDTest = {
         console.warn = function (args) {
             var command = {
                 "name": "warn",
-                "msg": JSON.stringify(args)
+                "msg": JSON.stringify(JSON.decycle(args, true))
             };
             window.parent.postMessage(JSON.stringify(command), "*");
             XDTest.originalWarn.call(console, args);
@@ -515,7 +524,7 @@ var XDTest = {
         console.error = function (args) {
             var command = {
                 "name": "error",
-                "msg": JSON.stringify(args)
+                "msg": JSON.stringify(JSON.decycle(args, true))
             };
             window.parent.postMessage(JSON.stringify(command), "*");
             XDTest.originalError.call(console, args);
@@ -538,6 +547,50 @@ var XDTest = {
             }
             window.parent.postMessage(JSON.stringify(command), "*");
         };
+    },
+    determineLayers: function () {
+        var curElement = null;
+        var shadowRoots = [];
+        var toProcess = [];
+        toProcess.push({"path": ["document.body"], "element": document.body});
+        while (toProcess.length > 0) {
+            var cur = toProcess.pop();
+            curElement = cur.element;
+            if (curElement.children.length > 0) {
+                for (var i = 0; i < curElement.children.length; ++i) {
+                    var path = cur.path.slice(0);
+                    path.push("children[" + i + "]");
+                    toProcess.push({"path": path, "element": curElement.children[i]});
+                }
+            }
+            else if (curElement.shadowRoot) {
+                var path = cur.path.slice(0);
+                shadowRoots.push({"name": curElement.localName, "id": curElement.id, "path": path});
+                path = cur.path.slice(0);
+                path.push("shadowRoot");
+                toProcess.push({"path": path, "element": curElement.shadowRoot});
+            }
+        }
+        return shadowRoots;
+    },
+    updateStylesheets: function (stylesheets, layers) {
+        for (var i = 0, j = layers.length; i < j; ++i) {
+            var name = layers[i].path.join(".") + ".shadowRoot";
+            if (stylesheets.map(function (e) { return e.layer; }).indexOf(name) === -1) {
+                var style = document.createElement("style");
+                style.appendChild(document.createTextNode(""));
+                var code = layers[i].path.join(".") + ".shadowRoot;";
+                var element = eval(code);
+                element.appendChild(style);
+                stylesheets.push({"layer": name, "stylesheet": style.sheet});
+            }
+        }
+        if (stylesheets.map(function (e) { return e.layer; }).indexOf("document.body.shadowRoot") === -1) {
+            var style = document.createElement("style");
+            style.appendChild(document.createTextNode(""));
+            document.head.appendChild(style);
+            stylesheets.push({"layer": "document.body.shadowRoot", "stylesheet": style.sheet});
+        }
     }
 };
 
@@ -554,7 +607,8 @@ function initialize() {
         breakpoints = [],
         cssRules = [],
         style = document.createElement("style"),
-        active = true;
+        active = true,
+        stylesheets = [];
 
     //Append a new stylesheet to the document
     style.appendChild(document.createTextNode(""));
@@ -565,6 +619,30 @@ function initialize() {
             "url": window.location.href
         };
     window.parent.postMessage(JSON.stringify(command), "*");
+
+    var layers = XDTest.determineLayers(),
+        command = {
+            "name": "layers",
+            "layers": layers
+        };
+    window.parent.postMessage(JSON.stringify(command), "*");
+    XDTest.updateStylesheets(stylesheets, layers);
+    setInterval(function()
+    {
+        var newLayers = XDTest.determineLayers();
+        if (newLayers.length !== layers.length) {
+            layers = newLayers;
+            command = {
+                "name": "layers",
+                "layers": layers
+            };
+            window.parent.postMessage(JSON.stringify(command), "*");
+            XDTest.updateStylesheets(stylesheets, layers);
+            if (active) {
+                XDTest.addAllRules(cssRules, stylesheets);
+            }
+        }
+    }, 500);
 
     //Periodically check if the URL of the iframe has changed and send changes to the parent frame
     var location = window.location.href;
@@ -640,6 +718,7 @@ function initialize() {
             if (index === -1) {
                 cssRules.push({
                     "identifier": command.identifier,
+                    "layer": command.layer,
                     "props": [{"property": command.property, "value": command.value}]
                 });
             }
@@ -656,48 +735,275 @@ function initialize() {
                 }
             }
             if (active) {
-                XDTest.addAllRules(cssRules, stylesheet);
+                XDTest.addAllRules(cssRules, stylesheets);
             }
         }
         else if (command.name === "restore") {
             //Remove a CSS rule from the document
-            var index = XDTest.getIndex(cssRules, command.identifier),
+            var index = XDTest.getIndex(cssRules, command.identifier, command.layer),
                 propertyIndex = XDTest.getPropertyIndex(cssRules, index, command.property);
             cssRules[index].props.splice(propertyIndex, 1);
             if (active) {
-                XDTest.addAllRules(cssRules, stylesheet);
+                XDTest.addAllRules(cssRules, stylesheets);
             }
         }
         else if (command.name === "active") {
             //The device was activated, apply CSS rules
             active = true;
-            XDTest.addAllRules(cssRules, stylesheet);
+            XDTest.addAllRules(cssRules, stylesheets);
         }
         else if (command.name === "inactive") {
             //The device was deactivated, remove all CSS rules
             active = false;
-            for (var i = 0, j = stylesheet.cssRules.length; i < j; ++i) {
-                stylesheet.removeRule(0);
-            }
+            XDTest.removeAllRules(cssRules, stylesheets);
         }
         else if (command.name === "executeJS") {
             //Execute a JS command and send the return value to the parent frame
-            //TODO: Handle circular structures in return values
-            var returnVal = eval(command.code);
-            if (returnVal !== undefined) {
-                var command = {
-                    "name": "return",
-                    "msg": JSON.stringify(returnVal)
-                };
-                window.parent.postMessage(JSON.stringify(command), "*");
+            //TODO: check if command is a function or variable (not if statement etc.) and react
+            var returnVal;
+            if (command.layer !== "document.body") {
+                var index = command.code.indexOf("(");
+                var functionName = command.code.substring(0, index);
+                if (eval(command.layer + "." + functionName)) {
+                    returnVal = eval(command.layer + "." + command.code);
+                }
+                else {
+                    returnVal = eval(command.code);
+                }
             }
             else {
-                var command = {
-                    "name": "return",
-                    "msg": JSON.stringify("undefined")
-                };
-                window.parent.postMessage(JSON.stringify(command), "*");
+                returnVal = eval(command.code);
+            }
+            if (command.code.indexOf("console.") !== 0) {
+                if (returnVal !== undefined) {
+                    var command = {
+                        "name": "return",
+                        "msg": JSON.stringify(JSON.decycle(returnVal, true))
+                    };
+                    window.parent.postMessage(JSON.stringify(command), "*");
+                }
+                else {
+                    var command = {
+                        "name": "return",
+                        "msg": JSON.stringify("undefined")
+                    };
+                    window.parent.postMessage(JSON.stringify(command), "*");
+                }
             }
         }
     }, false);
+}
+
+/*
+    The following code is copied from:
+    https://github.com/Eccenux/JSON-js
+ */
+
+if (typeof JSON.decycle !== 'function') {
+    (function(){
+
+        /**
+         * Allows stringifing DOM elements.
+         *
+         * This is done in hope to identify the node when dumping.
+         *
+         * @param {Element} node DOM Node (works best for DOM Elements).
+         * @returns {String}
+         */
+        function stringifyNode(node) {
+            var text = "";
+            switch (node.nodeType) {
+                case node.ELEMENT_NODE:
+                    text = node.nodeName.toLowerCase();
+                    if (node.id.length) {
+                        text += '#' + node.id;
+                    }
+                    else {
+                        if (node.className.length) {
+                            text += '.' + node.className.replace(/ /, '.');
+                        }
+                        if ('textContent' in node) {
+                            text += '{textContent:'
+                            + (node.textContent.length < 20 ? node.textContent : node.textContent.substr(0, 20) + '...')
+                            + '}'
+                            ;
+                        }
+                    }
+                    break;
+                // info on values: http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-1841493061
+                default:
+                    text = node.nodeName;
+                    if (node.nodeValue !== null) {
+                        text += '{value:'
+                        + (node.nodeValue.length < 20 ? node.nodeValue : node.nodeValue.substr(0, 20) + '...')
+                        + '}'
+                        ;
+                    }
+                    break;
+            }
+            return text;
+        }
+
+        JSON.decycle = function decycle(object, stringifyNodes) {
+            'use strict';
+
+// Make a deep copy of an object or array, assuring that there is at most
+// one instance of each object or array in the resulting structure. The
+// duplicate references (which might be forming cycles) are replaced with
+// an object of the form
+//      {$ref: PATH}
+// where the PATH is a JSONPath string that locates the first occurance.
+// So,
+//      var a = [];
+//      a[0] = a;
+//      return JSON.stringify(JSON.decycle(a));
+// produces the string '[{"$ref":"$"}]'.
+
+// NOTE! If your object contains DOM Nodes you might want to use `stringifyNodes` option
+// This will dump e.g. `div` with id="some-id" to string: `div#some-id`.
+// You will avoid some problems, but you won't to be able to fully retro-cycle.
+// To dump almost any variable use: `alert(JSON.stringify(JSON.decycle(variable, true)));`
+
+// JSONPath is used to locate the unique object. $ indicates the top level of
+// the object or array. [NUMBER] or [STRING] indicates a child member or
+// property.
+
+            var objects = [],   // Keep a reference to each unique object or array
+                stringifyNodes = typeof(stringifyNodes) === 'undefined' ? false : stringifyNodes,
+                paths = [];     // Keep the path to each unique object or array
+
+            return (function derez(value, path) {
+
+// The derez recurses through the object, producing the deep copy.
+
+                var i,          // The loop counter
+                    name,       // Property name
+                    nu;         // The new object or array
+
+// if we have a DOM Element/Node convert it to textual info.
+
+                if (stringifyNodes && typeof value === 'object' && value !== null && 'nodeType' in value) {
+                    return stringifyNode(value);
+                }
+
+// typeof null === 'object', so go on if this value is really an object but not
+// one of the weird builtin objects.
+
+                if (typeof value === 'object' && value !== null &&
+                    !(value instanceof Boolean) &&
+                    !(value instanceof Date)    &&
+                    !(value instanceof Number)  &&
+                    !(value instanceof RegExp)  &&
+                    !(value instanceof String)) {
+
+// If the value is an object or array, look to see if we have already
+// encountered it. If so, return a $ref/path object. This is a hard way,
+// linear search that will get slower as the number of unique objects grows.
+
+                    for (i = 0; i < objects.length; i += 1) {
+                        if (objects[i] === value) {
+                            return {$ref: paths[i]};
+                        }
+                    }
+
+// Otherwise, accumulate the unique value and its path.
+
+                    objects.push(value);
+                    paths.push(path);
+
+// If it is an array, replicate the array.
+
+                    if (Object.prototype.toString.apply(value) === '[object Array]') {
+                        nu = [];
+                        for (i = 0; i < value.length; i += 1) {
+                            nu[i] = derez(value[i], path + '[' + i + ']');
+                        }
+                    } else {
+
+// If it is an object, replicate the object.
+
+                        nu = {};
+                        for (name in value) {
+                            if (Object.prototype.hasOwnProperty.call(value, name)) {
+                                nu[name] = derez(value[name],
+                                    path + '[' + JSON.stringify(name) + ']');
+                            }
+                        }
+                    }
+                    return nu;
+                }
+                return value;
+            }(object, '$'));
+        };
+    })();
+}
+
+
+if (typeof JSON.retrocycle !== 'function') {
+    JSON.retrocycle = function retrocycle($) {
+        'use strict';
+
+// Restore an object that was reduced by decycle. Members whose values are
+// objects of the form
+//      {$ref: PATH}
+// are replaced with references to the value found by the PATH. This will
+// restore cycles. The object will be mutated.
+
+// The eval function is used to locate the values described by a PATH. The
+// root object is kept in a $ variable. A regular expression is used to
+// assure that the PATH is extremely well formed. The regexp contains nested
+// * quantifiers. That has been known to have extremely bad performance
+// problems on some browsers for very long strings. A PATH is expected to be
+// reasonably short. A PATH is allowed to belong to a very restricted subset of
+// Goessner's JSONPath.
+
+// So,
+//      var s = '[{"$ref":"$"}]';
+//      return JSON.retrocycle(JSON.parse(s));
+// produces an array containing a single element which is the array itself.
+
+        var px =
+            /^\$(?:\[(?:\d+|\"(?:[^\\\"\u0000-\u001f]|\\([\\\"\/bfnrt]|u[0-9a-zA-Z]{4}))*\")\])*$/;
+
+        (function rez(value) {
+
+// The rez function walks recursively through the object looking for $ref
+// properties. When it finds one that has a value that is a path, then it
+// replaces the $ref object with a reference to the value that is found by
+// the path.
+
+            var i, item, name, path;
+
+            if (value && typeof value === 'object') {
+                if (Object.prototype.toString.apply(value) === '[object Array]') {
+                    for (i = 0; i < value.length; i += 1) {
+                        item = value[i];
+                        if (item && typeof item === 'object') {
+                            path = item.$ref;
+                            if (typeof path === 'string' && px.test(path)) {
+                                value[i] = eval(path);
+                            } else {
+                                rez(item);
+                            }
+                        }
+                    }
+                } else {
+                    for (name in value) {
+                        if (typeof value[name] === 'object') {
+                            item = value[name];
+                            if (item) {
+                                path = item.$ref;
+                                if (typeof path === 'string' && px.test(path)) {
+                                    value[name] = eval(path);
+                                } else {
+                                    rez(item);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }($));
+        return $;
+    };
 }

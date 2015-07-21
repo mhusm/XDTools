@@ -3,7 +3,8 @@ var app = require("express")(),
     io = require("socket.io")(http),
     url = "http://w3schools.com",
     shortid = require("shortid"),
-    remoteDevices = [];
+    remoteDevices = [],
+    devToolsConnected = false;
 
 var StaticRoutes = require("./routes/routes");
 
@@ -25,6 +26,9 @@ var remote = io.of("/remote"),
 local.on("connection", function (socket) {
     console.log("New connection");
     socket.emit("load", url);
+    if (devToolsConnected) {
+        socket.emit("devToolsConnected");
+    }
     for (var i = 0; i < remoteDevices.length; ++i) {
         socket.emit("remoteDeviceConnected", remoteDevices[i].id);
     }
@@ -69,8 +73,8 @@ local.on("connection", function (socket) {
             remote.emit("command", command)
         }
     });
-    socket.on("inspect", function (deviceURL) {
-        devtools.emit("inspect", deviceURL);
+    socket.on("inspect", function (layer, deviceURL) {
+        devtools.emit("inspect", deviceURL, layer);
     });
     socket.on("debug", function (deviceURL, functionName) {
         devtools.emit("debug", deviceURL, functionName);
@@ -115,19 +119,23 @@ remote.on("connection", function (socket) {
 });
 
 devtools.on("connection", function (socket) {
+    devToolsConnected = true;
     console.log("Developer Tools connected");
     local.emit("devToolsConnected");
     socket.on("close", function () {
         console.log("Developer tools disconnected");
         local.emit("devToolsDisconnected");
+        devToolsConnected = false;
     });
     socket.on("end", function () {
         console.log("Developer tools disconnected");
         local.emit("devToolsDisconnected");
+        devToolsConnected = false;
     });
     socket.on("disconnect", function () {
         console.log("Developer tools disconnected");
         local.emit("devToolsDisconnected");
+        devToolsConnected = false;
     });
 });
 

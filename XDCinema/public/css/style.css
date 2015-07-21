@@ -1,0 +1,77 @@
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#map-canvas { height: 100% }
+
+#location {
+    height: 100%;
+}
+
+#movie {
+    margin: 10px;
+}
+
+#movie .title {
+    font-weight: bold;
+}
+
+#movie img {
+    float: left;
+    margin: 5px;
+}
+
+#movie .genres, .runtime, .rating {
+    margin: 5px 0;
+}
+
+.cinema .name {
+    cursor: pointer;
+}
+
+.movie img, .movie h3 {
+    cursor: pointer;
+}
+
+.movie img {
+    max-width: 28%;
+    float: left;
+    margin: 5px;
+}
+
+.movie .cinemas {
+    float: left;
+    width: 68%;
+}
+
+.cinema {
+    clear: both;
+}
+
+.movie .name {
+    font-weight: bold;
+    float: left;
+}
+
+.movie .time {
+    margin: 0 5px;
+    float: left;
+}
+
+.movie h3 {
+    font-size: 20px;
+    margin: 7px;
+}
+
+.clear {
+    clear: both;
+}
+
+#search-results {
+    height: calc(100vh - 152px);
+    overflow-y: auto;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.cinemas {
+    font-size: 13px;
+}

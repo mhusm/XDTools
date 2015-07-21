@@ -1,4 +1,5 @@
-var rewriteURL = rewriteURLwithDNS;
+var rewriteURL = rewriteURLwithDNS,
+    layers = [{"name": "document.body", "id": "", "path": ["document.body"]}];
 
 $(document).ready(function () {
 
@@ -123,9 +124,10 @@ $(document).ready(function () {
         activeDevices[index].reloadURL();
     });
 
-    $(document).on("click", ".inspect", function () {
-        var deviceID = $(this).closest(".device-container").data("device-id");
-        socket.emit("inspect", $(this).closest(".device-container").find(".url").val());
+    $(document).on("click", ".device-container .dropdown-menu li", function () {
+        var deviceID = $(this).closest(".device-container").data("device-id"),
+            layer = $(this).data("value");
+        socket.emit("inspect", layer, $(this).closest(".device-container").find(".url").val());
     });
 
     $(document).on("click", ".debug", function () {
@@ -161,6 +163,20 @@ $(document).ready(function () {
         }
     });
 });
+
+function updateLayers(newLayers) {
+    var $layer = $("#layer");
+    for (var i = 0; i < newLayers.length; ++i) {
+        if ($("#layer option[value='" + newLayers[i].path.join(".") + "']").length === 0) {
+            var name = newLayers[i].name;
+            if (newLayers[i].id) {
+                name = name + "#" + newLayers[i].id;
+            }
+            layers.push(newLayers[i]);
+            $layer.append("<option value='" + newLayers[i].path.join(".") + "'>" + name + "</option>");
+        }
+    }
+}
 
 //Connect a side device to a main device
 function connectDevice(deviceID, mainDeviceId) {
