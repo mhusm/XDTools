@@ -8,6 +8,7 @@ var cinemaLocations = [
     {"city": "Zurich", "name": "Riffraff", "lat": 47.3826286, "long": 8.5293278, "website": "http://www.riffraff.ch/"},
     {"city": "Lucerne", "name": "capitol", "lat": 47.0459991, "long": 8.3097675, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/capitol/"},
     {"city": "Lucerne", "name": "Bourbaki", "lat": 47.0564005, "long": 8.3115412, "website": "http://www.kinoluzern.ch/"},
+    {"city": "Lucerne", "name": "moderne", "lat": 47.0485086, "long": 8.3060189, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/moderne/"},
     {"city": "Basel", "name": "Pathe Kuechlin", "lat": 47.5524925, "long": 7.5884172, "website": "http://www.pathe.ch/de/basel/kuchlin"},
     {"city": "Basel", "name": "capitol", "lat": 47.5526131, "long": 7.5882383, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/capitol/"},
     {"city": "Basel", "name": "rex", "lat": 47.553032, "long": 7.5889299, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/rex/"},
@@ -17,10 +18,27 @@ var cinemaLocations = [
     {"city": "Bern", "name": "jura", "lat": 46.946866, "long": 7.440348, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/jura/"},
     {"city": "Bern", "name": "CineBubenberg", "lat": 46.947663, "long": 7.4371833, "website": "http://www.quinnie.ch/"},
     {"city": "Bern", "name": "capitol", "lat": 46.948042, "long": 7.4489234, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/capitol/"},
-    {"city": "Bern", "name": "splendid", "lat": 46.9485731, "long": 7.4417456, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/splendid/"},
+    {"city": "Bern", "nabame": "splendid", "lat": 46.9485731, "long": 7.4417456, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/splendid/"},
     {"city": "Bern", "name": "CineMovie", "lat": 46.9471707, "long": 7.4355858, "website": "http://www.quinnie.ch/"},
     {"city": "Olten", "name": "youcinema", "lat": 47.3490232, "long": 7.9107891, "website": "http://youcinema.ch/Standort-Olten"},
-    {"city": "Olten", "name": "Palace", "lat": 47.3517928, "long": 7.9015585, "website": "http://youcinema.ch/Standort-Olten"}
+    {"city": "Olten", "name": "Palace", "lat": 47.3517928, "long": 7.9015585, "website": "http://youcinema.ch/Standort-Olten"},
+    {"city": "Winterthur", "name": "Kiwi", "lat": 47.4987727, "long": 8.7258845, "website": "http://www.kiwikinos.ch/"},
+    {"city": "Winterthur", "name": "maxx", "lat": 47.498162, "long": 8.721234, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/maxx/"},
+    {"city": "St. Gallen", "name": "scala", "lat": 47.4265733, "long": 9.3764106, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/scala/"},
+    {"city": "St. Gallen", "name": "rex studio", "lat": 47.426879, "long": 9.3729276, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/rex-studio/"},
+    {"city": "St. Gallen", "name": "storchen", "lat": 47.4272421, "long": 9.376012, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/storchen/"},
+    {"city": "Biel", "name": "Lido", "lat": 47.1379517, "long": 7.2452753, "website": "http://www.cinevital.ch/Info/Cinemas.aspx"},
+    {"city": "Biel", "name": "Rex", "lat": 47.1360863, "long": 7.2449885, "website": "http://www.cinevital.ch/Info/Cinemas.aspx"},
+    {"city": "Thun", "name": "City", "lat": 46.7602017, "long": 7.6274567, "website": "http://www.kino-thun.ch/dies-das/kino-city"},
+    {"city": "Thun", "name": "Lauitor", "lat": 46.7579755, "long": 7.6321411, "website": "http://www.kino-thun.ch/dies-das/kino-lauitor"},
+    {"city": "Thun", "name": "Rex", "lat": 46.7592951, "long": 7.6255913, "website": "http://www.rex-thun.ch/"},
+    {"city": "Lugano", "name": "CineStar Multicinema", "lat": 46.024326, "long": 8.963427, "website": "https://www.arena.ch/it/lugano"},
+    {"city": "Geneva", "name": "Arena Cinemas", "lat": 46.1791664, "long": 6.1278958, "website": "https://www.arena.ch/fr/geneve"},
+    {"city": "Geneva", "name": "Cine 17", "lat": 46.2022492, "long": 6.1437741, "website": "http://www.cine17.ch/"},
+    {"city": "Geneva", "name": "Les Scala", "lat": 46.2041195, "long": 6.1580818, "website": "http://www.les-scala.ch/"},
+    {"city": "Geneva", "name": "Pathe Balexert", "lat": 46.2190216, "long": 6.1141398, "website": "http://www.pathe.ch/fr/geneve/balexert"},
+    {"city": "Geneva", "name": "Pathe Rex", "lat": 46.203286, "long": 6.144924, "website": "http://www.pathe.ch/fr/geneve/rex"},
+    {"city": "Geneva", "name": "Pathe Rialto", "lat": 46.2090723, "long": 6.1415911, "website": "http://www.pathe.ch/fr/geneve/rialto"}
 ];
 
 var cities = [
@@ -28,7 +46,13 @@ var cities = [
     "Lucerne",
     "Basel",
     "Bern",
-    "Olten"
+    "Olten",
+    "Winterthur",
+    "St. Gallen",
+    "Biel",
+    "Thun",
+    "Lugano",
+    "Geneva"
 ];
 
 var movies = [
@@ -39,7 +63,7 @@ var movies = [
         "genres": "Animation, Kids & Family, Comedy",
         "runtime": "1 hr 31 min",
         "rating": "3.5/5",
-        "trailer": "https://www.youtube.com/watch?v=eisKxhjBnZ0"
+        "trailer": "https://www.youtube.com/embed/eisKxhjBnZ0?autoplay=1"
     },
     {
         "title": "Entourage",
@@ -48,7 +72,7 @@ var movies = [
         "genres": "Comedy",
         "runtime": "1 hr 45 min",
         "rating": "3.8/5",
-        "trailer": "https://www.youtube.com/watch?v=SGSE_XPF4_g"
+        "trailer": "https://www.youtube.com/embed/SGSE_XPF4_g?autoplay=1"
     },
     {
         "title": "Jurassic World",
@@ -56,8 +80,8 @@ var movies = [
         "summary": "Steven Spielberg returns to executive produce the long-awaited next installment of his groundbreaking Jurassic Park series, Jurassic World. Colin Trevorrow directs the epic action-adventure based on characters created by Michael Crichton. The screenplay is by Rick Jaffa & Amanda Silver and Derek Connolly & Trevorrow, and the story is by Rick Jaffa & Amanda Silver. Frank Marshall and Patrick Crowley join the team as producers.",
         "genres": "Action & Adventure, Mystery & Suspense, Science Fiction & Fantasy",
         "runtime": "2 hr 3 min",
-        "rating": "4s/5",
-        "trailer": "https://www.youtube.com/watch?v=RFinNxS5KN4"
+        "rating": "4/5",
+        "trailer": "https://www.youtube.com/embed/RFinNxS5KN4?autoplay=1"
     },
     {
         "title": "The DUFF",
@@ -66,7 +90,7 @@ var movies = [
         "genres": "Comedy",
         "runtime": "1 hr 40 min",
         "rating": "3.7/5",
-        "trailer": "https://www.youtube.com/watch?v=ci7eKlNRiuw"
+        "trailer": "https://www.youtube.com/embed/ci7eKlNRiuw?autoplay=1"
     },
     {
         "title": "Ted 2",
@@ -75,7 +99,7 @@ var movies = [
         "genres": "Comedy",
         "runtime": "1 hr 55 min",
         "rating": "3.5/5",
-        "trailer": "https://www.youtube.com/watch?v=S3AVcCggRnU"
+        "trailer": "https://www.youtube.com/embed/S3AVcCggRnU?autoplay=1"
     },
     {
         "title": "Terminator Genisys",
@@ -84,7 +108,7 @@ var movies = [
         "genres": "Action & Adventure",
         "runtime": "1 hr 59 min",
         "rating": "3.6/5",
-        "trailer": "https://www.youtube.com/watch?v=62E4FJTwSuc"
+        "trailer": "https://www.youtube.com/embed/62E4FJTwSuc?autoplay=1"
     },
     {
         "title": "Amy - The girl behind the name",
@@ -93,7 +117,7 @@ var movies = [
         "genres": "Musical & Performance Arts",
         "runtime": "1 hr 20 min",
         "rating": "4.3/5",
-        "trailer": "https://www.youtube.com/watch?v=ZZBXpVXGA_s"
+        "trailer": "https://www.youtube.com/watch?v=ZZBXpVXGA_s?autoplay=1"
     },
     {
         "title": "While We're Young",
@@ -410,6 +434,249 @@ var showtimes = [
                 "title": "Unfriended",
                 "cinemas": [
                     {"name": "Palace", "showtimes": ["20:30"]}
+                ]
+            }
+        ]
+    },
+    {
+        "city": "Winterthur",
+        "movies": [
+            {
+                "title": "Minions",
+                "cinemas": [
+                    {"name": "Kiwi", "showtimes": ["13:30", "15:00", "16:00", "18:15", "20:30"]},
+                    {"name": "maxx", "showtimes": ["14:00", "16:30", "18:45", "21:00"]}
+                ]
+            },
+            {
+                "title": "Jurassic World",
+                "cinemas": [
+                    {"name": "Kiwi", "showtimes": ["14:30", "17:15", "20:15"]},
+                    {"name": "maxx", "showtimes": ["14:15", "20:15"]}
+                ]
+            },
+            {
+                "title": "The DUFF",
+                "cinemas": [
+                    {"name": "Kiwi", "showtimes": ["14:30", "17:15"]}
+                ]
+            },
+            {
+                "title": "Ted 2",
+                "cinemas": [
+                    {"name": "Kiwi", "showtimes": ["17:30", "20:15"]},
+                    {"name": "maxx", "showtimes": ["14:15", "20:15"]}
+                ]
+            },
+            {
+                "title": "Terminator Genisys",
+                "cinemas": [
+                    {"name": "Kiwi", "showtimes": ["20:00"]},
+                    {"name": "maxx", "showtimes": ["17:15"]}
+                ]
+            },
+            {
+                "title": "Amy - The girl behind the name",
+                "cinemas": [
+                    {"name": "Kiwi", "showtimes": ["17:30"]}
+                ]
+            },
+            {
+                "title": "While We're Young",
+                "cinemas": [
+                    {"name": "Kiwi", "showtimes": ["20:30"]},
+                ]
+            },
+            {
+                "title": "Unfriended",
+                "cinemas": [
+                    {"name": "Kiwi", "showtimes": ["20:15"]},
+                    {"name": "maxx", "showtimes": ["17:15", "20:15"]}
+                ]
+            }
+        ]
+    },
+    {
+        "city": "St. Gallen",
+        "movies": [
+            {
+                "title": "Minions",
+                "cinemas": [
+                    {"name": "scala", "showtimes": ["14:00", "16:30", "18:45", "21:00"]},
+                    {"name": "storchen", "showtimes": ["18:00", "20:30"]}
+                ]
+            },
+            {
+                "title": "Jurassic World",
+                "cinemas": [
+                    {"name": "scala", "showtimes": ["14:15", "17:15"]}
+                ]
+            },
+            {
+                "title": "Ted 2",
+                "cinemas": [
+                    {"name": "scala", "showtimes": ["14:30", "17:30", "20:45"]}
+                ]
+            },
+            {
+                "title": "Terminator Genisys",
+                "cinemas": [
+                    {"name": "scala", "showtimes": ["20:15"]}
+                ]
+            },
+            {
+                "title": "Amy - The girl behind the name",
+                "cinemas": [
+                    {"name": "rex studio", "showtimes": ["17:30", "20:30"]}
+                ]
+            }
+        ]
+    },
+    {
+        "city": "Biel",
+        "movies": [
+            {
+                "title": "Minions",
+                "cinemas": [
+                    {"name": "Lido", "showtimes": ["13:45", "15:45", "20:15"]},
+                    {"name": "Rex", "showtimes": ["13:30", "15:45", "20:15"]}
+                ]
+            },
+            {
+                "title": "The DUFF",
+                "cinemas": [
+                    {"name": "Lido", "showtimes": ["16:00"]}
+                ]
+            },
+            {
+                "title": "Amy - The girl behind the name",
+                "cinemas": [
+                    {"name": "Rex", "showtimes": ["18:00", "20:45"]}
+                ]
+            },
+            {
+                "title": "While We're Young",
+                "cinemas": [
+                    {"name": "Rex", "showtimes": ["18:00"]}
+                ]
+            }
+        ]
+    },
+    {
+        "city": "Thun",
+        "movies": [
+            {
+                "title": "Minions",
+                "cinemas": [
+                    {"name": "Rex", "showtimes": ["13:30", "16:00", "18:30", "20:45"]}
+                ]
+            },
+            {
+                "title": "Jurassic World",
+                "cinemas": [
+                    {"name": "Lauitor", "showtimes": ["17:45"]}
+                ]
+            },
+            {
+                "title": "The DUFF",
+                "cinemas": [
+                    {"name": "Rex", "showtimes": ["13:30"]}
+                ]
+            },
+            {
+                "title": "Ted 2",
+                "cinemas": [
+                    {"name": "City", "showtimes": ["20:30"]}
+                ]
+            },
+            {
+                "title": "Terminator Genisys",
+                "cinemas": [
+                    {"name": "Rex", "showtimes": ["17:30", "19:30", "20:45"]}
+                ]
+            },
+            {
+                "title": "Amy - The girl behind the name",
+                "cinemas": [
+                    {"name": "Rex", "showtimes": ["18:00"]}
+                ]
+            },
+            {
+                "title": "Unfriended",
+                "cinemas": [
+                    {"name": "Lauitor", "showtimes": ["20:30"]}
+                ]
+            }
+        ]
+    },
+    {
+        "city": "Lugano",
+        "movies": [
+            {
+                "title": "Jurassic World",
+                "cinemas": [
+                    {"name": "CineStar Multicinema", "showtimes": ["17:30", "20:30"]}
+                ]
+            },
+            {
+                "title": "Ted 2",
+                "cinemas": [
+                    {"name": "CineStar Multicinema", "showtimes": ["17:30", "20:20"]}
+                ]
+            },
+            {
+                "title": "Terminator Genisys",
+                "cinemas": [
+                    {"name": "CineStar Multicinema", "showtimes": ["15:00", "18:00", "21:00"]}
+                ]
+            },
+            {
+                "title": "Unfriended",
+                "cinemas": [
+                    {"name": "CineStar Multicinema", "showtimes": ["20:45"]}
+                ]
+            }
+        ]
+    },
+    {
+        "city": "Geneva",
+        "movies": [
+            {
+                "title": "Minions",
+                "cinemas": [
+                    {"name": "Arena Cinemas", "showtimes": ["14:10", "16:30", "18:50", "21:10"]},
+                    {"name": "Cine 17", "showtimes": ["13:15", "19:00"]},
+                    {"name": "Pathe Balexert", "showtimes": ["10:30", "12:35", "14:40", "16:45", "18:50", "20:55"]},
+                    {"name": "Pathe Rex", "showtimes": ["11:45", "13:50", "16:00", "18:00", "20:15"]},
+                    {"name": "Pathe Rialto", "showtimes": ["13:30", "16:40", "18:45"]}
+                ]
+            },
+            {
+                "title": "Jurassic World",
+                "cinemas": [
+                    {"name": "Arena Cinemas", "showtimes": ["13:55", "18:00", "20:45"]},
+                    {"name": "Pathe Balexert", "showtimes": ["12:55", "20:30"]},
+                    {"name": "Pathe Rialto", "showtimes": ["14:00"]}
+                ]
+            },
+            {
+                "title": "Terminator Genisys",
+                "cinemas": [
+                    {"name": "Pathe Balexert", "showtimes": ["15:35", "18:10", "20:50"]},
+                    {"name": "Pathe Rialto", "showtimes": ["20:50"]}
+                ]
+            },
+            {
+                "title": "Amy - The girl behind the name",
+                "cinemas": [
+                    {"name": "Les Scala", "showtimes": ["15:40", "18:20", "21:00"]}
+                ]
+            },
+            {
+                "title": "While We're Young",
+                "cinemas": [
+                    {"name": "Pathe Balexert", "showtimes": ["10:30", "12:35", "14:40", "16:50", "18:55", "21:00"]},
+                    {"name": "Pathe Rex", "showtimes": ["10:30", "12:35", "14:40", "16:45", "18:50", "21:00"]}
                 ]
             }
         ]

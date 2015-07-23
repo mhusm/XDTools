@@ -13,8 +13,10 @@ $(document).ready(function () {
     $(document).on("click", ".remove-css", function () {
         var $cssProperty = $($(this).closest(".css-property")[0]),
             cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($cssProperty.data("index"));
-        cssRules[cssIndex].destroy();
-        cssRules.splice(cssIndex, 1);
+        if (cssIndex !== -1) {
+            cssRules[cssIndex].destroy();
+            cssRules.splice(cssIndex, 1);
+        }
         $cssProperty.remove();
     });
 
@@ -25,16 +27,6 @@ $(document).ready(function () {
             var cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($($(this).closest(".css-property")[0]).data("index")),
                 $lineWrapper = $($(this).closest(".line-wrapper")[0]);
             cssRules[cssIndex].removeAttribute(prevValue, $lineWrapper.find(".value").text());
-        }
-    });
-
-    //If the selector changes, remove all old CSS rules for that selector
-    $(document).on("focus", ".identifier", function () {
-        if (!$(this).hasClass("empty")) {
-            var index = $($(this).closest(".css-property")[0]).data("index"),
-                cssIndex = cssRules.map(function (e) { return e.index; }).indexOf(index);
-            cssRules[cssIndex].destroy();
-            cssRules.splice(cssIndex, 1);
         }
     });
 
@@ -74,6 +66,7 @@ $(document).ready(function () {
         else {
             //If a selector is modified, add the rules for the old selector
             var identifier = $(this).text(),
+                index = $($(this).closest(".css-property")[0]).data("index"),
                 cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($($(this).closest(".css-property")[0]).data("index"));
             cssRules[cssIndex].modifySelector(identifier);
         }
@@ -94,7 +87,7 @@ $(document).ready(function () {
             //If a property field is modified, add the new CSS rule
             var property = $lineWrapper.find(".property").text() + $lineWrapper.find(".suggestion").text();
             $lineWrapper.find(".suggestion").text("");
-            $(this).text(text);
+            $(this).text(property);
             var value = $value.text();
             cssRules[cssIndex].addAttribute(property, value);
         }
