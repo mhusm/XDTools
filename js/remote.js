@@ -1,3 +1,10 @@
+function getConnectionURL() {
+    //TODO: adjust implementation of this function to connect devices to each other:
+    //      Adjust IP to the IP where the application is running
+    //      Adjust URL if you are running another application (possibly from another framework
+    return "http://129.132.173.2:8082/gallery.html?connect=" + XDmvc.deviceId;
+}
+
 var XDTest = {
     capturing: false,
     events: [],
@@ -452,6 +459,10 @@ var XDTest = {
     originalInfo: console.info,
     originalWarn: console.warn,
     originalError: console.error,
+    originalDebug: console.debug,
+    originalDir: console.dir,
+    originalCount: console.count,
+    originalAssert: console.assert,
     //Get the index of a CSS selector in the list of css rules
     getIndex: function (cssRules, selector) {
         for (var i = 0, j = cssRules.length; i < j; ++i) {
@@ -496,6 +507,7 @@ var XDTest = {
         }
     },
     startErrorCapturing: function () {
+        var consoleCount = [];
         //Overwrite all console logging functions and send messages to the parent frame before calling the actual function
         console.log = function (args) {
             var command = {
@@ -505,6 +517,14 @@ var XDTest = {
             window.parent.postMessage(JSON.stringify(command), "*");
             XDTest.originalLog.call(console, args);
         };
+        console.debug = function (args) {
+            var command = {
+                "name": "log",
+                "msg": JSON.stringify(JSON.decycle(args, true))
+            };
+            window.parent.postMessage(JSON.stringify(command), "*");
+            XDTest.originalDebug.call(console, args);
+        },
         console.info = function (args) {
             var command = {
                 "name": "info",
@@ -528,6 +548,38 @@ var XDTest = {
             };
             window.parent.postMessage(JSON.stringify(command), "*");
             XDTest.originalError.call(console, args);
+        };
+        console.count = function (args) {
+            var index = consoleCount.map(function (e) { return e.label; }).indexOf(args);
+            if (index !== -1) {
+                consoleCount[index].counter++;
+            }
+            else {
+                consoleCount.push({"label": args, "counter": 1});
+                index = consoleCount.length - 1;
+            }
+            var command = {
+                "name": "log",
+                "msg": JSON.stringify(consoleCount[index].label + ": " + consoleCount[index].counter)
+            };
+            window.parent.postMessage(JSON.stringify(command), "*");
+            XDTest.originalCount.call(console, args);
+        };
+        console.dir = function (args) {
+            var command = {
+                "name": "log",
+                "msg": JSON.stringify(JSON.decycle(args, true))
+            };
+            window.parent.postMessage(JSON.stringify(command), "*");
+            XDTest.originalDir.call(console, args);
+        };
+        console.assert = function (args1, args2) {
+            var command = {
+                "name": "error",
+                "msg": JSON.stringify("Assertion failed: " + args2)
+            };
+            window.parent.postMessage(JSON.stringify(command), "*");
+            XDTest.originalAssert.call(console, args1, args2);
         };
 
         //If a JS error occurs, forward it to the parent domain along with the stack trace
@@ -556,6 +608,22 @@ var XDTest = {
         while (toProcess.length > 0) {
             var cur = toProcess.pop();
             curElement = cur.element;
+            if (curElement.is && curElement.is.toLowerCase() === curElement.nodeName.toLowerCase()) {
+                var path = cur.path.slice(0);
+                if (this.isCustomPolymerElement(curElement.localName)) {
+                    shadowRoots.push({
+                        "name": curElement.localName,
+                        "id": curElement.id,
+                        "path": path,
+                        "type": "default"
+                    });
+                }
+                for (var i = 0; i < curElement.children.length; ++i) {
+                    var path = cur.path.slice(0);
+                    path.push("children[" + i + "]");
+                    toProcess.push({"path": path, "element": curElement.children[i]});
+                }
+            }
             if (curElement.children.length > 0) {
                 for (var i = 0; i < curElement.children.length; ++i) {
                     var path = cur.path.slice(0);
@@ -565,7 +633,14 @@ var XDTest = {
             }
             else if (curElement.shadowRoot) {
                 var path = cur.path.slice(0);
-                shadowRoots.push({"name": curElement.localName, "id": curElement.id, "path": path});
+                if (this.isCustomPolymerElement(curElement.localName)) {
+                    shadowRoots.push({
+                        "name": curElement.localName,
+                        "id": curElement.id,
+                        "path": path,
+                        "type": "shadow"
+                    });
+                }
                 path = cur.path.slice(0);
                 path.push("shadowRoot");
                 toProcess.push({"path": path, "element": curElement.shadowRoot});
@@ -577,9 +652,15 @@ var XDTest = {
         for (var i = 0, j = layers.length; i < j; ++i) {
             var name = layers[i].path.join(".") + ".shadowRoot";
             if (stylesheets.map(function (e) { return e.layer; }).indexOf(name) === -1) {
-                var style = document.createElement("style");
+                var style = document.createElement("style"),
+                    code = "";
                 style.appendChild(document.createTextNode(""));
-                var code = layers[i].path.join(".") + ".shadowRoot;";
+                if (layers[i].type === "shadow") {
+                    code = layers[i].path.join(".") + ".shadowRoot;";
+                }
+                else {
+                    code = layers[i].path.join(".");
+                }
                 var element = eval(code);
                 element.appendChild(style);
                 stylesheets.push({"layer": name, "stylesheet": style.sheet});
@@ -591,7 +672,12 @@ var XDTest = {
             document.head.appendChild(style);
             stylesheets.push({"layer": "document.body.shadowRoot", "stylesheet": style.sheet});
         }
+    },
+    isCustomPolymerElement: function (name) {
+        //TODO: improve: only consider elements that actually exist
+        return name.indexOf("paper-") !== 0 && name.indexOf("iron-") !== 0 && name.indexOf("google-") !== 0 && name.indexOf("gold-") !== 0 && name.indexOf("neon-") !== 0 && name.indexOf("platinum-") !== 0 && name !=="marked-element";
     }
+
 };
 
 XDTest.startRecording();
@@ -661,48 +747,35 @@ function initialize() {
 
     //Process all received messages
     window.addEventListener("message", function (ev) {
-        var command = JSON.parse(ev.data);
-        if (command.name === "startRecording") {
-            //Reset previously recorded events before starting recording
-            XDTest.events = [];
-            XDTest.capturing = true;
-        }
-        else if (command.name === "stopRecording") {
-            XDTest.capturing = false;
-            //After stopping recording, send the recorded events to the parent frame
-            var message = {
-                "name": "sendEventSequence",
-                "eventSequence": XDTest.events,
-                "deviceID": command.deviceID
-            };
-            window.parent.postMessage(JSON.stringify(message), "*");
-        }
-        else if (command.name === "startReplaying") {
-            //Replay the received event sequence
-            var eventSequence = [];
-            for (var i = 0; i < command.eventSequence.length; ++i) {
-                eventSequence = eventSequence.concat(XDTest.generateEvents(command.eventSequence[i].sequence, command.eventSequence[i].startTime));
+        if (isJson(ev.data)) {
+            var command = JSON.parse(ev.data);
+            if (command.name === "startRecording") {
+                //Reset previously recorded events before starting recording
+                XDTest.events = [];
+                XDTest.capturing = true;
             }
-            eventIndex = 0;
-            XDTest.events = eventSequence;
-            breakpoints = command.breakpoints;
-            nextBreak = breakpoints.shift() || {"id": "", "time": Math.pow(2, 31)};
-            //Execute events until the next breakpoint
-            eventIndex = XDTest.replayEvents(eventSequence, command.delay, eventIndex, lastBreak.time, nextBreak.time);
-            if (eventIndex > 0) {
+            else if (command.name === "stopRecording") {
+                XDTest.capturing = false;
+                //After stopping recording, send the recorded events to the parent frame
                 var message = {
-                    "name": "breakpointReached",
-                    "breakpoint": nextBreak
+                    "name": "sendEventSequence",
+                    "eventSequence": XDTest.events,
+                    "deviceID": command.deviceID
                 };
-                setTimeout(XDTest.sendMessage, nextBreak.time - lastBreak.time, ev, JSON.stringify(message), command.parentDomain);
+                window.parent.postMessage(JSON.stringify(message), "*");
             }
-        }
-        else if (command.name === "continue") {
-            if (eventIndex != -1) {
-                //Continue execution until the next breakpoint is reached
-                lastBreak = nextBreak;
+            else if (command.name === "startReplaying") {
+                //Replay the received event sequence
+                var eventSequence = [];
+                for (var i = 0; i < command.eventSequence.length; ++i) {
+                    eventSequence = eventSequence.concat(XDTest.generateEvents(command.eventSequence[i].sequence, command.eventSequence[i].startTime));
+                }
+                eventIndex = 0;
+                XDTest.events = eventSequence;
+                breakpoints = command.breakpoints;
                 nextBreak = breakpoints.shift() || {"id": "", "time": Math.pow(2, 31)};
-                eventIndex = XDTest.replayEvents(XDTest.events, command.delay, eventIndex, lastBreak.time, nextBreak.time);
+                //Execute events until the next breakpoint
+                eventIndex = XDTest.replayEvents(eventSequence, command.delay, eventIndex, lastBreak.time, nextBreak.time);
                 if (eventIndex > 0) {
                     var message = {
                         "name": "breakpointReached",
@@ -711,84 +784,109 @@ function initialize() {
                     setTimeout(XDTest.sendMessage, nextBreak.time - lastBreak.time, ev, JSON.stringify(message), command.parentDomain);
                 }
             }
-        }
-        else if (command.name === "updateCSS") {
-            var index = XDTest.getIndex(cssRules, command.identifier);
-            //Add a new CSS rule to the document
-            if (index === -1) {
-                cssRules.push({
-                    "identifier": command.identifier,
-                    "layer": command.layer,
-                    "props": [{"property": command.property, "value": command.value}]
-                });
+            else if (command.name === "continue") {
+                if (eventIndex != -1) {
+                    //Continue execution until the next breakpoint is reached
+                    lastBreak = nextBreak;
+                    nextBreak = breakpoints.shift() || {"id": "", "time": Math.pow(2, 31)};
+                    eventIndex = XDTest.replayEvents(XDTest.events, command.delay, eventIndex, lastBreak.time, nextBreak.time);
+                    if (eventIndex > 0) {
+                        var message = {
+                            "name": "breakpointReached",
+                            "breakpoint": nextBreak
+                        };
+                        setTimeout(XDTest.sendMessage, nextBreak.time - lastBreak.time, ev, JSON.stringify(message), command.parentDomain);
+                    }
+                }
             }
-            else {
-                var propertyIndex = XDTest.getPropertyIndex(cssRules, index, command.property);
-                if (propertyIndex === -1) {
-                    cssRules[index].props.push({
-                        "property": command.property,
-                        "value": command.value
+            else if (command.name === "updateCSS") {
+                var index = XDTest.getIndex(cssRules, command.identifier);
+                //Add a new CSS rule to the document
+                if (index === -1) {
+                    cssRules.push({
+                        "identifier": command.identifier,
+                        "layer": command.layer,
+                        "props": [{"property": command.property, "value": command.value}]
                     });
                 }
                 else {
-                    cssRules[index].props[propertyIndex].value = command.value;
+                    var propertyIndex = XDTest.getPropertyIndex(cssRules, index, command.property);
+                    if (propertyIndex === -1) {
+                        cssRules[index].props.push({
+                            "property": command.property,
+                            "value": command.value
+                        });
+                    }
+                    else {
+                        cssRules[index].props[propertyIndex].value = command.value;
+                    }
+                }
+                if (active) {
+                    XDTest.addAllRules(cssRules, stylesheets);
                 }
             }
-            if (active) {
+            else if (command.name === "restore") {
+                //Remove a CSS rule from the document
+                var index = XDTest.getIndex(cssRules, command.identifier, command.layer),
+                    propertyIndex = XDTest.getPropertyIndex(cssRules, index, command.property);
+                cssRules[index].props.splice(propertyIndex, 1);
+                if (active) {
+                    XDTest.addAllRules(cssRules, stylesheets);
+                }
+            }
+            else if (command.name === "active") {
+                //The device was activated, apply CSS rules
+                active = true;
                 XDTest.addAllRules(cssRules, stylesheets);
             }
-        }
-        else if (command.name === "restore") {
-            //Remove a CSS rule from the document
-            var index = XDTest.getIndex(cssRules, command.identifier, command.layer),
-                propertyIndex = XDTest.getPropertyIndex(cssRules, index, command.property);
-            cssRules[index].props.splice(propertyIndex, 1);
-            if (active) {
-                XDTest.addAllRules(cssRules, stylesheets);
+            else if (command.name === "inactive") {
+                //The device was deactivated, remove all CSS rules
+                active = false;
+                XDTest.removeAllRules(cssRules, stylesheets);
             }
-        }
-        else if (command.name === "active") {
-            //The device was activated, apply CSS rules
-            active = true;
-            XDTest.addAllRules(cssRules, stylesheets);
-        }
-        else if (command.name === "inactive") {
-            //The device was deactivated, remove all CSS rules
-            active = false;
-            XDTest.removeAllRules(cssRules, stylesheets);
-        }
-        else if (command.name === "executeJS") {
-            //Execute a JS command and send the return value to the parent frame
-            //TODO: check if command is a function or variable (not if statement etc.) and react
-            var returnVal;
-            if (command.layer !== "document.body") {
-                var index = command.code.indexOf("(");
-                var functionName = command.code.substring(0, index);
-                if (eval(command.layer + "." + functionName)) {
-                    returnVal = eval(command.layer + "." + command.code);
+            else if (command.name === "executeJS") {
+                //Execute a JS command and send the return value to the parent frame
+                //TODO: check if command is a function or variable (not if statement etc.) and react
+                var returnVal;
+                if (command.layer !== "document.body") {
+                    var index = command.code.indexOf("(");
+                    var functionName = command.code.substring(0, index);
+                    if (eval(command.layer + "." + functionName)) {
+                        returnVal = eval(command.layer + "." + command.code);
+                    }
+                    else {
+                        returnVal = eval(command.code);
+                    }
                 }
                 else {
                     returnVal = eval(command.code);
                 }
-            }
-            else {
-                returnVal = eval(command.code);
-            }
-            if (command.code.indexOf("console.") !== 0) {
-                if (returnVal !== undefined) {
-                    var command = {
-                        "name": "return",
-                        "msg": JSON.stringify(JSON.decycle(returnVal, true))
-                    };
-                    window.parent.postMessage(JSON.stringify(command), "*");
+                if (command.code.indexOf("console.") !== 0) {
+                    if (returnVal !== undefined) {
+                        var command = {
+                            "name": "return",
+                            "msg": JSON.stringify(JSON.decycle(returnVal, true))
+                        };
+                        window.parent.postMessage(JSON.stringify(command), "*");
+                    }
+                    else {
+                        var command = {
+                            "name": "return",
+                            "msg": JSON.stringify("undefined")
+                        };
+                        window.parent.postMessage(JSON.stringify(command), "*");
+                    }
                 }
-                else {
-                    var command = {
-                        "name": "return",
-                        "msg": JSON.stringify("undefined")
-                    };
-                    window.parent.postMessage(JSON.stringify(command), "*");
-                }
+            }
+            else if (command.name === "requestConnectionURL") {
+                var url = getConnectionURL();
+                var command = {
+                    "name": "receiveConnectionURL",
+                    "url": url,
+                    "deviceID": command.deviceID,
+                    "mainDeviceID": command.mainDeviceID
+                };
+                window.parent.postMessage(JSON.stringify(command), "*");
             }
         }
     }, false);
@@ -1006,4 +1104,13 @@ if (typeof JSON.retrocycle !== 'function') {
         }($));
         return $;
     };
+}
+
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }

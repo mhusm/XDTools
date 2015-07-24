@@ -8,6 +8,7 @@ function Device(id, url, layer, top, left, isRemote) {
     this.$device = null;
     this.firstConnect = true;
     this.oldURL = "";
+    this.connected = false;
     this.layers = [{"name": "document.body", "id": "", "path": ["document.body"]}];
     this.setLayers = function (layers) {
         this.layers = [{"name": "document.body", "id": "", "path": ["document.body"]}];

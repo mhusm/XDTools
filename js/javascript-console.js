@@ -67,7 +67,7 @@ $(document).ready(function () {
 
     $("#code-input").keyup(function (ev) {
         if (ev.which === 13) {
-            $("#history").append("<span class='hist-line'>></span> " + $(this).val() + "<br />");
+            $("#history").append("<div class='history-line'><span class='hist-line'>></span> <span class='content'>" + $(this).val() + "</span></div>");
             history.push($(this).val());
             historyPosition = history.length;
             sendJavascriptCommand($(this).val());
@@ -98,7 +98,33 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on("click", ".debug-js-error", function () {
+        var func = $(this).closest(".history-line").find(".error-function").text();
+        debugJSError(func);
+        $(".popover").popover("hide");
+    });
+
 });
+
+function debugJSError(total) {
+    var layer = "",
+        name = "";
+    if (total.indexOf(".") !== -1) {
+        name = total.substring(total.lastIndexOf(".") + 1);
+        var tempLayer = total.substring(0, total.indexOf("."));
+        for (var i = 0; i < layers.length; ++i) {
+            if (layers[i].name.indexOf(tempLayer) === 0) {
+                layer = layers[i].path.join(".");
+            }
+        }
+    }
+    else {
+        name = total;
+        layer = "";
+    }
+    appendDebugFunction(name, layer);
+    debugAllDevices(name, layer);
+}
 
 function filterByName(filter) {
     $("#javascript-console").find(".content").each(function () {
@@ -224,6 +250,8 @@ function appendExceptionToHistory(msg, deviceID) {
         var splittedError = msg.split(" at ");
         var message = "<div class='history-line' data-device-id='" + deviceID + "'><span class='error-line'><span class='glyphicon glyphicon-remove-sign'></span></span>";
         if (splittedError.length > 1) {
+            var func = getFunction(splittedError[1]);
+            splittedError[1] = splittedError[1].replace(func, "<span class='error-function'>" + func + "</span>");
             message = message + "<span class='content'>" + splittedError[0] + "</span><span class='glyphicon glyphicon-collapse-down collapse-stack'></span><span class='stack'>";
             for (var i = 1, j = splittedError.length; i < j; ++i) {
                 message = message + "<div class='stack-line'>at " + splittedError[i] + "</div>";
@@ -235,7 +263,15 @@ function appendExceptionToHistory(msg, deviceID) {
             message = message + "</div>";
         }
         $(message).appendTo($history)
-            .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
+            .css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)")
+            .find(".error-function")
+            .popover({
+                placement: 'bottom',
+                container: '.history-line[data-device-id="' + deviceID + '"]',
+                trigger: 'click',
+                html: true,
+                content: "<button type='button' class='btn btn-default btn-sm debug-js-error'>Debug</button>"
+            });
         $history.scrollTop($history[0].scrollHeight);
     }
 }
@@ -276,5 +312,47 @@ function sendJavascriptCommand(code) {
                 command = new JSCommand("executeJS", activeDevices[index].id, code);
             activeDevices[index].sendCommand(command);
         });
+    }
+}
+
+function getFunction(error) {
+    error = error.substring(0, error.indexOf(" "));
+    return error;
+}
+
+//TODO: finish this
+function generateObjectHTML(obj) {
+    if (obj === null) {
+        return "null";
+    }
+    else if (obj === "" || obj === 0) {
+        return obj;
+    }
+    else if (!obj) {
+        return "undefined";
+    }
+    else if (typeof obj === "object" || obj instanceof Object) {
+        if (Object.prototype.toString.call(obj) === '[object Array]') {
+            return "[]";
+            var newobj = "[";
+            var elements = [];
+            for (var i = 0; i < obj.length; ++i) {
+                elements.push(generateObjectHTML(obj[i]));
+            }
+            newobj = newobj + elements.join("; ") + "]";
+            return newobj;
+        }
+        else {
+            var keys = Object.keys(obj);
+            var newobject = "Object ";
+            for (var i = 0; i < keys.length; ++i) {
+                newobject = newobject + "<br />" + keys[i] + ": ";
+                newobject = newobject + generateObjectHTML(obj[keys[i]]);
+            }
+            return newobject;
+        }
+    }
+    else {
+        return obj;
     }
 }

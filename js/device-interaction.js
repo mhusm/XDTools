@@ -182,6 +182,9 @@ function updateLayers(newLayers) {
 function connectDevice(deviceID, mainDeviceId) {
     var deviceIndex = getDeviceIndex(deviceID),
         mainDeviceIndex = getDeviceIndex(mainDeviceId);
+    var command = new Command("requestConnectionURL", deviceID);
+    activeDevices[mainDeviceIndex].sendCommand(command);
+    /*
     if (mainDevices.indexOf(deviceID) !== -1) {
         removeMainDevice(deviceID);
     }
@@ -197,6 +200,7 @@ function connectDevice(deviceID, mainDeviceId) {
     }
     $("#sessions").find("li[data-device-id='" + deviceID + "']").remove();
     $(".session[data-device-id='" + mainDeviceId + "'] ul").append("<li data-device-id='" + deviceID + "'><span class='session-device'>" + deviceID + "</span></li>");
+    */
 }
 
 function makeMainDevice(deviceID) {

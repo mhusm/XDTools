@@ -65,6 +65,16 @@ function processCommand(command, deviceID) {
         var index = getDeviceIndex(deviceID);
         activeDevices[index].setLayers(command.layers);
     }
+    else if (command.name === "receiveConnectionURL") {
+        console.log("receiveConnectionURL");
+        var deviceIndex = getDeviceIndex(command.deviceID);
+        //Store old URL when the devices is connected for the first time
+        if (!activeDevices[deviceIndex].connected) {
+            activeDevices[deviceIndex].oldURL = activeDevices[deviceIndex].url;
+            activeDevices[deviceIndex].connected = true;
+        }
+        activeDevices[deviceIndex].loadURL(command.url);
+    }
     else {
         console.error("Unknown command");
     }
