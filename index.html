@@ -8,6 +8,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="js/lib/jquery-ui/jquery-ui.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="js/lib/jquery-mobile/jquery.mobile.custom.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script src="js/lib/jquery.qrcode.js"></script>
         <script src="js/event-capturing.js"></script>
@@ -18,6 +19,7 @@
         <script src="js/javascript-console.js"></script>
         <script src="js/css-editor.js"></script>
         <script src="js/color-management.js"></script>
+        <script src="js/options.js"></script>
         <script src="js/command-management.js"></script>
         <script src="js/Device.js"></script>
         <script src="js/function-debugging.js"></script>
@@ -69,11 +71,11 @@
                         </h4>
                         <section id="filter-overview">
                             <input type="text" placeholder="filter" id="filter" name="filter" />
-                            <span class="category marked">All</span>
-                            <span class="category">Errors</span>
-                            <span class="category">Warnings</span>
-                            <span class="category">Info</span>
-                            <span class="category">Logs</span>
+                            <span class="category marked" data-class="span">All</span>
+                            <span class="category" data-class=".error-line">Errors</span>
+                            <span class="category" data-class=".warn-line">Warnings</span>
+                            <span class="category" data-class=".info-line">Info</span>
+                            <span class="category" data-class=".log-line">Logs</span>
                         </section>
                         <section id="history"></section>
                         <input type="text" name="code-input" id="code-input" placeholder="Enter JavaScript code..." />

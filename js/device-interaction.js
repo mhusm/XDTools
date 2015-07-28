@@ -33,6 +33,31 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on("click", ".js-device", function () {
+        var deviceID = this.dataset.deviceId,
+            $history = $("#history");
+        if ($(this).hasClass("active")) {
+            $(this).css("background-color", "rgba(220, 220, 220, 0.5)");
+            $(".history-line[data-device-id='" + deviceID + "']").each(function () {
+                $(this).addClass("hidden");
+            });
+            removeCSSProperties(deviceID);
+            $history.scrollTop($history[0].scrollHeight);
+            undebugDevice(deviceID);
+        }
+        else {
+            var index = colors.map(function (e) { return e.id; }).indexOf(this.dataset.deviceId);
+            $(this).css("background-color", "hsla(" + colors[index].color + ", 60%, 50%, 0.3)");
+            $(".history-line[data-device-id='" + deviceID + "']").each(function () {
+                $(this).removeClass("hidden");
+            });
+            reactivateCSSProperties(deviceID);
+            $history.scrollTop($history[0].scrollHeight);
+            debugDevice(deviceID);
+        }
+        $(this).toggleClass("active");
+    });
+
     $("#devices").on("dragover", allowDrop).on("drop", dropDevice);
 
     $(document).on("dragstart", ".device-container", dragDevice);
@@ -125,13 +150,11 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".device-container .dropdown-menu li", function () {
-        var deviceID = $(this).closest(".device-container").data("device-id"),
-            layer = $(this).data("value");
+        var layer = $(this).data("value");
         socket.emit("inspect", layer, $(this).closest(".device-container").find(".url").val());
     });
 
     $(document).on("click", ".debug", function () {
-        var deviceID = $(this).closest(".device-container").data("device-id");
         socket.emit("debug", $(this).closest(".device-container").find(".url").val(), $(this).closest(".device-container").find(".function").val());
     });
 

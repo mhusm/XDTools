@@ -63,46 +63,6 @@ $(document).ready(function () {
         $(this).css("top", "auto");
     });
 
-    $("#enable-dns").click(function () {
-        if ($(this).is(":checked")) {
-            rewriteURL = rewriteURLwithDNS;
-        }
-        else {
-            rewriteURL = rewriteURLWithoutDNS;
-        }
-    });
-
-    var oldWidth = "";
-    $("#enable-record-replay").click(function () {
-        var $container = $("#container");
-        if ($(this).is(":checked")) {
-            $container.css("border-right", "5px solid #337ab7");
-            $container.css("width", oldWidth);
-            $("#timeline").css("display", "block");
-        }
-        else {
-            $("#timeline").css("display", "none");
-            oldWidth = $container.css("width");
-            $container.css("width", "100%");
-            $container.css("border-right", "none");
-        }
-    });
-
-    $("#enable-js-console").click(function () {
-        $("#javascript-console").toggleClass("hidden");
-        adjustLayout();
-    });
-
-    $("#enable-function-debugging").click(function () {
-        $("#debug-list").toggleClass("hidden");
-        adjustLayout();
-    });
-
-    $("#enable-css-editor").click(function () {
-        $("#css-console").toggleClass("hidden");
-        adjustLayout();
-    });
-
 });
 
 function allowDrop(ev) {

@@ -12,11 +12,12 @@ $(document).ready(function () {
     });
 
     $("#debug-button").click(function () {
-        var selectedLayer = $("#layer option:selected").val(),
-            functionName = $("#function-input").val();
+        var selectedLayer = $("#layer").find("option:selected").val(),
+            $functionInput = $("#function-input"),
+            functionName = $functionInput.val();
         appendDebugFunction(functionName, selectedLayer);
         debugAllDevices(functionName, selectedLayer);
-        $("#function-input").val("");
+        $functionInput.val("");
     });
     $("#function-input").keypress(function (ev) {
         if (ev.which === 13) {
@@ -42,6 +43,12 @@ $(document).ready(function () {
 
     $(document).on("click", ".inspect-js", function () {
         //TODO
+    });
+
+    $(document).on("click", ".debug-js-error", function () {
+        var func = $(this).closest(".history-line").find(".error-function").text();
+        debugJSError(func);
+        $(".popover").popover("hide");
     });
 
 });
@@ -110,4 +117,24 @@ function inspectFunction(functionName) {
         deviceIndex = getDeviceIndex(deviceID),
         url = activeDevices[deviceIndex].url;
     socket.emit("inspectFunction", url, functionName);
+}
+
+function debugJSError(total) {
+    var layer = "",
+        name = "";
+    if (total.indexOf(".") !== -1) {
+        name = total.substring(total.lastIndexOf(".") + 1);
+        var tempLayer = total.substring(0, total.indexOf("."));
+        for (var i = 0; i < layers.length; ++i) {
+            if (layers[i].name.indexOf(tempLayer) === 0) {
+                layer = layers[i].path.join(".");
+            }
+        }
+    }
+    else {
+        name = total;
+        layer = "";
+    }
+    appendDebugFunction(name, layer);
+    debugAllDevices(name, layer);
 }

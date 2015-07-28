@@ -101,6 +101,7 @@ body {
     height: 100%;
     border-right: 2px solid #337ab7;
     text-align: center;
+    flex: 1;
 }
 
 #container {
@@ -205,8 +206,7 @@ body {
 }
 
 .ui-widget-content {
-    background: none !important;
-    background-color: white !important;
+    background: white none !important;
 }
 
 #subcontainer {
@@ -267,8 +267,7 @@ body {
 }
 
 #debug-list hr {
-    margin: 0;
-    margin-top: 10px;
+    margin: 10px 0 0;
 }
 
 #debug-button {
@@ -458,6 +457,10 @@ body {
     text-overflow: ellipsis;
 }
 
+.error-function {
+    text-decoration: underline;
+}
+
 .js-device {
     margin: 0 10px;
     background-color: rgba(220, 220, 220, 0.5);
@@ -511,8 +514,7 @@ body {
 
 .session-refresh {
     float: right;
-    background-image: none;
-    background-color: transparent;
+    background: transparent none;
 }
 
 .auto-connect {

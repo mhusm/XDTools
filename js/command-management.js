@@ -26,23 +26,11 @@ $(document).ready(function () {
 
 //Process the command and call the appropriate function
 function processCommand(command, deviceID) {
-    if (command.name === "log") {
-        appendLogToHistory(command.msg, deviceID);
-    }
-    else if (command.name === "info") {
-        appendInfoToHistory(command.msg, deviceID);
-    }
-    else if (command.name === "warn") {
-        appendWarnToHistory(command.msg, deviceID);
-    }
-    else if (command.name === "error") {
-        appendErrorToHistory(command.msg, deviceID);
+    if (command.name === "log" || command.name === "info" || command.name === "warn" || command.name === "error" || command.name ==="return") {
+        jsConsole.appendMessage(command.msg, deviceID, command.name);
     }
     else if (command.name === "exception") {
-        appendExceptionToHistory(command.msg, deviceID);
-    }
-    else if (command.name ==="return") {
-        appendReturnValueToHistory(command.msg, deviceID);
+        jsConsole.appendException(command.msg, deviceID);
     }
     else if (command.name === "loaded") {
         addCSSProperties(deviceID);

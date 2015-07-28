@@ -65,6 +65,12 @@ var XDTest = {
          "DOMAttrModified"              //IE, Firefox, Opera
          */
     ],
+    touchEvents: [
+        "touchstart",
+        "touchend",
+        "touchmove",
+        "touchcancel"
+    ],
     /* FocusEvent is only supported by IE
      focusEvents = [
      "blur",               //IE
@@ -124,8 +130,14 @@ var XDTest = {
         this.hierarchy = ev.hierarchy;
         this.event = document.createEvent("Event");
         this.event.initEvent(ev.type, ev.bubbles, ev.cancelable);
+        this.scrollTop = ev.scrollTop;
+        this.scrollLeft = ev.scrollLeft;
         this.dispatch = function (target) {
             target.dispatchEvent(this.event);
+            if (this.event.type === "scroll") {
+                target.scrollTop = this.scrollTop;
+                target.scrollLeft = this.scrollLeft;
+            }
         }
     },
     MouseEvent: function (ev) {
@@ -140,8 +152,14 @@ var XDTest = {
         this.event.initKeyboardEvent(ev.type, ev.bubbles, ev.cancelable, window, ev.keyCode, ev.location,
             modifiers, ev.repeat, '');
         this.which = ev.which;
+        this.backspace = ev.backspace;
+        this.caretPosition = ev.caretPosition;
         this.dispatch = function (target) {
             target.dispatchEvent(this.event);
+            if (this.backspace && this.caretPosition && this.event.type === "keyup") {
+                var text = target.value;
+                target.value = text.substring(0, this.caretPosition) + text.substring(this.caretPosition + 1);
+            }
             if (this.event.type === "keypress") {
                 var textEvent = document.createEvent("TextEvent"),
                     char = String.fromCharCode(this.which);
@@ -173,12 +191,17 @@ var XDTest = {
         this.event = document.createEvent("OverflowEvent");
         this.event.initOverflowEvent(ev.orient, ev.horizontalOverflow, ev.verticalOverflow);
     },
+    TouchEvent: function (ev) {
+        XDTest.Event.call(this, ev);
+        this.event = document.createEvent("TouchEvent");
+        this.event.initTouchEvent(ev.type, ev.bubbles, ev.cancelable, null, ev.screenX, ev.screenY, ev.clientX, ev.clientY, ev.ctrlKey, ev.altKey, ev.shiftKey, ev.metaKey, ev.changedTouches, ev.touches, ev.targetTouches);
+    },
     //Send a message to the parent page of the iframe
     sendMessage: function (ev, message, parentDomain) {
         ev.source.postMessage(message, parentDomain);
     },
     //Logs an event if the user is currently capturing events
-    logEvent: function (ev, type) {
+    logEvent: function (ev, type, caretPosition, scrollTop, scrollLeft) {
         if (XDTest.capturing) {
             if (type === "MouseEvent") {
                 XDTest.events.push({"eventType": type, "time": ev.timeStamp,
@@ -189,10 +212,11 @@ var XDTest = {
                 });
             }
             else if (type === "KeyboardEvent") {
+                var backspace = ev.keyCode === 8;
                 XDTest.events.push({"eventType": type, "time": ev.timeStamp,
                     "hierarchy": XDTest.determineHierarchy(ev.path), "type": ev.type, "bubbles": ev.bubbles,
                     "cancelable": ev.cancelable, "keyCode": ev.keyCode, "which": ev.which, "location": ev.location,
-                    "modifiers": XDTest.getModifiers(ev), "repeat": ev.repeat, "detail": ev.detail
+                    "modifiers": XDTest.getModifiers(ev), "repeat": ev.repeat, "detail": ev.detail, "backspace": backspace, "caretPosition": caretPosition
                 });
             }
             else if (type === "UIEvent") {
@@ -221,10 +245,26 @@ var XDTest = {
                     "hierarchy": XDTest.determineHierarchy(ev.path), "orient": ev.orient,
                     "horizontalOverflow": ev.horizontalOverflow, "verticalOverflow": ev.verticalOverflow});
             }
+            else if (type === "TouchEvent") {
+                XDTest.events.push({"eventType": type, "time": ev.timeStamp,
+                    "hierarchy": XDTest.determineHierarchy(ev.path), "type": ev.type, "bubbles": ev.bubbles,
+                    "cancelable": ev.cancelable, "detail": ev.detail, "touches": XDTest.processTouchList(ev.touches),
+                    "targetTouches": XDTest.processTouchList(ev.targetTouches),
+                    "changedTouches": XDTest.processTouchList(ev.changedTouches), "ctrlKey": ev.ctrlKey,
+                    "altKey": ev.altKey, "shiftKey": ev.shiftKey, "metaKey": ev.metaKey
+                });
+                /*XDTest.events.push({"eventType": type, "time": ev.timeStamp,
+                    "hierarchy": XDTest.determineHierarchy(ev.path), "type": ev.type, "bubbles": ev.bubbles,
+                    "cancelable": ev.cancelable, "scrollTop": scrollTop, "scrollLeft": scrollLeft, "view": ev.view,
+                    "detail": ev.detail, "touches": ev.touches, "targetTouches": ev.targetTouches,
+                    "changedTouches": ev.changedTouches, "ctrlKey": ev.ctrlKey, "altKey": ev.altKey,
+                    "shiftKey": ev.shiftKey, "metaKey": ev.metaKey
+                });*/
+            }
             else {
                 XDTest.events.push({"eventType": type, "time": ev.timeStamp,
                     "hierarchy": XDTest.determineHierarchy(ev.path), "type": ev.type, "bubbles": ev.bubbles,
-                    "cancelable": ev.cancelable
+                    "cancelable": ev.cancelable, "scrollTop": scrollTop, "scrollLeft": scrollLeft
                 });
             }
         }
@@ -251,7 +291,10 @@ var XDTest = {
                 result.push(new XDTest.WheelEvent(eventLog[i], eventLog[i].modifiers));
             }
             else if (eventLog[i].eventType === "OverflowEvent") {
-                result.push(new XDTest.OverflowEvent(eventLog[i]));
+                //result.push(new XDTest.OverflowEvent(eventLog[i]));
+            }
+            else if (eventLog[i].eventType === "TouchEvent") {
+                result.push(new XDTest.TouchEvent(eventLog[i]));
             }
             else {
                 result.push(new XDTest.Event(eventLog[i]));
@@ -406,7 +449,8 @@ var XDTest = {
         }
         for (i = 0, j = XDTest.keyboardEvents.length; i < j; ++i) {
             document.addEventListener(XDTest.keyboardEvents[i], function (ev) {
-                XDTest.logEvent(ev, "KeyboardEvent");
+                var caretPosition = XDTest.getCaretPosition(ev.path);
+                XDTest.logEvent(ev, "KeyboardEvent", caretPosition);
             }, true);
         }
         for (i = 0, j = XDTest.uiEvents.length; i < j; ++i) {
@@ -421,7 +465,14 @@ var XDTest = {
         }
         for (i = 0, j = XDTest.genericEvents.length; i < j; ++i) {
             document.addEventListener(XDTest.genericEvents[i], function (ev) {
-                XDTest.logEvent(ev, "Event");
+                var scrollTop = XDTest.getScrollTop(ev.path),
+                    scrollLeft = XDTest.getScrollLeft(ev.path);
+                XDTest.logEvent(ev, "Event", null, scrollTop, scrollLeft);
+            }, true);
+        }
+        for (i = 0, j = XDTest.touchEvents.length; i < j; ++i) {
+            document.addEventListener(XDTest.touchEvents[i], function (ev) {
+                XDTest.logEvent(ev, "TouchEvent");
             }, true);
         }
         document.addEventListener("mousewheel", function (ev) {
@@ -524,7 +575,7 @@ var XDTest = {
             };
             window.parent.postMessage(JSON.stringify(command), "*");
             XDTest.originalDebug.call(console, args);
-        },
+        };
         console.info = function (args) {
             var command = {
                 "name": "info",
@@ -601,10 +652,9 @@ var XDTest = {
         };
     },
     determineLayers: function () {
-        var curElement = null;
-        var shadowRoots = [];
-        var toProcess = [];
-        toProcess.push({"path": ["document.body"], "element": document.body});
+        var curElement = null,
+            shadowRoots = [],
+            toProcess = [{"path": ["document.body"], "element": document.body}];
         while (toProcess.length > 0) {
             var cur = toProcess.pop();
             curElement = cur.element;
@@ -676,8 +726,49 @@ var XDTest = {
     isCustomPolymerElement: function (name) {
         //TODO: improve: only consider elements that actually exist
         return name.indexOf("paper-") !== 0 && name.indexOf("iron-") !== 0 && name.indexOf("google-") !== 0 && name.indexOf("gold-") !== 0 && name.indexOf("neon-") !== 0 && name.indexOf("platinum-") !== 0 && name !=="marked-element";
+    },
+    getCaretPosition: function (path) {
+        for (var i = 0; i < path.length; ++i) {
+            if (path[i].selectionStart || path[i].selectionStart === 0) {
+                return path[i].selectionStart;
+            }
+        }
+        return -1;
+    },
+    getScrollTop: function (path) {
+        if (!path[0].nodeName || path[0].nodeName === "#document") {
+            return document.body.scrollTop;
+        }
+        return path[0].scrollTop;
+    },
+    getScrollLeft: function (path) {
+        if (!path[0].nodeName || path[0].nodeName === "#document") {
+            return document.body.scrollLeft;
+        }
+        return path[0].scrollLeft;
+    },
+    processTouchList: function (touchList) {
+        var processedList = [];
+        for (var i = 0; i < touchList.length; ++i) {
+            processedList.push({
+               "clientX": touchList[i].clientX,
+               "clientY": touchList[i].clientY,
+               "force": touchList[i].force,
+               "identifier": touchList[i].identifier,
+               "pageX": touchList[i].pageX,
+               "pageY": touchList[i].pageY,
+               "radiusX": touchList[i].radiusX,
+               "radiusY": touchList[i].radiusY,
+               "screenX": touchList[i].screenX,
+               "screenY": touchList[i].screenY,
+               "webkitForce": touchList[i].webkitForce,
+               "webkitRadiusX": touchList[i].webkitRadiusX,
+               "webkitRadiusY": touchList[i].webkitRadiusY,
+               "webkitRotationAngle": touchList[i].webkitRotationAngle
+            });
+        }
+        return processedList;
     }
-
 };
 
 XDTest.startRecording();
@@ -692,15 +783,10 @@ function initialize() {
         nextBreak = {"id": "", "time": Math.pow(2, 31)},
         breakpoints = [],
         cssRules = [],
-        style = document.createElement("style"),
         active = true,
         stylesheets = [];
 
-    //Append a new stylesheet to the document
-    style.appendChild(document.createTextNode(""));
-    document.head.appendChild(style);
-    var stylesheet = style.sheet,
-        command = {
+    var command = {
             "name": "loaded",
             "url": window.location.href
         };

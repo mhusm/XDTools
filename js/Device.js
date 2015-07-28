@@ -10,6 +10,7 @@ function Device(id, url, layer, top, left, isRemote) {
     this.oldURL = "";
     this.connected = false;
     this.layers = [{"name": "document.body", "id": "", "path": ["document.body"]}];
+    events[this.id] = [];
     this.setLayers = function (layers) {
         this.layers = [{"name": "document.body", "id": "", "path": ["document.body"]}];
         this.layers = this.layers.concat(layers);

@@ -1,44 +1,14 @@
 var events = {},
-    savedSequences = JSON.parse(localStorage.getItem("saved-sequences")) || [],
-    sequenceNames = JSON.parse(localStorage.getItem("sequence-names")) || [],
     breakpoints = [],
     breakpointIndex = 0;
 
 $(document).ready(function () {
 
-    if (sequenceNames.length > 0) {
-        $("#no-sequences").addClass("hidden");
-    }
-
-    //List all device configurations along with a button to remove them
-    for (var i = 0, j = sequenceNames.length; i < j; ++i) {
-        $("#settings-sequences").append(
-            "<li class='config-row'>" +
-            sequenceNames[i] +
-            "<button type='button' data-seq-name='" + sequenceNames[i] + "' class='btn btn-primary btn-sm right seq-remove'>" +
-            "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
-            "</button><hr /></li>"
-        );
-    }
-    //Remove a device configuration
-    $(document).on("click", ".seq-remove", function () {
-        var index = sequenceNames.indexOf($(this).data("seq-name"));
-        sequenceNames.splice(index, 1);
-        var index2 = savedSequences.map(function (e) { return e.name; }).indexOf($(this).data("seq-name"));
-        savedSequences.splice(index2, 1);
-        localStorage.setItem("sequence-names", JSON.stringify(sequenceNames));
-        localStorage.setItem("saved-sequences", JSON.stringify(savedSequences));
-        $(this).parent("li").remove();
-        $("#timeline").find("select option[value='" + $(this).data("seq-name") + "']").remove();
-        if (sequenceNames.length === 0) {
-            $("#no-sequences").removeClass("hidden");
-        }
-    });
-
     $("#breakpoint-container").click(function (ev) {
         var top = ev.offsetY - 7.5;
         breakpoints.push({"time": top * 10, "id": "bp-" + breakpointIndex});
-        $("<div class='breakpoint' id='bp-" + breakpointIndex + "' data-value='" + top * 10 + "' draggable='true'></div>").appendTo($("#breakpoint-container")).css("top", top + "px").on("dragstart", dragBreakpoint);
+        $("<div class='breakpoint' id='bp-" + breakpointIndex + "' data-value='" + top * 10 + "' draggable='true'></div>")
+            .appendTo($("#breakpoint-container")).css("top", top + "px").on("dragstart", dragBreakpoint);
         breakpointIndex++;
     });
 
@@ -60,13 +30,11 @@ $(document).ready(function () {
             index = getDeviceIndex(deviceID),
             command = new Command("startRecording", deviceID);
         if (recording) {
-            $(this).data("recording", false);
-            $(this).find(".glyphicon").removeClass("glyphicon-stop").addClass("glyphicon-record");
+            $(this).data("recording", false).find(".glyphicon").removeClass("glyphicon-stop").addClass("glyphicon-record");
             command.name = "stopRecording";
         }
         else {
-            $(this).data("recording", true);
-            $(this).find(".glyphicon").removeClass("glyphicon-record").addClass("glyphicon-stop");
+            $(this).data("recording", true).find(".glyphicon").removeClass("glyphicon-record").addClass("glyphicon-stop");
         }
         activeDevices[index].sendCommand(command);
     });
@@ -170,8 +138,7 @@ $(document).ready(function () {
             "<li class='config-row'>" +
             name +
             "<button type='button' data-seq-name='" + name + "' class='btn btn-primary btn-sm right seq-remove'>" +
-            "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
-            "</button><hr /></li>"
+            "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><hr /></li>"
         );
         $("#no-sequences").addClass("hidden");
         localStorage.setItem("saved-sequences", JSON.stringify(savedSequences));
@@ -299,7 +266,26 @@ function visualizeEventSequences(deviceID) {
             for (var k = 0, l = groups[i].length; k < l; ++k) {
                 types.push(groups[i][k].event.type);
             }
-            html += types.join(", ") + "</span>";
+            var joined = types[0];
+            var count = 1;
+            for (var k = 1; k < types.length; ++k) {
+                if (types[k] === types[k - 1]) {
+                    count++;
+                }
+                else {
+                    if (count > 1) {
+                        joined = joined + " x " + count + ", " + types[k];
+                    }
+                    else {
+                        joined = joined + ", " + types[k];
+                    }
+                    count = 1;
+                }
+            }
+            if (count > 1) {
+                joined = joined + " x " + count;
+            }
+            html += joined + "</span>";
         }
         html = html + "</section>";
         $(html).appendTo("#timeline-" + deviceID + " .event-container");

@@ -223,6 +223,7 @@ function CSSRule(selector, property, value, layer) {
         var command = new CSSCommand("updateCSS", activeDevices[i].id, this.selector, property, value, this.layer);
         activeDevices[i].sendCommand(command);
     }
+
     this.modifyAttribute = function (property, value) {
         var index = this.attributes.map(function (e) { return e.property; }).indexOf(property);
         for (var i = 0, j = activeDevices.length; i < j; ++i) {
@@ -235,6 +236,7 @@ function CSSRule(selector, property, value, layer) {
             activeDevices[i].sendCommand(command);
         }
     };
+
     this.addAttribute = function (property, value) {
         this.attributes.push({"property": property, "value": value});
         for (var i = 0, j = activeDevices.length; i < j; ++i) {
@@ -242,6 +244,7 @@ function CSSRule(selector, property, value, layer) {
             activeDevices[i].sendCommand(command);
         }
     };
+
     this.removeAttribute = function (property, value) {
         var index = -1;
         for (var i = 0; i < this.attributes.length; ++i) {
@@ -257,6 +260,7 @@ function CSSRule(selector, property, value, layer) {
             }
         }
     };
+
     this.modifySelector = function (selector) {
         for (var i = 0; i < this.attributes.length; ++i) {
             for (var j = 0, k = activeDevices.length; j < k; ++j) {
@@ -272,6 +276,7 @@ function CSSRule(selector, property, value, layer) {
             }
         }
     };
+
     this.destroy = function () {
         for (var i = 0; i < this.attributes.length; ++i) {
             for (var j = 0, k = activeDevices.length; j < k; ++j) {
@@ -280,6 +285,7 @@ function CSSRule(selector, property, value, layer) {
             }
         }
     };
+
     this.apply = function (deviceID) {
         var index = getDeviceIndex(deviceID);
         for (var i = 0, j = this.attributes.length; i < j; ++i) {
@@ -287,6 +293,7 @@ function CSSRule(selector, property, value, layer) {
             activeDevices[index].sendCommand(command);
         }
     };
+
     this.restore = function (deviceID) {
         for (var i = 0, j = this.attributes.length; i < j; ++i) {
             var index = getDeviceIndex(deviceID),

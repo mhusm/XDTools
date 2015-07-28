@@ -6,34 +6,9 @@ var mainDevices = [];
 
 $(document).ready(function () {
 
-    var devices = getDevices(),
-        customDevices = JSON.parse(localStorage.getItem("custom-devices")) || [];
+    var devices = getDevices();
 
     setupDeviceAutocomplete(customDevices.concat(devices));
-
-    if (customDevices.length > 0) {
-        $("#no-devices").addClass("hidden");
-    }
-    //List all custom devices along with a button to remove them
-    for (var i = 0, j = customDevices.length; i < j; ++i) {
-        $("#settings-devices").append(
-            "<li class='device-row'>" +
-                customDevices[i].label +
-                "<button type='button' data-device-name='" + customDevices[i].label + "' class='btn btn-primary btn-sm right device-remove'>" +
-                    "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
-            "</button><hr /></li>"
-        );
-    }
-    //Remove a custom device
-    $(document).on("click", ".device-remove", function () {
-        var index = customDevices.map(function(e) { return e.label; }).indexOf($(this).data("device-name"));
-        customDevices.splice(index, 1);
-        localStorage.setItem("custom-devices", JSON.stringify(customDevices));
-        $(this).parent("li").remove();
-        if (customDevices.length === 0) {
-            $("#no-devices").removeClass("hidden");
-        }
-    });
 
     //Remove an emulated device
     $(document).on("click", ".remove", function () {
@@ -175,7 +150,7 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
         device.create();
         $("#sessions").find(".auto-connect input").each(function () {
             if ($(this).is(":checked")) {
-                $device = $("#device-" + id);
+                var $device = $("#device-" + id);
                 $device.find(".main input").click();
                 $device.find("select").val(id);
                 connectDevice(id, this.dataset.deviceId);
@@ -293,18 +268,15 @@ function appendRemoteDevice(device) {
 //Add the HTML for the timeline of a device
 function addDeviceTimeline(id, name) {
     var timeline = "<section class='device-timeline' id='timeline-" + id + "' data-device-id='" + id + "'>" +
-        "<h4>" + name + "</h4>",
-        index = getDeviceIndex(id);
-    if (!activeDevices[index].isRemote) {
-        timeline = timeline + "<button type='button' class='btn btn-primary btn-sm record' data-recording='false' title='Start/stop recording'>" +
-        "<span class='glyphicon glyphicon-record'></span>" +
-        "</button>";
-    }
+        "<h4>" + name + "</h4>";
+    timeline = timeline + "<button type='button' class='btn btn-primary btn-sm record' data-recording='false' title='Start/stop recording'>" +
+    "<span class='glyphicon glyphicon-record'></span>" +
+    "</button>";
     timeline = timeline + "<button type='button' class='btn btn-primary btn-sm play disabled' title='Replay recorded sequence'>" +
             "<span class='glyphicon glyphicon-play'></span>" +
         "</button>" +
         "<select name='timeline-" + id + "' class='form-control'>" +
-        "<option value='none' selected='selected'>None</option>";
+        "<option value='none' selected='selected'></option>";
     for (var i = 0, j = sequenceNames.length; i < j; ++i) {
         timeline = timeline + "<option value='" + sequenceNames[i] + "'>" + sequenceNames[i] + "</option>";
     }
