@@ -83,7 +83,7 @@ body {
 }
 
 #timeline .event-container {
-    height: 100%;
+    height: calc(100% - 119px);
 }
 
 #timeline .content {
@@ -127,7 +127,7 @@ body {
 
 #breakpoint-container {
     float: left;
-    height: 100%;
+    height: calc(100% - 91px);
     border-left: 1px solid #265a88;
     border-right: 1px solid #265a88;
     width: 25px;
@@ -524,7 +524,7 @@ body {
 
 .vertical-rule {
     width: 0;
-    height: 100%;
+    height: calc(100% - 101px);
     border: 2px solid black;
     margin: 91px 0 0;
     float: left;
@@ -551,8 +551,14 @@ body {
 .time {
     height: 100px;
     width: 25px;
+}
+
+#timeline-container {
+    height: calc(100% - 121px);
+    margin-top: 30px;
     float: right;
     clear: right;
+    overflow-y: hidden;
 }
 
 .cut-line {
@@ -567,7 +573,7 @@ body {
     width: 65px;
     text-align: right;
     margin: 35px 5px 0;
-    height: 100%;
+    height: calc(100% - 41px);
     float: left;
 }
 .device-container .layer {

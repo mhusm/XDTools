@@ -89,18 +89,17 @@ $(document).ready(function () {
         if (data.lat !== 0 && data.long !== 0) {
             loc.lat = data.lat;
             loc.long = data.long;
-            var location = new google.maps.LatLng(loc.lat, loc.long);
-            var mapOptions = {
-                center: location,
-                zoom: 16
-            };
-            var map = new google.maps.Map(document.getElementById('map-canvas'),
-                mapOptions);
-            var marker = new google.maps.Marker({
-                position: location,
-                map: map,
-                title: $(this).text()
-            });
+            var location = new google.maps.LatLng(loc.lat, loc.long),
+                mapOptions = {
+                    center: location,
+                    zoom: 16
+                },
+                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions),
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    title: $(this).text()
+                });
             if (XDmvc.roles.indexOf("location") !== -1) {
                 $("#location").removeClass("hidden");
                 if (XDmvc.roles.indexOf("movie") !== -1) {

@@ -18,7 +18,7 @@ var cinemaLocations = [
     {"city": "Bern", "name": "jura", "lat": 46.946866, "long": 7.440348, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/jura/"},
     {"city": "Bern", "name": "CineBubenberg", "lat": 46.947663, "long": 7.4371833, "website": "http://www.quinnie.ch/"},
     {"city": "Bern", "name": "capitol", "lat": 46.948042, "long": 7.4489234, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/capitol/"},
-    {"city": "Bern", "nabame": "splendid", "lat": 46.9485731, "long": 7.4417456, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/splendid/"},
+    {"city": "Bern", "name": "splendid", "lat": 46.9485731, "long": 7.4417456, "website": "https://www.kitag.com/de/kinos-und-infos/kinos/splendid/"},
     {"city": "Bern", "name": "CineMovie", "lat": 46.9471707, "long": 7.4355858, "website": "http://www.quinnie.ch/"},
     {"city": "Olten", "name": "youcinema", "lat": 47.3490232, "long": 7.9107891, "website": "http://youcinema.ch/Standort-Olten"},
     {"city": "Olten", "name": "Palace", "lat": 47.3517928, "long": 7.9015585, "website": "http://youcinema.ch/Standort-Olten"},

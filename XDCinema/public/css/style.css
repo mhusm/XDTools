@@ -2,6 +2,10 @@ html { height: 100% }
 body { height: 100%; margin: 0; padding: 0 }
 #map-canvas { height: 100% }
 
+form {
+    width: 98%;
+}
+
 #location {
     height: 100%;
 }
@@ -66,7 +70,7 @@ body { height: 100%; margin: 0; padding: 0 }
 }
 
 #search-results {
-    height: calc(100vh - 162px);
+    height: calc(100vh - 192px);
     overflow-y: auto;
     width: 100%;
     overflow-x: hidden;

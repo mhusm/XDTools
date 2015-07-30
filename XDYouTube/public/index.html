@@ -34,6 +34,10 @@
             body {
                 margin: 0 8px;
             }
+
+            #yt-div {
+                overflow: hidden;
+            }
         </style>
     </head>
     <body>
@@ -482,7 +486,9 @@
                         this.$.roles.addRole('player');
                         this.$.roles.addRole('controller');
                         var el = document.getElementById("yt-div");
-                        el.setAttribute("style", "");
+                        if (el) {
+                            el.setAttribute("style", "");
+                        }
                         document.body.setAttribute("style", "");
                     }
                     else {
@@ -508,7 +514,9 @@
                             this.$.roles.removeRole("player");
                         }
                         var el = document.getElementById("yt-div");
-                        el.setAttribute("style", "background-color: black; width: 100%; height: 100%;");
+                        if (el) {
+                            el.setAttribute("style", "background-color: black; width: 100%; height: 100%;");
+                        }
                         document.body.setAttribute("style", "margin: 0;");
                     }
                 },
