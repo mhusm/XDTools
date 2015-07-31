@@ -553,9 +553,15 @@ body {
     width: 25px;
 }
 
+.layer-label {
+    float: right;
+    margin-right: 10px;
+    opacity: 0.5;
+}
+
 #timeline-container {
     height: calc(100% - 121px);
-    margin-top: 30px;
+    margin-top: 32px;
     float: right;
     clear: right;
     overflow-y: hidden;

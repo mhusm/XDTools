@@ -13,7 +13,6 @@
         <script src="js/lib/jquery.qrcode.js"></script>
         <script src="js/event-capturing.js"></script>
         <script src="js/index.js"></script>
-        <script src="js/configuration-management.js"></script>
         <script src="js/device-management.js"></script>
         <script src="js/device-interaction.js"></script>
         <script src="js/javascript-console.js"></script>
@@ -21,6 +20,7 @@
         <script src="js/color-management.js"></script>
         <script src="js/options.js"></script>
         <script src="js/command-management.js"></script>
+        <script src="js/html-generation.js"></script>
         <script src="js/Device.js"></script>
         <script src="js/function-debugging.js"></script>
         <meta name="viewport" content="width=device-width, user-scalable=no">
@@ -61,7 +61,7 @@
             <section id="console-container">
                 <section id="device-overview">
                     <select class="form-control" name="layer" id="layer">
-                        <option value="document.body" selected="selected">body</option>
+                        <option value="document.body" selected="selected">document.body</option>
                     </select>
                 </section>
                 <section id="subcontainer">
@@ -98,6 +98,7 @@
                             <div class="css-property">
                                 <span class="identifier empty" data-placeholder="enter identifier..."></span> {
                                 <span class="glyphicon glyphicon-remove remove-css hidden"></span>
+                                <span class='layer-label hidden'></span>
                                 <br />
                                 <span class="content"></span>
                                 }<br />

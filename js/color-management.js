@@ -15,9 +15,9 @@ function getNextColor(deviceID) {
         return 0;
     }
     else {
-        var maxDistance = 0;
-        var minColor = colors[0].color;
-        var minIndex = 1;
+        var maxDistance = 0,
+            minColor = colors[0].color,
+            minIndex = 1;
         for (var i = 1, j = colors.length; i < j; ++i) {
             if (colors[i].color - colors[i - 1].color > maxDistance) {
                 maxDistance = colors[i].color - colors[i - 1].color;
@@ -30,6 +30,7 @@ function getNextColor(deviceID) {
             minColor = colors[colors.length - 1].color;
             minIndex = colors.length;
         }
+        //Insert the color such that the list of colors is still ordered by value
         colors.splice(minIndex, 0, {"id": deviceID, "color": minColor + maxDistance / 2});
         return minColor + maxDistance / 2;
     }

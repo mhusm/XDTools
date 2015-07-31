@@ -7,7 +7,7 @@ function Device(id, url, layer, top, left, isRemote) {
     this.isRemote = isRemote;
     this.$device = null;
     this.firstConnect = true;
-    this.oldURL = "";
+    this.oldURL = url;
     this.connected = false;
     this.layers = [{"name": "document.body", "id": "", "path": ["document.body"]}];
     events[this.id] = [];
@@ -21,7 +21,11 @@ function Device(id, url, layer, top, left, isRemote) {
             if (this.layers[i].id) {
                 name = name + "#" + this.layers[i].id;
             }
-            this.$device.find(".dropdown-menu").append("<li data-value='" + this.layers[i].path.join(".") + ".shadowRoot'><a href='#'>" + name + "</a></li>");
+            var path = this.layers[i].path.join(".");
+            if (this.layers[i].type === "shadow") {
+                path = path + ".shadowRoot";
+            }
+            this.$device.find(".dropdown-menu").append("<li data-value='" + path + "'><a href='#'>" + name + "</a></li>");
         }
     };
     this.hasLayer = function (name) {
@@ -111,9 +115,9 @@ function Device(id, url, layer, top, left, isRemote) {
                 async: false,
                 complete: function () {
                     device.create();
-                    //TODO: fix this, connect when url has loaded
                     for (var i = 0, j = connectedDevices.length; i < j; ++i) {
                         $(".history-line[data-device-id='" + connectedDevices[i] + "']").remove();
+                        removeMainDevice(connectedDevices[i]);
                         connectDevice(connectedDevices[i], device.id);
                     }
                 }

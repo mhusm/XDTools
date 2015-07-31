@@ -190,11 +190,8 @@ $(document).ready(function () {
 function updateLayers(newLayers) {
     var $layer = $("#layer");
     for (var i = 0; i < newLayers.length; ++i) {
-        if ($("#layer option[value='" + newLayers[i].path.join(".") + "']").length === 0) {
-            var name = newLayers[i].name;
-            if (newLayers[i].id) {
-                name = name + "#" + newLayers[i].id;
-            }
+        if ($layer.find("option[value='" + newLayers[i].path.join(".") + "']").length === 0) {
+            var name = newLayers[i].id ? newLayers[i].name + "#" + newLayers[i].id : newLayers[i].name;
             layers.push(newLayers[i]);
             $layer.append("<option value='" + newLayers[i].path.join(".") + "'>" + name + "</option>");
         }
@@ -203,27 +200,11 @@ function updateLayers(newLayers) {
 
 //Connect a side device to a main device
 function connectDevice(deviceID, mainDeviceId) {
-    var deviceIndex = getDeviceIndex(deviceID),
-        mainDeviceIndex = getDeviceIndex(mainDeviceId);
-    var command = new Command("requestConnectionURL", deviceID);
+    var mainDeviceIndex = getDeviceIndex(mainDeviceId),
+        command = new Command("requestConnectionURL", deviceID);
     activeDevices[mainDeviceIndex].sendCommand(command);
-    /*
-    if (mainDevices.indexOf(deviceID) !== -1) {
-        removeMainDevice(deviceID);
-    }
-    if (activeDevices[mainDeviceIndex].isRemote) {
-        //Connect to remote device
-        var url = $("#device-" + mainDeviceId + " .url").val();
-        activeDevices[deviceIndex].connect(url);
-    }
-    else {
-        //Connect to local device
-        var url = activeDevices[mainDeviceIndex].url.replace(activeDevices[mainDeviceIndex].host, activeDevices[mainDeviceIndex].originalHost);
-        activeDevices[deviceIndex].connect(url);
-    }
     $("#sessions").find("li[data-device-id='" + deviceID + "']").remove();
-    $(".session[data-device-id='" + mainDeviceId + "'] ul").append("<li data-device-id='" + deviceID + "'><span class='session-device'>" + deviceID + "</span></li>");
-    */
+    $(".session[data-device-id='" + mainDeviceId + "'] ul").append(HTML.ConnectedDeviceRow(deviceID));
 }
 
 function makeMainDevice(deviceID) {
@@ -234,19 +215,15 @@ function makeMainDevice(deviceID) {
     $(".main-devices").append(
         "<option data-device-id='" + deviceID + "' value='" + deviceID + "'>" + deviceID + "</option>"
     );
-    $("<div class='session' data-device-id='" + deviceID + "'>" +
-        "<button type='button' class='btn btn-sm btn-default reset'>Reset Session</button><br />" +
-        "<button type='button' class='btn btn-sm btn-default session-refresh'><span class='glyphicon glyphicon-refresh'></span></button>" +
-        "<span class='auto-connect'><input data-device-id='" + deviceID + "' type='checkbox' /> Auto-Connect</span>" +
-        "<span class='title'>Main device: </span><span class='session-device'>" + deviceID + "</span>" +
-        "<br /><span class='title'>Connected devices:</span><br />" +
-        "<ul></ul></div>"
-    ).appendTo("#sessions .content");
+    $(HTML.Session(deviceID)).appendTo("#sessions .content");
     $("#device-" + deviceID).find("select").val("none");
 }
 
 function removeMainDevice(deviceID) {
-    mainDevices.splice(mainDevices.indexOf(deviceID), 1);
+    var mainDeviceIndex = mainDevices.indexOf(deviceID);
+    if (mainDeviceIndex !== -1) {
+        mainDevices.splice(mainDeviceIndex, 1);
+    }
     $(".main-devices option[data-device-id='" + deviceID + "']").remove();
     var $session = $(".session[data-device-id='" + deviceID + "']");
     $session.find("ul").find(".session-device").each(function () {

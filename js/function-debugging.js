@@ -54,12 +54,7 @@ $(document).ready(function () {
 });
 
 function appendDebugFunction(functionName, selectedLayer) {
-    $("<div class='function' data-layer='" + selectedLayer + "'>" + "" +
-            "<span class='name'>" + functionName + "</span>" +
-            "<span class='glyphicon glyphicon-remove remove-function'></span>" +
-            "<button type='button' class='btn btn-sm btn-default inspect-function'>Inspect</button>" +
-        "<hr /></div>"
-    ).appendTo("#debugged-functions");
+    $(HTML.DebugFunction(selectedLayer, functionName)).appendTo("#debugged-functions");
 }
 
 function debugAllDevices(functionName, selectedLayer) {

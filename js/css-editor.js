@@ -10,6 +10,7 @@ $(document).ready(function () {
 
     var cssProperties = getAvailableCSSProperties();
 
+    //Remove a CSS rule
     $(document).on("click", ".remove-css", function () {
         var $cssProperty = $($(this).closest(".css-property")[0]),
             cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($cssProperty.data("index"));
@@ -17,14 +18,61 @@ $(document).ready(function () {
             cssRules[cssIndex].destroy();
             cssRules.splice(cssIndex, 1);
         }
+        $($cssProperty[0].nextSibling).remove();
         $cssProperty.remove();
+    });
+
+    //Initialize CSS propery autocomplete
+    addKeyUpEvent(cssProperties, cssProperties, "");
+
+    //Only make selectors/properties/values editable when the user clicks on them
+    $(document).on("click", ".identifier, .property, .value", function () {
+        $(this).attr("contenteditable", "true").focus();
+    });
+    $(document).on("blur", ".identifier, .property, .value", function () {
+        $(this).attr("contenteditable", "false");
+    });
+
+    //Trigger blur event when the user hits the enter key
+    $(document).on("keypress", ".identifier, .property, .value", function (ev) {
+        if (ev.which === 13) {
+            ev.preventDefault();
+            $(this).blur();
+        }
+    });
+
+    $(document).on("blur", ".identifier", function () {
+        if ($(this).hasClass("empty")) {
+            //If an empty selector is set, add a new empty rule for the next selector to be added and add empty property and value for this rule
+            if ($(this).text()) {
+                var selectedLayer = $("#layer").find("option:selected").val(),
+                    layerIndex = layers.map(function (e) { return e.path.join("."); }).indexOf(selectedLayer),
+                    name = layers[layerIndex].id ? layers[layerIndex].name + "#" + layers[layerIndex].id : layers[layerIndex].name,
+                    $cssProperty = $(this).closest(".css-property");
+                if (layers[layerIndex].type === "shadow") {
+                    selectedLayer = selectedLayer + ".shadowRoot";
+                }
+                $(this).removeClass("empty").attr("data-layer", selectedLayer);
+                $(".remove-css").removeClass("hidden");
+                $cssProperty.find(".layer-label").removeClass("hidden").text(name);
+                $(HTML.CSSRule()).prependTo("#css-console .properties");
+                $(HTML.CSSProperty()).appendTo($cssProperty.find(".content")).find(".property").click();
+            }
+        }
+        else {
+            //If a selector is modified, add the rules for the old selector
+            var identifier = $(this).text(),
+                index = $($(this).closest(".css-property")[0]).data("index"),
+                cssIndex = cssRules.map(function (e) { return e.index; }).indexOf(index);
+            cssRules[cssIndex].modifySelector(identifier);
+        }
     });
 
     //If the user changes the property field, remove the CSS rule with that property
     $(document).on("focus", ".property", function () {
         if (!$(this).hasClass("empty")) {
-            var prevValue = $(this).text();
-            var cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($($(this).closest(".css-property")[0]).data("index")),
+            var prevValue = $(this).text(),
+                cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($($(this).closest(".css-property")[0]).data("index")),
                 $lineWrapper = $($(this).closest(".line-wrapper")[0]);
             cssRules[cssIndex].removeAttribute(prevValue, $lineWrapper.find(".value").text());
         }
@@ -42,33 +90,6 @@ $(document).ready(function () {
         }
         else if (!$property.hasClass("empty") && !$property.hasClass("empty")){
             cssRules[cssIndex].removeAttribute($property.text(), $value.text());
-        }
-    });
-
-    $(document).on("blur", ".identifier", function () {
-        if ($(this).hasClass("empty")) {
-            //If an empty selector is set, add a new empty identifier for the next selector to be added
-            if ($(this).text()) {
-                var selectedLayer = $("#layer option:selected").val();
-                $(this).removeClass("empty").attr("data-layer", selectedLayer);
-                $(".remove-css").removeClass("hidden");
-                $("<div class='css-property'>" +
-                    "<span class='identifier empty' data-placeholder='enter identifier...'></span> {<span class='glyphicon glyphicon-remove remove-css hidden'></span><br />" +
-                    "<span class='content'></span>" +
-                "}<br /></div><br />").prependTo("#css-console .properties");
-                $("<span class='line-wrapper'>" +
-                    "<input type='checkbox' name='property4' value='property4' checked>" +
-                    "<span class='property empty' data-placeholder='enter property...'></span><span class='remainder'></span>" +
-                    ": <span class='value empty' data-placeholder='enter value...'></span>;</span><br />"
-                ).appendTo($(this).parent().find(".content")).find(".property:last").attr("contenteditable", true).focus();
-            }
-        }
-        else {
-            //If a selector is modified, add the rules for the old selector
-            var identifier = $(this).text(),
-                index = $($(this).closest(".css-property")[0]).data("index"),
-                cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($($(this).closest(".css-property")[0]).data("index"));
-            cssRules[cssIndex].modifySelector(identifier);
         }
     });
 
@@ -105,11 +126,7 @@ $(document).ready(function () {
             //If an empty value field is set, add the CSS rule and add a new property-value line
             if ($(this).text()) {
                 $(this).removeClass("empty");
-                $("<span class='line-wrapper'>" +
-                    "<input type='checkbox' name='property4' value='property4' checked>" +
-                    "<span class='property empty' data-placeholder='enter property...'></span><span class='remainder'></span>" +
-                    ": <span class='value empty' data-placeholder='enter-value'></span>;</span><br />"
-                ).appendTo($cssProperty.find(".content"));
+                $(HTML.CSSProperty()).appendTo($cssProperty.find(".content"));
                 if (cssIndex >= 0) {
                     cssRules[cssIndex].addAttribute(property, value);
                 }
@@ -125,22 +142,6 @@ $(document).ready(function () {
             cssRules[cssIndex].modifyAttribute(property, value);
         }
     });
-
-    $(document).on("click", ".identifier, .property, .value", function () {
-        $(this).attr("contenteditable", "true").focus();
-    });
-
-    $(document).on("blur", ".identifier, .value", function () {
-        $(this).attr("contenteditable", "false");
-    });
-    $(document).on("keypress", ".identifier, .property, .value", function (ev) {
-        if (ev.which === 13) {
-            ev.preventDefault();
-            $(this).blur();
-        }
-    });
-
-    addKeyUpEvent(cssProperties, cssProperties, "");
 
 });
 

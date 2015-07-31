@@ -4,6 +4,62 @@ var savedSequences = JSON.parse(localStorage.getItem("saved-sequences")) || [],
 
 $(document).ready(function () {
 
+    var savedSessions = JSON.parse(localStorage.getItem("session-names")) || [],
+        $noConfigurations = $("#no-configurations"),
+        $configurationSettings = $("#configuration-settings");
+
+    $("#session-name").autocomplete({
+        source: savedSessions
+    });
+
+    if (savedSessions.length > 0) {
+        $noConfigurations.addClass("hidden");
+    }
+    //List all device configurations along with a button to remove them
+    for (var i = 0, j = savedSessions.length; i < j; ++i) {
+        $configurationSettings.append(HTML.ConfigurationRow(savedSessions[i]));
+    }
+    //Remove a device configuration
+    $(document).on("click", ".config-remove", function () {
+        var index = savedSessions.indexOf($(this).data("config-name"));
+        savedSessions.splice(index, 1);
+        localStorage.setItem("session-names", JSON.stringify(savedSessions));
+        localStorage.removeItem("stored-session-" + $(this).data("config-name"));
+        $(this).parent("li").remove();
+        if (savedSessions.length === 0) {
+            $noConfigurations.removeClass("hidden");
+        }
+    });
+
+    //Save a new configuration
+    $("#save-button").click(function () {
+        var sessionName = $("#session-name").val(),
+            elementsToStore = [],
+            i, j;
+        for (i = 0, j = activeDevices.length; i < j; ++i) {
+            if (!activeDevices[i].isRemote) {
+                elementsToStore.push(activeDevices[i].getDevice());
+            }
+        }
+        localStorage.setItem("stored-session-" + sessionName, JSON.stringify(elementsToStore));
+        if (savedSessions.indexOf(sessionName) === -1) {
+            savedSessions.push(sessionName);
+            localStorage.setItem("session-names", JSON.stringify(savedSessions));
+        }
+        $configurationSettings.append(HTML.ConfigurationRow(sessionName));
+        $noConfigurations.addClass("hidden");
+    });
+
+    //Load an existing configuration
+    $("#load-button").click(function () {
+        var sessionName = $("#session-name").val(),
+            devices = JSON.parse(localStorage.getItem("stored-session-" + sessionName)),
+            i, j;
+        $("#devices").empty();
+        activeDevices = [];
+        loadDevice(devices, 0);
+    });
+
     $("#enable-dns").click(function () {
         if ($(this).is(":checked")) {
             rewriteURL = rewriteURLwithDNS;
@@ -50,13 +106,7 @@ $(document).ready(function () {
 
     //List all device configurations along with a button to remove them
     for (var i = 0, j = sequenceNames.length; i < j; ++i) {
-        $("#settings-sequences").append(
-            "<li class='config-row'>" +
-            sequenceNames[i] +
-            "<button type='button' data-seq-name='" + sequenceNames[i] + "' class='btn btn-primary btn-sm right seq-remove'>" +
-            "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
-            "</button><hr /></li>"
-        );
+        $("#settings-sequences").append(HTML.SequenceRow(sequenceNames[i]));
     }
     //Remove a device configuration
     $(document).on("click", ".seq-remove", function () {
@@ -78,13 +128,7 @@ $(document).ready(function () {
     }
     //List all custom devices along with a button to remove them
     for (var i = 0, j = customDevices.length; i < j; ++i) {
-        $("#settings-devices").append(
-            "<li class='device-row'>" +
-            customDevices[i].label +
-            "<button type='button' data-device-name='" + customDevices[i].label + "' class='btn btn-primary btn-sm right device-remove'>" +
-            "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
-            "</button><hr /></li>"
-        );
+        $("#settings-devices").append(HTML.DeviceRow(customDevices[i].label));
     }
     //Remove a custom device
     $(document).on("click", ".device-remove", function () {
@@ -98,3 +142,17 @@ $(document).ready(function () {
     });
 
 });
+
+function loadDevice(devices, i) {
+    socket.emit("requestID", i);
+    socket.once("receiveID", function(id, index) {
+        var $url = $("#url"),
+            url = new URL($url.val()),
+            device = new LocalDevice(devices[index].name, id, devices[index].width, devices[index].height, devices[index].devicePixelRatio, $url.val(), url.hostname, devices[index].scaling, devices[index].scaling, devices[index].top, devices[index].left);
+        activeDevices.push(device);
+        device.create();
+        if (index + 1 < devices.length) {
+            loadDevice(devices, index + 1);
+        }
+    });
+}

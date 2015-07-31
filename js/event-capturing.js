@@ -7,8 +7,7 @@ $(document).ready(function () {
     $("#breakpoint-container").click(function (ev) {
         var top = ev.offsetY - 7.5;
         breakpoints.push({"time": top * 10, "id": "bp-" + breakpointIndex});
-        $("<div class='breakpoint' id='bp-" + breakpointIndex + "' data-value='" + top * 10 + "' draggable='true'></div>")
-            .appendTo($("#breakpoint-container")).css("top", top + "px").on("dragstart", dragBreakpoint);
+        $(HTML.Breakpoint(breakpointIndex, top)).appendTo($("#breakpoint-container")).css("top", top + "px").on("dragstart", dragBreakpoint);
         breakpointIndex++;
     });
 
@@ -54,6 +53,7 @@ $(document).ready(function () {
             var index = savedSequences.map(function (e) { return e.name; }).indexOf(sequenceName);
             events[deviceID].push({"name": sequenceName, "sequence": savedSequences[index].sequence.slice(0), "position": -1});
             visualizeEventSequences(deviceID);
+            $(this).val("none");
         }
         $(this).blur();
     });
@@ -71,13 +71,14 @@ $(document).ready(function () {
     $(document).on("dragstart", ".content", dragTimeline);
 
     $("#play-button").click(function () {
-        var i, j, k, eventSequences = [];
+        var i, j, k, eventSequences = [],
+            offset0s = $("#timeline-container").find(".time").offset().top;
         for (i = 0, j = activeDevices.length; i < j; ++i) {
             if (events[activeDevices[i].id] && events[activeDevices[i].id].length > 0) {
                 eventSequences = [];
                 for (k = 0; k < events[activeDevices[i].id].length; ++k) {
                     var $timeline = $("#timeline-" + activeDevices[i].id),
-                        curPos = $timeline.find(".content[data-sequence-id='" + k + "'] .label-primary").offset().top - $timeline.find(".content[data-sequence-id='" + k + "']").parent().offset().top;
+                        curPos = $timeline.find(".content[data-sequence-id='" + k + "'] .label-primary").offset().top - offset0s;
                     eventSequences.push({"startTime": curPos * 10, "sequence": events[activeDevices[i].id][k].sequence});
                 }
                 var command = new ReplayCommand("startReplaying", activeDevices[i].id, eventSequences, breakpoints);
@@ -89,10 +90,11 @@ $(document).ready(function () {
     //Replay recorded sequence
     $(document).on("click", ".play", function () {
         var deviceID = $(this).closest(".device-timeline").data("device-id"),
-            index = getDeviceIndex(deviceID);
+            index = getDeviceIndex(deviceID),
+            offset0s = $("#timeline-container").find(".time").offset().top;
         var eventSequences = [];
         for (var k = 0; k < events[deviceID].length; ++k) {
-            var curPos = $("#timeline-" + deviceID + " .content[data-sequence-id='" + k + "']  .label-primary").offset().top - $("#timeline-" + deviceID + " .content[data-sequence-id='" + k + "']").parent().offset().top;
+            var curPos = $("#timeline-" + deviceID + " .content[data-sequence-id='" + k + "']  .label-primary").offset().top - offset0s;
             eventSequences.push({"startTime": curPos * 10, "sequence": events[deviceID][k].sequence});
         }
         var command = new ReplayCommand("startReplaying", deviceID, eventSequences, breakpoints);
@@ -134,12 +136,7 @@ $(document).ready(function () {
             name = $(this).val();
         savedSequences.push({"name": name, "sequence": events[deviceID][sequenceId].sequence.slice(0)});
         events[deviceID][sequenceId].name = name;
-        $("#settings-sequences").append(
-            "<li class='config-row'>" +
-            name +
-            "<button type='button' data-seq-name='" + name + "' class='btn btn-primary btn-sm right seq-remove'>" +
-            "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><hr /></li>"
-        );
+        $("#settings-sequences").append(HTML.SequenceRow(name));
         $("#no-sequences").addClass("hidden");
         localStorage.setItem("saved-sequences", JSON.stringify(savedSequences));
         $("#timeline").find("select").append("<option value='" + name + "'>" + name + "</option>");
@@ -233,32 +230,26 @@ function dragBreak(ev) {
 }
 
 function visualizeEventSequences(deviceID) {
-    var $timeline = $("#timeline-" + deviceID);
+    var $timeline = $("#timeline-" + deviceID),
+        evs = events[deviceID];
     $timeline.find(".content").remove();
     $timeline.find(".play").removeClass("disabled");
-    var evs = events[deviceID];
     for (var z = 0; z < evs.length; ++z) {
         var curEvents = evs[z].sequence,
             groups = groupEvents(curEvents),
             lastTime = groups[0][groups[0].length - 1].event.time,
             prevTime = groups[0][0].event.time,
             html = "<section class='content' data-sequence-id='" + z + "' data-device-id='" + deviceID + "'>" +
-                evs[z].name +
-                "<button class='btn btn-default btn-sm seq-remove-button'>" +
-                    "<span class='glyphicon glyphicon-remove'></span>" +
-                "</button>" +
-                "<button class='btn btn-default btn-sm seq-save-button'>" +
-                    "<span class='glyphicon glyphicon-floppy-disk'></span>" +
-                "</button>";
+                evs[z].name + HTML.SequenceButtons();
         for (var i = 0, j = groups.length; i < j; ++i) {
             var pause = Math.max(0, groups[i][0].event.time - lastTime),
                 height = Math.max(0, groups[i][0].event.time - prevTime - 200) / 10,
                 types = [];
             if (height >= 14) {
-                html = html + "<div data-device-id='" + deviceID + "' data-sequence-id='" + z + "' data-event-index='" + groups[Math.max(i - 1, 0)][groups[Math.max(i - 1, 0)].length - 1].index + "' style='height:" + height + "px; line-height:" + height + "px' class='break'><hr class='cut-line' data-device-id='" + deviceID + "' />" + pause + " ms</div>";
+                html = html + HTML.Break(deviceID, groups[Math.max(i - 1, 0)][groups[Math.max(i - 1, 0)].length - 1].index, z, height, pause + " ms");
             }
             else {
-                html = html + "<div data-device-id='" + deviceID + "' data-sequence-id='" + z + "' data-event-index='" + groups[Math.max(i - 1, 0)][groups[Math.max(i - 1, 0)].length - 1].index + "' style='height:" + height + "px; line-height:" + height + "px' class='break'><hr class='cut-line' data-device-id='" + deviceID + "' /></div>";
+                html = html + HTML.Break(deviceID, groups[Math.max(i - 1, 0)][groups[Math.max(i - 1, 0)].length - 1].index, z, height, "");
             }
             html = html + "<span class='label label-primary'>";
             lastTime = groups[i][groups[i].length - 1].event.time;
@@ -266,31 +257,22 @@ function visualizeEventSequences(deviceID) {
             for (var k = 0, l = groups[i].length; k < l; ++k) {
                 types.push(groups[i][k].event.type);
             }
-            var joined = types[0];
-            var count = 1;
+            var joined = types[0], count = 1;
             for (var k = 1; k < types.length; ++k) {
                 if (types[k] === types[k - 1]) {
                     count++;
                 }
                 else {
-                    if (count > 1) {
-                        joined = joined + " x " + count + ", " + types[k];
-                    }
-                    else {
-                        joined = joined + ", " + types[k];
-                    }
+                    joined = count > 1 ? joined + " x " + count + ", " + types[k] : joined + ", " + types[k];
                     count = 1;
                 }
             }
-            if (count > 1) {
-                joined = joined + " x " + count;
-            }
+            joined = count > 1 ? joined + " x " + count : joined;
             html += joined + "</span>";
         }
         html = html + "</section>";
         $(html).appendTo("#timeline-" + deviceID + " .event-container");
-        var pos = 0,
-            margin = 0;
+        var pos = 0, margin = 0;
         if (z > 0) {
             pos =  $timeline.find(".content[data-sequence-id='" + (z - 1) + "']").height() + evs[z - 1].position;
             margin = -$timeline.find(".content[data-sequence-id='" + (z - 1) + "']").height();
@@ -307,7 +289,7 @@ function visualizeEventSequences(deviceID) {
             placement: 'left',
             container: 'body',
             html: true,
-            content: "<input type='text' class='seq-name form-control' placeholder='Enter name...' data-device-id='" + deviceID + "' data-sequence-id='" + z + "' autofocus />"
+            content: HTML.SequenceInput(deviceID)
         });
     }
 }

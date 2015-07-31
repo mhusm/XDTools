@@ -56,12 +56,7 @@ function processCommand(command, deviceID) {
     else if (command.name === "receiveConnectionURL") {
         console.log("receiveConnectionURL");
         var deviceIndex = getDeviceIndex(command.deviceID);
-        //Store old URL when the devices is connected for the first time
-        if (!activeDevices[deviceIndex].connected) {
-            activeDevices[deviceIndex].oldURL = activeDevices[deviceIndex].url;
-            activeDevices[deviceIndex].connected = true;
-        }
-        activeDevices[deviceIndex].loadURL(command.url);
+        activeDevices[deviceIndex].connect(command.url);
     }
     else {
         console.error("Unknown command");
@@ -74,9 +69,6 @@ function Command(name, deviceID) {
     this.parentDomain = "http://" + window.location.host;
     this.toString = function () {
         return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain});
-    };
-    this.send = function (targetIframe, url) {
-        targetIframe.contentWindow.postMessage(this.toString(), url);
     };
 }
 
@@ -95,9 +87,6 @@ function CSSCommand(name, deviceID, identifier, property, value, layer) {
     this.property = property;
     this.value = value;
     this.layer = layer;
-    if (layer) {
-        this.layer = this.layer + ".shadowRoot";
-    }
     this.toString = function ()  {
         return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain, "identifier": this.identifier, "property": this.property, "value": this.value, "layer": this.layer});
     }
@@ -117,6 +106,7 @@ function JSCommand(name, deviceID, code) {
     }
 }
 
+//Check if a string is valid JSON
 function isJson(str) {
     try {
         JSON.parse(str);

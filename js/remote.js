@@ -472,7 +472,8 @@ var XDTest = {
         }
         for (i = 0, j = XDTest.touchEvents.length; i < j; ++i) {
             document.addEventListener(XDTest.touchEvents[i], function (ev) {
-                XDTest.logEvent(ev, "TouchEvent");
+                //TODO: temporarily disabled
+                //XDTest.logEvent(ev, "TouchEvent");
             }, true);
         }
         document.addEventListener("mousewheel", function (ev) {
@@ -674,7 +675,7 @@ var XDTest = {
                     toProcess.push({"path": path, "element": curElement.children[i]});
                 }
             }
-            if (curElement.children.length > 0) {
+            else if (curElement.children.length > 0) {
                 for (var i = 0; i < curElement.children.length; ++i) {
                     var path = cur.path.slice(0);
                     path.push("children[" + i + "]");
@@ -700,27 +701,24 @@ var XDTest = {
     },
     updateStylesheets: function (stylesheets, layers) {
         for (var i = 0, j = layers.length; i < j; ++i) {
-            var name = layers[i].path.join(".") + ".shadowRoot";
+            var name = layers[i].path.join(".");
+            if (layers[0].type === "shadow") {
+                name = name + ".shadowRoot";
+            }
             if (stylesheets.map(function (e) { return e.layer; }).indexOf(name) === -1) {
                 var style = document.createElement("style"),
                     code = "";
                 style.appendChild(document.createTextNode(""));
-                if (layers[i].type === "shadow") {
-                    code = layers[i].path.join(".") + ".shadowRoot;";
-                }
-                else {
-                    code = layers[i].path.join(".");
-                }
-                var element = eval(code);
+                var element = eval(name);
                 element.appendChild(style);
                 stylesheets.push({"layer": name, "stylesheet": style.sheet});
             }
         }
-        if (stylesheets.map(function (e) { return e.layer; }).indexOf("document.body.shadowRoot") === -1) {
+        if (stylesheets.map(function (e) { return e.layer; }).indexOf("document.body") === -1) {
             var style = document.createElement("style");
             style.appendChild(document.createTextNode(""));
             document.head.appendChild(style);
-            stylesheets.push({"layer": "document.body.shadowRoot", "stylesheet": style.sheet});
+            stylesheets.push({"layer": "document.body", "stylesheet": style.sheet});
         }
     },
     isCustomPolymerElement: function (name) {

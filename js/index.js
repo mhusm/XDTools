@@ -22,6 +22,7 @@ $(document).ready(function () {
         var device = new RemoteDevice(id, $("#url").val(), 0, 0, 0, true);
         activeDevices.push(device);
         device.create();
+        removeMainDevice(device.id);
         $("#sessions").find(".auto-connect input").each(function () {
             if ($(this).is(":checked")) {
                 connectDevice(id, this.dataset.deviceId);

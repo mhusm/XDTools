@@ -41,13 +41,7 @@ $(document).ready(function () {
         clearDeviceInputFields();
         addDevice(deviceName, width, height, devicePixelRatio);
         $("#deviceModal").modal("hide");
-        $("#settings-devices").append(
-            "<li class='device-row'>" +
-            deviceName +
-            "<button type='button' data-device-name='" + deviceName + "' class='btn btn-primary btn-sm right device-remove'>" +
-            "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
-            "</button><hr /></li>"
-        );
+        $("#settings-devices").append(HTML.DeviceRow(deviceName));
         $("#no-devices").addClass("hidden");
     });
 });
@@ -90,7 +84,7 @@ function customRenderMenu(ul, items) {
     $.each(items, function (index, item) {
         if (item.type === "phone") {
             if (first) {
-                ul.append("<li class='ui-autocomplete-group bold blue ui-state-disabled'>Mobile phones</li><hr />");
+                ul.append(HTML.AutoCompleteTitle("Mobile phones"));
                 first = false;
             }
             self._renderItemData(ul, item);
@@ -100,7 +94,7 @@ function customRenderMenu(ul, items) {
     $.each(items, function (index, item) {
         if (item.type === "tablet") {
             if (first) {
-                ul.append("<li class='ui-autocomplete-group bold blue ui-state-disabled'>Tablets</li><hr />");
+                ul.append(HTML.AutoCompleteTitle("Tablets"));
                 first = false;
             }
             self._renderItemData(ul, item);
@@ -110,7 +104,7 @@ function customRenderMenu(ul, items) {
     $.each(items, function (index, item) {
         if (item.type === "desktop") {
             if (first) {
-                ul.append("<li class='ui-autocomplete-group bold blue ui-state-disabled'>Desktop devices</li><hr />");
+                ul.append(HTML.AutoCompleteTitle("Desktop Devices"));
                 first = false;
             }
             self._renderItemData(ul, item);
@@ -120,7 +114,7 @@ function customRenderMenu(ul, items) {
     $.each(items, function (index, item) {
         if (item.type === "wearable") {
             if (first) {
-                ul.append("<li class='ui-autocomplete-group bold blue ui-state-disabled'>Wearables</li><hr />");
+                ul.append(HTML.AutoCompleteTitle("Wearables"));
                 first = false;
             }
             self._renderItemData(ul, item);
@@ -153,6 +147,7 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
                 var $device = $("#device-" + id);
                 $device.find(".main input").click();
                 $device.find("select").val(id);
+                removeMainDevice(device.id);
                 connectDevice(id, this.dataset.deviceId);
             }
         });
@@ -161,60 +156,12 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
 
 //Add the HTML for displaying the emulated device
 function appendDevice(device) {
-    $("#devices").append(
-        "<section draggable='false' data-device-id='" + device.id + "' class='device-container' id='device-" + device.id +"'>" +
-            "<div class='overlay hidden'></div>" +
-            "<h4>" + device.name + "</h4>" +
-            "<button type='button' class='btn btn-primary remove'>" +
-                "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
-            "</button>" +
-            "<button type='button' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
-                "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>" +
-            "</button>" +
-            "<span class='device-id'><b>Device ID: </b>" + device.id + "</span>" +
-            "<hr />" +
-            "<section class='settings-panel'>" +
-                "<input type='url' class='form-control url' value='" + device.url + "' />" +
-                "<input draggable='false' class='range' type='range' value='" + device.scaling + "' min='0.1' max='2' step='0.1' /><span class='scale-factor'>" + device.scaling + "</span>" +
-                "<button type='button' class='btn btn-primary rotate' title='Switch orientation'>" +
-                    "<img class='rotate-img' src='../img/rotate.png' alt='rotate' />" +
-                "</button>" +
-                "<button type='button' class='btn btn-primary scale' title='Set scaling factor to 1'>" +
-                    "<span class='glyphicon glyphicon-fullscreen' aria-hidden='true'></span>" +
-                "</button>" +
-                "<button type='button' class='btn btn-primary refresh' title='Refresh device'>" +
-                    "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
-                "</button>" +
-                "<div class='dropdown'>" +
-                    "<button type='button' class='btn btn-primary inspect dropdown-toggle' title='Inspect HTML of device' data-toggle='dropdown' id='dropdown-" + device.id + "' aria-haspopup='true' aria-expanded='true'>" +
-                        "Inspect HTML " + "<span class='caret'></span>" +
-                    "</button>" +
-                    "<ul class='dropdown-menu' aria-labelledby='dropdown-" + device.id + "'>" +
-                        "<li><a href='#'>body</a></li>" +
-                    "</ul>" +
-                "</div>" +
-                "<button type='button' class='btn btn-primary inspect-js hidden' title='Inspect JS files'>" +
-                    "Inspect JS files" +
-                "</button>" +
-                "<span class='left'>Layer: <input type='number' class='layer' value='1' /></span>" +
-                "<br />" +
-                "<div class='main'>" +
-                    "<input type='checkbox' name='main' class='toggle-main' value='main' checked>Main device" +
-                    "<select class='form-control main-devices hidden' name='main-devices'>" +
-                        "<option value='none' disabled selected style='display:none;'>Connect to device</option>" +
-                    "</select>" +
-                "</div><br />" +
-            "</section>" +
-            "<iframe src='" + device.url + "'></iframe>" +
-        "</section>"
-    );
-    var deviceSelect = $("#device-" + device.id + " .main-devices");
+    $("#devices").append(HTML.LocalDevice(device));
+    var $device = $("#device-" + device.id),
+        $deviceSelect = $device.find(".main-devices");
     for (var i = 0, j = mainDevices.length; i < j; ++i) {
-        $(deviceSelect).append(
-            "<option data-device-id='" + mainDevices[i] + "' value='" + mainDevices[i] + "'>" + mainDevices[i] + "</option>"
-        );
+        $deviceSelect.append(HTML.SelectOptionDevice(mainDevices[i]));
     }
-    var $device = $("#device-" + device.id);
     $device.css({
         "top": device.top + "px",
         "left": device.left + "px"
@@ -232,58 +179,16 @@ function appendDevice(device) {
 
 //Add the HTML for the displaying of the remote device
 function appendRemoteDevice(device) {
-    $("#devices").append(
-        "<section draggable='false' data-device-id='" + device.id + "' class='device-container remote' id='device-" + device.id +"'>" +
-            "<div class='overlay hidden'></div>" +
-            "<h4>Remote device</h4>" +
-            "<button type='button' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
-                "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>" +
-            "</button>" +
-            "<span class='device-id'><b>Device ID: </b>" + device.id + "</span>" +
-            "<hr />" +
-            "<section class='settings-panel'>" +
-                "<input type='url' class='form-control url' value='" + $("#url").val() + "' />" +
-                "<button type='button' class='btn btn-primary refresh' title='Refresh device'>" +
-                    "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
-                "</button>" +
-                "<span class='left'>Layer: <input type='number' class='layer' value='1' /></span>" +
-                "<br />" +
-                "<div class='main'>" +
-                    "<input type='checkbox' name='main' class='toggle-main' value='main' checked>Main device" +
-                    "<select class='form-control main-devices hidden' name='main-devices' placeholder='Connect to device'>" +
-                        "<option value='' disabled selected style='display:none;'>Connect to device</option>" +
-                    "</select>" +
-                "</div>" +
-            "</section>" +
-        "</section>"
-    );
-    var deviceSelect = $("#device-" + device.id + " .main-devices");
+    $("#devices").append(HTML.RemoteDevice(device));
+    var $deviceSelect = $("#device-" + device.id).find(".main-devices");
     for (var i = 0, j = mainDevices.length; i < j; ++i) {
-        $(deviceSelect).append(
-            "<option data-device-id='" + mainDevices[i] + "' value='" + mainDevices[i] + "'>" + mainDevices[i] + "</option>"
-        );
+        $deviceSelect.append(HTML.SelectOptionDevice(mainDevices[i]));
     }
 }
 
 //Add the HTML for the timeline of a device
 function addDeviceTimeline(id, name) {
-    var timeline = "<section class='device-timeline' id='timeline-" + id + "' data-device-id='" + id + "'>" +
-        "<h4>" + name + "</h4>";
-    timeline = timeline + "<button type='button' class='btn btn-primary btn-sm record' data-recording='false' title='Start/stop recording'>" +
-    "<span class='glyphicon glyphicon-record'></span>" +
-    "</button>";
-    timeline = timeline + "<button type='button' class='btn btn-primary btn-sm play disabled' title='Replay recorded sequence'>" +
-            "<span class='glyphicon glyphicon-play'></span>" +
-        "</button>" +
-        "<select name='timeline-" + id + "' class='form-control'>" +
-        "<option value='none' selected='selected'></option>";
-    for (var i = 0, j = sequenceNames.length; i < j; ++i) {
-        timeline = timeline + "<option value='" + sequenceNames[i] + "'>" + sequenceNames[i] + "</option>";
-    }
-    timeline = timeline + "</select>" +
-        "<hr /><section class='event-container'></section>" +
-    "</section>";
-    $("#timeline").find(".timeline-content").append(timeline);
+    $("#timeline").find(".timeline-content").append(HTML.Timeline(id, name, sequenceNames));
     $("<span class='js-device active' data-device-id='" + id + "'>" + name + "</span>").appendTo($("#device-overview"))
         .css("background-color", "hsla(" + getNextColor(id) + ", 60%, 50%, 0.3)");
 }
