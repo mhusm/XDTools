@@ -54,21 +54,42 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".trailer", function (ev) {
-        ev.preventDefault();
-        currentTrailer.href = $(this).attr("href");
-        XDmvc.forceUpdate("currenttrailer");
+        if (XDmvc.othersRoles.extra && XDmvc.othersRoles.extra > 0) {
+            ev.preventDefault();
+            currentTrailer.href = $(this).attr("href");
+            XDmvc.forceUpdate("currenttrailer");
+        }
     });
 
     $(document).on("click", ".cinema .name", function () {
         var newLoc = getCinemaLocation(currentCity, $(this).text());
         loc.lat = newLoc.lat;
         loc.long = newLoc.long;
+        if (XDmvc.connectedDevices.length === 0) {
+            $("#location").removeClass("hidden").css("height", "calc(100% - 44px)");
+            $("#general").addClass("hidden");
+            $("#back").removeClass("hidden");
+            updateMap(loc.lat, loc.long);
+        }
         XDmvc.forceUpdate("loc");
     });
 
     $(document).on("click", ".movie h3, .movie img", function () {
         currentMovie.title = $(this).closest(".movie").find("h3").text();
+        if (XDmvc.connectedDevices.length === 0) {
+            $("#movie").removeClass("hidden");
+            $("#general").addClass("hidden");
+            $("#back").removeClass("hidden");
+            updateMovie(currentMovie.title);
+        }
         XDmvc.forceUpdate("currentmovie");
+    });
+
+    $("#back").click(function () {
+        $("#movie").addClass("hidden");
+        $("#location").addClass("hidden").css("height", "100%");
+        $("#general").removeClass("hidden");
+        $("#back").addClass("hidden");
     });
 
     //Update search results when the user searches for a new city
@@ -89,17 +110,7 @@ $(document).ready(function () {
         if (data.lat !== 0 && data.long !== 0) {
             loc.lat = data.lat;
             loc.long = data.long;
-            var location = new google.maps.LatLng(loc.lat, loc.long),
-                mapOptions = {
-                    center: location,
-                    zoom: 16
-                },
-                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions),
-                marker = new google.maps.Marker({
-                    position: location,
-                    map: map,
-                    title: $(this).text()
-                });
+            updateMap(loc.lat, loc.long);
             if (XDmvc.roles.indexOf("location") !== -1) {
                 $("#location").removeClass("hidden");
                 if (XDmvc.roles.indexOf("movie") !== -1) {
@@ -112,15 +123,7 @@ $(document).ready(function () {
     function setMovie(id, data) {
         if (data.title) {
             currentMovie.title = data.title;
-            var information = getMovieInformation(currentMovie.title);
-            $movie = $("#movie");
-            $movie.find(".movie-title").text(information.title);
-            $movie.find("img").attr("src", information.img);
-            $movie.find(".summary").text(information.summary);
-            $movie.find(".genres").html("<span class='title'>Genres:</span> " + information.genres);
-            $movie.find(".runtime").html("<span class='title'>Runtime:</span> " + information.runtime);
-            $movie.find(".rating").html("<span class='title'>Average rating:</span> " + information.rating);
-            $movie.find("a").attr("href", information.trailer);
+            updateMovie(currentMovie.title);
             if (XDmvc.roles.indexOf("movie") !== -1) {
                 $("#movie").removeClass("hidden");
                 if (XDmvc.roles.indexOf("location") !== -1) {
@@ -131,6 +134,31 @@ $(document).ready(function () {
     }
 
 });
+
+function updateMap(lat, long) {
+    var location = new google.maps.LatLng(lat, long),
+        mapOptions = {
+            center: location,
+            zoom: 16
+        },
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions),
+        marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+}
+
+function updateMovie(title) {
+    var information = getMovieInformation(title);
+    $movie = $("#movie");
+    $movie.find(".movie-title").text(information.title);
+    $movie.find("img").attr("src", information.img);
+    $movie.find(".summary").text(information.summary);
+    $movie.find(".genres").html("<span class='title'>Genres:</span> " + information.genres);
+    $movie.find(".runtime").html("<span class='title'>Runtime:</span> " + information.runtime);
+    $movie.find(".rating").html("<span class='title'>Average rating:</span> " + information.rating);
+    $movie.find("a").attr("href", information.trailer);
+}
 
 function updateSearchResults(city) {
     var index = showtimes.map(function (e) { return e.city; }).indexOf(city),
@@ -154,12 +182,14 @@ function updateSearchResults(city) {
         $searchResults.append(movieHTML);
         $searchResults.append("<hr class='clear' />")
     }
+    $("#search-results")[0].scrollTop = 0
 }
 
 function updateViews() {
     $("#general").addClass("hidden");
     $("#location").addClass("hidden");
     $("#movie").addClass("hidden");
+    $("#back").addClass("hidden");
     if (XDmvc.roles.indexOf("general") !== -1) {
         $("#general").removeClass("hidden");
     }

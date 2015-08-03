@@ -276,6 +276,7 @@ function dropDevice(ev) {
     //update position of the element
     var id = ev.originalEvent.dataTransfer.getData("id"),
         index = getDeviceIndex(id);
+    activeDevices[index].move(ev.originalEvent.clientX + parseInt(ev.originalEvent.dataTransfer.getData("xOffset")), ev.originalEvent.clientY + parseInt(ev.originalEvent.dataTransfer.getData("yOffset")));
     $("#device-" + id).css({
         "left": ev.originalEvent.clientX + parseInt(ev.originalEvent.dataTransfer.getData("xOffset")) + "px",
         "top": ev.originalEvent.clientY + parseInt(ev.originalEvent.dataTransfer.getData("yOffset")) + "px"

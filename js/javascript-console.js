@@ -178,7 +178,7 @@ function process(msg) {
     }
 }
 
-/*
+
 //TODO: finish this
 function generateObjectHTML(obj) {
     if (obj === null) {
@@ -215,4 +215,3 @@ function generateObjectHTML(obj) {
         return obj;
     }
 }
-    */

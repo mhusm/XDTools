@@ -70,7 +70,7 @@ form {
 }
 
 #search-results {
-    height: calc(100vh - 192px);
+    height: calc(100vh - 132px);
     overflow-y: auto;
     width: 100%;
     overflow-x: hidden;
@@ -86,6 +86,26 @@ form {
 
 label, input, button {
     margin: 5px !important;
+}
+
+input {
+    width: 83% !important;
+    float: left !important;
+}
+
+label {
+    width: 10% !important;
+    float: left !important;
+    clear: both !important;
+    padding-top: 7px !important;
+}
+
+hr:last-of-type {
+    display: none;
+}
+
+#search {
+    clear: both !important;
 }
 
 iframe {

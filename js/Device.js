@@ -124,6 +124,19 @@ function Device(id, url, layer, top, left, isRemote) {
             });
         });
     }
+    this.move = function (x, y) {
+        this.$device.css({
+            "left": x + "px",
+            "top": y + "px"
+        });
+        this.left = x;
+        this.top = y;
+        var index = devicePositions.map(function (e) { return e.id; }).indexOf(this.id);
+        devicePositions[index].x0 = this.left;
+        devicePositions[index].y0 = this.top;
+        devicePositions[index].x1 = this.left + this.width * this.scaling;
+        devicePositions[index].y1 = this.top + this.height * this.scaling;
+    }
 }
 
 //Represents an emulated (local) device
@@ -139,6 +152,13 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
     this.scaling = scaling;
     this.$device = null;
     this.originalUrl = url;
+    devicePositions.push({
+        id: this.id,
+        x0: left,
+        x1: left + width * scaling,
+        y0: top,
+        y1: top + height * scaling
+    });
     this.toString = function () {
         return JSON.stringify(this.getDevice());
     };
@@ -168,6 +188,9 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
             "transform": "scale(" + scale + ")"
         });
         this.$device.find("h4").css("max-width", "calc(" + (this.width * scale) + "px - 100px)");
+        var index = devicePositions.map(function (e) { return e.id; }).indexOf(this.id);
+        devicePositions[index].x1 = this.left + this.width * scale;
+        devicePositions[index].y1 = this.top + this.height * scale;
     };
     //Update the layer of the device
     this.setLayer = function (layer) {
@@ -203,6 +226,9 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
         var oldWidth = this.width;
         this.width = this.height;
         this.height = oldWidth;
+        var index = devicePositions.map(function (e) { return e.id; }).indexOf(this.id);
+        devicePositions[index].x1 = this.left + this.width * scale;
+        devicePositions[index].y1 = this.top + this.height * scale;
     };
     //Create the HTML etc. for the device
     this.create = function () {

@@ -2,7 +2,8 @@
     This file covers everything related to creating/removing devices and saving custom devices.
 */
 
-var mainDevices = [];
+var mainDevices = [],
+    devicePositions = [];
 
 $(document).ready(function () {
 
