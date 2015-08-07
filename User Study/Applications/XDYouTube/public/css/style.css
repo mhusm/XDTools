@@ -1,0 +1,134 @@
+body, html {
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0 8px;
+}
+
+#yt-div {
+    overflow: hidden;
+}
+
+div {
+    font-family: "Roboto";
+}
+
+h4, h3, img {
+    margin: 5px;
+}
+
+h4 {
+    text-shadow: 1px 1px 2px rgba(150, 150, 150, 1);
+}
+
+hr {
+    clear: both;
+}
+
+#pauseButton {
+
+}
+
+.thumbnail {
+    float: left;
+    border-radius: 5px;
+    box-shadow: 2px 2px 9px 0 rgba(0,0,0,0.75);
+}
+
+.queued-video {
+    float: left;
+    max-width: 130px;
+}
+
+.queued-video div {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+span {
+    font-size: 0.9em;
+}
+
+paper-button {
+    margin: 5px;
+}
+
+paper-button.navigation {
+    height: 30px;
+    min-width: 30px;
+    max-width: 30px;
+}
+
+.content.paper-button {
+    padding: 5px;
+}
+
+paper-input {
+    padding-top: 45px;
+}
+
+paper-dialog {
+    display: block !important;
+    margin: 6px !important;
+    padding: 5px !important;
+}
+
+paper-dialog h4 {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+paper-dialog img {
+    float: left;
+    padding: 0 !important;
+}
+
+paper-dialog div {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+paper-dialog span {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+paper-dialog paper-button {
+    float: right;
+    padding: 0 !important;
+    margin: 5px !important;
+}
+
+#youtube-logo {
+    float: right;
+    box-shadow: none;
+    border-radius: 0;
+    width: 30vw;
+}
+
+#results {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: calc(100vh - 184px);
+    width: calc(100vw - 16px);
+}
+
+#search-navigation {
+    display: flex;
+    justify-content: center;
+}
+
+@media all and (max-aspect-ratio: 13/9) {
+    #video-overview {
+        display: none;
+    }
+}
+
+@media all and (min-aspect-ratio: 13/9) {
+    #search-panel {
+        display: none;
+    }
+}

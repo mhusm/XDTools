@@ -1,0 +1,132 @@
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0;}
+#map-canvas { height: 100% }
+
+form {
+    width: 98%;
+}
+
+#location {
+    height: 100%;
+}
+
+#movie {
+    margin: 10px;
+}
+
+#movie .title {
+    font-weight: bold;
+}
+
+#movie img {
+    float: left;
+    margin: 5px;
+}
+
+#movie .genres, .runtime, .rating {
+    margin: 5px 0;
+}
+
+.cinema .name {
+    cursor: pointer;
+}
+
+.highlighted {
+    background-color: black;
+    color: white;
+}
+
+.movie img, .movie h3 {
+    cursor: pointer;
+}
+
+.movie img {
+    max-width: 28%;
+    float: left;
+    margin: 5px;
+}
+
+.movie .cinemas {
+    float: left;
+    width: 68%;
+}
+
+.cinema {
+    clear: both;
+}
+
+.movie .name {
+    font-weight: bold;
+    float: left;
+}
+
+.movie .time {
+    margin: 0 5px;
+    float: left;
+}
+
+.movie h3 {
+    font-size: 20px;
+    margin: 7px;
+}
+
+.clear {
+    clear: both;
+}
+
+#logo {
+    height: 30px;
+    margin: 5px;
+    float: right;
+}
+
+form {
+    clear: both;
+}
+
+#search-results {
+    height: calc(100vh - 172px);
+    overflow-y: auto;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.cinemas {
+    font-size: 13px;
+}
+
+.genres {
+    clear: both;
+}
+
+label, input, button {
+    margin: 5px !important;
+}
+
+input {
+    width: 83% !important;
+    float: left !important;
+}
+
+label {
+    width: 10% !important;
+    float: left !important;
+    clear: both !important;
+    padding-top: 7px !important;
+}
+
+hr:last-of-type {
+    display: none;
+}
+
+#search {
+    clear: both !important;
+    display: block;
+}
+
+iframe {
+    width: 100vw;
+    height: 55vw;
+    margin: 0;
+    padding: 0;
+}

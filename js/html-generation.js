@@ -163,7 +163,7 @@ var HTML = {
     Break: function (deviceID, eventIndex, sequenceIndex, height, text) {
         return "<div data-device-id='" + deviceID + "' data-sequence-id='" + sequenceIndex + "' data-event-index='" + eventIndex + "' style='height:" + height + "px; line-height:" + height + "px' class='break'><hr class='cut-line' data-device-id='" + deviceID + "' />" + text + "</div>";
     },
-    SequenceInput: function (deviceID) {
+    SequenceInput: function (deviceID, z) {
         return "<input type='text' class='seq-name form-control' placeholder='Enter name...' data-device-id='" + deviceID + "' data-sequence-id='" + z + "' autofocus />";
     }
 };

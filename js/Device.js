@@ -227,8 +227,8 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
         this.width = this.height;
         this.height = oldWidth;
         var index = devicePositions.map(function (e) { return e.id; }).indexOf(this.id);
-        devicePositions[index].x1 = this.left + this.width * scale;
-        devicePositions[index].y1 = this.top + this.height * scale;
+        devicePositions[index].x1 = this.left + this.width * this.scaling;
+        devicePositions[index].y1 = this.top + this.height * this.scaling;
     };
     //Create the HTML etc. for the device
     this.create = function () {

@@ -289,7 +289,7 @@ function visualizeEventSequences(deviceID) {
             placement: 'left',
             container: 'body',
             html: true,
-            content: HTML.SequenceInput(deviceID)
+            content: HTML.SequenceInput(deviceID, z)
         });
     }
 }
