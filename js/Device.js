@@ -37,15 +37,33 @@ function Device(id, url, layer, top, left, isRemote) {
             this.firstConnect = false;
         }
         this.loadURL(url);
+        var mainDeviceIndex = mainDevices.indexOf(this.id);
+        if (mainDeviceIndex !== -1) {
+            mainDevices.splice(mainDeviceIndex, 1);
+        }
+        $(".main-devices option[data-device-id='" + this.id + "']").remove();
+        var $session = $(".session[data-device-id='" + this.id + "']");
+        $session.find("ul").find(".session-device").each(function () {
+            var deviceID = $(this).text(),
+                index = getDeviceIndex(deviceID);
+            activeDevices[index].disconnect();
+        });
+        $session.remove();
     };
     //Disconnect the device from another device and load the URL that was loaded before
     this.disconnect = function () {
         if (this.oldURL) {
             this.loadURL(this.oldURL);
             this.firstConnect = true;
-            if (!this.$device.find(".toggle-main").is(":checked")) {
-                this.$device.find(".toggle-main").click();
-            }
+        }
+        $("#sessions").find("li[data-device-id='" + this.id + "']").remove();
+        mainDevices.push(this.id);
+        if ($(".session[data-device-id='" + this.id + "']").length === 0) {
+            $(".main-devices").not("[data-device-id='" + this.id + "']").append(
+                "<option data-device-id='" + this.id + "' value='" + this.id + "'>" + this.id + "</option>"
+            );
+            $(HTML.Session(this.id)).appendTo("#sessions .content");
+            $("#device-" + this.id).find("select").val("none");
         }
     };
     //Remove everything related to the device
@@ -54,11 +72,16 @@ function Device(id, url, layer, top, left, isRemote) {
         $("#timeline-" + this.id).remove();
         $(".js-device[data-device-id='" + this.id + "']").remove();
         if (mainDevices.indexOf(this.id) !== -1) {
-            removeMainDevice(this.id);
+            var $session = $(".session[data-device-id='" + this.id + "']");
+            $session.find("ul").find(".session-device").each(function () {
+                var deviceID = $(this).text(),
+                    index = getDeviceIndex(deviceID);
+                activeDevices[index].disconnect();
+            });
+            $session.remove();
         }
-        else {
-            $("#sessions").find("li[data-device-id='" + this.id + "']").remove();
-        }
+        $("#sessions").find("li[data-device-id='" + this.id + "']").remove();
+        $(".main-devices option[data-device-id='" + this.id + "']").remove();
         var index = colors.map(function (e) { return e.id; }).indexOf(this.id);
         colors.splice(index, 1);
         $.ajax({
@@ -117,13 +140,12 @@ function Device(id, url, layer, top, left, isRemote) {
                     device.create();
                     for (var i = 0, j = connectedDevices.length; i < j; ++i) {
                         $(".history-line[data-device-id='" + connectedDevices[i] + "']").remove();
-                        removeMainDevice(connectedDevices[i]);
                         connectDevice(connectedDevices[i], device.id);
                     }
                 }
             });
         });
-    }
+    };
     this.move = function (x, y) {
         this.$device.css({
             "left": x + "px",
@@ -136,7 +158,7 @@ function Device(id, url, layer, top, left, isRemote) {
         devicePositions[index].y0 = this.top;
         devicePositions[index].x1 = this.left + this.width * this.scaling;
         devicePositions[index].y1 = this.top + this.height * this.scaling;
-    }
+    };
 }
 
 //Represents an emulated (local) device
@@ -182,7 +204,7 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
         this.scaling = scale;
         this.$device.find(".range").get(0).value = scale;
         this.$device.find(".scale-factor").text(scale);
-        this.$device.find("iframe").css({
+        this.$device.find(".resizable").css({
             "margin-right": -parseInt(this.width) * (1 - scale) + "px",
             "margin-bottom": -parseInt(this.height) * (1 - scale) + "px",
             "transform": "scale(" + scale + ")"
@@ -217,7 +239,7 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
     };
     //Switch the orientation from landscape to portrait mode or vice versa
     this.switchOrientation = function () {
-        this.$device.find("iframe").css({
+        this.$device.find(".resizable").css({
             "width": this.height,
             "margin-right": -parseInt(this.height) * (1 - this.scaling) + "px",
             "height": this.width,
@@ -226,6 +248,7 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
         var oldWidth = this.width;
         this.width = this.height;
         this.height = oldWidth;
+        this.$device.find(".device-resolution").html("<b>Resolution: </b>" + this.width + " x " + this.height);
         var index = devicePositions.map(function (e) { return e.id; }).indexOf(this.id);
         devicePositions[index].x1 = this.left + this.width * this.scaling;
         devicePositions[index].y1 = this.top + this.height * this.scaling;
@@ -235,8 +258,23 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
         appendDevice(this);
         this.$device = $("#device-" + this.id);
         addDeviceTimeline(this.id, this.name);
-        makeMainDevice(this.id);
+        this.disconnect(this.id);
         addCSSProperties(this.id);
+        var that = this;
+        this.$device.find(".resizable").resizable({
+            handles: 'se',
+            resize: function (event, ui) {
+                that.width = ui.size.width;
+                that.height = ui.size.height;
+                that.$device.find(".device-resolution").html("<b>Resolution: </b>" + that.width + " x " + that.height);
+            },
+            start: function (event, ui) {
+                that.$device.find("iframe").css("pointer-events", 'none');
+            },
+            stop: function (event, ui) {
+                that.$device.find("iframe").css("pointer-events", 'auto');
+            }
+        });
     };
     //Send a command to the iframe of the device
     this.sendCommand = function (command) {
@@ -268,7 +306,7 @@ function RemoteDevice(id, url, layer, top, left, isRemote) {
         appendRemoteDevice(this);
         this.$device = $("#device-" + this.id);
         addDeviceTimeline(this.id, this.name);
-        makeMainDevice(this.id);
+        this.disconnect();
         addCSSProperties(this.id);
     };
     //Send a command to the iframe of the device

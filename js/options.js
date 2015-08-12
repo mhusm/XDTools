@@ -1,6 +1,13 @@
 var savedSequences = JSON.parse(localStorage.getItem("saved-sequences")) || [],
     sequenceNames = JSON.parse(localStorage.getItem("sequence-names")) || [],
-    customDevices = JSON.parse(localStorage.getItem("custom-devices")) || [];
+    customDevices = JSON.parse(localStorage.getItem("custom-devices")) || [],
+    options = JSON.parse(localStorage.getItem("options")) || {
+            "dnsServer": true,
+            "recordReplay": true,
+            "jsConsole": true,
+            "functionDebugging": true,
+            "cssEditor": true
+        };
 
 $(document).ready(function () {
 
@@ -48,6 +55,7 @@ $(document).ready(function () {
         }
         $configurationSettings.append(HTML.ConfigurationRow(sessionName));
         $noConfigurations.addClass("hidden");
+        $("#session-name").val("");
     });
 
     //Load an existing configuration
@@ -58,15 +66,34 @@ $(document).ready(function () {
         $("#devices").empty();
         activeDevices = [];
         loadDevice(devices, 0);
+        $("#session-name").val("");
+    });
+
+    $("#session-name").keypress(function (ev) {
+       if (ev.which === 13) {
+           if (savedSessions.indexOf($(this).val()) !== -1) {
+               $("#load-button").click();
+           }
+           else {
+               $("#save-button").click();
+           }
+       }
     });
 
     $("#enable-dns").click(function () {
         if ($(this).is(":checked")) {
-            rewriteURL = rewriteURLwithDNS;
+            options.dnsServer = true;
+        }
+        else {
+            options.dnsServer = false;
+        }
+        if ($(this).is(":checked")) {
+            rewriteURL = rewriteURLWithDNS;
         }
         else {
             rewriteURL = rewriteURLWithoutDNS;
         }
+        saveOptions();
     });
 
     var oldWidth = "";
@@ -76,29 +103,66 @@ $(document).ready(function () {
             $container.css("border-right", "5px solid #337ab7");
             $container.css("width", oldWidth);
             $("#timeline").css("display", "block");
+            options.recordReplay = true;
         }
         else {
             $("#timeline").css("display", "none");
             oldWidth = $container.css("width");
             $container.css("width", "100%");
             $container.css("border-right", "none");
+            options.recordReplay = false;
         }
+        saveOptions();
     });
 
     $("#enable-js-console").click(function () {
+        if ($(this).is(":checked")) {
+            options.jsConsole = true;
+        }
+        else {
+            options.jsConsole = false;
+        }
         $("#javascript-console").toggleClass("hidden");
-        adjustLayout();
+        saveOptions();
     });
 
     $("#enable-function-debugging").click(function () {
+        if ($(this).is(":checked")) {
+            options.functionDebugging = true;
+        }
+        else {
+            options.functionDebugging = false;
+        }
         $("#debug-list").toggleClass("hidden");
-        adjustLayout();
+        saveOptions();
     });
 
     $("#enable-css-editor").click(function () {
+        if ($(this).is(":checked")) {
+            options.cssEditor = true;
+        }
+        else {
+            options.cssEditor = false;
+        }
         $("#css-console").toggleClass("hidden");
-        adjustLayout();
+        saveOptions();
     });
+
+    if (!options.dnsServer) {
+        $("#enable-dns").click();
+    }
+    if (!options.recordReplay) {
+        $("#enable-record-replay").click();
+    }
+    if (!options.jsConsole) {
+        $("#enable-js-console").click();
+    }
+    if (!options.functionDebugging) {
+        $("#enable-function-debugging").click();
+    }
+    if (!options.cssEditor) {
+        $("#enable-css-editor").click();
+    }
 
     if (sequenceNames.length > 0) {
         $("#no-sequences").addClass("hidden");
@@ -142,6 +206,10 @@ $(document).ready(function () {
     });
 
 });
+
+function saveOptions() {
+    localStorage.setItem("options", JSON.stringify(options));
+}
 
 function loadDevice(devices, i) {
     socket.emit("requestID", i);

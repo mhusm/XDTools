@@ -148,7 +148,6 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
                 var $device = $("#device-" + id);
                 $device.find(".main input").click();
                 $device.find("select").val(id);
-                removeMainDevice(device.id);
                 connectDevice(id, this.dataset.deviceId);
             }
         });
@@ -161,13 +160,15 @@ function appendDevice(device) {
     var $device = $("#device-" + device.id),
         $deviceSelect = $device.find(".main-devices");
     for (var i = 0, j = mainDevices.length; i < j; ++i) {
-        $deviceSelect.append(HTML.SelectOptionDevice(mainDevices[i]));
+        if (mainDevices[i] !== device.id) {
+            $deviceSelect.append(HTML.SelectOptionDevice(mainDevices[i]));
+        }
     }
     $device.css({
         "top": device.top + "px",
         "left": device.left + "px"
     });
-    $device.find("iframe").css({
+    $device.find(".resizable").css({
         "margin-right": -device.width * (1 - device.scaling) + "px",
         "margin-bottom": -device.height * (1 - device.scaling) + "px",
         "transform": "scale(" + device.scaling + ")",
@@ -183,7 +184,9 @@ function appendRemoteDevice(device) {
     $("#devices").append(HTML.RemoteDevice(device));
     var $deviceSelect = $("#device-" + device.id).find(".main-devices");
     for (var i = 0, j = mainDevices.length; i < j; ++i) {
-        $deviceSelect.append(HTML.SelectOptionDevice(mainDevices[i]));
+        if (mainDevices[i] !== device.id) {
+            $deviceSelect.append(HTML.SelectOptionDevice(mainDevices[i]));
+        }
     }
 }
 

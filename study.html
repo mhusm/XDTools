@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="js/lib/jquery-ui/jquery-ui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="js/lib/jquery-mobile/jquery.mobile.custom.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/lib/jquery.qrcode.js"></script>
+    <script src="js/event-capturing.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/device-management.js"></script>
+    <script src="js/device-interaction.js"></script>
+    <script src="js/javascript-console.js"></script>
+    <script src="js/css-editor.js"></script>
+    <script src="js/color-management.js"></script>
+    <script src="js/options.js"></script>
+    <script src="js/command-management.js"></script>
+    <script src="js/html-generation.js"></script>
+    <script src="js/Device.js"></script>
+    <script src="js/function-debugging.js"></script>
+    <script src="js/user_study/tasks.js"></script>
+    <link rel="stylesheet" href="js/user_study/tasks.css" />
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+</head>
+<body>
+    <label for="part_nr">Participant number: </label><input id="part_nr" name="part_nr" type="number" />
+    <button class="btn btn-lg btn-primary" type="button" id="study-start">Start Study</button>
+    <script>
+        $(document).ready(function () {
+            var url = new URL(window.location.href),
+                    socket = io(":" + (url.port || 80) + "/study");
+            $("#study-start").click(function () {
+                var $partNr = $("#part_nr");
+                socket.emit("study", $partNr.val());
+                $partNr.val("");
+            });
+        });
+    </script>
+</body>
+</html>

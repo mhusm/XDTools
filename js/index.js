@@ -22,7 +22,7 @@ $(document).ready(function () {
         var device = new RemoteDevice(id, $("#url").val(), 0, 0, 0, true);
         activeDevices.push(device);
         device.create();
-        removeMainDevice(device.id);
+        device.disconnect();
         $("#sessions").find(".auto-connect input").each(function () {
             if ($(this).is(":checked")) {
                 connectDevice(id, this.dataset.deviceId);
@@ -44,13 +44,16 @@ $(document).ready(function () {
         $(".content").attr('draggable', 'false');
     });
 
-    $("#container").resizable({
-        handles: 'e',
+    $("#timeline").resizable({
+        handles: 'w',
         resize: function (event, ui) {
             var currentWidth = ui.size.width;
             $(this).width(currentWidth);
-            $("#timeline").width($("body").width() - currentWidth - 25);
-        }
+            $("#container").width($("body").width() - currentWidth - 25);
+            $(this).css("left", 0);
+        },
+        minWidth: 114,
+        maxWidth: window.innerWidth * 0.75
     });
 
     $("#console-container").resizable({
@@ -68,10 +71,4 @@ $(document).ready(function () {
 
 function allowDrop(ev) {
     ev.preventDefault();
-}
-
-function adjustLayout() {
-    if ($("#css-console").hasClass("hidden") && $("#javascript-console").hasClass("hidden") && $("#debug-list").hasClass("hidden")) {
-        alert("all  hidden");
-    }
 }

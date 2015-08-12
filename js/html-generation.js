@@ -38,12 +38,11 @@ var HTML = {
     },
     Session: function (deviceID) {
         return "<div class='session' data-device-id='" + deviceID + "'>" +
-        "<button type='button' class='btn btn-sm btn-default reset'>Reset Session</button><br />" +
+        "<button type='button' class='btn btn-sm btn-default reset'>Reset Session</button>" +
         "<button type='button' class='btn btn-sm btn-default session-refresh'><span class='glyphicon glyphicon-refresh'></span></button>" +
         "<span class='auto-connect'><input data-device-id='" + deviceID + "' type='checkbox' /> Auto-Connect</span>" +
-        "<span class='title'>Main device: </span><span class='session-device'>" + deviceID + "</span>" +
         "<br /><span class='title'>Connected devices:</span><br />" +
-        "<ul></ul></div>"
+        "<ul><li><span class='main-device'>" + deviceID + "</span></li></ul></div>"
     },
     AutoCompleteTitle: function (name) {
         return "<li class='ui-autocomplete-group bold blue ui-state-disabled'>" + name + "</li><hr />";
@@ -59,41 +58,42 @@ var HTML = {
         "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>" +
         "</button>" +
         "<span class='device-id'><b>Device ID: </b>" + device.id + "</span>" +
+        "<span class='device-resolution'><b>Resolution: </b>" + device.width + " x " + device.height + "</span>" +
         "<hr />" +
         "<section class='settings-panel'>" +
         "<input type='url' class='form-control url' value='" + device.url + "' />" +
-        "<input draggable='false' class='range' type='range' value='" + device.scaling + "' min='0.1' max='2' step='0.1' /><span class='scale-factor'>" + device.scaling + "</span>" +
-        "<button type='button' class='btn btn-primary rotate' title='Switch orientation'>" +
-        "<img class='rotate-img' src='../img/rotate.png' alt='rotate' />" +
-        "</button>" +
-        "<button type='button' class='btn btn-primary scale' title='Set scaling factor to 1'>" +
-        "<span class='glyphicon glyphicon-fullscreen' aria-hidden='true'></span>" +
-        "</button>" +
-        "<button type='button' class='btn btn-primary refresh' title='Refresh device'>" +
-        "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
-        "</button>" +
-        "<div class='dropdown'>" +
-        "<button type='button' class='btn btn-primary inspect dropdown-toggle' title='Inspect HTML of device' data-toggle='dropdown' id='dropdown-" + device.id + "' aria-haspopup='true' aria-expanded='true'>" +
-        "Inspect HTML " + "<span class='caret'></span>" +
-        "</button>" +
-        "<ul class='dropdown-menu' aria-labelledby='dropdown-" + device.id + "'>" +
-        "<li><a href='#'>body</a></li>" +
-        "</ul>" +
+        "<div class='settings-container'>" +
+            "<input draggable='false' class='range' type='range' value='" + device.scaling + "' min='0.1' max='2' step='0.1' /><span class='scale-factor'>" + device.scaling + "</span>" +
+            "<button type='button' class='btn btn-primary rotate' title='Switch orientation'>" +
+            "<img class='rotate-img' src='../img/rotate.png' alt='rotate' />" +
+            "</button>" +
+            "<button type='button' class='btn btn-primary scale' title='Set scaling factor to 1'>" +
+            "<span class='glyphicon glyphicon-fullscreen' aria-hidden='true'></span>" +
+            "</button>" +
+            "<button type='button' class='btn btn-primary refresh' title='Refresh device'>" +
+            "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
+            "</button>" +
+            "<div class='dropdown'>" +
+            "<button type='button' class='btn btn-primary inspect dropdown-toggle' title='Inspect HTML of device' data-toggle='dropdown' id='dropdown-" + device.id + "' aria-haspopup='true' aria-expanded='true'>" +
+            "Inspect HTML " + "<span class='caret'></span>" +
+            "</button>" +
+            "<ul class='dropdown-menu' aria-labelledby='dropdown-" + device.id + "'>" +
+            "<li><a href='#'>body</a></li>" +
+            "</ul>" +
+            "</div>" +
+            "<button type='button' class='btn btn-primary inspect-js hidden' title='Inspect JS files'>" +
+            "Inspect JS files" +
+            "</button>" +
+            "<span class='left'>Layer: <input type='number' class='layer' value='1' /></span>" +
         "</div>" +
-        "<button type='button' class='btn btn-primary inspect-js hidden' title='Inspect JS files'>" +
-        "Inspect JS files" +
-        "</button>" +
-        "<span class='left'>Layer: <input type='number' class='layer' value='1' /></span>" +
-        "<br />" +
         "<div class='main'>" +
-        "<input type='checkbox' name='main' class='toggle-main' value='main' checked>Main device" +
-        "<select class='form-control main-devices hidden' name='main-devices'>" +
-        "<option value='none' disabled selected style='display:none;'>Connect to device</option>" +
+        "Connect to device: <select class='form-control main-devices' name='main-devices' data-device-id='" + device.id + "'>" +
+        "<option value='' selected></option>" +
         "</select>" +
         "</div><br />" +
-        "</section>" +
+        "</section>" + "<div class='resizable'>" +
         "<iframe src='" + device.url + "'></iframe>" +
-        "</section>";
+        "</div></section>";
     },
     RemoteDevice: function (device) {
         return "<section draggable='false' data-device-id='" + device.id + "' class='device-container remote' id='device-" + device.id +"'>" +
@@ -112,9 +112,8 @@ var HTML = {
         "<span class='left'>Layer: <input type='number' class='layer' value='1' /></span>" +
         "<br />" +
         "<div class='main'>" +
-        "<input type='checkbox' name='main' class='toggle-main' value='main' checked>Main device" +
-        "<select class='form-control main-devices hidden' name='main-devices' placeholder='Connect to device'>" +
-        "<option value='' disabled selected style='display:none;'>Connect to device</option>" +
+        "Connect to device: <select class='form-control main-devices' name='main-devices' data-device-id='" + device.id + "'>" +
+        "<option value='' selected></option>" +
         "</select>" +
         "</div>" +
         "</section>" +

@@ -1,0 +1,67 @@
+#url {
+    display: none;
+}
+
+#timeline {
+    display: none;
+}
+
+#play-button {
+    display: none;
+}
+
+#container {
+    width: 100%;
+    height: calc(100% - 66px);
+}
+
+#settings-button {
+    display: none;
+}
+
+#qrcode-button {
+    float: none;
+}
+
+#study-dropdown {
+    margin: 0;
+}
+
+#clear-button {
+    display: none;
+}
+
+.device-container span.left {
+    display: none;
+}
+
+.device-container .inspect {
+    display: none;
+}
+
+.device-container .url {
+    display: none;
+}
+
+.device-container .scale {
+    display: none;
+}
+
+.settings-container {
+    display: flex;
+    flex-flow: row;
+}
+
+.settings-container input.range {
+    width: 100%;
+}
+
+.settings-container span.scale-factor {
+    width: 10px;
+    height: 40px;
+    margin-top: 5px;
+}
+
+.settings-container button.rotate, .settings-container button.refresh {
+    float: none;
+}

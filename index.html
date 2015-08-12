@@ -23,11 +23,13 @@
         <script src="js/html-generation.js"></script>
         <script src="js/Device.js"></script>
         <script src="js/function-debugging.js"></script>
+        <script src="js/user_study/tasks.js"></script>
+        <link rel="stylesheet" href="js/user_study/tasks.css" />
         <meta name="viewport" content="width=device-width, user-scalable=no">
     </head>
     <body>
         <header>
-            <h1>Emulated devices</h1>
+            <h1>XD Testing Tools</h1>
             <button type="button" id="add-button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#deviceModal" title="Add new device">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             </button>
@@ -41,9 +43,6 @@
             <button class="btn btn-primary btn-lg" id="load-button" title="Load configuration">
                 <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
             </button>
-            <button class="btn btn-primary btn-lg" id="play-button">
-                <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-            </button>
             <button class="btn btn-primary btn-lg" id="clear-button">
                 Clear Configuration
             </button>
@@ -53,6 +52,23 @@
             <button class="btn btn-primary btn-lg right" id="qrcode-button"  data-toggle="modal" data-target="#qrCodeModal">
                 <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>
             </button>
+            <div id="study" class="right hidden">
+                <div class="dropdown right">
+                    <button class="btn btn-lg btn-primary dropdown-toggle" type="button" id="study-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Start Task
+                        <span class="caret"></span>
+                    </button>
+                    <ul id="study-dropdown" class="dropdown-menu pull-right " aria-labelledby="study-button">
+                        <li data-value="xdyt-impl"><a href="#">XDYouTube: Implementing</a></li>
+                        <li data-value="xdyt-bug"><a href="#">XDYouTube: Bug Fixing</a></li>
+                        <li data-value="xdc-impl"><a href="#">XDCinema: Implementing</a></li>
+                        <li data-value="xdc-bug"><a href="#">XDCinema: Bug Fixing</a></li>
+                    </ul>
+                </div>
+                <button id="conclude-button" class="btn btn-lg btn-primary hidden" type="button">
+                    Conclude Task
+                </button>
+            </div>
         </header>
         <input type="url" class="form-control" id="url" value="" name="url" aria-describedby="basic-addon2">
         <section id="container">
@@ -84,8 +100,10 @@
                         <h4>
                             Function debugging
                         </h4>
-                        <input type="text" class="form-control" name="function-input" id="function-input" placeholder="Enter function name..."  />
-                        <button type="button" id="debug-button" class="btn btn-small btn-default">Debug</button>
+                        <div id="debug-container">
+                            <input type="text" class="form-control" name="function-input" id="function-input" placeholder="Enter function name..."  />
+                            <button type="button" id="debug-button" class="btn btn-small btn-default">Debug</button>
+                        </div>
                         <section id="debugged-functions">
 
                         </section>
@@ -113,6 +131,9 @@
                 </section>
             </section>
         </section>
+        <button class="btn btn-primary btn-lg" id="play-button">
+            Replay all
+        </button>
         <section id="timeline">
             <div class="timeline-wrapper">
                 <button type="button" class="btn btn-primary btn-lg" id="break-button" draggable="true"><span class="glyphicon glyphicon-time"></span><span class="text">1s</span></button>

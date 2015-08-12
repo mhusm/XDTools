@@ -4,7 +4,9 @@ var app = require("express")(),
     url = "http://w3schools.com",
     shortid = require("shortid"),
     remoteDevices = [],
-    devToolsConnected = false;
+    devToolsConnected = false,
+    //only required for study
+    fs = require("fs");
 
 var StaticRoutes = require("./routes/routes");
 
@@ -14,13 +16,30 @@ app.get("/remote.html", function(request, response) {
     response.sendFile(__dirname + "/remote.html");
 });
 
+app.get("/study.html", function(request, response) {
+    response.sendFile(__dirname + "/study.html");
+});
+
 app.get("/*", function(request, response) {
     response.sendFile(__dirname + "/index.html");
 });
 
 var remote = io.of("/remote"),
     local = io.of("/local"),
-    devtools = io.of("/devtools");
+    devtools = io.of("/devtools"),
+    study = io.of("/study");
+
+study.on("connection", function (socket) {
+   socket.on("study", function (partNr) {
+       fs.appendFile("results.txt", "Participant " + partNr + "\n", function (err) {
+           if (err) {
+               console.log("Failed writing participant number for participant  " + partNr);
+           }
+           console.log("Participant number successfully written.");
+       });
+       local.emit("study");
+   });
+});
 
 //A local device connected to the server
 local.on("connection", function (socket) {
@@ -85,6 +104,24 @@ local.on("connection", function (socket) {
 
     socket.on("inspectFunction", function (deviceURL, functionName) {
        devtools.emit("inspectFunction", deviceURL, functionName);
+    });
+
+    //Only required for the study
+    /*socket.on("study", function (nr) {
+        fs.appendFile("results.txt", "Participant " + nr + "\n", function (err) {
+            if (err) {
+                console.log("Failed writing participant number for participant  " + nr);
+            }
+            console.log("Participant number successfully written.");
+        });
+    });*/
+    socket.on("time", function (task, time) {
+        fs.appendFile("results.txt", task + ": " + time + "\n", function (err) {
+            if (err) {
+                console.log("Failed writing time for task. Time was " + time + " for task " + task + ".");
+            }
+            console.log("Time successfully written for task " + task + ".");
+        });
     });
 });
 
