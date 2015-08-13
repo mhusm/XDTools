@@ -65,3 +65,11 @@
 .settings-container button.rotate, .settings-container button.refresh {
     float: none;
 }
+
+#sessions .reset {
+    display: none;
+}
+
+span.auto-connect + br {
+    display: none;
+}

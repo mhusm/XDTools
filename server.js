@@ -30,15 +30,26 @@ var remote = io.of("/remote"),
     study = io.of("/study");
 
 study.on("connection", function (socket) {
-   socket.on("study", function (partNr) {
+   socket.on("start_study", function (partNr) {
        fs.appendFile("results.txt", "Participant " + partNr + "\n", function (err) {
            if (err) {
                console.log("Failed writing participant number for participant  " + partNr);
            }
            console.log("Participant number successfully written.");
        });
-       local.emit("study");
+       local.emit("start_study");
    });
+    socket.on("end_study", function () {
+        local.emit("end_study");
+    });
+
+    socket.on("start_task", function (task) {
+        local.emit("start_task", task);
+    });
+    socket.on("end_task", function (task) {
+        console.log("task ended");
+        local.emit("end_task", task);
+    });
 });
 
 //A local device connected to the server
@@ -107,15 +118,8 @@ local.on("connection", function (socket) {
     });
 
     //Only required for the study
-    /*socket.on("study", function (nr) {
-        fs.appendFile("results.txt", "Participant " + nr + "\n", function (err) {
-            if (err) {
-                console.log("Failed writing participant number for participant  " + nr);
-            }
-            console.log("Participant number successfully written.");
-        });
-    });*/
-    socket.on("time", function (task, time) {
+    socket.on("task_time", function (task, time) {
+        console.log("writing time");
         fs.appendFile("results.txt", task + ": " + time + "\n", function (err) {
             if (err) {
                 console.log("Failed writing time for task. Time was " + time + " for task " + task + ".");

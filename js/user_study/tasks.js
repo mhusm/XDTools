@@ -1,51 +1,45 @@
-var timestamp = 0,
-    currentTask = "";
+var timestamp = 0;
 
 $(document).ready(function () {
 
-    socket.on("study", function () {
+    socket.on("start_study", function () {
         initStudy();
+    });
+
+    socket.on("end_study", function () {
+        concludeStudy();
     });
 
 });
 
 function initStudy() {
-    $("#study").removeClass("hidden");
-
-    //socket.emit("study", participantNr);
-
-    $(document).on("click", "#study-dropdown li", function () {
-        currentTask = $(this).data("value");
+    socket.on("start_task", function (task) {
+        console.log("received start task command: " + task);
         startTask();
-        if (currentTask === "xdyt-impl") {
+        if (task === "xdyt-impl") {
             initXDYTImplementing();
         }
-        else if (currentTask === "xdyt-bug") {
+        else if (task === "xdyt-bug") {
             initXDYTBugFixing();
         }
-        else if (currentTask === "xdc-impl") {
+        else if (task === "xdc-impl") {
             initXDCImplementing();
         }
-        else if (currentTask === "xdc-bug") {
+        else if (task === "xdc-bug") {
             initXDCBugFixing();
         }
     });
 
-    $("#conclude-button").click(function () {
-        concludeTask();
-        if (currentTask === "xdyt-impl") {
-            concludeXDYTImplementing();
-        }
-        else if (currentTask === "xdyt-bug") {
-            concludeXDYTBugFixing();
-        }
-        else if (currentTask === "xdc-impl") {
-            concludeXDCImplementing();
-        }
-        else if (currentTask === "xdc-bug") {
-            concludeXDCBugFixing();
-        }
+    socket.on("end_task", function (task) {
+        console.log("task ended");
+        var time = concludeTask();
+        socket.emit("task_time", task, time);
     });
+}
+
+function concludeStudy() {
+    $("#study").addClass("hidden");
+    location.reload();
 }
 
 function startTask() {
@@ -54,8 +48,11 @@ function startTask() {
 }
 
 function concludeTask() {
+    var timeTaken = Date.now() - timestamp;
     $("#study .dropdown").removeClass("hidden");
     $("#conclude-button").addClass("hidden");
+    clearConfiguration();
+    return timeTaken / 1000;
 }
 
 function initXDCBugFixing() {
@@ -64,24 +61,10 @@ function initXDCBugFixing() {
     loadURLOnAllDevices("http://129.132.173.2:8084/index.html");
 }
 
-function concludeXDCBugFixing() {
-    var timeTaken = Date.now() - timestamp;
-    timeTaken = timeTaken / 1000;
-    socket.emit("time", "xdc-bug", timeTaken);
-    clearConfiguration();
-}
-
 function initXDYTBugFixing() {
     timestamp = Date.now();
     $("#url").val("http://129.132.173.2:8083/index.html");
     loadURLOnAllDevices("http://129.132.173.2:8083/index.html");
-}
-
-function concludeXDYTBugFixing() {
-    var timeTaken = Date.now() - timestamp;
-    timeTaken = timeTaken / 1000;
-    socket.emit("time", "xdyt-bug", timeTaken);
-    clearConfiguration();
 }
 
 function initXDYTImplementing() {
@@ -90,22 +73,8 @@ function initXDYTImplementing() {
     loadURLOnAllDevices("http://129.132.173.2:8083/index.html");
 }
 
-function concludeXDYTImplementing() {
-    var timeTaken = Date.now() - timestamp;
-    timeTaken = timeTaken / 1000;
-    socket.emit("time", "xdyt-impl", timeTaken);
-    clearConfiguration();
-}
-
 function initXDCImplementing() {
     timestamp = Date.now();
     $("#url").val("http://129.132.173.2:8084/index.html");
     loadURLOnAllDevices("http://129.132.173.2:8084/index.html");
-}
-
-function concludeXDCImplementing() {
-    var timeTaken = Date.now() - timestamp;
-    timeTaken = timeTaken / 1000;
-    socket.emit("time", "xdc-impl", timeTaken);
-    clearConfiguration();
 }

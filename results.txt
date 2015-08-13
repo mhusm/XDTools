@@ -1,0 +1,6 @@
+Participant 1
+xdyt-impl: 19.177
+xdyt-bug: 23.155
+xdc-impl: 46.959
+xdc-bug: 11.213
+Participant 1

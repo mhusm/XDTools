@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="http://129.132.173.2/js/remote.js"></script>
+        <script src="http://129.132.173.2/js/remote_xdc.js"></script>
         <script src="bower_components/xdmvcclient/js/xdmvc.js"></script>
         <script src="bower_components/observe-js/src/observe.js"></script>
         <script src="bower_components/socket.io-client/socket.io.js"></script>
@@ -24,11 +24,16 @@
     <body>
         <button type="button" id="back" class="btn btn-default hidden">Back</button>
         <section id="general">
+            <div><img id="logo" src="img/finallogo.png" alt="logo" /></div>
             <form>
-                <label for="city">City</label>
-                <input type="text" class="form-control" id="city" name="city" placeholder="Enter city..." />
-                <label for="date">Date</label>
-                <input type="date" class="form-control" id="date" name="date" />
+                <div class="group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" name="city" placeholder="Enter city..." />
+                </div>
+                <div class="group">
+                    <label for="date">Date</label>
+                    <input type="date" class="form-control" id="date" name="date" />
+                </div>
                 <button type="button" class="btn btn-small btn-default" id="search">Search</button>
             </form>
             <section id="search-results"></section>
@@ -42,6 +47,10 @@
             <section class="runtime"></section>
             <section class="rating"></section>
             <a href="" target="_blank" class="trailer">Trailer</a>
+            <!-- <h4>Prices</h4> -->
+            <div id="prices">
+
+            </div>
         </section>
         <section id="location" class="hidden">
             <div id="map-canvas"></div>
