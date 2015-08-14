@@ -1,3 +1,9 @@
-#searchButton {
-
+#pauseButton {
+background-color: red;
+  color: white;
+  border-radius: 3px;
+  border: 3px solid black;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 2em;
 }

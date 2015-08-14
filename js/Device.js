@@ -79,6 +79,7 @@ function Device(id, url, layer, top, left, isRemote) {
                 activeDevices[index].disconnect();
             });
             $session.remove();
+            mainDevices.splice(mainDevices.indexOf(this.id), 1);
         }
         $("#sessions").find("li[data-device-id='" + this.id + "']").remove();
         $(".main-devices option[data-device-id='" + this.id + "']").remove();

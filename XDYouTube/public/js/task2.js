@@ -1,9 +1,14 @@
-function updateVideo(that) {
+function updateVideo(container, videoqueue) {
     //TODO: Your task is to fix the bug in that function
-    var next = that.shift("synced.videoQueue");
-    that.set("synced.current.index", next.id);
-    that.set("synced.current.title", next.title);
-    that.set("synced.current.thumbnail.small", next.thumbnail.small);
-    that.set("synced.current.thumbnail.medium", next.thumbnail.medium);
-    that.set("synced.current.description", next.description);
+  
+  if (videoqueue.length > 0) {
+    var next = shift(videoqueue);
+        container.set("synced.current.index", next.id);
+        container.set("synced.current.title", next.title);
+        container.set("synced.current.thumbnail.small", next.thumbnail.small);
+        container.set("synced.current.thumbnail.medium", next.thumbnail.medium);
+        container.set("synced.current.description", next.description);
+  }
+ 
+ 
 }

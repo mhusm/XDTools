@@ -244,18 +244,8 @@
 
                 updateVideo: function () {
                     //TODO: Comment out for study and uncomment updateVideo(this)
-                    if (this.synced.videoQueue.length > 0) {
-                        var next = this.shift("synced.videoQueue");
-                        this.set("synced.current.index", next.id);
-                        this.set("synced.current.title", next.title);
-                        this.set("synced.current.thumbnail.small", next.thumbnail.small);
-                        this.set("synced.current.thumbnail.medium", next.thumbnail.medium);
-                        this.set("synced.current.description", next.description);
-                    }
-                    else {
-                        this.set("synced.current.index", "");
-                    }
-                    //updateVideo(this);
+
+                    updateVideo(this);
                 },
 
                 handleStateChange: function (ev) {
@@ -396,10 +386,10 @@
                             this.$.roles.addRole("controller");
                             this.$.roles.removeRole("player");
                         }
-                        var el = document.getElementById("yt-div");
-                        if (el) {
-                            el.setAttribute("style", "background-color: black; width: 100%; height: 100%;");
-                        }
+                        //var el = document.getElementById("yt-div");
+                        //if (el) {
+                           // el.setAttribute("style", "background-color: black; width: 100%; height: 100%;");
+                        //}
                         document.body.setAttribute("style", "margin: 0;");
                         document.getElementById("search-panel").setAttribute("style", "height: 93vh;");
                     }
@@ -424,8 +414,7 @@
                             }
                             this.$.roles.addRole('controller');
                         } else {
-                            this.$.roles.addRole('player');
-                            this.$.roles.addRole('controller');
+                            this.updateViews();
                         }
                     }
 

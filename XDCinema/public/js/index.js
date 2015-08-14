@@ -1,4 +1,5 @@
 var currentCity = {"name": ""};
+var currentMovie = {"title": ""};
 
 $(document).ready(function () {
     //Initialize XDmvc
@@ -17,7 +18,6 @@ $(document).ready(function () {
     //TODO: comment out the following 2 lines for study
     var loc = {"lat": 0, "long": 0, "cinemaName": ""};
     XDmvc.synchronize(loc, setLocation, "loc");
-    var currentMovie = {"title": ""};
     XDmvc.synchronize(currentMovie, setMovie, "currentmovie");
     var currentTrailer = {"href": ""};
     XDmvc.synchronize(currentTrailer, setTrailer, "currenttrailer");

@@ -1,4 +1,4 @@
-$(docuemnt).ready(function () {
+$(document).ready(function () {
 
     //Stores the location of the currently selected cinema
     var loc = {"lat": 0, "long": 0, "cinemaName": ""};
@@ -60,7 +60,7 @@ function getCinemaLocation(city, name) {
     for (i; i < cinemaLocations.length; ++i) {
         if (cinemaLocations[i].city === city) {
             if (cinemaLocations[i].name === name) {
-                return {"lat": cinemaLocations[i].lat, "long": cinemaLocations[j].long};
+                return {"lat": cinemaLocations[i].lat, "long": cinemaLocations[i].long};
             }
         }
     }
