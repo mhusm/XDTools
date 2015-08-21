@@ -81,12 +81,7 @@ $(document).ready(function () {
     });
 
     $("#enable-dns").click(function () {
-        if ($(this).is(":checked")) {
-            options.dnsServer = true;
-        }
-        else {
-            options.dnsServer = false;
-        }
+        options.dnsServer = $(this).is(":checked");
         if ($(this).is(":checked")) {
             rewriteURL = rewriteURLWithDNS;
         }
@@ -116,34 +111,19 @@ $(document).ready(function () {
     });
 
     $("#enable-js-console").click(function () {
-        if ($(this).is(":checked")) {
-            options.jsConsole = true;
-        }
-        else {
-            options.jsConsole = false;
-        }
+        options.jsConsole = $(this).is(":checked");
         $("#javascript-console").toggleClass("hidden");
         saveOptions();
     });
 
     $("#enable-function-debugging").click(function () {
-        if ($(this).is(":checked")) {
-            options.functionDebugging = true;
-        }
-        else {
-            options.functionDebugging = false;
-        }
+        options.functionDebugging = $(this).is(":checked");
         $("#debug-list").toggleClass("hidden");
         saveOptions();
     });
 
     $("#enable-css-editor").click(function () {
-        if ($(this).is(":checked")) {
-            options.cssEditor = true;
-        }
-        else {
-            options.cssEditor = false;
-        }
+        options.cssEditor = $(this).is(":checked");
         $("#css-console").toggleClass("hidden");
         saveOptions();
     });

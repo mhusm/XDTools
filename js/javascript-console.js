@@ -113,7 +113,7 @@ function JavaScriptConsole() {
             var index = colors.map(function (e) { return e.id; }).indexOf(deviceID),
                 message = "<div class='history-line' data-device-id='" + deviceID + "'>" + this.getMarker(type);
             message = message + "<span class='content'>" + process(msg) + "</span></div>";
-            $(message).appendTo(this.$history).css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
+            $(message).appendTo(this.$history).css("color", "hsla(" + colors[index].color + ", 60%, 50%, 1)");
             this.scrollToBottom();
         }
     };
@@ -193,8 +193,8 @@ function generateObjectHTML(obj) {
     else if (typeof obj === "object" || obj instanceof Object) {
         if (Object.prototype.toString.call(obj) === '[object Array]') {
             return "[]";
-            var newobj = "[";
-            var elements = [];
+            var newobj = "[",
+                elements = [];
             for (var i = 0; i < obj.length; ++i) {
                 elements.push(generateObjectHTML(obj[i]));
             }
@@ -202,8 +202,8 @@ function generateObjectHTML(obj) {
             return newobj;
         }
         else {
-            var keys = Object.keys(obj);
-            var newobject = "Object ";
+            var keys = Object.keys(obj),
+                newobject = "Object ";
             for (var i = 0; i < keys.length; ++i) {
                 newobject = newobject + "<br />" + keys[i] + ": ";
                 newobject = newobject + generateObjectHTML(obj[keys[i]]);

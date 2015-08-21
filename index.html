@@ -23,8 +23,9 @@
         <script src="js/html-generation.js"></script>
         <script src="js/Device.js"></script>
         <script src="js/function-debugging.js"></script>
+        <script src="js/object-observing.js"></script>
         <script src="js/user_study/tasks.js"></script>
-        <link rel="stylesheet" href="js/user_study/tasks.css" />
+        <!-- <link rel="stylesheet" href="js/user_study/tasks.css" /> -->
         <meta name="viewport" content="width=device-width, user-scalable=no">
     </head>
     <body>
@@ -88,6 +89,18 @@
                             <button type="button" id="debug-button" class="btn btn-small btn-default">Debug</button>
                         </div>
                         <section id="debugged-functions">
+
+                        </section>
+                    </section>
+                    <section id="object-list">
+                        <h4>
+                            Observing objects
+                        </h4>
+                        <div id="object-container">
+                            <input type="text" class="form-control" name="function-input" id="object-input" placeholder="Enter object..."  />
+                            <button type="button" id="object-button" class="btn btn-small btn-default">Observe</button>
+                        </div>
+                        <section id="inspected-objects">
 
                         </section>
                     </section>

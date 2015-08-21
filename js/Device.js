@@ -98,6 +98,7 @@ function Device(id, url, layer, top, left, isRemote) {
     this.setUrl = function (url) {
         this.url = url;
         var mainDevice = this.id;
+        observeDevice(this.id);
         $(".session[data-device-id='" + this.id + "'] ul").find(".session-device").each(function () {
             connectDevice($(this).text(), mainDevice);
         });

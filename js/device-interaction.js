@@ -32,25 +32,29 @@ $(document).ready(function () {
 
     $(document).on("click", ".js-device", function () {
         var deviceID = this.dataset.deviceId,
-            $history = $("#history");
+            $history = $("#history"),
+            index = colors.map(function (e) { return e.id; }).indexOf(this.dataset.deviceId);
         if ($(this).hasClass("active")) {
             $(this).css("background-color", "rgba(220, 220, 220, 0.5)");
+            $(this).css("color", "hsla(" + colors[index].color + ", 60%, 50%, 1)");
             $(".history-line[data-device-id='" + deviceID + "']").each(function () {
                 $(this).addClass("hidden");
             });
             removeCSSProperties(deviceID);
             $history.scrollTop($history[0].scrollHeight);
             undebugDevice(deviceID);
+            unobserveDevice(deviceID);
         }
         else {
-            var index = colors.map(function (e) { return e.id; }).indexOf(this.dataset.deviceId);
-            $(this).css("background-color", "hsla(" + colors[index].color + ", 60%, 50%, 0.3)");
+            $(this).css("background-color", "hsla(" + colors[index].color + ", 60%, 50%, 1)");
+            $(this).css("color", "white");
             $(".history-line[data-device-id='" + deviceID + "']").each(function () {
                 $(this).removeClass("hidden");
             });
             reactivateCSSProperties(deviceID);
             $history.scrollTop($history[0].scrollHeight);
             debugDevice(deviceID);
+            observeDevice(deviceID);
         }
         $(this).toggleClass("active");
     });

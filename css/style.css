@@ -151,6 +151,12 @@ header h1 {
     width: 100%;
 }
 
+#object-container {
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+}
+
 .remove-css {
     float: right;
 }
@@ -198,6 +204,18 @@ header h1 {
 }
 
 .function .name {
+    word-wrap: break-word;
+}
+
+.object {
+    margin: 10px 5px;
+}
+
+.object .remove-object {
+    float: right;
+}
+
+.object .name {
     word-wrap: break-word;
 }
 
@@ -289,10 +307,14 @@ header h1 {
 }
 
 .js-device {
-    margin: 0 10px;
+    margin: 0 5px;
     background-color: rgba(220, 220, 220, 0.5);
     -webkit-user-select: none;
     cursor: default;
+    color: white;
+    border-radius: 5px;
+    padding: 2px 5px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .break {
@@ -624,6 +646,23 @@ header h1 {
 }
 
 #debug-list hr {
+    margin: 10px 0 0;
+}
+
+#object-list {
+    width: 20%;
+    float: left;
+    height: 100%;
+    flex: 1 auto;
+    border-left: 5px solid #337ab7;
+    padding: 5px;
+}
+
+#object-list input {
+    margin-right: 5px;
+}
+
+#object-list hr {
     margin: 10px 0 0;
 }
 

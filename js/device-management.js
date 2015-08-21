@@ -193,8 +193,22 @@ function appendRemoteDevice(device) {
 //Add the HTML for the timeline of a device
 function addDeviceTimeline(id, name) {
     $("#timeline").find(".timeline-content").append(HTML.Timeline(id, name, sequenceNames));
+    var color = getNextColor(id),
+        $device = $("#device-" + id),
+        $timeline = $("#timeline-" + id);
     $("<span class='js-device active' data-device-id='" + id + "'>" + name + "</span>").appendTo($("#device-overview"))
-        .css("background-color", "hsla(" + getNextColor(id) + ", 60%, 50%, 0.3)");
+        .css("background-color", "hsla(" + color + ", 60%, 50%, 1)");
+    $device.css("border-color", "hsla(" + color + ", 60%, 50%, 1)");
+    $device.css("color", "hsla(" + color + ", 30%, 30%, 1)");
+    $device.find("button").css("border-color", "hsla(" + color + ", 60%, 40%, 1)");
+    $device.find("button").css("background-color", "hsla(" + color + ", 60%, 40%, 1)");
+    $device.find("button").css("background-image", "linear-gradient(to bottom, hsla(" + color + ", 60%, 50%, 1) 0, hsla(" + color + ", 60%, 40%, 1) 100%)");
+    $timeline.css("color", "hsla(" + color + ", 60%, 50%, 1)");
+    $timeline.find("button").css({
+        "border-color": "hsla(" + color + ", 60%, 40%, 1)",
+        "background-color": "hsla(" + color + ", 60%, 40%, 1)",
+        "background-image": "linear-gradient(to bottom, hsla(" + color + ", 60%, 50%, 1) 0, hsla(" + color + ", 60%, 40%, 1) 100%)"
+    });
 }
 
 function getDeviceIndex(deviceID) {

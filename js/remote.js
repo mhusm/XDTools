@@ -782,7 +782,8 @@ function initialize() {
         breakpoints = [],
         cssRules = [],
         active = true,
-        stylesheets = [];
+        stylesheets = [],
+        observedObjects = [];
 
     var command = {
             "name": "loaded",
@@ -933,8 +934,8 @@ function initialize() {
                 //TODO: check if command is a function or variable (not if statement etc.) and react
                 var returnVal;
                 if (command.layer !== "document.body") {
-                    var index = command.code.indexOf("(");
-                    var functionName = command.code.substring(0, index);
+                    var index = command.code.indexOf("("),
+                        functionName = command.code.substring(0, index);
                     if (eval(command.layer + "." + functionName)) {
                         returnVal = eval(command.layer + "." + command.code);
                     }
@@ -963,14 +964,34 @@ function initialize() {
                 }
             }
             else if (command.name === "requestConnectionURL") {
-                var url = getConnectionURL();
-                var command = {
-                    "name": "receiveConnectionURL",
-                    "url": url,
-                    "deviceID": command.deviceID,
-                    "mainDeviceID": command.mainDeviceID
-                };
+                var url = getConnectionURL(),
+                    command = {
+                        "name": "receiveConnectionURL",
+                        "url": url,
+                        "deviceID": command.deviceID,
+                        "mainDeviceID": command.mainDeviceID
+                    };
                 window.parent.postMessage(JSON.stringify(command), "*");
+            }
+            else if (command.name === "observeObject") {
+                var object = eval(command.code),
+                    objectName = command.code,
+                    func = function (changes) {
+                        var command = {
+                            "name": "object",
+                            "objectName": objectName,
+                            "msg": JSON.stringify(JSON.decycle(object))
+                        };
+                        window.parent.postMessage(JSON.stringify(command), "*");
+                    };
+                observedObjects.push({"name": command.code, "callback": func});
+                Object.observe(object, func);
+            }
+            else if (command.name === "unobserveObject") {
+                var object = eval(command.code),
+                    index = observedObjects.map(function (e) { return e.name; }).indexOf(command.code);
+                Object.unobserve(object, observedObjects[index].callback);
+                observedObjects.splice(index, 1);
             }
         }
     }, false);

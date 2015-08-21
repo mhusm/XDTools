@@ -54,9 +54,12 @@ function processCommand(command, deviceID) {
         activeDevices[index].setLayers(command.layers);
     }
     else if (command.name === "receiveConnectionURL") {
-        console.log("receiveConnectionURL");
         var deviceIndex = getDeviceIndex(command.deviceID);
         activeDevices[deviceIndex].connect(command.url);
+    }
+    else if (command.name === "object") {
+        var deviceIndex = getDeviceIndex(command.deviceID);
+        //TODO
     }
     else {
         console.error("Unknown command");
@@ -69,6 +72,14 @@ function Command(name, deviceID) {
     this.parentDomain = "http://" + window.location.host;
     this.toString = function () {
         return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain});
+    };
+}
+
+function ObserveCommand(name, deviceID, code) {
+    Command.call(this, name, deviceID);
+    this.code = code;
+    this.toString = function () {
+        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain, "code": this.code});
     };
 }
 
@@ -93,7 +104,7 @@ function CSSCommand(name, deviceID, identifier, property, value, layer) {
 }
 
 function JSCommand(name, deviceID, code) {
-    var selectedLayer = $("#layer option:selected").val(),
+    var selectedLayer = $("#layer").find("option:selected").val(),
         index = getDeviceIndex(deviceID);
     this.layer = "";
     if (activeDevices[index].hasLayer(selectedLayer)) {

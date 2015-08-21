@@ -1,0 +1,30 @@
+Participant 1
+xdyt-bug: 16 Min
+xdyt-impl: 1614.769
+xdyt-impl: 283.857 + 1614.769 = 31.64 min
+xdc-tut: 152.214
+xdc-bug: 722.252 = 12.03 min
+xdc-impl: 1109.648 = 18.48 min
+
+XDYT with tools, XDC without tools
+
+Notes:
+- Function debugging did not work (in the study, it worked during the tutorial)
+- XDYT roles caused problems (always video on all devices)
+- XDYT-bug: if (next) instead of length, otherwise completed
+- I forgot to add an error message to the shift function
+- XDYT-impl: completed
+- XDC-bug: completed
+- XDC-impl: completed
+- used jQuery
+- participant required a lot of help during xdyt-bug
+
+Observations:
+- always used one actual device (Nexus) and multiple emulated devices with tools
+- no actual devices used without tools
+- shared javascript console only used to look at errors (no commands sent, no console.logs in code)
+- used only predefined devices
+- always used auto-connect for connecting devices
+
+Comments from the questionnaires:
+- Video for the tutorial because the tool has many features
