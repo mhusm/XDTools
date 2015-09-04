@@ -1,0 +1,8 @@
+#pauseButton {
+    background-color: red;
+    color: white;
+    font-weight: bolder;
+    border: black 5px solid;
+    padding: 10px;
+    border-radius: 10px;
+}

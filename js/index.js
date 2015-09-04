@@ -1,10 +1,14 @@
 "use strict";
 
-var activeDevices = [],
+var activeDevices = {},
     url = new URL(window.location.href),
     socket = io(":" + (url.port || 80) + "/local");
 
 $(document).ready(function () {
+
+    $(window).bind('beforeunload', function(ev) {
+        return 'If you reload this page, all current emulated devices will be lost. Are you sure you want to reload?';
+    });
 
     $("body").tooltip({
         selector: "button",
@@ -20,7 +24,7 @@ $(document).ready(function () {
 
     socket.on("remoteDeviceConnected", function (id) {
         var device = new RemoteDevice(id, $("#url").val(), 0, 0, 0, true);
-        activeDevices.push(device);
+        activeDevices[device.id] = device;
         device.create();
         device.disconnect();
         $("#sessions").find(".auto-connect input").each(function () {

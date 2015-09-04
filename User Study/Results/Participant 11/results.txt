@@ -1,0 +1,5 @@
+Task completion times:
+xdc-bug: 467.119, about 7.79 min
+xdc-impl: 1159.182, about 19.32 min
+xdyt-bug: 652.277, 10.87 min
+xdyt-impl: 1828.603, 30.48 min

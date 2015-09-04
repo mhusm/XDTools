@@ -13,9 +13,9 @@ $(document).ready(function () {
 
     $("#continue-button").click(function () {
         var command = new Command("continue", 0);
-        for (var i = 0, j = activeDevices.length; i < j; ++i) {
-            activeDevices[i].sendCommand(command);
-        }
+        $.each(activeDevices, function (key, device) {
+            device.sendCommand(command);
+        });
         $(this).addClass("disabled").css({
             "border": "1px solid #ccc"
         });
@@ -26,7 +26,6 @@ $(document).ready(function () {
     $(document).on("click", ".record", function () {
         var recording = $(this).data("recording"),
             deviceID = $(this).closest(".device-timeline").data("device-id"),
-            index = getDeviceIndex(deviceID),
             command = new Command("startRecording", deviceID);
         if (recording) {
             $(this).data("recording", false).find(".glyphicon").removeClass("glyphicon-stop").addClass("glyphicon-record");
@@ -35,7 +34,7 @@ $(document).ready(function () {
         else {
             $(this).data("recording", true).find(".glyphicon").removeClass("glyphicon-record").addClass("glyphicon-stop");
         }
-        activeDevices[index].sendCommand(command);
+        activeDevices[deviceID].sendCommand(command);
     });
 
     //Display the selected event sequence for a device
@@ -73,24 +72,23 @@ $(document).ready(function () {
     $("#play-button").click(function () {
         var i, j, k, eventSequences = [],
             offset0s = $("#timeline-container").find(".time").offset().top;
-        for (i = 0, j = activeDevices.length; i < j; ++i) {
-            if (events[activeDevices[i].id] && events[activeDevices[i].id].length > 0) {
+        $.each(activeDevices, function (key, device) {
+            if (events[device.id] && events[device.id].length > 0) {
                 eventSequences = [];
-                for (k = 0; k < events[activeDevices[i].id].length; ++k) {
-                    var $timeline = $("#timeline-" + activeDevices[i].id),
+                for (k = 0; k < events[device.id].length; ++k) {
+                    var $timeline = $("#timeline-" + device.id),
                         curPos = $timeline.find(".content[data-sequence-id='" + k + "'] .label-primary").offset().top - offset0s;
-                    eventSequences.push({"startTime": curPos * 10, "sequence": events[activeDevices[i].id][k].sequence});
+                    eventSequences.push({"startTime": curPos * 10, "sequence": events[device.id][k].sequence});
                 }
-                var command = new ReplayCommand("startReplaying", activeDevices[i].id, eventSequences, breakpoints);
-                activeDevices[i].sendCommand(command);
+                var command = new ReplayCommand("startReplaying", device.id, eventSequences, breakpoints);
+                device.sendCommand(command);
             }
-        }
+        });
     });
 
     //Replay recorded sequence
     $(document).on("click", ".play", function () {
         var deviceID = $(this).closest(".device-timeline").data("device-id"),
-            index = getDeviceIndex(deviceID),
             offset0s = $("#timeline-container").find(".time").offset().top;
         var eventSequences = [];
         for (var k = 0; k < events[deviceID].length; ++k) {
@@ -98,7 +96,7 @@ $(document).ready(function () {
             eventSequences.push({"startTime": curPos * 10, "sequence": events[deviceID][k].sequence});
         }
         var command = new ReplayCommand("startReplaying", deviceID, eventSequences, breakpoints);
-        activeDevices[index].sendCommand(command);
+        activeDevices[deviceID].sendCommand(command);
     });
 
     $(document).on("mousedown", ".content", function (ev) {

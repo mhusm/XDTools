@@ -16,22 +16,33 @@ hr {
     clear: both;
 }
 
-header input {
+#session-name {
     width: 10% !important;
     display: inline-block !important;
+    border-color: #245580;
 }
 
-header button {
+#page-header button {
     margin: 0 5px;
 }
 
-header {
-    margin: 10px;
+#page-header {
+    padding: 10px;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,e5e5e5+100;White+3D */
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffffff 0%, #e5e5e5 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#e5e5e5 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #ffffff 0%,#e5e5e5 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #ffffff 0%,#e5e5e5 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #ffffff 0%,#e5e5e5 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+    border-bottom: 1px solid rgb(200, 200, 200);
 }
 
-header h1 {
+#page-header h1 {
     display: inline-block;
-    margin-right: 20px;
+    margin-right: 40px;
     margin-top: 0;
     margin-bottom: 0;
     vertical-align: middle;
@@ -43,15 +54,13 @@ header h1 {
 
 .device-container {
     display: inline-block;
-    border: 10px solid #265a88;
-    border-radius: 10px;
+    border: 2px solid #265a88;
+    border-radius: 8px;
     background-color: white;
-    margin: 10px;
     padding: 5px;
     position: absolute;
     left: 0;
     top: 0;
-    box-shadow: 5px 5px 5px black;
     z-index: 1;
 }
 
@@ -71,11 +80,14 @@ header h1 {
 
 .device-container .layer {
     width: 80px;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 4px;
+    padding: 2px;
 }
 
 .device-container h4 {
-    -webkit-user-select: none;
-    cursor: default;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -103,13 +115,25 @@ header h1 {
 }
 
 .overlay {
-    width: calc(100% + 20px);
-    height: calc(100% + 20px);
-    background-color: rgba(227, 227, 229, 0.5);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    background-color: rgba(227, 227, 255, 0.6);
     z-index: 20;
     position: absolute;
-    left: -10px;
-    top: -10px;
+    left: -2px;
+    top: -2px;
+    border-radius: 8px;
+}
+
+.debug-overlay {
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    background-color: rgba(50, 200, 50, 0.5);
+    z-index: 20;
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    border-radius: 8px;
 }
 
 .device-id {
@@ -174,7 +198,7 @@ header h1 {
 }
 
 .session {
-    background-color: #f7f7f9;
+    background: linear-gradient(to bottom, rgb(250, 250, 250) 0%, rgb(240, 240, 240) 47%, rgb(230, 230, 230) 100%);
     border-radius: 10px;
     padding: 5px;
     margin-bottom: 10px;
@@ -228,10 +252,10 @@ header h1 {
 }
 
 .css-property {
-    background-color: #f7f7f9;
     margin-right: 10px;
     border-radius: 10px;
     padding: 5px;
+    background: linear-gradient(to bottom, rgb(250, 250, 250) 0%, rgb(240, 240, 240) 47%, rgb(230, 230, 230) 100%);
 }
 
 .property {
@@ -312,9 +336,14 @@ header h1 {
     -webkit-user-select: none;
     cursor: default;
     color: white;
-    border-radius: 5px;
+    border-radius: 3px;
     padding: 2px 5px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.device-top-container {
+    -webkit-user-select: none;
+    cursor: -webkit-grab;
 }
 
 .break {
@@ -339,6 +368,10 @@ header h1 {
     background: transparent none;
 }
 
+#qrcode-button, #refresh-button {
+    margin-right: 40px !important;
+}
+
 .auto-connect {
     float: right;
     margin-right: 5px;
@@ -347,7 +380,7 @@ header h1 {
 .vertical-rule {
     width: 0;
     height: calc(100% - 101px);
-    border: 2px solid black;
+    border-left: 1px solid black;
     margin: 91px 0 0;
     float: left;
     clear: none;
@@ -360,7 +393,7 @@ header h1 {
     border-radius: 9px;
     position: relative;
     left: 4px;
-    border: 3px solid #a94442;
+    border: 2px solid #a94442;
     margin-bottom: -15px;
     opacity: 0.5;
 }
@@ -394,12 +427,32 @@ header h1 {
     border-color: black;
 }
 
+#function-debugging-overlay {
+    position: absolute;
+    height: calc(100% - 26px);
+    background-color: rgba(255, 0, 0, 0.7);
+    padding: 15px;
+    z-index: 20;
+    top: 0;
+    left: 0;
+}
+
+#function-debugging-overlay span {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    color: black;
+}
+
 .timeline-wrapper {
     width: 65px;
     text-align: right;
     margin: 35px 5px 0;
     height: calc(100% - 41px);
     float: left;
+}
+
+h4 {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .bold {
@@ -443,8 +496,9 @@ header h1 {
 }
 
 #url {
-    width: 25%;
-    margin: 10px;
+    width: 30%;
+    display: inline-block !important;
+    border-color: #28a4c9;
 }
 
 #timeline {
@@ -452,7 +506,6 @@ header h1 {
     float: left;
     height: calc(100% - 105px);
     overflow-y: auto;
-    border-left: 5px solid #337ab7;
 }
 
 #play-button {
@@ -509,7 +562,7 @@ header h1 {
 #timeline .device-timeline {
     width: 100%;
     height: 100%;
-    border-right: 2px solid #337ab7;
+    border-right: 1px solid #337ab7;
     text-align: center;
     flex: 1;
 }
@@ -517,8 +570,10 @@ header h1 {
 #container {
     position: relative;
     width: 70%;
-    height: calc(100% - 105px);
+    height: calc(100% - 67px);
     float: left;
+    border-right: 1px solid #337ab7;
+
 }
 
 #devices {
@@ -553,12 +608,12 @@ header h1 {
 #console-container {
     width: 100%;
     height: 30%;
-    border-top: 5px solid #337ab7;
+    border-top: 1px solid #337ab7;
     font-family: Consolas, Menlo, Monaco, monospace;
 }
 
 #css-console {
-    border-left: 5px solid #337ab7;
+    border-left: 1px solid #337ab7;
     width: calc(35% - 10px);
     float: left;
     height: 100%;
@@ -574,7 +629,7 @@ header h1 {
 
 #sessions {
     padding: 5px;
-    border-left: 5px solid #337ab7;
+    border-left: 1px solid #337ab7;
     width: 20%;
     height: 100%;
     float: left;
@@ -606,18 +661,18 @@ header h1 {
 
 #filter-overview {
     width: 100%;
-    border: 2px solid #337ab7;
+    border: 1px solid rgb(200, 200, 200);
     min-height: 30px;
     max-height: 30px;
-    background-color: #f7f7f9;
+    background-color: white;
 }
 
 #filter {
     height: 20px;
     margin-top: 3px;
     margin-left: 3px;
-    border: none;
     width: 120px;
+    border: 1px solid rgb(220, 220, 220);
 }
 
 #javascript-console .category {
@@ -634,10 +689,11 @@ header h1 {
 
 #debug-list {
     width: 20%;
+    position: relative;
     float: left;
     height: 100%;
     flex: 1 auto;
-    border-left: 5px solid #337ab7;
+    border-left: 1px solid #337ab7;
     padding: 5px;
 }
 
@@ -654,7 +710,7 @@ header h1 {
     float: left;
     height: 100%;
     flex: 1 auto;
-    border-left: 5px solid #337ab7;
+    border-left: 1px solid #337ab7;
     padding: 5px;
 }
 
@@ -680,22 +736,22 @@ header h1 {
 
 #history {
     width: 100%;
-    border: 2px solid #337ab7;
+    border: 1px solid rgb(200, 200, 200);
     border-bottom: none;
     border-top: none;
     flex-grow: 1;
     padding: 5px;
     overflow-y: auto;
-    background-color: #f7f7f9;
+    background: linear-gradient(to bottom,  #ffffff 0%,#f6f6f6 47%,rgb(240, 240, 240) 100%); /* W3C */
 }
 
 #code-input {
     width: 100%;
-    border: 2px solid #337ab7;
+    border: 1px solid rgb(200, 200, 200);
     padding: 3px;
     min-height: 30px;
     max-height: 30px;
-    background-color: #f7f7f9;
+    background-color: white;
 }
 
 #layer {

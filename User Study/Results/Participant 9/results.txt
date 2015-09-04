@@ -1,0 +1,19 @@
+Task completion times
+xdyt-bug: 1151.839, 11.5 min
+xdyt-impl: 2952.781, 24.5 min
+xdc-bug: 240.794, 4 min
+xdc-impl: 1880.173, 31 min
+
+XDYT with tools
+XDC without tools
+
+Comments:
+- the only participant that found the error in xdyt-bug without help
+- debugging strategy: (xdyt-bug): reproduced bug, fixed bug
+- started by implementing everything, then testing and debugging (xdyt-impl)
+- experience with FF devtools, but not with Chrome devtools
+- xdc-bug solved after 4 minutes --> the tools are obviously rated as efficient and easy if the error is found almost immediately
+- connection problems in XDC during implementation
+- useful that everything can be seen in one window, especially javascript console
+- user should see on which device the function is called
+- Comment about xdc-impl: "Switching around between browser windows to interact with them and especially having to reload them individually is tedious

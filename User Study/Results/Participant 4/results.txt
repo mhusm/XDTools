@@ -1,0 +1,22 @@
+Task completion times:
+xdc-bug: about 11 minutes
+xdc-impl: 1955.625, aborted after 32.6 minutes 
+xdyt-bug: 1059.155, about 17.65 minutes
+xdyt-impl: 1873.084, aborted after 31.22 minutes
+
+XDC with tools
+XDYT without tools
+
+Notes:
+- hint given: bug in getCinemaLocation
+- only device emulation used in xdc-bug
+- why are JS files not reloaded when reloading devices? (not related to participant, but should be fixed) Maybe the problem is with function debugging? Re-add functions when reloading device?
+- xdc-impl: solved first part (displayingPrices), but couldn't finish second part
+- xdyt: role assignment breaks when device resolution is changed dynamically, this only seems to be a problem without the tools because participants resize windows to switch resolutions
+- no real devices used
+- xdyt-impl: pause button worked, but time was not sufficient to complete the task (changing the text on the button, changing the layout of the button)
+- the participants had a lot of problems using JavaScript (copied stuff like for-loops, .length, ... from other functions, didn't know basic HTML tags like "<br>") and understanding the structure of the applications in general
+
+Comments by the participant:
+- Clear UI design with useful tools for developers
+- Feature suggestion: Combine source code editor with tool

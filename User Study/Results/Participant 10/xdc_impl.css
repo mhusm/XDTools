@@ -1,0 +1,9 @@
+/*
+    Your task is to improve the CSS in this function.
+*/
+
+.highlighted {
+    background-color: red;
+    color: blue;
+    font-size: 2em;
+}

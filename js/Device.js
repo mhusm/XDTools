@@ -31,6 +31,10 @@ function Device(id, url, layer, top, left, isRemote) {
     this.hasLayer = function (name) {
         return this.layers.map(function (e) { return e.path.join(".")}).indexOf(name) !== -1;
     };
+    this.getLayer = function (name) {
+        var index = this.layers.map(function (e) { return e.name + (e.id ? "#" + e.id : "") }).indexOf(name);
+        return this.layers[index].path.join(".");
+    };
     this.connect = function (url) {
         if (this.firstConnect) {
             this.oldURL = this.url;
@@ -44,9 +48,8 @@ function Device(id, url, layer, top, left, isRemote) {
         $(".main-devices option[data-device-id='" + this.id + "']").remove();
         var $session = $(".session[data-device-id='" + this.id + "']");
         $session.find("ul").find(".session-device").each(function () {
-            var deviceID = $(this).text(),
-                index = getDeviceIndex(deviceID);
-            activeDevices[index].disconnect();
+            var deviceID = $(this).text();
+            activeDevices[deviceID].disconnect();
         });
         $session.remove();
     };
@@ -63,7 +66,7 @@ function Device(id, url, layer, top, left, isRemote) {
                 "<option data-device-id='" + this.id + "' value='" + this.id + "'>" + this.id + "</option>"
             );
             $(HTML.Session(this.id)).appendTo("#sessions .content");
-            $("#device-" + this.id).find("select").val("none");
+            $(".device-container[data-device-id='" + this.id + "']").find("select").val("none");
         }
     };
     //Remove everything related to the device
@@ -74,9 +77,8 @@ function Device(id, url, layer, top, left, isRemote) {
         if (mainDevices.indexOf(this.id) !== -1) {
             var $session = $(".session[data-device-id='" + this.id + "']");
             $session.find("ul").find(".session-device").each(function () {
-                var deviceID = $(this).text(),
-                    index = getDeviceIndex(deviceID);
-                activeDevices[index].disconnect();
+                var deviceID = $(this).text();
+                activeDevices[deviceID].disconnect();
             });
             $session.remove();
             mainDevices.splice(mainDevices.indexOf(this.id), 1);
@@ -121,8 +123,9 @@ function Device(id, url, layer, top, left, isRemote) {
             $(".session[data-device-id='" + oldId + "'] ul").find(".session-device").each(function () {
                 connectedDevices.push($(this).text());
             });
-            var index = getDeviceIndex(oldId),
-                device = activeDevices[index];
+            activeDevices[id] = activeDevices[oldId];
+            delete activeDevices[oldId];
+            var device = activeDevices[id];
             device.destroy();
 
             device.id = id;
@@ -176,6 +179,7 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
     this.scaling = scaling;
     this.$device = null;
     this.originalUrl = url;
+    $("#function-debugging-overlay").removeClass("hidden");
     devicePositions.push({
         id: this.id,
         x0: left,
@@ -185,6 +189,20 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
     });
     this.toString = function () {
         return JSON.stringify(this.getDevice());
+    };
+    this.setUrl = function (url) {
+        if (url !== this.url) {
+            this.url = url;
+            var mainDevice = this.id;
+            observeDevice(this.id);
+            $("#function-debugging-overlay").removeClass("hidden");
+            $(".session[data-device-id='" + this.id + "'] ul").find(".session-device").each(function () {
+                connectDevice($(this).text(), mainDevice);
+            });
+            if (!this.isRemote) {
+                debugDevice(this.id);
+            }
+        }
     };
     //Return all properties that are needed for storing the device
     this.getDevice = function () {
@@ -219,16 +237,20 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
     //Update the layer of the device
     this.setLayer = function (layer) {
         this.layer = layer;
-        this.$device.css("z-index", $("#device-" + this.id + " .layer").val());
+        this.$device.css("z-index", this.$device.find(".layer").val());
     };
     //Load an URL on the device
     this.loadURL = function (url) {
-        this.url = rewriteURL(url, this.id);
-        this.$device.find("iframe").attr("src", this.url);
-        this.$device.find(".url").val(this.url);
-        addCSSProperties(this.id);
-        if (!this.isRemote) {
-            debugDevice(this.id);
+        var rewrittenURL = rewriteURL(url, this.id);
+        if (rewrittenURL !== this.url) {
+            $("#function-debugging-overlay").removeClass("hidden");
+            this.url = rewrittenURL;
+            this.$device.find("iframe").attr("src", this.url);
+            this.$device.find(".url").val(this.url);
+            addCSSProperties(this.id);
+            if (!this.isRemote) {
+                debugDevice(this.id);
+            }
         }
     };
     //Reload the current URL
@@ -258,7 +280,7 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
     //Create the HTML etc. for the device
     this.create = function () {
         appendDevice(this);
-        this.$device = $("#device-" + this.id);
+        this.$device = $(".device-container[data-device-id='" + this.id + "']");
         addDeviceTimeline(this.id, this.name);
         this.disconnect(this.id);
         addCSSProperties(this.id);
@@ -291,7 +313,7 @@ function RemoteDevice(id, url, layer, top, left, isRemote) {
     //Update the layer of the device
     this.setLayer = function (layer) {
         this.layer = layer;
-        this.$device.css("z-index", $("#device-" + this.id + " .layer").val());
+        this.$device.css("z-index", this.$device.find(".layer").val());
     };
     //Load an URL on the device
     this.loadURL = function (url) {
@@ -306,7 +328,7 @@ function RemoteDevice(id, url, layer, top, left, isRemote) {
     //Create the HTML etc. for the device
     this.create = function () {
         appendRemoteDevice(this);
-        this.$device = $("#device-" + this.id);
+        this.$device = $(".device-container[data-device-id='" + this.id + "']");
         addDeviceTimeline(this.id, this.name);
         this.disconnect();
         addCSSProperties(this.id);

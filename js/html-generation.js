@@ -48,9 +48,10 @@ var HTML = {
         return "<li class='ui-autocomplete-group bold blue ui-state-disabled'>" + name + "</li><hr />";
     },
     LocalDevice: function (device) {
-        return "<section draggable='false' data-device-id='" + device.id + "' class='device-container' id='device-" + device.id +"'>" +
+        return "<section draggable='false' data-device-id='" + device.id + "' class='device-container'>" +
         "<div class='overlay hidden'></div>" +
-        "<h4>" + device.name + "</h4>" +
+        "<div class='debug-overlay hidden'></div>" +
+        "<div class='device-top-container'><h4>" + device.name + "</h4>" +
         "<button type='button' class='btn btn-primary remove'>" +
         "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
         "</button>" +
@@ -59,7 +60,7 @@ var HTML = {
         "</button>" +
         "<span class='device-id'><b>Device ID: </b>" + device.id + "</span>" +
         "<span class='device-resolution'><b>Resolution: </b>" + device.width + " x " + device.height + "</span>" +
-        "<hr />" +
+        "<hr /></div>" +
         "<section class='settings-panel'>" +
         "<input type='url' class='form-control url' value='" + device.url + "' />" +
         "<div class='settings-container'>" +
@@ -96,14 +97,14 @@ var HTML = {
         "</div></section>";
     },
     RemoteDevice: function (device) {
-        return "<section draggable='false' data-device-id='" + device.id + "' class='device-container remote' id='device-" + device.id +"'>" +
+        return "<section draggable='false' data-device-id='" + device.id + "' class='device-container remote'>" +
         "<div class='overlay hidden'></div>" +
-        "<h4>Remote device</h4>" +
+        "<div class='device-top-container'><h4>Remote device</h4>" +
         "<button type='button' class='btn btn-primary settings-button' title='Show/hide settings panel'>" +
         "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>" +
         "</button>" +
         "<span class='device-id'><b>Device ID: </b>" + device.id + "</span>" +
-        "<hr />" +
+        "<hr /></div>" +
         "<section class='settings-panel'>" +
         "<input type='url' class='form-control url' value='" + $("#url").val() + "' />" +
         "<button type='button' class='btn btn-primary refresh' title='Refresh device'>" +

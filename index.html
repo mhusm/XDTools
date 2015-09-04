@@ -29,32 +29,32 @@
         <meta name="viewport" content="width=device-width, user-scalable=no">
     </head>
     <body>
-        <header>
+        <header id="page-header">
             <h1>XD Testing Tools</h1>
-            <button type="button" id="add-button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#deviceModal" title="Add new device">
+            <button type="button" id="add-button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#deviceModal" title="Add new device">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             </button>
-            <button class="btn btn-primary btn-lg" id="refresh-button" title="Refresh all pages">
+            <button class="btn btn-success btn-lg" id="qrcode-button"  data-toggle="modal" data-target="#qrCodeModal">
+                <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>
+            </button>
+            <input type="url" class="form-control" id="url" value="" name="url" aria-describedby="basic-addon2">
+            <button class="btn btn-info btn-lg" id="refresh-button" title="Refresh all pages">
                 <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
             </button>
-            <input type="text" class="form-control" id="session-name" name="session-name-save" aria-describedby="basic-addon2">
+            <input type="text" class="form-control" id="session-name" name="session-name-save" aria-describedby="basic-addon2" placeholder="Enter configuration name...">
             <button class="btn btn-primary btn-lg" id="save-button" title="Save configuration">
                 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
             </button>
             <button class="btn btn-primary btn-lg" id="load-button" title="Load configuration">
                 <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
             </button>
-            <button class="btn btn-primary btn-lg" id="clear-button">
-                Clear Configuration
-            </button>
-            <button class="btn btn-primary btn-lg right" id="settings-button"  data-toggle="modal" data-target="#settingsModal">
+            <button class="btn btn-warning btn-lg right" id="settings-button"  data-toggle="modal" data-target="#settingsModal">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
             </button>
-            <button class="btn btn-primary btn-lg right" id="qrcode-button"  data-toggle="modal" data-target="#qrCodeModal">
-                <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>
+            <button class="btn btn-warning btn-lg right" id="clear-button">
+                Clear
             </button>
         </header>
-        <input type="url" class="form-control" id="url" value="" name="url" aria-describedby="basic-addon2">
         <section id="container">
             <section id="devices">
             </section>
@@ -81,6 +81,11 @@
                         <input type="text" name="code-input" id="code-input" placeholder="Enter JavaScript code..." />
                     </section>
                     <section id="debug-list" class="dev-tools-closed">
+                        <div id="function-debugging-overlay" class="hidden">
+                            <span>
+                                Please close the DevTools and open them again. Otherwise function debugging will not work.
+                            </span>
+                        </div>
                         <h4>
                             Function debugging
                         </h4>

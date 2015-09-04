@@ -2,7 +2,7 @@ function getConnectionURL() {
     //TODO: adjust implementation of this function to connect devices to each other:
     //      Adjust IP to the IP where the application is running
     //      Adjust URL if you are running another application (possibly from another framework)
-    return "http://129.132.173.2:8084/index.html?connect=" + XDmvc.deviceId;
+    return "http://129.132.173.2:8083/index.html?connect=" + XDmvc.deviceId;
 }
 
 var XDTest = {
@@ -659,7 +659,7 @@ var XDTest = {
         while (toProcess.length > 0) {
             var cur = toProcess.pop();
             curElement = cur.element;
-            if (curElement.is && curElement.is.toLowerCase() === curElement.nodeName.toLowerCase()) {
+            if (curElement && curElement.is && curElement.is.toLowerCase() === curElement.nodeName.toLowerCase()) {
                 var path = cur.path.slice(0);
                 if (this.isCustomPolymerElement(curElement.localName)) {
                     shadowRoots.push({
@@ -766,7 +766,8 @@ var XDTest = {
             });
         }
         return processedList;
-    }
+    },
+    debuggedFunctions: {}
 };
 
 XDTest.startRecording();
@@ -934,13 +935,23 @@ function initialize() {
                 //TODO: check if command is a function or variable (not if statement etc.) and react
                 var returnVal;
                 if (command.layer !== "document.body") {
-                    var index = command.code.indexOf("("),
-                        functionName = command.code.substring(0, index);
-                    if (eval(command.layer + "." + functionName)) {
-                        returnVal = eval(command.layer + "." + command.code);
+                    var index = command.code.indexOf("(");
+                    if (index !== -1) {
+                        var functionName = command.code.substring(0, index);
+                        if (eval(command.layer + "." + functionName)) {
+                            returnVal = eval(command.layer + "." + command.code);
+                        }
+                        else {
+                            returnVal = eval(command.code);
+                        }
                     }
                     else {
-                        returnVal = eval(command.code);
+                        if (eval(command.layer + "." + command.code)) {
+                            returnVal = eval(command.layer + "." + command.code);
+                        }
+                        else {
+                            returnVal = eval(command.code);
+                        }
                     }
                 }
                 else {
@@ -992,6 +1003,48 @@ function initialize() {
                     index = observedObjects.map(function (e) { return e.name; }).indexOf(command.code);
                 Object.unobserve(object, observedObjects[index].callback);
                 observedObjects.splice(index, 1);
+            }
+            else if (command.name === "debug") {
+                if (!XDTest.debuggedFunctions[command.functionName]) {
+                    var originalFunction = eval(command.functionName);
+                    var newFunction = function () {
+                        var func = function (ev) {
+                            if (isJson(ev.data)) {
+                                var com = JSON.parse(ev.data);
+                                if (com.name === "executeFunction") {
+                                    try {
+                                        originalFunction.apply(this, arguments);
+                                    }
+                                    finally {
+                                        var newCommand = {
+                                            "name": "functionExecuted",
+                                            "functionName": command.functionName
+                                        };
+                                        window.parent.postMessage(JSON.stringify(newCommand), "*");
+                                        window.removeEventListener("message", func, false);
+                                    }
+                                }
+                            }
+                        };
+                        window.addEventListener("message", func, false);
+                        var newCommand = {
+                            "name": "functionBreakpointReached",
+                            "functionName": command.functionName
+                        };
+                        window.parent.postMessage(JSON.stringify(newCommand), "*");
+                        //originalFunction.apply(this, arguments);
+                    };
+                    XDTest.debuggedFunctions[command.functionName] = originalFunction;
+                    eval(command.functionName + " = " + newFunction);
+                }
+                var newCommand = {
+                    "name": "debuggingPrepared",
+                    "functionName": command.functionName
+                };
+                window.parent.postMessage(JSON.stringify(newCommand), "*");
+            }
+            else if (command.name === "undebug") {
+                eval(command.functionName + " = " + XDTest.debuggedFunctions[command.functionName]);
             }
         }
     }, false);

@@ -106,10 +106,10 @@ local.on("connection", function (socket) {
     socket.on("inspect", function (layer, deviceURL) {
         devtools.emit("inspect", deviceURL, layer);
     });
-    socket.on("debug", function (deviceURL, functionName) {
+    socket.on("debug", function (deviceURL, functionName, deviceID) {
         devtools.emit("debug", deviceURL, functionName);
     });
-    socket.on("undebug", function (deviceURL, functionName) {
+    socket.on("undebug", function (deviceURL, functionName, deviceID) {
         devtools.emit("undebug", deviceURL, functionName);
     });
 

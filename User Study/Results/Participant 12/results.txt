@@ -1,0 +1,5 @@
+Task completion times
+xdc-bug: 2581.123, aborted after 16 min
+xdc-impl: 1870.988, aborted after 31 min
+xdyt-bug: 1061.192, 16:30 min
+xdyt-impl: 1962.809, 30 min

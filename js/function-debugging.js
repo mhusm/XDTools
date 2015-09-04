@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     socket.on("devToolsConnected", function () {
+        $("#function-debugging-overlay").addClass("hidden");
         var $debugList = $("#debug-list");
         $debugList.removeClass("dev-tools-closed");
         $debugList.find(".name").each(function () {
@@ -12,7 +13,7 @@ $(document).ready(function () {
     });
 
     $("#debug-button").click(function () {
-        var selectedLayer = $("#layer").find("option:selected").val(),
+        var selectedLayer = $("#layer").find("option:selected").text(),
             $functionInput = $("#function-input"),
             functionName = $functionInput.val();
         appendDebugFunction(functionName, selectedLayer);
@@ -35,9 +36,6 @@ $(document).ready(function () {
     $(document).on("click", ".inspect-function", function () {
         var selectedLayer = $(this).closest(".function").data("layer"),
             functionName = $(this).closest(".function").find(".name").text();
-        if (selectedLayer !== "document.body") {
-            functionName = selectedLayer + "." + functionName;
-        }
         inspectFunction(functionName);
     });
 
@@ -58,60 +56,93 @@ function appendDebugFunction(functionName, selectedLayer) {
 }
 
 function debugAllDevices(functionName, selectedLayer) {
-    if (selectedLayer !== "document.body") {
-        functionName = selectedLayer + "." + functionName;
-    }
     $(".js-device.active").each(function () {
         var deviceID = $(this).data("device-id"),
-            deviceIndex = getDeviceIndex(deviceID),
-            url = activeDevices[deviceIndex].url;
-        socket.emit("debug", url, functionName);
+            url = activeDevices[deviceID].url,
+            layerIndex = activeDevices[deviceID].hasLayer(selectedLayer),
+            deviceFunctionName = layerIndex ? activeDevices[deviceID].getLayer(selectedLayer) + "." + functionName : functionName;
+        if (selectedLayer !== "document.body") {
+            emitDebugCommand(url, deviceFunctionName, deviceID);
+        }
+        else {
+            emitDebugCommand(url, functionName, deviceID);
+        }
     });
 }
 
 function undebugAllDevices(functionName, selectedLayer) {
-    if (selectedLayer !== "document.body") {
-        functionName = selectedLayer + "." + functionName;
-    }
     $(".js-device.active").each(function () {
         var deviceID = $(this).data("device-id"),
-            deviceIndex = getDeviceIndex(deviceID),
-            url = activeDevices[deviceIndex].url;
-        socket.emit("undebug", url, functionName);
+            url = activeDevices[deviceID].url,
+            layerIndex = activeDevices[deviceID].hasLayer(selectedLayer),
+            deviceFunctionName = layerIndex ? activeDevices[deviceID].getLayer(selectedLayer) + "." + functionName : functionName;
+        if (selectedLayer !== "document.body") {
+            emitUndebugCommand(url, deviceFunctionName, deviceID);
+        }
+        else {
+            emitUndebugCommand(url, functionName, deviceID);
+        }
     });
 }
 
 function debugDevice(deviceID) {
-    var deviceIndex = getDeviceIndex(deviceID),
-        url = activeDevices[deviceIndex].url;
+    var url = activeDevices[deviceID].url;
     $("#debugged-functions").find(".function").each(function () {
         var functionName = $(this).find(".name").text(),
-            layer = $(this).data("layer");
+            layer = $(this).data("layer"),
+            hasLayer = activeDevices[deviceID].hasLayer(layer),
+            debugFunctionName = hasLayer ? activeDevices[deviceID].getLayer(layer) + "." + functionName : functionName;
         if (layer !== "document.body") {
-            functionName = layer + "." + functionName;
+            emitDebugCommand(url, debugFunctionName, deviceID);
         }
-        socket.emit("debug", url, functionName);
+        else {
+            emitDebugCommand(url, functionName, deviceID);
+        }
     });
 }
 
 function undebugDevice(deviceID) {
-    var deviceIndex = getDeviceIndex(deviceID),
-        url = activeDevices[deviceIndex].url;
+    var url = activeDevices[deviceID].url;
     $("#debugged-functions").find(".function").each(function () {
         var functionName = $(this).find(".name").text(),
-            layer = $(this).data("layer");
+            layer = $(this).data("layer"),
+            hasLayer = activeDevices[deviceID].hasLayer(layer),
+            debugFunctionName = hasLayer ? activeDevices[deviceID].getLayer(layer) + "." + functionName : functionName;
         if (layer !== "document.body") {
-            functionName = layer + "." + functionName;
+            emitUndebugCommand(url, debugFunctionName, deviceID);
         }
-        socket.emit("undebug", url, functionName);
+        else {
+            emitUndebugCommand(url, functionName, deviceID);
+        }
     });
 }
 
+function emitDebugCommand(url, functionName, deviceID) {
+    //socket.emit("debug", url, functionName, deviceID);
+    activeDevices[deviceID].sendCommand(new DebugCommand("debug", deviceID, functionName));
+}
+
+function emitUndebugCommand(url, functionName, deviceID) {
+    socket.emit("undebug", url, "XDTest.debuggedFunctions['" + functionName + "']", deviceID);
+    //activeDevices[deviceID].sendCommand(new DebugCommand("undebug", deviceID, functionName));
+}
+
 function inspectFunction(functionName) {
-    var deviceID = $(".js-device.active").data("device-id"),
-        deviceIndex = getDeviceIndex(deviceID),
-        url = activeDevices[deviceIndex].url;
-    socket.emit("inspectFunction", url, functionName);
+    var found = false;
+    $.each(activeDevices, function (key, device) {
+        if (!device.isRemote && !found) {
+            found = true;
+            var url = device.url,
+                hasLayer = device.hasLayer(layer),
+                debugFunctionName = hasLayer ? device.getLayer(layer) + "." + functionName : functionName;
+            if (layer !== "document.body") {
+                socket.emit("inspectFunction", url, "XDTest.debuggedFunctions['" + debugFunctionName + "']");
+            }
+            else {
+                socket.emit("inspectFunction", url, "XDTest.debuggedFunctions['" + functionName + "']");
+            }
+        }
+    });
 }
 
 function debugJSError(total) {

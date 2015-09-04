@@ -34,9 +34,8 @@ function processCommand(command, deviceID) {
     }
     else if (command.name === "loaded") {
         addCSSProperties(deviceID);
-        $("#device-" + deviceID + " .url").val(command.url);
-        var index = getDeviceIndex(deviceID);
-        activeDevices[index].setUrl(command.url);
+        $(".device-container[data-device-id='" + deviceID + "'] .url").val(command.url);
+        activeDevices[deviceID].setUrl(command.url);
     }
     else if (command.name === "sendEventSequence") {
         if (!events[command.deviceID]) {
@@ -50,16 +49,24 @@ function processCommand(command, deviceID) {
     }
     else if (command.name === "layers") {
         updateLayers(command.layers);
-        var index = getDeviceIndex(deviceID);
-        activeDevices[index].setLayers(command.layers);
+        activeDevices[deviceID].setLayers(command.layers);
     }
     else if (command.name === "receiveConnectionURL") {
-        var deviceIndex = getDeviceIndex(command.deviceID);
-        activeDevices[deviceIndex].connect(command.url);
+        activeDevices[command.deviceID].connect(command.url);
     }
     else if (command.name === "object") {
-        var deviceIndex = getDeviceIndex(command.deviceID);
         //TODO
+    }
+    else if (command.name === "debuggingPrepared") {
+        socket.emit("debug", activeDevices[deviceID].url, "XDTest.debuggedFunctions['" + command.functionName + "']", deviceID);
+    }
+    else if (command.name === "functionBreakpointReached") {
+        activeDevices[deviceID].$device.find(".debug-overlay").removeClass("hidden");
+        var com = new Command("executeFunction", deviceID);
+        activeDevices[deviceID].sendCommand(com);
+    }
+    else if (command.name === "functionExecuted") {
+        activeDevices[deviceID].$device.find(".debug-overlay").addClass("hidden");
     }
     else {
         console.error("Unknown command");
@@ -104,16 +111,23 @@ function CSSCommand(name, deviceID, identifier, property, value, layer) {
 }
 
 function JSCommand(name, deviceID, code) {
-    var selectedLayer = $("#layer").find("option:selected").val(),
-        index = getDeviceIndex(deviceID);
+    var selectedLayer = $("#layer").find("option:selected").val();
     this.layer = "";
-    if (activeDevices[index].hasLayer(selectedLayer)) {
-        this.layer = selectedLayer;
+    if (activeDevices[deviceID].hasLayer(selectedLayer)) {
+        this.layer = activeDevices[deviceID].getLayer(selectedLayer);
     }
     Command.call(this, name, deviceID);
     this.code = code;
     this.toString = function () {
         return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain, "code": this.code, "layer": this.layer});
+    }
+}
+
+function DebugCommand(name, deviceID, functionName) {
+    Command.call(this, name, deviceID);
+    this.functionName = functionName;
+    this.toString = function () {
+        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain, "functionName": functionName});
     }
 }
 

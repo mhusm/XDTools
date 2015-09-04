@@ -43,11 +43,11 @@ $(document).ready(function () {
         var sessionName = $("#session-name").val(),
             elementsToStore = [],
             i, j;
-        for (i = 0, j = activeDevices.length; i < j; ++i) {
-            if (!activeDevices[i].isRemote) {
-                elementsToStore.push(activeDevices[i].getDevice());
+        $.each(activeDevices, function (key, device) {
+            if (!device.isRemote) {
+                elementsToStore.push(device.getDevice());
             }
-        }
+        });
         localStorage.setItem("stored-session-" + sessionName, JSON.stringify(elementsToStore));
         if (savedSessions.indexOf(sessionName) === -1) {
             savedSessions.push(sessionName);
@@ -64,7 +64,7 @@ $(document).ready(function () {
             devices = JSON.parse(localStorage.getItem("stored-session-" + sessionName)),
             i, j;
         $("#devices").empty();
-        activeDevices = [];
+        activeDevices = {};
         loadDevice(devices, 0);
         $("#session-name").val("");
     });
@@ -95,13 +95,15 @@ $(document).ready(function () {
     $("#enable-record-replay").click(function () {
         var $container = $("#container");
         if ($(this).is(":checked")) {
-            $container.css("border-right", "5px solid #337ab7");
+            $container.css("border-right", "1px solid #337ab7");
             $container.css("width", oldWidth);
             $("#timeline").css("display", "block");
+            $("#play-button").removeClass("hidden");
             options.recordReplay = true;
         }
         else {
             $("#timeline").css("display", "none");
+            $("#play-button").addClass("hidden");
             oldWidth = $container.css("width");
             $container.css("width", "100%");
             $container.css("border-right", "none");
@@ -197,7 +199,7 @@ function loadDevice(devices, i) {
         var $url = $("#url"),
             url = new URL($url.val()),
             device = new LocalDevice(devices[index].name, id, devices[index].width, devices[index].height, devices[index].devicePixelRatio, $url.val(), url.hostname, devices[index].scaling, devices[index].scaling, devices[index].top, devices[index].left);
-        activeDevices.push(device);
+        activeDevices[device.id] = device;
         device.create();
         if (index + 1 < devices.length) {
             loadDevice(devices, index + 1);

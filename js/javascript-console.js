@@ -101,9 +101,8 @@ function JavaScriptConsole() {
         }
         else {
             $(".js-device.active").each(function () {
-                var index = getDeviceIndex(this.dataset.deviceId),
-                    command2 = new JSCommand("executeJS", activeDevices[index].id, command);
-                activeDevices[index].sendCommand(command2);
+                var command2 = new JSCommand("executeJS", activeDevices[this.dataset.deviceId].id, command);
+                activeDevices[this.dataset.deviceId].sendCommand(command2);
             });
         }
     };

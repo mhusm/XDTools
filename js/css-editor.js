@@ -45,7 +45,7 @@ $(document).ready(function () {
         if ($(this).hasClass("empty")) {
             //If an empty selector is set, add a new empty rule for the next selector to be added and add empty property and value for this rule
             if ($(this).text()) {
-                var selectedLayer = $("#layer").find("option:selected").val(),
+                var selectedLayer = $("#layer").find("option:selected").text(),
                     layerIndex = layers.map(function (e) { return e.path.join("."); }).indexOf(selectedLayer),
                     name = layers[layerIndex].id ? layers[layerIndex].name + "#" + layers[layerIndex].id : layers[layerIndex].name,
                     $cssProperty = $(this).closest(".css-property");
@@ -96,7 +96,10 @@ $(document).ready(function () {
     $(document).on("blur", ".property", function () {
         var $lineWrapper = $($(this).closest(".line-wrapper")[0]),
             $value = $lineWrapper.find(".value"),
-            cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($($(this).closest(".css-property")[0]).data("index"));
+            cssIndex = cssRules.map(function (e) { return e.index; }).indexOf($($(this).closest(".css-property")[0]).data("index")),
+            remainder = $lineWrapper.find(".remainder").text();
+        $lineWrapper.find(".remainder").text("");
+        $(this).text($(this).text() + remainder);
         if ($(this).hasClass("empty")) {
             //If an empty property is set, focus the value field corresponding to the property
             if ($(this).text()) {
@@ -106,10 +109,8 @@ $(document).ready(function () {
         }
         else {
             //If a property field is modified, add the new CSS rule
-            var property = $lineWrapper.find(".property").text() + $lineWrapper.find(".suggestion").text();
-            $lineWrapper.find(".suggestion").text("");
-            $(this).text(property);
-            var value = $value.text();
+            var property = $(this).text(),
+                value = $value.text();
             cssRules[cssIndex].addAttribute(property, value);
         }
     });
@@ -179,16 +180,14 @@ function addCSSProperties(deviceID) {
 
 //Removes all CSS properties from a device if it is deactivated
 function removeCSSProperties(deviceID) {
-    var index = getDeviceIndex(deviceID),
-        command = new CSSCommand("inactive", deviceID, "", "", "", "");
-    activeDevices[index].sendCommand(command);
+    var command = new CSSCommand("inactive", deviceID, "", "", "", "");
+    activeDevices[deviceID].sendCommand(command);
 }
 
 //Reactivates all CSS properties that are in the editor when a device is reactivated
 function reactivateCSSProperties(deviceID) {
-    var command = new CSSCommand("active", deviceID, "", "", "", ""),
-        index = getDeviceIndex(deviceID);
-    activeDevices[index].sendCommand(command);
+    var command = new CSSCommand("active", deviceID, "", "", "", "");
+    activeDevices[deviceID].sendCommand(command);
 }
 
 //Returns all CSS properties that begin with the prefix
@@ -220,30 +219,30 @@ function CSSRule(selector, property, value, layer) {
     this.index = ruleIndex;
     ruleIndex++;
     this.layer = layer;
-    for (var i = 0, j = activeDevices.length; i < j; ++i) {
-        var command = new CSSCommand("updateCSS", activeDevices[i].id, this.selector, property, value, this.layer);
-        activeDevices[i].sendCommand(command);
-    }
-
+    var that = this;
+    $.each(activeDevices, function (key, device) {
+        var command = new CSSCommand("updateCSS", device.id, that.selector, property, value, that.layer);
+        device.sendCommand(command);
+    });
     this.modifyAttribute = function (property, value) {
         var index = this.attributes.map(function (e) { return e.property; }).indexOf(property);
-        for (var i = 0, j = activeDevices.length; i < j; ++i) {
-            var command = new CSSCommand("restore", activeDevices[i].id, this.selector, property, this.attributes[index].value, this.layer);
-            activeDevices[i].sendCommand(command);
-        }
+        $.each(activeDevices, function (key, device) {
+            var command = new CSSCommand("restore", device.id, that.selector, property, that.attributes[index].value, that.layer);
+            device.sendCommand(command);
+        });
         this.attributes[index].value = value;
-        for (var i = 0, j = activeDevices.length; i < j; ++i) {
-            var command = new CSSCommand("updateCSS", activeDevices[i].id, this.selector, property, value, this.layer);
-            activeDevices[i].sendCommand(command);
-        }
+        $.each(activeDevices, function (key, device) {
+            var command = new CSSCommand("updateCSS", device, that.selector, property, value, that.layer);
+            device.sendCommand(command);
+        });
     };
 
     this.addAttribute = function (property, value) {
         this.attributes.push({"property": property, "value": value});
-        for (var i = 0, j = activeDevices.length; i < j; ++i) {
-            var command = new CSSCommand("updateCSS", activeDevices[i].id, this.selector, property, value, this.layer);
-            activeDevices[i].sendCommand(command);
-        }
+        $.each(activeDevices, function (key, device) {
+            var command = new CSSCommand("updateCSS", device.id, that.selector, property, value, that.layer);
+            device.sendCommand(command);
+        });
     };
 
     this.removeAttribute = function (property, value) {
@@ -255,51 +254,49 @@ function CSSRule(selector, property, value, layer) {
         }
         if (index !== -1) {
             this.attributes.splice(index, 1);
-            for (var i = 0, j = activeDevices.length; i < j; ++i) {
-                var command = new CSSCommand("restore", activeDevices[i].id, this.selector, property, value, this.layer);
-                activeDevices[i].sendCommand(command);
-            }
+            $.each(activeDevices, function (key, device) {
+                var command = new CSSCommand("restore", device.id, that.selector, property, value, that.layer);
+                device.sendCommand(command);
+            });
         }
     };
 
     this.modifySelector = function (selector) {
         for (var i = 0; i < this.attributes.length; ++i) {
-            for (var j = 0, k = activeDevices.length; j < k; ++j) {
-                var command = new CSSCommand("restore", activeDevices[j].id, this.selector, this.attributes[i].property, this.attributes[i].value, this.layer);
-                activeDevices[j].sendCommand(command);
-            }
+            $.each(activeDevices, function (key, device) {
+                var command = new CSSCommand("restore", device.id, that.selector, that.attributes[i].property, that.attributes[i].value, that.layer);
+                device.sendCommand(command);
+            });
         }
         this.selector = selector;
         for (var i = 0; i < this.attributes.length; ++i) {
-            for (var j = 0, k = activeDevices.length; j < k; ++j) {
-                var command = new CSSCommand("updateCSS", activeDevices[j].id, this.selector, this.attributes[i].property, this.attributes[i].value, this.layer);
-                activeDevices[j].sendCommand(command);
-            }
+            $.each(activeDevices, function (key, device) {
+                var command = new CSSCommand("updateCSS", device.id, that.selector, that.attributes[i].property, that.attributes[i].value, that.layer);
+                device.sendCommand(command);
+            });
         }
     };
 
     this.destroy = function () {
         for (var i = 0; i < this.attributes.length; ++i) {
-            for (var j = 0, k = activeDevices.length; j < k; ++j) {
-                var command = new CSSCommand("restore", activeDevices[j].id, this.selector, this.attributes[i].property, this.attributes[i].value, this.layer);
-                activeDevices[j].sendCommand(command);
-            }
+            $.each(activeDevices, function (key, device) {
+                var command = new CSSCommand("restore", device.id, that.selector, that.attributes[i].property, that.attributes[i].value, that.layer);
+                device.sendCommand(command);
+            });
         }
     };
 
     this.apply = function (deviceID) {
-        var index = getDeviceIndex(deviceID);
         for (var i = 0, j = this.attributes.length; i < j; ++i) {
-            var command = new CSSCommand("updateCSS", activeDevices[index].id, this.selector, this.attributes[i].property, this.attributes[i].value, this.layer);
-            activeDevices[index].sendCommand(command);
+            var command = new CSSCommand("updateCSS", activeDevices[deviceID].id, this.selector, this.attributes[i].property, this.attributes[i].value, this.layer);
+            activeDevices[deviceID].sendCommand(command);
         }
     };
 
     this.restore = function (deviceID) {
         for (var i = 0, j = this.attributes.length; i < j; ++i) {
-            var index = getDeviceIndex(deviceID),
-                command = new CSSCommand("restore", activeDevices[index].id, this.selector, this.attributes[i].property, this.attributes[i].value, this.layer);
-            activeDevices[index].sendCommand(command);
+            var command = new CSSCommand("restore", activeDevices[deviceID].id, this.selector, this.attributes[i].property, this.attributes[i].value, this.layer);
+            activeDevices[deviceID].sendCommand(command);
         }
     };
 }

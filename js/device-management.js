@@ -141,23 +141,27 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
         }
         var url = new URL($("#url").val()),
             device = new LocalDevice(deviceName, id, width, height, devicePixelRatio, url.href, url.hostname, defaultScaling, 1, 0, 0);
-        activeDevices.push(device);
+        activeDevices[device.id] = device;
         device.create();
+        var foundAutoConnect = false;
         $("#sessions").find(".auto-connect input").each(function () {
             if ($(this).is(":checked")) {
-                var $device = $("#device-" + id);
-                $device.find(".main input").click();
-                $device.find("select").val(id);
+                foundAutoConnect = true;
+                device.$device.find(".main input").click();
+                device.$device.find("select").val(id);
                 connectDevice(id, this.dataset.deviceId);
             }
         });
+        if (!foundAutoConnect) {
+            $(".session input[data-device-id='" + device.id + "']").click();
+        }
     });
 }
 
 //Add the HTML for displaying the emulated device
 function appendDevice(device) {
     $("#devices").append(HTML.LocalDevice(device));
-    var $device = $("#device-" + device.id),
+    var $device = $(".device-container[data-device-id='" + device.id + "']"),
         $deviceSelect = $device.find(".main-devices");
     for (var i = 0, j = mainDevices.length; i < j; ++i) {
         if (mainDevices[i] !== device.id) {
@@ -176,13 +180,12 @@ function appendDevice(device) {
         "height": device.height
     });
     $device.find("h4").css("max-width", "calc(" + (device.width * device.scaling) + "px - 100px)");
-    debugDevice(device.id);
 }
 
 //Add the HTML for the displaying of the remote device
 function appendRemoteDevice(device) {
     $("#devices").append(HTML.RemoteDevice(device));
-    var $deviceSelect = $("#device-" + device.id).find(".main-devices");
+    var $deviceSelect = device.$device.find(".main-devices");
     for (var i = 0, j = mainDevices.length; i < j; ++i) {
         if (mainDevices[i] !== device.id) {
             $deviceSelect.append(HTML.SelectOptionDevice(mainDevices[i]));
@@ -194,16 +197,19 @@ function appendRemoteDevice(device) {
 function addDeviceTimeline(id, name) {
     $("#timeline").find(".timeline-content").append(HTML.Timeline(id, name, sequenceNames));
     var color = getNextColor(id),
-        $device = $("#device-" + id),
+        $device = $(".device-container[data-device-id='" + id + "']"),
         $timeline = $("#timeline-" + id);
     $("<span class='js-device active' data-device-id='" + id + "'>" + name + "</span>").appendTo($("#device-overview"))
-        .css("background-color", "hsla(" + color + ", 60%, 50%, 1)");
+        .css("background-color", "hsla(" + color + ", 60%, 50%, 0.7)");
     $device.css("border-color", "hsla(" + color + ", 60%, 50%, 1)");
     $device.css("color", "hsla(" + color + ", 30%, 30%, 1)");
+    $device.find("hr").css("border-color", "hsla(" + color + ", 60%, 50%, 1)");
+    $device.find("input").css("border-color", "hsla(" + color + ", 60%, 50%, 1)");
+    $device.find("select").css("border-color", "hsla(" + color + ", 60%, 50%, 1)");
     $device.find("button").css("border-color", "hsla(" + color + ", 60%, 40%, 1)");
     $device.find("button").css("background-color", "hsla(" + color + ", 60%, 40%, 1)");
     $device.find("button").css("background-image", "linear-gradient(to bottom, hsla(" + color + ", 60%, 50%, 1) 0, hsla(" + color + ", 60%, 40%, 1) 100%)");
-    $timeline.css("color", "hsla(" + color + ", 60%, 50%, 1)");
+    $timeline.css("color", "hsla(" + color + ", 30%, 30%, 1)");
     $timeline.find("button").css({
         "border-color": "hsla(" + color + ", 60%, 40%, 1)",
         "background-color": "hsla(" + color + ", 60%, 40%, 1)",
@@ -211,14 +217,9 @@ function addDeviceTimeline(id, name) {
     });
 }
 
-function getDeviceIndex(deviceID) {
-    return activeDevices.map(function(e) { return e.id; }).indexOf(deviceID);
-}
-
 function deleteDevice(deviceID) {
-    var index = getDeviceIndex(deviceID);
-    activeDevices[index].destroy();
-    activeDevices.splice(index, 1);
+    activeDevices[deviceID].destroy();
+    delete activeDevices[deviceID];
 }
 
 //Returns a list of predefined devices

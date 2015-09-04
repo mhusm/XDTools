@@ -29,9 +29,8 @@ function observeObject(objectName, layer) {
     }
     $(".js-device.active").each(function () {
         var deviceId = $(this).data("device-id"),
-            deviceIndex = getDeviceIndex(deviceId),
             command = new ObserveCommand("observeObject", deviceId, objectName);
-        activeDevices[deviceIndex].sendCommand(command);
+        activeDevices[deviceId].sendCommand(command);
     });
 }
 
@@ -41,14 +40,12 @@ function unobserveObject(objectName, layer) {
     }
     $(".js-device.active").each(function () {
         var deviceId = $(this).data("device-id"),
-            deviceIndex = getDeviceIndex(deviceId),
             command = new ObserveCommand("unobserveObject", deviceId, objectName);
-        activeDevices[deviceIndex].sendCommand(command);
+        activeDevices[deviceId].sendCommand(command);
     });
 }
 
 function observeDevice(deviceId) {
-    var index = getDeviceIndex(deviceId);
     $("#inspected-objects").find(".object").each(function () {
         var objectName = $(this).find(".name").text(),
             layer = $(this).data("layer");
@@ -56,12 +53,11 @@ function observeDevice(deviceId) {
             objectName = layer + "." + objectName;
         }
         var command = new ObserveCommand("observeObject", deviceId, objectName);
-        activeDevices[index].sendCommand(command);
+        activeDevices[deviceId].sendCommand(command);
     });
 }
 
 function unobserveDevice(deviceId) {
-    var index = getDeviceIndex(deviceId);
     $("#inspected-objects").find(".object").each(function () {
         var objectName = $(this).find(".name").text(),
             layer = $(this).data("layer");
@@ -69,6 +65,6 @@ function unobserveDevice(deviceId) {
             objectName = layer + "." + objectName;
         }
         var command = new ObserveCommand("unobserveObject", deviceId, objectName);
-        activeDevices[index].sendCommand(command);
+        activeDevices[deviceId].sendCommand(command);
     });
 }
