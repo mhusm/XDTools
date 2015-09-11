@@ -1,0 +1,11 @@
+Participant 13
+xdyt-bug: 1261.018, 21.02 min
+xdyt-impl: 2205.291, 36.75 min
+xdc-bug: 757.047, 12.62 min
+xdc-impl: 1625.592, 27.05 min
+
+- xdyt-impl was completed without CSS because of time constraints
+- used console.log for debugging updateCinema and getCinemaLocation
+- hint: bug in getCinemaLocation
+- used both real devices in xdc-impl
+- XDYT is a more difficult task according to the participant

@@ -3,3 +3,12 @@ xdyt-bug: 887.142, about 14.79 min
 xdyt-impl: 1546.201, about 25.77 min
 xdc-bug: 141.961, about 2.37 min
 xdc-impl: 1441.955, about 24.03 min
+
+- xdyt-bug: started by looking at code
+- hint: realize state of variable, do not change it
+- xdc-bug: started by looking at code
+- completex xdc-bug by only looking at code, but tried the solution using the tools, also tried function debugging to see how it works
+
+
+Feature idea (by me, not participant):
+- copy content of css rule to clipboard

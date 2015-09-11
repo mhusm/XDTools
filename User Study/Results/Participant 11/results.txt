@@ -3,3 +3,10 @@ xdc-bug: 467.119, about 7.79 min
 xdc-impl: 1159.182, about 19.32 min
 xdyt-bug: 652.277, 10.87 min
 xdyt-impl: 1828.603, 30.48 min
+
+- did not know when to re-open devtools
+- CSS value suggestions would be useful, e.g. for border
+- wouldn't use real device for implementing
+- record/replay immensely useful, powerful feature
+- replicating bug with record/replay would be very useful
+- record/replay for regression testing

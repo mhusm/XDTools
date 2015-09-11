@@ -12,7 +12,6 @@ Notes:
 - Function debugging did not work (in the study, it worked during the tutorial)
 - XDYT roles caused problems (always video on all devices)
 - XDYT-bug: if (next) instead of length, otherwise completed
-- I forgot to add an error message to the shift function
 - XDYT-impl: completed
 - XDC-bug: completed
 - XDC-impl: completed

@@ -1,0 +1,137 @@
+\section{Web Application Testing}
+
+\subsection{Chrome DevTools}
+
+Google Chrome already provides a wide range of features for testing and debugging web applications. First of all, it lets the developer inspect the DOM tree  and allows inspection and on-the-fly editing of DOM elements. Furthermore, new CSS rules or properties can be added or existing ones can be modified. Another useful feature is the JavaScript Console. It has two main purposes: First, it can be used to log diagnostic information in the development process. Second, it is a shell prompt which can be used to interact with the document and DevTools. Chrome DevTools can also be used to debug JavaScript. In the DevTools, you can see all the scripts that are part of the inspected page. Breakpoints can be set in the scripts and standard controls to pause, resume and step through code are provided. All features mentioned before are also available for debugging remote devices. Remote debugging can be used by connecting a device to the desktop PC with a cable.
+
+Another feature is Device Mode which is especially useful for testing responsive web applications. In Chrome Device Mode, the user can select an arbitrary device from a large list of predefined devices or create a custom device. They can also enable network throttling, touch emulation and location emulation. 
+
+Chrome DevTools provides many more features useful for debugging, but explaining them all would exceed the scope of this document. While all those features are very useful for testing and debugging web applications, the main disadvantage is that they can only be used to debug one device and one website at a time. For cross-device applications, it would be desirable to debug multiple devices at a time without having to navigate between windows all the time.
+
+\subsection{Fire Crystal - Understanding Interactive Behaviors in Dynamic Web Pages}
+
+\subsection{Invariant-Based Automatic Testing of Ajax User Interfaces}
+
+\subsection{State-Based Testing of Ajax Web Applications}
+
+\subsection{Testing Web-Based Applications - The State of the Art and Future Trends}
+
+\subsection{Visual and Textual Consistency Checking Tools for Graphical User Interfaces}
+
+\subsection{Summary}
+
+\section{Responsive Web Application Testing}
+
+There are a number of tools for testing responsive websites. In the following subsections we will describe some of them.
+
+\subsection{BrowserStack}
+
+BrowserStack\footnote{\url{https://www.browserstack.com/}} allows developers to select browsers and devices and then generate screenshots. It is also possible to live test one device at a time. Furthermore, there are developer tools for remote devices and Selenium cloud testing is possible. Advantages of BrowserStack are that real iOS devices are used for screenshots and interactions can be tested automatically using Selenium. A major disadvantage is that only emulated Android devices are available, which limits the usefulness of the tool. Furthermore, only one device can be live tested at a time which is a huge disadvantage for cross-device application testing. 
+
+\subsection{CrossBrowserTesting}
+
+With CrossBrowserTesting\footnote{\url{http://crossbrowsertesting.com/}}, developers can select a number of devices as well as the operating system, browser and resolution and generate screenshots. The layout differences between different devices can then automatically be analyzed. Furthermore, websites can also be live tested and Selenium automated testing is available as well. The main advantage of CrossBrowserTesting is that all screenshots are generated on real devices and a very wide variety of devices is available. Also, interactions can be tested. The usefulness of the tool is again limited by the fact that live testing is only possible on one device at once. Additionally, while detecting layout differences is a useful feature in general, it is not yet very mature and some layout differences that are detected seem rather trivial (the body element of a larger device is larger), while other differences are not noticed at all.
+
+\subsection{Remote Preview}
+
+Remote Preview\footnote{\url{https://github.com/viljamis/Remote-Preview}} allows synchronizing URLs across multiple devices. This allows fast previewing of a website on multiple devices. In cross-device scenarios, it may provide especially useful for quick connecting of devices in applications where devices are connected simply by copying the same URL to all devices. However, the fact that this tool only provides one feature, namely URL synchronizing, limits its usefulness.
+
+\subsection{BrowserSync}
+
+BrowserSync\footnote{\url{http://www.browsersync.io/}} provides a large number of features for testing websites. It allows remote debugging of HTML and CSS, can add CSS outlines or box shadows to all elements and add a CSS grid overlay. It can also load a URL on all devices or refresh all devices as well as automatically refresh devices when files are changed. Furthermore, it allows synchronizing interaction between devices, i.e. clicks, scrolls, form submits, form inputs and form toggles. It also provides network throttling. The advantages of BrowserSync are that it provides a wide range of features, including synchronizing interactions, which is a feature that distinguishes it from other tools. However, for cross-device application testing, synchronizing interactions among all devices is of limited usefulness, as different devices have different roles and thus also different responsibilities.
+
+\subsection{Adobe Edge Inspect CC}
+
+Adobe Edge Inspect CC\footnote{\url{https://www.adobe.com/ch_de/products/edge-inspect.html}} allows developers to take screenshots on all connected devices simultaneously. The screenshots are then automatically transferred to a folder on the desktop PC. It can also refresh all devices simultaneously. Furthermore, the URL that is opened on the desktop PC is loaded on all other connected devices. It also allows remote HTML and CSS debugging using weinre. The main advantage that distinguishes Adobe Edge Inspect CC from other tools is that is simply synchronizes the URL that the developer is currently looking at on the desktop PC, thus it works even if the developer switches tabs or browser windows. However, the fact that the URL cannot be changed from devices other than the desktop PC could be a disadvantage in some scenarios. Also, the installation process is rather extensive: A program needs to be installed on the desktop PC as well as a Chrome extension and an app needs to be installed on all mobile devices that the developer wants to connect. Regarding cross-device applications, again, refreshing all devices at once can be useful as well as synchronizing URLs in some cases, but other than that, it does not provide any features that help with cross-device application testing.
+
+\subsection{Ghostlab}
+
+Ghostlab\footnote{\url{http://www.vanamco.com/ghostlab/}} is one of the more mature tools for website testing and provides features similar to Browser Sync. It can also load a URL on all devices or refresh all devices at once and refresh automatically when files are changed. It provides means for synchronized browsing as well as synchronized HTML and CSS inspection on multiple devices. Furthermore, it can automatically fill out forms and provides remote Javascript debugging. Synchronization can be turned on and off on a per-device basis, which makes the tool more useful than tools that simply synchronize all devices. However, the usefulness is still limited because constantly changing the devices that should be synchronized is time-consuming and error-prone. Also, interactions on cross-device applications typically do not happen in a synchronous fashion.
+
+\subsection{Summary}
+
+While the tools described above already provide a wide variety of features that are immensely useful for responsive web application testing as well as web application testing in general, the distinguishing characteristics of cross-device applications lead to a limited usefulness of those tools. First of all, there are two different approaches to live testing in the tools described above. The first is to test on real devices, but through a web service. In those tools, live testing is possible on one device at a time, but in cross-device scenarios, multiple devices are typically involved. The second approach is to let the developer connect their own devices and synchronize interactions among all or some devices. This is also problematic for testing cross-device applications because not all devices perform the same interactions and those that do, do not necessarily perform them at exactly the same time. Two features that some of the tools mentioned above provide and that would definitely also be useful for cross-device applications are refreshing all devices at once and loading a URL on all devices. Remote HTML, CSS and Javascript debugging are also desirable in a cross-device scenario, but this is already covered by Google Chrome anyways. Something similar to Selenium testing would clearly also be useful in cross-device scenarios. However, depending on the device, different tests would be needed and it should be possible to run those tests in parallel.
+
+\section{Cross-Device Application Development Frameworks}
+
+In the following subsections, we will describe some frameworks that facilitate the development of cross-device applications.
+
+\subsection{XD-MVC}
+
+XD-MVC\footnote{\url{https://github.com/mhusm/XD-MVC}} is a framework that combines cross-device capabilities with MVC frameworks. It can be used as a plain JavaScript library or in combination with Polymer. The framework consists of a server-side and a client-side part. For communicating, either a peer-to-peer or a client-server approach can be used.
+
+\subsection{Connichiwa}
+
+Connichiwa is a framework for developing cross-device web applications developed by Schreiner at al.~\cite{connichiwa2015}. It runs local web applications on one of the devices without requiring an existing network or internet connection. It has four key goals:
+\begin{itemize}
+	\item Integration of existing devices: Devices should be supported without the need to augment them with additional hardware, markers, or tags
+	\item Independence of network infrastructure: No remote server is used, therefore the device neither needs to be in the same network nor have a permanent internet connection
+	\item Usability of its API
+\end{itemize}
+A native helper-application runs a web server on-demand. The native application automatically detects other devices using Bluetooth Low Energy, which are then connected by sending the IP address of the local web server over Bluetooth. Connichiwa's JavaScript API gives easy access to common functions like device detection and connection and it also provides JavaScript events to notify about device detection and connection.
+
+\subsection{DireWolf}
+
+DireWolf is a framework for distributed web applications based on widgets. It was developed by Kovachev et al.~\cite{direwolf2013} Widgets can be shared, reused, mashed up and personalized between applications. Splitting the interface into separate widgets and enabling them to exchange information allows the development of customizable web applications. It makes the following contributions:
+\begin{itemize}
+	\item They provide a framework for easy browser-based distribution of Web widgets between multiple devices.
+	\item They facilitate extended multi-modal real-time interactions on a federation of personal computing devices
+	\item They provide continuous state-preserving widget migration
+\end{itemize}
+DireWolf helps managing a set of devices and handles communication and control of distributed parts of the web application. Local inter-widget communication is used to communicate with widgets running in the same browser context and remote inter-widget communication provides the message-exchange mechanism for widgets located at different devices.
+
+\subsection{XDStudio}
+
+In ~\cite{xdstudio2014}, Nebeling et al. present their web-based GUI builder, XDStudio. XDStudio is designed to support interactive development of cross-device web interfaces. It has two complementary authoring modes: Simulated authoring allows designing for a multi-device environment on a single device by simulating other target devices. On-device authoring allows the design process itself to be distributed over multiple devices. The design process is still coordinated by a main device, but directly involves target devices. The user can switch between two different modes:
+\begin{itemize}
+	\item Use mode: The user can interact normally with the interface loaded into the editor
+	\item Design mode: The user can manipulate the interface directly
+\end{itemize}
+XDStudio makes the following contributions:
+\begin{itemize}
+	\item It explores two scenarios thatt were developed as interesting use cases of multi-device, distributed user interfaces and used to drive the design and evaluation of XDStudio
+	\item The notion of distribution profiles at the core of XDStudio extends existing context models to multiple devices and users
+	\item It provides cross-device authoring concepts and tools that cater for cases where not all devices and users are available, or where they are even different, at deisgn and run-time
+	\item User study to evaluate XDStudio
+\end{itemize}
+Distribution profiles can be specified in terms of involved devices, users and target user interfaces. The user can either select which user interface widgets and other elements of the source to include in the distribution by dragging and dropping them from the source interface to the corresponding target interface or click a button available for each target interface to insert the full version of the source interface as a starting point, and then include/exclude interface elements from the distribution.
+
+\subsection{Panelrama}
+
+Panelrama, developed by Yang et al.~\cite{panelrama2014}, is a web-based framework for the construction of applications using distributed user interfaces. It introduces a new XML element, "panel", which may be placed around groupings of control and it facilitates the distribution and synchronization of panels among the connected devices. The developer can specify the state information that should be synchronized across devices as well as the suitability of panels to different types of devices. An optimization algorithm distributes panels to devices that maximize their match for the developer's intent. An existing application can be converted to Panelrama using the following steps:
+\begin{enumerate}
+	\item Wrap grouping of HTML UI elements within a "panel" tag
+	\item Complete a Panelrama definition including by selecting the state information for synchronization and rating each panel for its needs with respect to various device characteristics
+	\item Modify the business logic such that it accesses the new synchronized state information
+\end{enumerate}
+
+\subsection{Polychrome}
+
+Polychrome is a web application framework for creating web-based collaborative visualizations that can span multiple devices. It was developed by Badam et al.~\cite{polychrome2014}. It supports:
+\begin{itemize}
+	\item Co-browsing new web applications as well as legacy websites with no migration costs
+	\item An API to develop new web applications that can synchronize the UI state on multiple devices to support synchronous and asynchronous collaboration
+	\item Maintenance of state and input events on a server to handle common issues with distributed applications such as consistency management, conflict resolution, and undo operations
+\end{itemize}
+Polychrome provides the interaction and display space distribution mechanisms to create new collaborative web visualizations that utilize multiple devices and it provides framework modules to store the user interaction. Combined with the initial state of the website, the interaction logs are useful for synchronizing devices within the collaborative environment, consistency management and interaction replay. There are three different modes for sharing:
+\begin{itemize}
+	\item Explicit sharing: The user decides when the operations should be shared, which operations to share, and whom to share them with
+	\item Implicit sharing: Operations are automatically shared with all connected devices
+	\item Unilateral sharing: One device (the leader) always shares its operations automatically, while the other devices only listen to the operations shared by the leader
+\end{itemize}
+
+\subsection{XDSession}
+
+XDSession, developed by Nebeling et al.~\cite{xdsession2015}, is a framework for cross-device application development based on a concept of cross-device sessions which is also useful for logging and debugging. The session controller supports management and testing of cross-device sessions with connected or simulated devices at run time. The session inspector enables inspection and analysis of multi-device/multi-user sessions with support for deterministic record/replay of cross-device sessions. A session consists of users, devices, and information. When a device joins a session, it receives the whole or missing part of the data belonging to the selected session. When a device leaves a session, all data of that session that is not shared with any other session is removed from the device.
+
+\subsection{WatchConnect}
+
+In ~\cite{watchconnect2015}, Houben et al. present WatchConnect. WatchConnect is a toolkit for rapidly prototyping cross-device applications and interaction techniques with smartwatches. It provides an extendable hardware platform that emulates a smartwatch, a UI framework that integrates with an existing UI builder and a rich set of input and output events using a range of built-in sensor mappings.
+
+\subsection{Weave}
+
+Weave is a web-based framework for creating cross-device wearable interaction by scripting, developed by Chi et al.~\cite{weave2015}. It provides a set of high-level APIs for developers to easily distribute UI output and combine sensing events and user input across mobile and wearable devices. Devices can be manipulated regarding their capabilities and affordances, rather than low-level specifications. Weave also has an integrated authoring environment for developers to program and test cross-device behaviors. Developers can test their scripts based on a set of simulated or real wearable devices. Weave's APIs capture affordances of wearable devices and provide mechanisms for distributing output and combining sensing events and user input across multiple devices.
+
+\subsection{Summary}
+
+In the sections above, we have described several different frameworks for developing cross-device applications. Some of them are only useful for specific types of applications, while others are suited for cross-device applications of all types. Despite this abundance of frameworks available, most of the papers describing the frameworks do not mention anything about testing and debugging cross-device applications. XDSession is the only framework that has some features related to testing, but those features are mainly limited to testing and replaying sessions. Thus, a proper tool for testing and debugging cross-device applications is clearly still missing.

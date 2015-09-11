@@ -264,15 +264,16 @@ function dropDevice(ev) {
     ev.preventDefault();
     //update position of the element
     var id = ev.originalEvent.dataTransfer.getData("id");
-    if (id) {
-        activeDevices[id].move(ev.originalEvent.clientX + parseInt(ev.originalEvent.dataTransfer.getData("xOffset")), ev.originalEvent.clientY + parseInt(ev.originalEvent.dataTransfer.getData("yOffset")));
-        $(".device-container[data-device-id='" + id + "']").css({
-            "left": ev.originalEvent.clientX + parseInt(ev.originalEvent.dataTransfer.getData("xOffset")) + "px",
-            "top": ev.originalEvent.clientY + parseInt(ev.originalEvent.dataTransfer.getData("yOffset")) + "px"
-        });
-        activeDevices[id].left = ev.originalEvent.clientX + parseInt(ev.originalEvent.dataTransfer.getData("xOffset"));
-        activeDevices[id].top = ev.originalEvent.clientY + parseInt(ev.originalEvent.dataTransfer.getData("yOffset"));
+    if (!id) {
+        return;
     }
+    activeDevices[id].move(ev.originalEvent.clientX + parseInt(ev.originalEvent.dataTransfer.getData("xOffset")), ev.originalEvent.clientY + parseInt(ev.originalEvent.dataTransfer.getData("yOffset")));
+    $(".device-container[data-device-id='" + id + "']").css({
+        "left": ev.originalEvent.clientX + parseInt(ev.originalEvent.dataTransfer.getData("xOffset")) + "px",
+        "top": ev.originalEvent.clientY + parseInt(ev.originalEvent.dataTransfer.getData("yOffset")) + "px"
+    });
+    activeDevices[id].left = ev.originalEvent.clientX + parseInt(ev.originalEvent.dataTransfer.getData("xOffset"));
+    activeDevices[id].top = ev.originalEvent.clientY + parseInt(ev.originalEvent.dataTransfer.getData("yOffset"));
 }
 
 function dragDevice(ev) {

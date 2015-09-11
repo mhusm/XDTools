@@ -1,0 +1,33 @@
+\section{Problem Statement}
+
+The abundance of devices nowadays have made it desirable to have cross-device applications where the interface and content is distributed among multiple devices. The emergence of new web technologies such as Devices API and WebRTC have made it possible to to create a new generation of web-based frameworks that facilitate the development of cross-device applications. Such applications typically run on any device that has access to a modern web browser. Despite the large number of frameworks for developing cross-device applications, none of them have focused on testing and debugging cross-device applications.
+
+However, there are already plenty of practical tools for testing and debugging web applications in general and many of them can be accessed directly from modern browsers. Today's devices have many different characteristics, mainly in terms of screen size, but also concerning their input capabilities and connectivity. This diversity of devices has made it a requirement to develop websites that are functional and appealing on all devices. This goal can be achieved by following the principles of responsive design. Many tools have emerged that support testing of such websites; some are already built into modern web browsers while others can be accessed through a website or by installing a program on a desktop PC. In summary, those tools use two different approaches for testing responsive websites: First, different devices can be emulated on a desktop computer. Second, a varied set of actual devices can be used. Google Chrome provides extensive support for emulating devices; apart from simply emulating the screen size, it can also emulate touch, varying network conditions, location, and more. Other browsers also provide basic facilities for device emulation. When using multiple devices, the developer has to refresh all devices individually when changing the web application. However, there exist a number of tools to facilitate this. Some allow the developer to reload all devices at once, while others automatically reload devices when files change. Some of those tools even allow developers to simultaneously browse the web application on multiple devices. Apart from those tools, there are also web services for testing websites across a number of devices and platforms. Such web services typically include a screenshot generation service that renders a given website on a large number of devices.
+
+Those tools are already a good starting point for testing and debugging cross-device applications. However, cross-device applications and web applications also have some fundamental differences that are not accounted for by those tools. In cross-device applications, multiple devices are typically used simultaneously and in a coordinated manner. Also, different devices do not necessarily show the same thing in cross-device applications, which limits the use of mirroring interactions from one device to all other devices. Furthermore, most of the tools for emulating devices focus on emulating one device at a time, which requires the developer to open multiple browser windows, possibly with different user profiles or in incognito mode, at a time, as cross-device applications only become useful when multiple devices are involved at once. Finally, all those tools focus either on emulating devices or on using real devices, but with cross-device applications, it might be desirable to combine those two approaches.
+
+\section{Goal Statement}
+
+Our project aims to make it easier to test and debug cross-device applications. Our first goal is to analyze what features might be useful for achieving this. This analysis is based on the current work in cross-device application development and web application testing. We will analyze existing tools for testing responsive web applications and try to find their limitations regarding cross-device application testing. From this, we will gather requirements for improvements or more suitable tools.
+
+After analyzing existing tools, we will design and implement a new set of tools for testing and debugging cross-device applications following the requirements gathered before. Both emulating devices and connecting actual devices should be supported.
+
+Finally, we will conduct a user study to evaluate the usefulness and suitability of the tool, especially comparing to traditional methods of testing web applications. 
+
+Furthermore, we will also develop two sample applications. This will allow us to further test our set of tools and gain helpful insights on further improvements for the tools. 
+
+\section{Structure of this Document}
+
+We conclude this chapter by giving an overview of the structure of this document:
+
+In Chapter 2, we present the background  and related work of our project. In particular, we will describe existing tools for testing web applications as well as cross-device application development frameworks.
+
+In Chapter 3, we describe our approach at achieving our goals and the requirements gathered during the analysis of related work.
+
+In Chapter 4, we will describe the implementation of our set of tools in detail.
+
+In Chapter 5, we will describe the sample applications that we developed and the insights we gained from them.
+
+In Chapter 6, we will describe the user study and explain the results of it.
+
+In Chapter 7, we conclude the work by showing what was achieved and what problems remain, and address possible future work that might be based on our existing set of tools.

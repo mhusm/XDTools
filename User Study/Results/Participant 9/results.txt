@@ -8,7 +8,7 @@ XDYT with tools
 XDC without tools
 
 Comments:
-- the only participant that found the error in xdyt-bug without help
+- the first participant that found the error in xdyt-bug without help
 - debugging strategy: (xdyt-bug): reproduced bug, fixed bug
 - started by implementing everything, then testing and debugging (xdyt-impl)
 - experience with FF devtools, but not with Chrome devtools
