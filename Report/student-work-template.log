@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.9.8)  16 SEP 2015 15:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.9.8)  17 SEP 2015 15:33
 entering extended mode
 **student-work-template.tex
 (student-work-template.tex
@@ -491,12 +491,12 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 76.
 
-<eth.pdf, id=299, 179.67125pt x 45.16875pt>
+<eth.pdf, id=295, 179.67125pt x 45.16875pt>
 File: eth.pdf Graphic file (type pdf)
  <use eth.pdf>
 Package pdftex.def Info: eth.pdf used on input line 76.
 (pdftex.def)             Requested size: 113.17976pt x 28.45274pt.
- <globis.pdf, id=300, 525.965pt x 198.7425pt>
+ <globis.pdf, id=296, 525.965pt x 198.7425pt>
 File: globis.pdf Graphic file (type pdf)
  <use globis.pdf>
 Package pdftex.def Info: globis.pdf used on input line 76.
@@ -569,59 +569,59 @@ Chapter 3.
 [13
 
 
-] (approach.tex) [14
+] (approach.tex [14
+
+] [15]) [16] [17] [18
+
 
 ]
 Chapter 4.
-[15
-
-
-] (implementation.tex <images/architecture.pdf, id=538, 716.06119pt x 402.60643pt>
+[19] (implementation.tex <images/architecture.pdf, id=550, 716.06119pt x 402.60643pt>
 File: images/architecture.pdf Graphic file (type pdf)
  <use images/architecture.pdf>
 Package pdftex.def Info: images/architecture.pdf used on input line 5.
 (pdftex.def)             Requested size: 405.45178pt x 227.97066pt.
 )
-[16
+[20
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.100 \include{implementation}
-                               <./images/architecture.pdf>] [17] [18
+                               <./images/architecture.pdf>] [21] [22
 
 
 ]
 Chapter 5.
-[19] (sample_apps.tex) [20
+[23] (sample_apps.tex) [24
 
 ]
 Chapter 6.
-[21
+[25
 
 
-] (evaluation.tex [22
+] (evaluation.tex [26
 
 ]
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/xp.pdf): PDF inclusion: found PDF version <1.6>, but at most version 
 <1.5> allowed
-<images/charts/xp.pdf, id=606, 492.40744pt x 259.02873pt>
+<images/charts/xp.pdf, id=618, 492.40744pt x 259.02873pt>
 File: images/charts/xp.pdf Graphic file (type pdf)
  <use images/charts/xp.pdf>
 Package pdftex.def Info: images/charts/xp.pdf used on input line 40.
 (pdftex.def)             Requested size: 324.36266pt x 170.63933pt.
- [23]
+ [27]
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/years_of_xp.pdf): PDF inclusion: found PDF version <1.6>, but at most
  version <1.5> allowed
-<images/charts/years_of_xp.pdf, id=615, 492.40471pt x 256.2373pt>
+<images/charts/years_of_xp.pdf, id=626, 492.40471pt x 256.2373pt>
 File: images/charts/years_of_xp.pdf Graphic file (type pdf)
  <use images/charts/years_of_xp.pdf>
 Package pdftex.def Info: images/charts/years_of_xp.pdf used on input line 47.
 (pdftex.def)             Requested size: 324.36266pt x 168.80043pt.
- [24pdfTeX warning (ext4): destination with the same identifier (name{figure.6.1}) has been already used, duplicate igno
+ [28pdfTeX warning (ext4): destination with the same identifier (name{figure.6.1}) has been already used, duplicate igno
 red
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -641,38 +641,38 @@ ed in a single page
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/devtools_xp.pdf): PDF inclusion: found PDF version <1.6>, but at most
  version <1.5> allowed
-<images/charts/devtools_xp.pdf, id=790, 490.52309pt x 257.07744pt>
+<images/charts/devtools_xp.pdf, id=801, 490.52309pt x 257.07744pt>
 File: images/charts/devtools_xp.pdf Graphic file (type pdf)
  <use images/charts/devtools_xp.pdf>
 Package pdftex.def Info: images/charts/devtools_xp.pdf used on input line 60.
 (pdftex.def)             Requested size: 324.36266pt x 170.00113pt.
- [25pdfTeX warning (ext4): destination with the same identifier (name{figure.6.3}) has been already used, duplicate igno
+ [29pdfTeX warning (ext4): destination with the same identifier (name{figure.6.3}) has been already used, duplicate igno
 red
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.73 
-      <./images/charts/devtools_xp.pdf>] [26] [27] [28]
+      <./images/charts/devtools_xp.pdf>] [30] [31] [32]
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/xdc_bug_comparison.pdf): PDF inclusion: found PDF version <1.6>, but 
 at most version <1.5> allowed
-<images/charts/xdc_bug_comparison.pdf, id=920, 490.56314pt x 257.22298pt>
+<images/charts/xdc_bug_comparison.pdf, id=932, 490.56314pt x 257.22298pt>
 File: images/charts/xdc_bug_comparison.pdf Graphic file (type pdf)
  <use images/charts/xdc_bug_comparison.pdf>
 Package pdftex.def Info: images/charts/xdc_bug_comparison.pdf used on input line 154.
 (pdftex.def)             Requested size: 324.36266pt x 170.08559pt.
 
-[29]
+[33]
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/xdc_bug_features_used.pdf): PDF inclusion: found PDF version <1.6>, b
 ut at most version <1.5> allowed
-<images/charts/xdc_bug_features_used.pdf, id=929, 492.40471pt x 259.02873pt>
+<images/charts/xdc_bug_features_used.pdf, id=940, 492.40471pt x 259.02873pt>
 File: images/charts/xdc_bug_features_used.pdf Graphic file (type pdf)
 
 <use images/charts/xdc_bug_features_used.pdf>
 Package pdftex.def Info: images/charts/xdc_bug_features_used.pdf used on input line 163.
 (pdftex.def)             Requested size: 324.36266pt x 170.63933pt.
- [30pdfTeX warning (ext4): destination with the same identifier (name{figure.6.4}) has been already used, duplicate igno
+ [34pdfTeX warning (ext4): destination with the same identifier (name{figure.6.4}) has been already used, duplicate igno
 red
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -692,13 +692,13 @@ oup included in a single page
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/xdc_impl_comparison.pdf): PDF inclusion: found PDF version <1.6>, but
  at most version <1.5> allowed
-<images/charts/xdc_impl_comparison.pdf, id=1117, 490.52309pt x 257.07744pt>
+<images/charts/xdc_impl_comparison.pdf, id=1128, 490.52309pt x 257.07744pt>
 File: images/charts/xdc_impl_comparison.pdf Graphic file (type pdf)
  <use images/charts/xdc_impl_comparison.pdf>
 Package pdftex.def Info: images/charts/xdc_impl_comparison.pdf used on input line 174.
 (pdftex.def)             Requested size: 324.36266pt x 170.00113pt.
 
-[31pdfTeX warning (ext4): destination with the same identifier (name{figure.6.6}) has been already used, duplicate ignor
+[35pdfTeX warning (ext4): destination with the same identifier (name{figure.6.6}) has been already used, duplicate ignor
 ed
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -708,7 +708,7 @@ l.180
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/xdc_impl_features_used.pdf): PDF inclusion: found PDF version <1.6>, 
 but at most version <1.5> allowed
-<images/charts/xdc_impl_features_used.pdf, id=1207, 492.41246pt x 256.17506pt>
+<images/charts/xdc_impl_features_used.pdf, id=1219, 492.41246pt x 256.17506pt>
 File: images/charts/xdc_impl_features_used.pdf Graphic file (type pdf)
 
 <use images/charts/xdc_impl_features_used.pdf>
@@ -718,13 +718,13 @@ Package pdftex.def Info: images/charts/xdc_impl_features_used.pdf used on input 
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/xdyt_bug_comparison.pdf): PDF inclusion: found PDF version <1.6>, but
  at most version <1.5> allowed
-<images/charts/xdyt_bug_comparison.pdf, id=1209, 490.56314pt x 262.76772pt>
+<images/charts/xdyt_bug_comparison.pdf, id=1221, 490.56314pt x 262.76772pt>
 File: images/charts/xdyt_bug_comparison.pdf Graphic file (type pdf)
  <use images/charts/xdyt_bug_comparison.pdf>
 Package pdftex.def Info: images/charts/xdyt_bug_comparison.pdf used on input line 194.
 (pdftex.def)             Requested size: 324.36266pt x 173.75198pt.
 
-[32pdfTeX warning (ext4): destination with the same identifier (name{figure.6.7}) has been already used, duplicate ignor
+[36pdfTeX warning (ext4): destination with the same identifier (name{figure.6.7}) has been already used, duplicate ignor
 ed
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -734,13 +734,13 @@ l.198
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/xdyt_bug_features_used.pdf): PDF inclusion: found PDF version <1.6>, 
 but at most version <1.5> allowed
-<images/charts/xdyt_bug_features_used.pdf, id=1316, 490.52309pt x 257.07744pt>
+<images/charts/xdyt_bug_features_used.pdf, id=1328, 490.52309pt x 257.07744pt>
 File: images/charts/xdyt_bug_features_used.pdf Graphic file (type pdf)
 
 <use images/charts/xdyt_bug_features_used.pdf>
 Package pdftex.def Info: images/charts/xdyt_bug_features_used.pdf used on input line 203.
 (pdftex.def)             Requested size: 324.36266pt x 170.00113pt.
- [33pdfTeX warning (ext4): destination with the same identifier (name{figure.6.8}) has been already used, duplicate igno
+ [37pdfTeX warning (ext4): destination with the same identifier (name{figure.6.8}) has been already used, duplicate igno
 red
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -760,7 +760,7 @@ roup included in a single page
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/xdyt_impl_comparison.pdf): PDF inclusion: found PDF version <1.6>, bu
 t at most version <1.5> allowed
-<images/charts/xdyt_impl_comparison.pdf, id=1497, 490.52309pt x 257.07744pt>
+<images/charts/xdyt_impl_comparison.pdf, id=1509, 490.52309pt x 257.07744pt>
 File: images/charts/xdyt_impl_comparison.pdf Graphic file (type pdf)
 
 <use images/charts/xdyt_impl_comparison.pdf>
@@ -770,19 +770,19 @@ Package pdftex.def Info: images/charts/xdyt_impl_comparison.pdf used on input li
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/xdyt_impl_features_used.pdf): PDF inclusion: found PDF version <1.6>,
  but at most version <1.5> allowed
-<images/charts/xdyt_impl_features_used.pdf, id=1499, 490.52309pt x 257.07744pt>
+<images/charts/xdyt_impl_features_used.pdf, id=1511, 490.52309pt x 257.07744pt>
 File: images/charts/xdyt_impl_features_used.pdf Graphic file (type pdf)
 
 <use images/charts/xdyt_impl_features_used.pdf>
 Package pdftex.def Info: images/charts/xdyt_impl_features_used.pdf used on input line 223.
 (pdftex.def)             Requested size: 324.36266pt x 170.00113pt.
- [34pdfTeX warning (ext4): destination with the same identifier (name{figure.6.10}) has been already used, duplicate ign
+ [38pdfTeX warning (ext4): destination with the same identifier (name{figure.6.10}) has been already used, duplicate ign
 ored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.227 
-       <./images/charts/xdyt_impl_comparison.pdf>] [35pdfTeX warning (ext4): destination with the same identifier (name{
+       <./images/charts/xdyt_impl_comparison.pdf>] [39pdfTeX warning (ext4): destination with the same identifier (name{
 figure.6.11}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -792,7 +792,7 @@ l.233
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/implementing_easier.pdf): PDF inclusion: found PDF version <1.6>, but
  at most version <1.5> allowed
-<images/charts/implementing_easier.pdf, id=1703, 486.67984pt x 295.08743pt>
+<images/charts/implementing_easier.pdf, id=1714, 486.67984pt x 295.08743pt>
 File: images/charts/implementing_easier.pdf Graphic file (type pdf)
  <use images/charts/implementing_easier.pdf>
 Package pdftex.def Info: images/charts/implementing_easier.pdf used on input line 239.
@@ -801,13 +801,13 @@ Package pdftex.def Info: images/charts/implementing_easier.pdf used on input lin
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/implementing_efficient.pdf): PDF inclusion: found PDF version <1.6>, 
 but at most version <1.5> allowed
-<images/charts/implementing_efficient.pdf, id=1704, 486.461pt x 295.01617pt>
+<images/charts/implementing_efficient.pdf, id=1715, 486.461pt x 295.01617pt>
 File: images/charts/implementing_efficient.pdf Graphic file (type pdf)
 
 <use images/charts/implementing_efficient.pdf>
 Package pdftex.def Info: images/charts/implementing_efficient.pdf used on input line 246.
 (pdftex.def)             Requested size: 243.27353pt x 147.53473pt.
- [36pdfTeX warning (ext4): destination with the same identifier (name{figure.6.12}) has been already used, duplicate ign
+ [40pdfTeX warning (ext4): destination with the same identifier (name{figure.6.12}) has been already used, duplicate ign
 ored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -817,7 +817,7 @@ l.250
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/prefer_implementing.pdf): PDF inclusion: found PDF version <1.6>, but
  at most version <1.5> allowed
-<images/charts/prefer_implementing.pdf, id=1762, 484.87318pt x 295.99785pt>
+<images/charts/prefer_implementing.pdf, id=1773, 484.87318pt x 295.99785pt>
 File: images/charts/prefer_implementing.pdf Graphic file (type pdf)
  <use images/charts/prefer_implementing.pdf>
 Package pdftex.def Info: images/charts/prefer_implementing.pdf used on input line 253.
@@ -826,13 +826,13 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 258.
 
 
-LaTeX Warning: Reference `prefer_debugging' on page 37 undefined on input line 258.
+LaTeX Warning: Reference `prefer_debugging' on page 41 undefined on input line 258.
 
 
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/debugging_easier.pdf): PDF inclusion: found PDF version <1.6>, but at
  most version <1.5> allowed
-<images/charts/debugging_easier.pdf, id=1765, 484.87318pt x 296.05507pt>
+<images/charts/debugging_easier.pdf, id=1776, 484.87318pt x 296.05507pt>
 File: images/charts/debugging_easier.pdf Graphic file (type pdf)
  <use images/charts/debugging_easier.pdf>
 Package pdftex.def Info: images/charts/debugging_easier.pdf used on input line 262.
@@ -841,13 +841,13 @@ Package pdftex.def Info: images/charts/debugging_easier.pdf used on input line 2
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/debugging_efficient.pdf): PDF inclusion: found PDF version <1.6>, but
  at most version <1.5> allowed
-<images/charts/debugging_efficient.pdf, id=1766, 486.461pt x 294.9449pt>
+<images/charts/debugging_efficient.pdf, id=1777, 486.461pt x 294.9449pt>
 File: images/charts/debugging_efficient.pdf Graphic file (type pdf)
  <use images/charts/debugging_efficient.pdf>
 Package pdftex.def Info: images/charts/debugging_efficient.pdf used on input line 269.
 (pdftex.def)             Requested size: 243.27353pt x 147.49908pt.
 
-[37pdfTeX warning (ext4): destination with the same identifier (name{figure.6.13}) has been already used, duplicate igno
+[41pdfTeX warning (ext4): destination with the same identifier (name{figure.6.13}) has been already used, duplicate igno
 red
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -877,7 +877,7 @@ ncluded in a single page
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/prefer_debugging.pdf): PDF inclusion: found PDF version <1.6>, but at
  most version <1.5> allowed
-<images/charts/prefer_debugging.pdf, id=1914, 486.5343pt x 294.93286pt>
+<images/charts/prefer_debugging.pdf, id=1926, 486.5343pt x 294.93286pt>
 File: images/charts/prefer_debugging.pdf Graphic file (type pdf)
  <use images/charts/prefer_debugging.pdf>
 Package pdftex.def Info: images/charts/prefer_debugging.pdf used on input line 276.
@@ -886,12 +886,12 @@ Package pdftex.def Info: images/charts/prefer_debugging.pdf used on input line 2
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/usefulness_tool.pdf): PDF inclusion: found PDF version <1.6>, but at 
 most version <1.5> allowed
-<images/charts/usefulness_tool.pdf, id=1916, 490.52309pt x 256.9319pt>
+<images/charts/usefulness_tool.pdf, id=1928, 490.52309pt x 256.9319pt>
 File: images/charts/usefulness_tool.pdf Graphic file (type pdf)
  <use images/charts/usefulness_tool.pdf>
 Package pdftex.def Info: images/charts/usefulness_tool.pdf used on input line 286.
 (pdftex.def)             Requested size: 324.36266pt x 169.90488pt.
- [38pdfTeX warning (ext4): destination with the same identifier (name{figure.6.16}) has been already used, duplicate ign
+ [42pdfTeX warning (ext4): destination with the same identifier (name{figure.6.16}) has been already used, duplicate ign
 ored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -911,12 +911,12 @@ ncluded in a single page
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/tool_general.pdf): PDF inclusion: found PDF version <1.6>, but at mos
 t version <1.5> allowed
-<images/charts/tool_general.pdf, id=1987, 490.52309pt x 256.9319pt>
+<images/charts/tool_general.pdf, id=1999, 490.52309pt x 256.9319pt>
 File: images/charts/tool_general.pdf Graphic file (type pdf)
  <use images/charts/tool_general.pdf>
 Package pdftex.def Info: images/charts/tool_general.pdf used on input line 295.
 (pdftex.def)             Requested size: 324.36266pt x 169.90488pt.
- [39pdfTeX warning (ext4): destination with the same identifier (name{figure.6.18}) has been already used, duplicate ign
+ [43pdfTeX warning (ext4): destination with the same identifier (name{figure.6.18}) has been already used, duplicate ign
 ored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -936,61 +936,64 @@ ded in a single page
 
 pdfTeX warning: pdflatex.exe (file ./images/charts/would_use_features.pdf): PDF inclusion: found PDF version <1.6>, but 
 at most version <1.5> allowed
-<images/charts/would_use_features.pdf, id=2184, 490.56314pt x 257.07744pt>
+<images/charts/would_use_features.pdf, id=2196, 490.56314pt x 257.07744pt>
 File: images/charts/would_use_features.pdf Graphic file (type pdf)
  <use images/charts/would_use_features.pdf>
 Package pdftex.def Info: images/charts/would_use_features.pdf used on input line 304.
 (pdftex.def)             Requested size: 324.36266pt x 169.98936pt.
 
-[40pdfTeX warning (ext4): destination with the same identifier (name{figure.6.20}) has been already used, duplicate igno
+[44pdfTeX warning (ext4): destination with the same identifier (name{figure.6.20}) has been already used, duplicate igno
 red
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.311 R
        ecord/replay was disabled for the user study, but one participant tha... <./images/charts/would_use_features.pdf>
-] [41] [42] [43]) [44]
+] [45] [46] [47]) [48]
 Chapter 7.
-[45
+[49
 
 
-] (conclusion.tex) [46
+] (conclusion.tex) [50
 
 ] (student-work-template.lof)
 \tf@lof=\write6
- [47
+ [51
 
 
-] [48
+] [52
 
 ] (student-work-template.lot)
 \tf@lot=\write7
- [49] [50
+ [53] [54
 
-] [51]
-(student-work-template.bbl [52
+] [55]
+(student-work-template.bbl [56
 
 ])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 124.
- [53]
+ [57]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 124.
  (student-work-template.aux (introduction.aux) (background.aux) (approach.aux)
 (implementation.aux) (sample_apps.aux) (evaluation.aux) (conclusion.aux))
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 124.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 124.
 Package rerunfilecheck Info: File `student-work-template.out' has not changed.
-(rerunfilecheck)             Checksum: 41F699928C54AC1D21D28AC006106176;5416.
+(rerunfilecheck)             Checksum: 6BCA99691092805E3711CC8411DC34B0;5430.
 
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 124.
  ) 
 Here is how much of TeX's memory you used:
- 7566 strings out of 493673
- 112333 string characters out of 3141120
+ 7568 strings out of 493673
+ 112327 string characters out of 3141120
  205662 words of memory out of 3000000
- 10497 multiletter control sequences out of 15000+200000
+ 10496 multiletter control sequences out of 15000+200000
  44535 words of font info for 75 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
  32i,12n,51p,2500b,467s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1000,9 +1003,9 @@ blic/amsfonts/cm/cmmi12.pfb><C:/Program Files (x86)/MiKTeX 2.91/fonts/type1/urw/
 fb><C:/Program Files (x86)/MiKTeX 2.91/fonts/type1/urw/helvetic/uhvro8a.pfb><C:/Program Files (x86)/MiKTeX 2.91/fonts/ty
 pe1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.91/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files (x86)/Mi
 KTeX 2.91/fonts/type1/urw/times/utmri8a.pfb>
-Output written on student-work-template.pdf (61 pages, 2792857 bytes).
+Output written on student-work-template.pdf (65 pages, 2802322 bytes).
 PDF statistics:
- 2458 PDF objects out of 2487 (max. 8388607)
- 203 named destinations out of 1000 (max. 500000)
- 708 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2470 PDF objects out of 2487 (max. 8388607)
+ 206 named destinations out of 1000 (max. 500000)
+ 700 words of extra memory for PDF output out of 10000 (max. 10000000)
 

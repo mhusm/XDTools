@@ -2,7 +2,7 @@
 \BOOKMARK [0][-]{toc.0}{Contents}{}% 2
 \BOOKMARK [0][-]{chapter.1}{1 Introduction}{}% 3
 \BOOKMARK [1][-]{section.1.1}{1.1 Problem Statement}{chapter.1}% 4
-\BOOKMARK [1][-]{section.1.2}{1.2 Goal Statement}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.2}{1.2 Contributions}{chapter.1}% 5
 \BOOKMARK [1][-]{section.1.3}{1.3 Structure of this Document}{chapter.1}% 6
 \BOOKMARK [0][-]{chapter.2}{2 Background and Related Work}{}% 7
 \BOOKMARK [1][-]{section.2.1}{2.1 Web Application Testing}{chapter.2}% 8
@@ -33,42 +33,41 @@
 \BOOKMARK [2][-]{subsection.2.3.9}{2.3.9 Weave}{section.2.3}% 33
 \BOOKMARK [2][-]{subsection.2.3.10}{2.3.10 Summary}{section.2.3}% 34
 \BOOKMARK [0][-]{chapter.3}{3 Approach}{}% 35
-\BOOKMARK [1][-]{section.3.1}{3.1 General}{chapter.3}% 36
-\BOOKMARK [1][-]{section.3.2}{3.2 Device Emulation}{chapter.3}% 37
-\BOOKMARK [2][-]{subsection.3.2.1}{3.2.1 Saving and Loading Device Configurations}{section.3.2}% 38
-\BOOKMARK [1][-]{section.3.3}{3.3 Connecting Real Devices}{chapter.3}% 39
-\BOOKMARK [1][-]{section.3.4}{3.4 Shared JavaScript Console}{chapter.3}% 40
-\BOOKMARK [1][-]{section.3.5}{3.5 Function Debugging}{chapter.3}% 41
-\BOOKMARK [1][-]{section.3.6}{3.6 Shared CSS Editor}{chapter.3}% 42
-\BOOKMARK [1][-]{section.3.7}{3.7 Record/Replay}{chapter.3}% 43
-\BOOKMARK [0][-]{chapter.4}{4 Implementation}{}% 44
-\BOOKMARK [1][-]{section.4.1}{4.1 Architecture}{chapter.4}% 45
-\BOOKMARK [1][-]{section.4.2}{4.2 Choice of Technologies}{chapter.4}% 46
-\BOOKMARK [2][-]{subsection.4.2.1}{4.2.1 node.js}{section.4.2}% 47
-\BOOKMARK [2][-]{subsection.4.2.2}{4.2.2 rainbow-dns}{section.4.2}% 48
-\BOOKMARK [2][-]{subsection.4.2.3}{4.2.3 JavaScript Libraries and CSS Frameworks}{section.4.2}% 49
-\BOOKMARK [1][-]{section.4.3}{4.3 General Features}{chapter.4}% 50
-\BOOKMARK [1][-]{section.4.4}{4.4 Device Emulation}{chapter.4}% 51
-\BOOKMARK [1][-]{section.4.5}{4.5 Connecting Real Devices}{chapter.4}% 52
-\BOOKMARK [1][-]{section.4.6}{4.6 Shared JavaScript Console}{chapter.4}% 53
-\BOOKMARK [1][-]{section.4.7}{4.7 Function Debugging}{chapter.4}% 54
-\BOOKMARK [1][-]{section.4.8}{4.8 Shared CSS Editor}{chapter.4}% 55
-\BOOKMARK [1][-]{section.4.9}{4.9 Record/Replay}{chapter.4}% 56
-\BOOKMARK [0][-]{chapter.5}{5 Sample Applications}{}% 57
-\BOOKMARK [1][-]{section.5.1}{5.1 XDCinema}{chapter.5}% 58
-\BOOKMARK [1][-]{section.5.2}{5.2 XDYouTube}{chapter.5}% 59
-\BOOKMARK [1][-]{section.5.3}{5.3 Insights}{chapter.5}% 60
-\BOOKMARK [0][-]{chapter.6}{6 Evaluation}{}% 61
-\BOOKMARK [1][-]{section.6.1}{6.1 Setup}{chapter.6}% 62
-\BOOKMARK [2][-]{subsection.6.1.1}{6.1.1 Participants}{section.6.1}% 63
-\BOOKMARK [2][-]{subsection.6.1.2}{6.1.2 Tasks}{section.6.1}% 64
-\BOOKMARK [2][-]{subsection.6.1.3}{6.1.3 Evaluation Methods}{section.6.1}% 65
-\BOOKMARK [1][-]{section.6.2}{6.2 Results}{chapter.6}% 66
-\BOOKMARK [2][-]{subsection.6.2.1}{6.2.1 XDCinema: Fixing a Bug}{section.6.2}% 67
-\BOOKMARK [2][-]{subsection.6.2.2}{6.2.2 XDCinema: Implementing a Feature}{section.6.2}% 68
-\BOOKMARK [2][-]{subsection.6.2.3}{6.2.3 XDYouTube: Fixing a Bug}{section.6.2}% 69
-\BOOKMARK [2][-]{subsection.6.2.4}{6.2.4 XDYouTube: Implementing a Feature}{section.6.2}% 70
-\BOOKMARK [2][-]{subsection.6.2.5}{6.2.5 General}{section.6.2}% 71
-\BOOKMARK [1][-]{section.6.3}{6.3 Discussion}{chapter.6}% 72
-\BOOKMARK [0][-]{chapter.7}{7 Conclusion}{}% 73
-\BOOKMARK [1][-]{section.7.1}{7.1 Future Work}{chapter.7}% 74
+\BOOKMARK [1][-]{section.3.1}{3.1 Inclusion of Existing Features}{chapter.3}% 36
+\BOOKMARK [1][-]{section.3.2}{3.2 Emulation of Multiple Devices}{chapter.3}% 37
+\BOOKMARK [1][-]{section.3.3}{3.3 Easy Integration of Real and Emulated Devices}{chapter.3}% 38
+\BOOKMARK [1][-]{section.3.4}{3.4 Easy Switching of Device Configurations}{chapter.3}% 39
+\BOOKMARK [1][-]{section.3.5}{3.5 Integration with Debugging Tools}{chapter.3}% 40
+\BOOKMARK [1][-]{section.3.6}{3.6 Automatic Connection Management}{chapter.3}% 41
+\BOOKMARK [1][-]{section.3.7}{3.7 Coordinated Record and Replay}{chapter.3}% 42
+\BOOKMARK [0][-]{chapter.4}{4 Implementation}{}% 43
+\BOOKMARK [1][-]{section.4.1}{4.1 Architecture}{chapter.4}% 44
+\BOOKMARK [1][-]{section.4.2}{4.2 Choice of Technologies}{chapter.4}% 45
+\BOOKMARK [2][-]{subsection.4.2.1}{4.2.1 node.js}{section.4.2}% 46
+\BOOKMARK [2][-]{subsection.4.2.2}{4.2.2 rainbow-dns}{section.4.2}% 47
+\BOOKMARK [2][-]{subsection.4.2.3}{4.2.3 JavaScript Libraries and CSS Frameworks}{section.4.2}% 48
+\BOOKMARK [1][-]{section.4.3}{4.3 General Features}{chapter.4}% 49
+\BOOKMARK [1][-]{section.4.4}{4.4 Device Emulation}{chapter.4}% 50
+\BOOKMARK [1][-]{section.4.5}{4.5 Connecting Real Devices}{chapter.4}% 51
+\BOOKMARK [1][-]{section.4.6}{4.6 Shared JavaScript Console}{chapter.4}% 52
+\BOOKMARK [1][-]{section.4.7}{4.7 Function Debugging}{chapter.4}% 53
+\BOOKMARK [1][-]{section.4.8}{4.8 Shared CSS Editor}{chapter.4}% 54
+\BOOKMARK [1][-]{section.4.9}{4.9 Record/Replay}{chapter.4}% 55
+\BOOKMARK [0][-]{chapter.5}{5 Sample Applications}{}% 56
+\BOOKMARK [1][-]{section.5.1}{5.1 XDCinema}{chapter.5}% 57
+\BOOKMARK [1][-]{section.5.2}{5.2 XDYouTube}{chapter.5}% 58
+\BOOKMARK [1][-]{section.5.3}{5.3 Insights}{chapter.5}% 59
+\BOOKMARK [0][-]{chapter.6}{6 Evaluation}{}% 60
+\BOOKMARK [1][-]{section.6.1}{6.1 Setup}{chapter.6}% 61
+\BOOKMARK [2][-]{subsection.6.1.1}{6.1.1 Participants}{section.6.1}% 62
+\BOOKMARK [2][-]{subsection.6.1.2}{6.1.2 Tasks}{section.6.1}% 63
+\BOOKMARK [2][-]{subsection.6.1.3}{6.1.3 Evaluation Methods}{section.6.1}% 64
+\BOOKMARK [1][-]{section.6.2}{6.2 Results}{chapter.6}% 65
+\BOOKMARK [2][-]{subsection.6.2.1}{6.2.1 XDCinema: Fixing a Bug}{section.6.2}% 66
+\BOOKMARK [2][-]{subsection.6.2.2}{6.2.2 XDCinema: Implementing a Feature}{section.6.2}% 67
+\BOOKMARK [2][-]{subsection.6.2.3}{6.2.3 XDYouTube: Fixing a Bug}{section.6.2}% 68
+\BOOKMARK [2][-]{subsection.6.2.4}{6.2.4 XDYouTube: Implementing a Feature}{section.6.2}% 69
+\BOOKMARK [2][-]{subsection.6.2.5}{6.2.5 General}{section.6.2}% 70
+\BOOKMARK [1][-]{section.6.3}{6.3 Discussion}{chapter.6}% 71
+\BOOKMARK [0][-]{chapter.7}{7 Conclusion}{}% 72
+\BOOKMARK [1][-]{section.7.1}{7.1 Future Work}{chapter.7}% 73

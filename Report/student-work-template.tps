@@ -11,14 +11,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1753
-NormalPos.bottom=840
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=student-work-template.tex
 
 [Frame0_View0,0]
-TopLine=35
-Cursor=2446
+TopLine=62
+Cursor=2304
 
 [Frame1]
 Flags=0
@@ -29,14 +29,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1753
-NormalPos.bottom=840
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=evaluation.tex
 
 [Frame1_View0,0]
 TopLine=0
-Cursor=2817
+Cursor=1429
 
 [Frame2]
 Flags=0
@@ -47,14 +47,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1753
-NormalPos.bottom=840
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=introduction.tex
 
 [Frame2_View0,0]
-TopLine=15
-Cursor=3161
+TopLine=0
+Cursor=5598
 
 [Frame3]
 Flags=0
@@ -65,13 +65,13 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1753
-NormalPos.bottom=840
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=background.tex
 
 [Frame3_View0,0]
-TopLine=17
+TopLine=14
 Cursor=2443
 
 [Frame4]
@@ -83,8 +83,8 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1753
-NormalPos.bottom=840
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=implementation.tex
 
@@ -101,8 +101,8 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1753
-NormalPos.bottom=840
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=approach.tex
 
@@ -112,5 +112,5 @@ Cursor=1262
 
 [SessionInfo]
 FrameCount=6
-ActiveFrame=0
+ActiveFrame=2
 
