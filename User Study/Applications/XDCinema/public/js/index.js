@@ -1,4 +1,6 @@
 var currentCity = {"name": ""};
+var currentMovie = {"title": ""};
+var loc = {"lat": 0, "long": 0, "cinemaName": ""};
 
 $(document).ready(function () {
     //Initialize XDmvc
@@ -6,7 +8,6 @@ $(document).ready(function () {
     XDmvc.reconnect = true;
     XDmvc.setClientServer();
     XDmvc.connectToServer();
-    //XDmvc.removeRole("sync-all");
 
     var setCity = function (id, data) {
         if (data.name) {
@@ -15,10 +16,7 @@ $(document).ready(function () {
     };
 
     //Synchronized data
-    //TODO: comment out the following 2 lines for study
-    var loc = {"lat": 0, "long": 0, "cinemaName": ""};
     XDmvc.synchronize(loc, setLocation, "loc");
-    var currentMovie = {"title": ""};
     XDmvc.synchronize(currentMovie, setMovie, "currentmovie");
     var currentTrailer = {"href": ""};
     XDmvc.synchronize(currentTrailer, setTrailer, "currenttrailer");
@@ -70,22 +68,6 @@ $(document).ready(function () {
         }
     });
 
-    //TODO: Comment out for study
-    $(document).on("click", ".cinema .name", function () {
-        var newLoc = getCinemaLocation(currentCity.name, $(this).text());
-        loc.lat = newLoc.lat;
-        loc.long = newLoc.long;
-        loc.cinemaName = $(this).text();
-        updateMap(loc.lat, loc.long);
-        if (XDmvc.connectedDevices.length === 0) {
-            $("#location").removeClass("hidden").css("height", "calc(100% - 44px)");
-            $("#general").addClass("hidden");
-            $("#back").removeClass("hidden");
-            updateMap(loc.lat, loc.long);
-        }
-        XDmvc.forceUpdate("loc");
-    });
-
     $(document).on("click", ".movie h3, .movie img", function () {
         currentMovie.title = $(this).closest(".movie").find("h3").text();
         updateMovie(currentMovie.title);
@@ -119,28 +101,6 @@ $(document).ready(function () {
         }
     }
 
-    //TODO: Comment out for study
-    function setLocation(id, data) {
-        if (data.lat !== 0 && data.long !== 0) {
-            loc.lat = data.lat;
-            loc.long = data.long;
-            loc.cinemaName = data.cinemaName;
-            if (loc.cinemaName && currentCity.name) {
-                var cinemas = getCinemas(currentMovie.title, currentCity.name);
-                if (cinemas.indexOf(loc.cinemaName) !== -1) {
-                    highlightPrice(loc.cinemaName, currentCity.name);
-                }
-            }
-            updateMap(loc.lat, loc.long);
-            if (XDmvc.roles.indexOf("location") !== -1) {
-                $("#location").removeClass("hidden");
-                if (XDmvc.roles.indexOf("movie") !== -1) {
-                    $("#movie").addClass("hidden");
-                }
-            }
-        }
-    }
-
     function setMovie(id, data) {
         if (data.title) {
             currentMovie.title = data.title;
@@ -155,24 +115,6 @@ $(document).ready(function () {
     }
 
 });
-
-function displayPrices(city, movie) {
-    console.log("displayPrices called");
-    $("#prices").html("");
-    var cinemas = getCinemas(movie, city);
-    for (var i = 0; i < cinemas.length; ++i) {
-        var currentPrice = getCinemaPrice(cinemas[i], city);
-        $("#prices").append(
-          "<div data-city='" + city + "' data-cinema='" + cinemas[i] + "' >" + cinemas[i] + ": " + currentPrice + " CHF</div>"
-        );
-    }
-}
-
-function highlightPrice(cinema, city) {
-    console.log("highlightPrice called");
-    $("div.highlighted").removeClass("highlighted");
-    $("div[data-city='" + city + "'][data-cinema='" + cinema + "']").addClass("highlighted");
-}
 
 function updateMap(lat, long) {
     var location = new google.maps.LatLng(lat, long),
@@ -211,15 +153,18 @@ function getCinemaPrice(cinemaName, city) {
 }
 
 function getCinemas(movie, city) {
-    var cityIndex = showtimes.map(function (e) { return e.city; }).indexOf(city),
-        movies = showtimes[cityIndex].movies,
-        movieIndex = movies.map(function (e) { return e.title; }).indexOf(movie),
-        cinemas = movies[movieIndex].cinemas;
-    var result = [];
-    for (var i = 0; i < cinemas.length; ++i) {
-        result.push(cinemas[i].name);
+    if (movie.length > 0) {
+        var cityIndex = showtimes.map(function (e) { return e.city; }).indexOf(city),
+            movies = showtimes[cityIndex].movies,
+            movieIndex = movies.map(function (e) { return e.title; }).indexOf(movie),
+            cinemas = movies[movieIndex].cinemas;
+        var result = [];
+        for (var i = 0; i < cinemas.length; ++i) {
+            result.push(cinemas[i].name);
+        }
+        return result;
     }
-    return result;
+    return [];
 }
 
 function updateSearchResults(city) {
@@ -287,17 +232,6 @@ function updateRoles() {
         }
         if (!lowestId && !highestId) {
             XDmvc.addRole("extra");
-        }
-    }
-}
-
-function getCinemaLocation(city, name) {
-    var i = 0, j = 0;
-    for (i; i < cinemaLocations.length; ++i) {
-        if (cinemaLocations[i].city === city) {
-            if (cinemaLocations[i].name === name) {
-                return {"lat": cinemaLocations[i].lat, "long": cinemaLocations[i].long};
-            }
         }
     }
 }

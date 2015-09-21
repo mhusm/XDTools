@@ -54,19 +54,8 @@ function processCommand(command, deviceID) {
     else if (command.name === "receiveConnectionURL") {
         activeDevices[command.deviceID].connect(command.url);
     }
-    else if (command.name === "object") {
-        //TODO
-    }
     else if (command.name === "debuggingPrepared") {
         socket.emit("debug", activeDevices[deviceID].url, "XDTest.debuggedFunctions['" + command.functionName + "']", deviceID);
-    }
-    else if (command.name === "functionBreakpointReached") {
-        activeDevices[deviceID].$device.find(".debug-overlay").removeClass("hidden");
-        var com = new Command("executeFunction", deviceID);
-        activeDevices[deviceID].sendCommand(com);
-    }
-    else if (command.name === "functionExecuted") {
-        activeDevices[deviceID].$device.find(".debug-overlay").addClass("hidden");
     }
     else {
         console.error("Unknown command");
@@ -79,14 +68,6 @@ function Command(name, deviceID) {
     this.parentDomain = "http://" + window.location.host;
     this.toString = function () {
         return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain});
-    };
-}
-
-function ObserveCommand(name, deviceID, code) {
-    Command.call(this, name, deviceID);
-    this.code = code;
-    this.toString = function () {
-        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain, "code": this.code});
     };
 }
 

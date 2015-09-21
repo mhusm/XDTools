@@ -3,11 +3,22 @@ body { height: 100%; margin: 0; padding: 0;}
 #map-canvas { height: 100% }
 
 form {
-    width: 98%;
+    width: 100%;
+}
+
+.group {
+    display: flex;
+    flex-flow: row;
 }
 
 #location {
     height: 100%;
+}
+
+#general {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
 }
 
 #movie {
@@ -29,11 +40,6 @@ form {
 
 .cinema .name {
     cursor: pointer;
-}
-
-.highlighted {
-    background-color: black;
-    color: white;
 }
 
 .movie img, .movie h3 {
@@ -75,9 +81,12 @@ form {
 }
 
 #logo {
-    height: 30px;
     margin: 5px;
     float: right;
+    width: auto;
+    height: auto;
+    max-width: 50vw;
+    max-height: 5vh;
 }
 
 form {
@@ -85,7 +94,6 @@ form {
 }
 
 #search-results {
-    height: calc(100vh - 172px);
     overflow-y: auto;
     width: 100%;
     overflow-x: hidden;
@@ -101,11 +109,6 @@ form {
 
 label, input, button {
     margin: 5px !important;
-}
-
-input {
-    width: 83% !important;
-    float: left !important;
 }
 
 label {

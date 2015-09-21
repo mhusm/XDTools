@@ -185,7 +185,8 @@ function appendDevice(device) {
 //Add the HTML for the displaying of the remote device
 function appendRemoteDevice(device) {
     $("#devices").append(HTML.RemoteDevice(device));
-    var $deviceSelect = device.$device.find(".main-devices");
+    var $device = $(".device-container[data-device-id='" + device.id + "']"),
+        $deviceSelect = $device.find(".main-devices");
     for (var i = 0, j = mainDevices.length; i < j; ++i) {
         if (mainDevices[i] !== device.id) {
             $deviceSelect.append(HTML.SelectOptionDevice(mainDevices[i]));

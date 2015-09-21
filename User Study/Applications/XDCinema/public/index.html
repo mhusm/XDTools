@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="http://129.132.173.2/js/remote.js"></script>
+        <script src="http://129.132.114.5/js/remote_xdc.js"></script>
         <script src="bower_components/xdmvcclient/js/xdmvc.js"></script>
         <script src="bower_components/observe-js/src/observe.js"></script>
         <script src="bower_components/socket.io-client/socket.io.js"></script>
@@ -13,6 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/task2.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOd1930V0WNcPnmYgM1uXM2NbcYNs7RgI"></script>
@@ -20,16 +21,22 @@
         <link rel="stylesheet" href="js/lib/jquery-ui/jquery-ui.css">
         <script src="js/data.js"></script>
         <script src="js/index.js"></script>
+        <script src="js/task1.js"></script>
+        <script src="js/task2.js"></script>
     </head>
     <body>
         <button type="button" id="back" class="btn btn-default hidden">Back</button>
         <section id="general">
-            <img id="logo" src="img/finallogo.png" alt="logo" />
+            <div><img id="logo" src="img/finallogo.png" alt="logo" /></div>
             <form>
-                <label for="city">City</label>
-                <input type="text" class="form-control" id="city" name="city" placeholder="Enter city..." />
-                <label for="date">Date</label>
-                <input type="date" class="form-control" id="date" name="date" />
+                <div class="group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" name="city" placeholder="Enter city..." />
+                </div>
+                <div class="group">
+                    <label for="date">Date</label>
+                    <input type="date" class="form-control" id="date" name="date" />
+                </div>
                 <button type="button" class="btn btn-small btn-default" id="search">Search</button>
             </form>
             <section id="search-results"></section>

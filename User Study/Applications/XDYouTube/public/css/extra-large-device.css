@@ -18,11 +18,13 @@
 
 #search-panel {
     float: left;
+    height: 93vh;
+    display: flex;
+    flex-flow: column;
 }
 
 #youtube-logo {
-    width: 10vw;
-    margin-right: 90vw;
+    height: 7vh;
     float: left;
 }
 
@@ -36,4 +38,20 @@ div {
 
 h4 {
     font-size: 1.5em;
+}
+
+paper-input {
+    min-height: 50px;
+}
+
+paper-button {
+    min-height: 30px;
+}
+
+#search-navigation {
+    min-height: 35px;
+}
+
+body {
+    overflow-y: auto;
 }

@@ -11,8 +11,8 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.right=1562
+NormalPos.bottom=580
 Class=LaTeXView
 Document=student-work-template.tex
 
@@ -29,13 +29,13 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.right=1562
+NormalPos.bottom=580
 Class=LaTeXView
 Document=evaluation.tex
 
 [Frame1_View0,0]
-TopLine=431
+TopLine=565
 Cursor=38622
 
 [Frame2]
@@ -47,8 +47,8 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.right=1562
+NormalPos.bottom=580
 Class=LaTeXView
 Document=introduction.tex
 
@@ -65,13 +65,13 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.right=1562
+NormalPos.bottom=580
 Class=LaTeXView
 Document=background.tex
 
 [Frame3_View0,0]
-TopLine=75
+TopLine=83
 Cursor=9129
 
 [Frame4]
@@ -83,14 +83,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.right=1562
+NormalPos.bottom=580
 Class=LaTeXView
 Document=implementation.tex
 
 [Frame4_View0,0]
-TopLine=20
-Cursor=613
+TopLine=165
+Cursor=14937
 
 [Frame5]
 Flags=0
@@ -101,13 +101,13 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.right=1562
+NormalPos.bottom=580
 Class=LaTeXView
 Document=approach.tex
 
 [Frame5_View0,0]
-TopLine=110
+TopLine=173
 Cursor=23059
 
 [Frame6]
@@ -119,8 +119,8 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.right=1562
+NormalPos.bottom=580
 Class=LaTeXView
 Document=conclusion.tex
 
@@ -137,8 +137,8 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.right=1562
+NormalPos.bottom=580
 Class=LaTeXView
 Document=sample_apps.tex
 

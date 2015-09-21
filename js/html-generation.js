@@ -50,7 +50,6 @@ var HTML = {
     LocalDevice: function (device) {
         return "<section draggable='false' data-device-id='" + device.id + "' class='device-container'>" +
         "<div class='overlay hidden'></div>" +
-        "<div class='debug-overlay hidden'></div>" +
         "<div class='device-top-container'><h4>" + device.name + "</h4>" +
         "<button type='button' class='btn btn-primary remove'>" +
         "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +

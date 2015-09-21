@@ -2,7 +2,7 @@ function getConnectionURL() {
     //TODO: adjust implementation of this function to connect devices to each other:
     //      Adjust IP to the IP where the application is running
     //      Adjust URL if you are running another application (possibly from another framework)
-    return "http://129.132.173.2:8083/index.html?connect=" + XDmvc.deviceId;
+    return "http://129.132.173.2:8084/index.html?connect=" + XDmvc.deviceId;
 }
 
 var XDTest = {
@@ -783,8 +783,7 @@ function initialize() {
         breakpoints = [],
         cssRules = [],
         active = true,
-        stylesheets = [],
-        observedObjects = [];
+        stylesheets = [];
 
     var command = {
             "name": "loaded",
@@ -984,55 +983,44 @@ function initialize() {
                     };
                 window.parent.postMessage(JSON.stringify(command), "*");
             }
-            else if (command.name === "observeObject") {
-                var object = eval(command.code),
-                    objectName = command.code,
-                    func = function (changes) {
-                        var command = {
-                            "name": "object",
-                            "objectName": objectName,
-                            "msg": JSON.stringify(JSON.decycle(object))
-                        };
-                        window.parent.postMessage(JSON.stringify(command), "*");
-                    };
-                observedObjects.push({"name": command.code, "callback": func});
-                Object.observe(object, func);
-            }
-            else if (command.name === "unobserveObject") {
-                var object = eval(command.code),
-                    index = observedObjects.map(function (e) { return e.name; }).indexOf(command.code);
-                Object.unobserve(object, observedObjects[index].callback);
-                observedObjects.splice(index, 1);
-            }
             else if (command.name === "debug") {
                 if (!XDTest.debuggedFunctions[command.functionName]) {
                     var originalFunction = eval(command.functionName);
                     var newFunction = function () {
+                        /*
+                        var originalArguments = arguments;
                         var func = function (ev) {
-                            if (isJson(ev.data)) {
-                                var com = JSON.parse(ev.data);
-                                if (com.name === "executeFunction") {
-                                    try {
-                                        originalFunction.apply(this, arguments);
-                                    }
-                                    finally {
-                                        var newCommand = {
-                                            "name": "functionExecuted",
-                                            "functionName": command.functionName
-                                        };
-                                        window.parent.postMessage(JSON.stringify(newCommand), "*");
-                                        window.removeEventListener("message", func, false);
-                                    }
-                                }
+                            try {
+                                originalFunction.apply(this, originalArguments);
+                            }
+                            finally {
+                                var newCommand = {
+                                    "name": "functionExecuted",
+                                    "functionName": command.functionName
+                                };
+                                window.parent.postMessage(JSON.stringify(newCommand), "*");
+                                window.removeEventListener("message", func, false);
                             }
                         };
-                        window.addEventListener("message", func, false);
+                        //window.addEventListener("message", func, false);
                         var newCommand = {
                             "name": "functionBreakpointReached",
                             "functionName": command.functionName
                         };
                         window.parent.postMessage(JSON.stringify(newCommand), "*");
-                        //originalFunction.apply(this, arguments);
+                        */
+                        var newEl = document.createElement("div");
+                        newEl.style.width = "100%";
+                        newEl.style.height = "100%";
+                        newEl.style.backgroundColor = "rgba(50, 200, 50, 0.5)";
+                        newEl.style.zIndex = "20";
+                        newEl.style.position = "absolute";
+                        newEl.style.left = 0;
+                        newEl.style.top = 0;
+                        document.body.appendChild(newEl);
+                        var returnVal = originalFunction.apply(this, arguments);
+                        document.body.removeChild(newEl);
+                        return returnVal;
                     };
                     XDTest.debuggedFunctions[command.functionName] = originalFunction;
                     eval(command.functionName + " = " + newFunction);

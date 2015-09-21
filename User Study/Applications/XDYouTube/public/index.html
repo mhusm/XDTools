@@ -1,12 +1,13 @@
 <!doctype html>
 <html>
     <head>
-        <script src="http://129.132.173.2/js/remote.js"></script>
+        <script src="http://129.132.114.5/js/remote_xdyt.js"></script>
         <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
         <link rel="import" href="bower_components/polymer/polymer.html">
         <script src="bower_components/xdmvcclient/js/queryParams.js"></script>
+        <script src="js/task1.js"></script>
         <script src="js/task2.js"></script>
-        <link rel="stylesheet" href="css/task1.css" />
+        <link rel="stylesheet" href="css/task2.css" />
         <link rel="stylesheet" href="css/style.css" />
 
         <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-synchronised.html">
@@ -17,7 +18,7 @@
         <link rel="import" href="bower_components/paper-input/paper-input.html">
         <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
         <link rel="import" href="bower_components/paper-button/paper-button.html">
-        <script src="https://code.jquery.com/jquery-git.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="https://apis.google.com/js/client.js"></script>
 
         <meta name="viewport" content="width=device-width, user-scalable=no">
@@ -28,12 +29,26 @@
             }
 
             window.addEventListener("load", initializeYoutubeAPI, false);
+            
+            function shift(container, videoQueue) {
+                if (videoQueue.length > 0) {
+                    return container.shift("synced.videoQueue");
+                }
+                else {
+                    throw "Error: No element could be dequeued.";
+                }
+            }
         </script>
+        <style>
+            .hidden {
+                display: none !important;
+            }
+        </style>
     </head>
     <body>
         <dom-module id="youtube-app">
             <template>
-                <xdmvc-connection reconnect="false" peerport="9005" ajaxport="9006"></xdmvc-connection>
+                <xdmvc-connection reconnect="false" peerport="9002" ajaxport="9003"></xdmvc-connection>
                 <xdmvc-synchronised id="sync"
                                     objects='{{synced}}'>
                 </xdmvc-synchronised>
@@ -74,7 +89,9 @@
                     <template is="dom-if" if="{{isExtraLargeDevice()}}">
                         <link rel="stylesheet" href="css/extra-large-device.css" />
                     </template>
-                    <img src="img/youtube.png" id="youtube-logo" alt="YouTube" />
+                    <template is="dom-if" if="{{!roles.isselected.player}}">
+                        <img src="img/youtube.png" id="youtube-logo" alt="YouTube" />
+                    </template>
                     <div id="video-overview">
                         <h3>Current Video</h3>
                         <button id="pauseButton" on-click="pauseClicked">PAUSE</button>
@@ -113,29 +130,27 @@
                     <div id="search-panel">
                         <paper-input label="Search video" id="query" value="{{searchTerm}}" on-keypress="inputKeyPressed" floatingLabel></paper-input>
                         <paper-button id="searchButton" on-click="searchVideo" raised>Search</paper-button>
-                        <div>
-                            <div id="results">
-                                <template is="dom-repeat" items="{{searchResult}}">
-                                    <div class="video" data-id="{{item.id}}">
-                                        <paper-dialog>
-                                        <h4>{{item.title}}</h4>
-                                        <template is="dom-if" if="{{!isLargeDevice()}}">
-                                            <img class="thumbnail" src="{{item.thumbnail.small}}" />
-                                        </template>
-                                        <template is="dom-if" if="{{isLargeDevice()}}">
-                                            <style>
-                                                .queued-video {
-                                                    max-width: 330px;
-                                                }
-                                            </style>
-                                            <img class="thumbnail" src="{{item.thumbnail.medium}}" />
-                                        </template>
-                                        <div>{{item.description}}</div>
-                                        <paper-button on-click="addToQueue" raised>Add to Queue</paper-button>
-                                        </paper-dialog>
-                                    </div>
-                                </template>
-                            </div>
+                        <div id="results">
+                            <template is="dom-repeat" items="{{searchResult}}">
+                                <div class="video" data-id="{{item.id}}">
+                                    <paper-dialog>
+                                    <h4>{{item.title}}</h4>
+                                    <template is="dom-if" if="{{!isLargeDevice()}}">
+                                        <img class="thumbnail" src="{{item.thumbnail.small}}" />
+                                    </template>
+                                    <template is="dom-if" if="{{isLargeDevice()}}">
+                                        <style>
+                                            .queued-video {
+                                                max-width: 330px;
+                                            }
+                                        </style>
+                                        <img class="thumbnail" src="{{item.thumbnail.medium}}" />
+                                    </template>
+                                    <div>{{item.description}}</div>
+                                    <paper-button on-click="addToQueue" raised>Add to Queue</paper-button>
+                                    </paper-dialog>
+                                </div>
+                            </template>
                         </div>
                         <template is="dom-if" if="{{searched}}">
                             <div id="search-navigation">
@@ -242,19 +257,7 @@
                 },
 
                 updateVideo: function () {
-                    //TODO: Comment out for study and uncomment updateVideo(this)
-                    if (this.synced.videoQueue.length > 0) {
-                        var next = this.shift("synced.videoQueue");
-                        this.set("synced.current.index", next.id);
-                        this.set("synced.current.title", next.title);
-                        this.set("synced.current.thumbnail.small", next.thumbnail.small);
-                        this.set("synced.current.thumbnail.medium", next.thumbnail.medium);
-                        this.set("synced.current.description", next.description);
-                    }
-                    else {
-                        this.set("synced.current.index", "");
-                    }
-                    //updateVideo(this);
+                    updateVideo(this, this.synced.videoQueue);
                 },
 
                 handleStateChange: function (ev) {
@@ -272,33 +275,10 @@
 
                 pauseClicked: function () {
                     pauseClicked(this);
-                    /*
-                    if (this.isVideoPlaying()) {
-                        this.setPausedState(!this.getPausedState());
-                    }
-                    */
                 },
 
                 updatePaused: function () {
                     updatePaused(this);
-                    /*
-                    if (this.isPlayer()) {
-                        if (this.getPausedState()) {
-                            this.pauseVideo();
-                        }
-                        else {
-                            this.unpauseVideo();
-                        }
-                    }
-                    if (this.isController()) {
-                        if (this.getPausedState()) {
-                            document.getElementById("pauseButton").textContent = "PLAY";
-                        }
-                        else {
-                            document.getElementById("pauseButton").textContent = "PAUSE";
-                        }
-                    }
-                    */
                 },
 
                 searchVideo: function (pageToken) {
@@ -369,39 +349,38 @@
                 },
 
                 addToQueue: function (ev) {
-                    var id = $(ev.target).closest(".video")[0].dataId;
-                    var index = this.searchResult.map(function (e) { return e.id; }).indexOf(id);
-                    if (this.synced.videoQueue.length === 0 && this.synced.current.index === "") {
-                        this.set("synced.current.index", this.searchResult[index].id);
-                        this.set("synced.current.title", this.searchResult[index].title);
-                        this.set("synced.current.thumbnail.small", this.searchResult[index].thumbnail.small);
-                        this.set("synced.current.thumbnail.medium", this.searchResult[index].thumbnail.medium);
-                        this.set("synced.current.description", this.searchResult[index].description);
-                    }
-                    else {
-                        this.push("synced.videoQueue", {"id": id, "title": this.searchResult[index].title, "thumbnail": this.searchResult[index].thumbnail, "description": this.searchResult[index].description});
-                    }
+                    addToQueue(this, ev);
                 },
 
                 updateViews: function () {
-                    if (this.$.devices.devices.connectedDevices.length === 0) {
+                    if (XDmvc.connectedDevices.length === 0) {
                         this.$.roles.addRole('player');
-                        this.$.roles.addRole('controller');
+                        $("#yt-div").removeClass("hidden");
+                        $("#search-panel").addClass("hidden");
+                        $("#video-overview").addClass("hidden");
+                        $("#youtube-logo").addClass("hidden");
+                        //this.$.roles.addRole('controller');
                         var el = document.getElementById("yt-div");
                         if (el) {
                             el.setAttribute("style", "");
                         }
                         document.body.setAttribute("style", "");
+                        if (!this.isExtraLargeDevice()) {
+                            if (document.getElementById("search-panel")) {
+                                //document.getElementById("search-panel").setAttribute("style", "height: calc(100vh - 56.25vw)");
+                            }
+                        }
+                    
                     }
                     else {
                         var largest = true;
-                        for (var i = 0, j = this.$.devices.devices.connectedDevices.length; i < j; ++i) {
-                            if (this.$.devices.devices.connectedDevices[i].device.width > this.$.devices.devices.thisDevice.width) {
+                        for (var i = 0, j = XDmvc.connectedDevices.length; i < j; ++i) {
+                            if (XDmvc.connectedDevices[i].device.width > this.$.devices.devices.thisDevice.width) {
                                 largest = false;
                             }
-                            else if (this.$.devices.devices.connectedDevices[i].device.width === this.$.devices.devices.thisDevice.width) {
+                            else if (XDmvc.connectedDevices[i].device.width === this.$.devices.devices.thisDevice.width) {
                                 var id = parseInt(XDmvc.deviceId.substring(2));
-                                var otherId = parseInt(this.$.devices.devices.connectedDevices[i].id.substring(2));
+                                var otherId = parseInt(XDmvc.connectedDevices[i].id.substring(2));
                                 if (id > otherId) {
                                     largest = false;
                                 }
@@ -410,16 +389,27 @@
                         if (largest) {
                             this.$.roles.addRole("player");
                             this.$.roles.removeRole("controller");
+                            $("#yt-div").removeClass("hidden");
+                            $("#search-panel").addClass("hidden");
+                            $("#video-overview").addClass("hidden");
+                            $("#youtube-logo").addClass("hidden");
                         }
                         else {
                             this.$.roles.addRole("controller");
                             this.$.roles.removeRole("player");
+                            $("#yt-div").addClass("hidden");
+                            $("#search-panel").removeClass("hidden");
+                            $("#video-overview").removeClass("hidden");
+                            $("#youtube-logo").removeClass("hidden");
                         }
-                        var el = document.getElementById("yt-div");
-                        if (el) {
-                            el.setAttribute("style", "background-color: black; width: 100%; height: 100%;");
-                        }
+                        //var el = document.getElementById("yt-div");
+                        //if (el) {
+                           // el.setAttribute("style", "background-color: black; width: 100%; height: 100%;");
+                        //}
                         document.body.setAttribute("style", "margin: 0;");
+                        if (document.getElementById("search-panel")) {
+                            //document.getElementById("search-panel").setAttribute("style", "height: 93vh;");
+                        }
                     }
                 },
 
@@ -429,8 +419,13 @@
                     if (!connect) {
                         var connectString = 'connect=' + XDmvc.deviceId;
                         window.history.pushState('', '', window.location.search.length > 0 ? window.location.search + "&" + connectString : '?' + connectString);
-                        this.$.roles.addRole('player');
-                        this.$.roles.addRole('controller');
+                        //this.$.roles.addRole('player');
+                        //this.$.roles.addRole('controller');
+                        $("#yt-div").removeClass("hidden");
+                        $("#search-panel").addClass("hidden");
+                        $("#video-overview").addClass("hidden");
+                        $("#youtube-logo").addClass("hidden");
+                        this.updateViews();
                     } else {
                         if (connect !== XDmvc.deviceId) {
                             if (XDmvc.server) {
@@ -440,10 +435,14 @@
                                     XDmvc.connectTo(getQueryParams(window.location.search).connect);
                                 });
                             }
-                            this.$.roles.addRole('controller');
+                            //this.$.roles.addRole('controller');
+                            $("#yt-div").addClass("hidden");
+                            $("#search-panel").removeClass("hidden");
+                            $("#video-overview").removeClass("hidden");
+                            $("#youtube-logo").removeClass("hidden");
+                            this.updateViews();
                         } else {
-                            this.$.roles.addRole('player');
-                            this.$.roles.addRole('controller');
+                            this.updateViews();
                         }
                     }
 

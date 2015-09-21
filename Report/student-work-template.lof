@@ -4,27 +4,37 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Architecture of our tools}}{24}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces The complete interface}}{26}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces The connected remote device}}{26}{figure.4.3}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces An emulated device}}{27}{figure.4.4}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Settings menu of an emulated device}}{28}{figure.4.5}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Settings menu of a remote device}}{29}{figure.4.6}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Shared JavaScript console}}{30}{figure.4.7}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces The complete interface while debugging a function}}{31}{figure.4.8}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Shared CSS Editor}}{32}{figure.4.9}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces CSS applied to emulated device}}{33}{figure.4.10}
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Record and Replay}}{35}{figure.4.11}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Previous experience}}{32}{figure.6.1}
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Years of experience}}{32}{figure.6.2}
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Previous experience with Chrome DevTools}}{33}{figure.6.3}
-\contentsline {figure}{\numberline {6.4}{\ignorespaces XDCinema debugging task - Comparison}}{38}{figure.6.4}
-\contentsline {figure}{\numberline {6.5}{\ignorespaces XDCinema debugging task - Features used}}{38}{figure.6.5}
-\contentsline {figure}{\numberline {6.6}{\ignorespaces XDCinema implementation task - Comparison}}{39}{figure.6.6}
-\contentsline {figure}{\numberline {6.7}{\ignorespaces XDCinema implementation task - Features used}}{40}{figure.6.7}
-\contentsline {figure}{\numberline {6.8}{\ignorespaces XDYouTube debugging task - Comparison}}{41}{figure.6.8}
-\contentsline {figure}{\numberline {6.9}{\ignorespaces XDYouTube debugging task - Features used}}{41}{figure.6.9}
-\contentsline {figure}{\numberline {6.10}{\ignorespaces XDYouTube implementing task - Comparison}}{42}{figure.6.10}
-\contentsline {figure}{\numberline {6.11}{\ignorespaces XDYouTube implementing task - Features used}}{43}{figure.6.11}
-\contentsline {figure}{\numberline {6.12}{\ignorespaces Easiness of implementing a feature}}{44}{figure.6.12}
-\contentsline {figure}{\numberline {6.13}{\ignorespaces Efficiency of implementing a feature}}{45}{figure.6.13}
-\contentsline {figure}{\numberline {6.14}{\ignorespaces Preference for implementing a feature}}{45}{figure.6.14}
-\contentsline {figure}{\numberline {6.15}{\ignorespaces Easiness of debugging}}{45}{figure.6.15}
-\contentsline {figure}{\numberline {6.16}{\ignorespaces Efficiency of debugging}}{46}{figure.6.16}
-\contentsline {figure}{\numberline {6.17}{\ignorespaces Preference for debugging}}{46}{figure.6.17}
-\contentsline {figure}{\numberline {6.18}{\ignorespaces Usefulness of our tools}}{47}{figure.6.18}
-\contentsline {figure}{\numberline {6.19}{\ignorespaces General evaluation of our tools}}{47}{figure.6.19}
-\contentsline {figure}{\numberline {6.20}{\ignorespaces Features that the participants would use}}{48}{figure.6.20}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Previous experience}}{42}{figure.6.1}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Years of experience}}{42}{figure.6.2}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Previous experience with Chrome DevTools}}{43}{figure.6.3}
+\contentsline {figure}{\numberline {6.4}{\ignorespaces XDCinema debugging task - Comparison}}{48}{figure.6.4}
+\contentsline {figure}{\numberline {6.5}{\ignorespaces XDCinema debugging task - Features used}}{48}{figure.6.5}
+\contentsline {figure}{\numberline {6.6}{\ignorespaces XDCinema implementation task - Comparison}}{49}{figure.6.6}
+\contentsline {figure}{\numberline {6.7}{\ignorespaces XDCinema implementation task - Features used}}{50}{figure.6.7}
+\contentsline {figure}{\numberline {6.8}{\ignorespaces XDYouTube debugging task - Comparison}}{51}{figure.6.8}
+\contentsline {figure}{\numberline {6.9}{\ignorespaces XDYouTube debugging task - Features used}}{51}{figure.6.9}
+\contentsline {figure}{\numberline {6.10}{\ignorespaces XDYouTube implementing task - Comparison}}{52}{figure.6.10}
+\contentsline {figure}{\numberline {6.11}{\ignorespaces XDYouTube implementing task - Features used}}{53}{figure.6.11}
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Easiness of implementing a feature}}{54}{figure.6.12}
+\contentsline {figure}{\numberline {6.13}{\ignorespaces Efficiency of implementing a feature}}{55}{figure.6.13}
+\contentsline {figure}{\numberline {6.14}{\ignorespaces Preference for implementing a feature}}{55}{figure.6.14}
+\contentsline {figure}{\numberline {6.15}{\ignorespaces Easiness of debugging}}{55}{figure.6.15}
+\contentsline {figure}{\numberline {6.16}{\ignorespaces Efficiency of debugging}}{56}{figure.6.16}
+\contentsline {figure}{\numberline {6.17}{\ignorespaces Preference for debugging}}{56}{figure.6.17}
+\contentsline {figure}{\numberline {6.18}{\ignorespaces Usefulness of our tools}}{57}{figure.6.18}
+\contentsline {figure}{\numberline {6.19}{\ignorespaces General evaluation of our tools}}{57}{figure.6.19}
+\contentsline {figure}{\numberline {6.20}{\ignorespaces Features that the participants would use}}{58}{figure.6.20}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
