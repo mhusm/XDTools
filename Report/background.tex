@@ -1,52 +1,85 @@
 \section{Web Application Testing}
 
-\subsection{Chrome DevTools}
+\subsection{Browser-Integrated Debugging Tools}
+
+\subsubsection{Chrome DevTools}
 
 Google Chrome already provides a wide range of features for testing and debugging web applications. First of all, it lets the developer inspect the DOM tree  and allows inspection and on-the-fly editing of DOM elements. Furthermore, new CSS rules or properties can be added or existing ones can be modified. Another useful feature is the JavaScript Console. It has two main purposes: First, it can be used to log diagnostic information in the development process. Second, it is a shell prompt which can be used to interact with the document and DevTools. Chrome DevTools can also be used to debug JavaScript. In the DevTools, you can see all the scripts that are part of the inspected page. Breakpoints can be set in the scripts and standard controls to pause, resume and step through code are provided. All features mentioned before are also available for debugging remote devices. Remote debugging can be used by connecting a device to the desktop PC with a cable.
 
-Another feature is Device Mode which is especially useful for testing responsive web applications. In Chrome Device Mode, the user can select an arbitrary device from a large list of predefined devices or create a custom device. They can also enable network throttling, touch emulation and location emulation. 
-
 Chrome DevTools provides many more features useful for debugging, but explaining them all would exceed the scope of this document. While all those features are very useful for testing and debugging web applications, the main disadvantage is that they can only be used to debug one device and one website at a time. For cross-device applications, it would be desirable to debug multiple devices at a time without having to navigate between windows all the time.
 
-\subsection{Fire Crystal - Understanding Interactive Behaviors in Dynamic Web Pages}
+\subsubsection{Summary}
 
-\subsection{Invariant-Based Automatic Testing of Ajax User Interfaces}
+\subsection{Record and Replay}
 
-\subsection{State-Based Testing of Ajax Web Applications}
+\subsubsection{Timelapse}
 
-\subsection{Testing Web-Based Applications - The State of the Art and Future Trends}
+In~\cite{timelapse2013}, Burg et al. describe their record and replay tool Timelapse. Timelapse is a tool for recording, reproducing, and debugging interactive behaviors in web applications. Timelapse is built on Dolos, a record/replay infrastructure that ensures deterministic execution by capturing and reusing user inputs, network responses, and other nondeterministic inputs. Developers can use Timelapse to browser, visualize, and seek within recorded program executions while simultaneously using familiar debugging tools such as breakpoints and logging. The developers of Timelapse conducted a user study with 14 web developers which showed no significant effect on task times, task success, or time spent reproducing behaviors when developers had access to Timelapse. Expert developers seemed to better integrate Timelapse into their workflow, using Timelapse to accelerate familiar tasks rather than redesigning their workflow. However, Timelapse distracted less-skilled developers that were led astray by unverified assumptions.
 
-\subsection{Visual and Textual Consistency Checking Tools for Graphical User Interfaces}
+\subsubsection{Mugshot}
 
-\subsection{Summary}
+Mugshot, developed by Mickens et al.~\cite{mugshot2010}, is a record/replay system that captures all events in a JavaScript program, allowing developers to deterministically replay past executions of web applications. The goal of Mugshot is to provide low-overhead, "always-on" capture and replay for web-deployed JavaScript programs. Mugshot logs explicit user interactions like mouse clicks as well as background activities such as random number generation and the firing of timer callbacks. The client-side log is sent to the developer in response to a trigger like an unexpected exception being caught. The developer can then use Mugshot's replay mode to recreate the original JavaScript execution on his unmodified browser. 
+
+\subsubsection{WaRR}
+
+WaRR~\cite{warr2011} is a high-fidelity, "always-on" tool that records and replays the interactions between users and web applications. The WaRR recorder is embedded directly into the web browser and the WaRR Replayer uses an enhanced, developer-specific web browser that enables more realistic simulation of user interactions based on the recorded traces. Thus, the recording functionality is an integral part of the browser. Andrica et al. developed two tools on top of WaRR:
+\begin{itemize}
+	\item WebErr allows testing of web applications against human errors, i.e. navigation errors and timing errors.
+	\item AUsER automatically generates user experience reports: If a user experiences a bug while using a web application, they press a button and the developers of the application receive the sequence of actions that led to the bug.
+\end{itemize}
+Using WebErr, the developers of WaRR were able to find a bug in Google Sites\footnote{\url{https://www.google.com/work/apps/business/products/sites/}}.
+
+\subsubsection{Rumadai}
+
+Yildiz et al.~\cite{rumadai2012} developed Rumadai, a Visual Studio plug-in that helps developers test web applications by recording and replaying client-side events. Rumadai injects JavaScript code into web pages to be deployed at servers. The injected code records user events as well as client-side dynamic content requests and their responses. The recorded events are sent to a database and can be queried by the developers of the web page. The recorded events can then be replayed in a browser using Rumadai seamlessly from Visual Studio.
+
+\subsubsection{FireCrystal}
+
+FireCrystal~\cite{firecrystal2009} is a Firefox extension that allows developers to extract the implementation details of interactive behaviors from other websites. Developers can tell FireCrystal to start recording and demonstrate the interactive behavior they want to extract. FireCrystal records the interaction, keeping track of DOM changes, JavaScript executions and user input events. The developer can then replay the interactions and FireCrystal displays the HTML, CSS and JavaScript code that affected a particular element at any specific time. FireCrystal also provides an execution timeline that developers can scrub back and forth.
+
+\subsubsection{Summary}
+
+The tools described above all employ record and replay in some way for improving web applications. FireCrystal focuses more on extracting interactive behaviors from other websites, but it also provides basic record and replay mechanisms. The other tools all focus on debugging web applications. WaRR and Mugshot provide recording mechanisms directly to users of web applications, providing them with means of submitting bug reports to the developers of the applications. Some of those tools are designed for only replaying event sequences on the devices they were recorded, while others allow replaying event sequences on different devices, e.g. the sequences can be replayed on the developer's machine after a user has recorded the bug. However, all of those tools have one limitation in common: They focus on replaying an event sequence on one device at a time. 
+
+Record and replay mechanisms have already been shown to help with debugging in traditional web applications, thus they could certainly also be useful for debugging cross-device applications. In particular, we believe that replaying event sequences on multiple devices simultaneously could help simulating multiple users using a cross-device application. Developers usually work alone when fixing a bug, or in very small groups, which makes reproducing bugs that require multiple devices to interact simultaneously a very difficult task. If multiple devices should replay event sequences simultaneously, mechanisms for accurately timing event execution are also required. Most of the tools described above do not include such mechanisms, or they include some mechanisms that are however not sufficient for configuring timing in a cross-device replaying scenario.
 
 \section{Responsive Web Application Testing}
 
 There are a number of tools for testing responsive websites. In the following subsections we will describe some of them.
 
-\subsection{BrowserStack}
+\subsection{Web Services}
+
+\subsubsection{BrowserStack}
 
 BrowserStack\footnote{\url{https://www.browserstack.com/}} allows developers to select browsers and devices and then generate screenshots. It is also possible to live test one device at a time. Furthermore, there are developer tools for remote devices and Selenium cloud testing is possible. Advantages of BrowserStack are that real iOS devices are used for screenshots and interactions can be tested automatically using Selenium. A major disadvantage is that only emulated Android devices are available, which limits the usefulness of the tool. Furthermore, only one device can be live tested at a time which is a huge disadvantage for cross-device application testing. 
 
-\subsection{CrossBrowserTesting}
+\subsubsection{CrossBrowserTesting}
 
 With CrossBrowserTesting, developers can select a number of devices as well as the operating system, browser and resolution and generate screenshots. The layout differences between different devices can then automatically be analyzed. Furthermore, websites can also be live tested and Selenium automated testing is available as well. The main advantage of CrossBrowserTesting is that all screenshots are generated on real devices and a very wide variety of devices is available. Also, interactions can be tested. The usefulness of the tool is again limited by the fact that live testing is only possible on one device at once. Additionally, while detecting layout differences is a useful feature in general, it is not yet very mature and some layout differences that are detected seem rather trivial (the body element of a larger device is larger), while other differences are not noticed at all.
 
-\subsection{Remote Preview}
+\subsection{Testing with Actual Devices}
+
+\subsubsection{Remote Preview}
 
 Remote Preview\footnote{\url{https://github.com/viljamis/Remote-Preview}} allows synchronizing URLs across multiple devices. This allows fast previewing of a website on multiple devices. In cross-device scenarios, it may provide especially useful for quick connecting of devices in applications where devices are connected simply by copying the same URL to all devices. However, the fact that this tool only provides one feature, namely URL synchronizing, limits its usefulness.
 
-\subsection{BrowserSync}
+\subsubsection{BrowserSync}
 
 BrowserSync provides a large number of features for testing websites. It allows remote debugging of HTML and CSS, can add CSS outlines or box shadows to all elements and add a CSS grid overlay. It can also load a URL on all devices or refresh all devices as well as automatically refresh devices when files are changed. Furthermore, it allows synchronizing interaction between devices, i.e. clicks, scrolls, form submits, form inputs and form toggles. It also provides network throttling. The advantages of BrowserSync are that it provides a wide range of features, including synchronizing interactions, which is a feature that distinguishes it from other tools. However, for cross-device application testing, synchronizing interactions among all devices is of limited usefulness, as different devices have different roles and thus also different responsibilities.
 
-\subsection{Adobe Edge Inspect CC}
+\subsubsection{Adobe Edge Inspect CC}
 
 Adobe Edge Inspect CC allows developers to take screenshots on all connected devices simultaneously. The screenshots are then automatically transferred to a folder on the desktop PC. It can also refresh all devices simultaneously. Furthermore, the URL that is opened on the desktop PC is loaded on all other connected devices. It also allows remote HTML and CSS debugging using weinre. The main advantage that distinguishes Adobe Edge Inspect CC from other tools is that is simply synchronizes the URL that the developer is currently looking at on the desktop PC, thus it works even if the developer switches tabs or browser windows. However, the fact that the URL cannot be changed from devices other than the desktop PC could be a disadvantage in some scenarios. Also, the installation process is rather extensive: A program needs to be installed on the desktop PC as well as a Chrome extension and an app needs to be installed on all mobile devices that the developer wants to connect. Regarding cross-device applications, again, refreshing all devices at once can be useful as well as synchronizing URLs in some cases, but other than that, it does not provide any features that help with cross-device application testing.
 
-\subsection{Ghostlab}
+\subsubsection{Ghostlab}
 
 Ghostlab\footnote{\url{http://www.vanamco.com/ghostlab/}} is one of the more mature tools for website testing and provides features similar to Browser Sync. It can also load a URL on all devices or refresh all devices at once and refresh automatically when files are changed. It provides means for synchronized browsing as well as synchronized HTML and CSS inspection on multiple devices. Furthermore, it can automatically fill out forms and provides remote Javascript debugging. Synchronization can be turned on and off on a per-device basis, which makes the tool more useful than tools that simply synchronize all devices. However, the usefulness is still limited because constantly changing the devices that should be synchronized is time-consuming and error-prone. Also, interactions on cross-device applications typically do not happen in a synchronous fashion.
+
+\subsection{Device Emulation}
+
+\subsubsection{Chrome Device Mode}
+
+Google Chrome provides extensive support for emulating devices with its Device Mode. If the developer opens the DevTools, they can switch to the Device Mode and emulate any device. The developer can select an arbitrary device from a large list of predefined devices or create a custom device. They can also enable network throttling, touch emulation and location emulation. The large number of different aspects that are emulated in Device Mode make it very well suited for testing responsive web applications. While most other device emulation tools are limited to emulating resolution and maybe touch, Chrome Device Mode allows to emulate many other aspects as well.
 
 \subsection{Summary}
 

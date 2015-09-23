@@ -11,14 +11,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1562
-NormalPos.bottom=580
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=student-work-template.tex
 
 [Frame0_View0,0]
-TopLine=0
-Cursor=2424
+TopLine=23
+Cursor=2326
 
 [Frame1]
 Flags=0
@@ -29,14 +29,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1562
-NormalPos.bottom=580
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=evaluation.tex
 
 [Frame1_View0,0]
-TopLine=565
-Cursor=38622
+TopLine=431
+Cursor=40977
 
 [Frame2]
 Flags=0
@@ -47,8 +47,8 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1562
-NormalPos.bottom=580
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=introduction.tex
 
@@ -65,8 +65,8 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1562
-NormalPos.bottom=580
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=background.tex
 
@@ -83,14 +83,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1562
-NormalPos.bottom=580
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=implementation.tex
 
 [Frame4_View0,0]
-TopLine=165
-Cursor=14937
+TopLine=182
+Cursor=15134
 
 [Frame5]
 Flags=0
@@ -101,14 +101,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1562
-NormalPos.bottom=580
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=approach.tex
 
 [Frame5_View0,0]
-TopLine=173
-Cursor=23059
+TopLine=110
+Cursor=15937
 
 [Frame6]
 Flags=0
@@ -119,8 +119,8 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1562
-NormalPos.bottom=580
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=conclusion.tex
 
@@ -137,16 +137,16 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=1562
-NormalPos.bottom=580
+NormalPos.right=2393
+NormalPos.bottom=1240
 Class=LaTeXView
 Document=sample_apps.tex
 
 [Frame7_View0,0]
-TopLine=0
-Cursor=0
+TopLine=31
+Cursor=7178
 
 [SessionInfo]
 FrameCount=8
-ActiveFrame=4
+ActiveFrame=7
 
