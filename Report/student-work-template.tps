@@ -17,8 +17,8 @@ Class=LaTeXView
 Document=student-work-template.tex
 
 [Frame0_View0,0]
-TopLine=23
-Cursor=2326
+TopLine=65
+Cursor=2382
 
 [Frame1]
 Flags=0
@@ -71,8 +71,8 @@ Class=LaTeXView
 Document=background.tex
 
 [Frame3_View0,0]
-TopLine=83
-Cursor=9129
+TopLine=0
+Cursor=1126
 
 [Frame4]
 Flags=0
@@ -144,9 +144,27 @@ Document=sample_apps.tex
 
 [Frame7_View0,0]
 TopLine=31
-Cursor=7178
+Cursor=7542
+
+[Frame8]
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-1
+MaxPos.y=-1
+NormalPos.left=4
+NormalPos.top=26
+NormalPos.right=2393
+NormalPos.bottom=1240
+Class=BibTeXView
+Document=bibliography.bib
+
+[Frame8_View0,0]
+TopLine=52
+Cursor=3445
 
 [SessionInfo]
-FrameCount=8
-ActiveFrame=7
+FrameCount=9
+ActiveFrame=3
 

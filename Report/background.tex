@@ -6,9 +6,15 @@
 
 Google Chrome already provides a wide range of features for testing and debugging web applications. First of all, it lets the developer inspect the DOM tree  and allows inspection and on-the-fly editing of DOM elements. Furthermore, new CSS rules or properties can be added or existing ones can be modified. Another useful feature is the JavaScript Console. It has two main purposes: First, it can be used to log diagnostic information in the development process. Second, it is a shell prompt which can be used to interact with the document and DevTools. Chrome DevTools can also be used to debug JavaScript. In the DevTools, you can see all the scripts that are part of the inspected page. Breakpoints can be set in the scripts and standard controls to pause, resume and step through code are provided. All features mentioned before are also available for debugging remote devices. Remote debugging can be used by connecting a device to the desktop PC with a cable.
 
-Chrome DevTools provides many more features useful for debugging, but explaining them all would exceed the scope of this document. While all those features are very useful for testing and debugging web applications, the main disadvantage is that they can only be used to debug one device and one website at a time. For cross-device applications, it would be desirable to debug multiple devices at a time without having to navigate between windows all the time.
+Chrome DevTools provides many more features useful for debugging, but explaining them all would exceed the scope of this document. While all those features are very useful for testing and debugging web applications, the main disadvantage is that they can only be used to debug one device and one website at a time.
+
+\subsubsection{Firefox Developer Tools}
+
+Firefox\footnote{\url{https://developer.mozilla.org/en-US/docs/Tools}} provides developer tools similar to Chrome DevTools. It also has a page inspector that allows developer to inspect the DOM tree and modify the CSS. It also features a console, a JavaScript debugger and remote debugging. Like Google Chrome's DevTools, Firefox's developer tools provides more features that will not be explained here. Furthermore, Firefox gives developers access to a feature called Developer Toolbar. The Developer Toolbar is a command-line tool that can be used to access a number of developer tools from within Firefox. Overall, Chrome DevTools and Firefox Developer Tools are very similar and thus also have the same limitations. Just like Google Chrome, only one device can be debugged at a time in Firefox.
 
 \subsubsection{Summary}
+
+Internet Explorer, Microsoft Edge, Opera, Safari and other browsers all provide some kind of developer tools. However, they do not provide any features that we did not already mention before, thus we will not provide any detailed description of the developer tools available in those browsers. All those browsers share the same limitation: Their tools can only be used to debug one device at a time. For cross-device applications however, it would be desirable to debug multiple devices at a time without having to navigate between windows all the time.
 
 \subsection{Record and Replay}
 
@@ -45,9 +51,11 @@ Record and replay mechanisms have already been shown to help with debugging in t
 
 \section{Responsive Web Application Testing}
 
-There are a number of tools for testing responsive websites. In the following subsections we will describe some of them.
+There are a number of tools for testing responsive websites. Some of them can be accessed on the web as a service, while others are desktop programs that have to be installed. Some focus more on testing on real devices and others focus on emulating devices. In the following subsections we will describe some of those tools.
 
 \subsection{Web Services}
+
+The following two tools can be accessed through a browser and do not have to be installed.
 
 \subsubsection{BrowserStack}
 
@@ -58,6 +66,8 @@ BrowserStack\footnote{\url{https://www.browserstack.com/}} allows developers to 
 With CrossBrowserTesting, developers can select a number of devices as well as the operating system, browser and resolution and generate screenshots. The layout differences between different devices can then automatically be analyzed. Furthermore, websites can also be live tested and Selenium automated testing is available as well. The main advantage of CrossBrowserTesting is that all screenshots are generated on real devices and a very wide variety of devices is available. Also, interactions can be tested. The usefulness of the tool is again limited by the fact that live testing is only possible on one device at once. Additionally, while detecting layout differences is a useful feature in general, it is not yet very mature and some layout differences that are detected seem rather trivial (the body element of a larger device is larger), while other differences are not noticed at all.
 
 \subsection{Testing with Actual Devices}
+
+Using the following tools, developers can connect and debug real devices. 
 
 \subsubsection{Remote Preview}
 
@@ -77,13 +87,19 @@ Ghostlab\footnote{\url{http://www.vanamco.com/ghostlab/}} is one of the more mat
 
 \subsection{Device Emulation}
 
+The following tools allow developers to emulate devices. 
+
 \subsubsection{Chrome Device Mode}
 
 Google Chrome provides extensive support for emulating devices with its Device Mode. If the developer opens the DevTools, they can switch to the Device Mode and emulate any device. The developer can select an arbitrary device from a large list of predefined devices or create a custom device. They can also enable network throttling, touch emulation and location emulation. The large number of different aspects that are emulated in Device Mode make it very well suited for testing responsive web applications. While most other device emulation tools are limited to emulating resolution and maybe touch, Chrome Device Mode allows to emulate many other aspects as well.
 
+\subsubsection{Firefox's Responsive Design View}
+
+Firefox's Responsive Design View also allows developers to emulate devices, similar to Chrome's Device Mode, but it provides fewer features. Instead of focusing on existing devices, it provides a short list of common resolutions that can be selected by the developer. It also allows to emulate a custom resolution. Additionally, the orientation of the devices can be switched, touch can be emulated, and screenshots of the displayed web page can be taken.
+
 \subsection{Summary}
 
-While the tools described above already provide a wide variety of features that are immensely useful for responsive web application testing as well as web application testing in general, the distinguishing characteristics of cross-device applications lead to a limited usefulness of those tools. First of all, there are two different approaches to live testing in the tools described above. The first is to test on real devices, but through a web service. In those tools, live testing is possible on one device at a time, but in cross-device scenarios, multiple devices are typically involved. The second approach is to let the developer connect their own devices and synchronize interactions among all or some devices. This is also problematic for testing cross-device applications because not all devices perform the same interactions and those that do, do not necessarily perform them at exactly the same time. Two features that some of the tools mentioned above provide and that would definitely also be useful for cross-device applications are refreshing all devices at once and loading a URL on all devices. Remote HTML, CSS and Javascript debugging are also desirable in a cross-device scenario, but this is already covered by Google Chrome anyways. Something similar to Selenium testing would clearly also be useful in cross-device scenarios. However, depending on the device, different tests would be needed and it should be possible to run those tests in parallel.
+While the tools described above already provide a wide variety of features that are immensely useful for responsive web application testing as well as web application testing in general, the distinguishing characteristics of cross-device applications lead to a limited usefulness of those tools. First of all, there are two different approaches to live testing in the tools described above. The first is to test on real devices, but through a web service. In those tools, live testing is possible on one device at a time, but in cross-device scenarios, multiple devices are typically involved. The second approach is to let the developer connect their own devices and synchronize interactions among all or some devices. This is also problematic for testing cross-device applications because not all devices perform the same interactions and those that do, do not necessarily perform them at exactly the same time. Two features that some of the tools mentioned above provide and that would definitely also be useful for cross-device applications are refreshing all devices at once and loading a URL on all devices. Remote HTML, CSS and JavaScript debugging are also desirable in a cross-device scenario, but this is already covered by Google Chrome anyways. Something similar to Selenium testing would clearly also be useful in cross-device scenarios. However, depending on the device, different tests would be needed and it should be possible to run those tests in parallel.
 
 \section{Cross-Device Application Development Frameworks}
 
@@ -91,7 +107,7 @@ In the following subsections, we will describe some frameworks that facilitate t
 
 \subsection{XD-MVC}
 
-XD-MVC is a framework that combines cross-device capabilities with MVC frameworks. It can be used as a plain JavaScript library or in combination with Polymer. The framework consists of a server-side and a client-side part. For communicating, either a peer-to-peer or a client-server approach can be used.
+XD-MVC is a framework that combines cross-device capabilities with MVC frameworks. It can be used as a plain JavaScript library or in combination with Polymer. The framework consists of a server-side and a client-side part. For communicating, either a peer-to-peer or a client-server approach can be used. Developers that use XD-MVC can assign roles to devices that are connected to the application. Depending on the role that a device is assigned, different parts of the interface are shown on the device. 
 
 \subsection{Connichiwa}
 
@@ -124,10 +140,12 @@ XDStudio makes the following contributions:
 \begin{itemize}
 	\item It explores two scenarios thatt were developed as interesting use cases of multi-device, distributed user interfaces and used to drive the design and evaluation of XDStudio
 	\item The notion of distribution profiles at the core of XDStudio extends existing context models to multiple devices and users
-	\item It provides cross-device authoring concepts and tools that cater for cases where not all devices and users are available, or where they are even different, at deisgn and run-time
+	\item It provides cross-device authoring concepts and tools that cater for cases where not all devices and users are available, or where they are even different, at design and run-time
 	\item User study to evaluate XDStudio
 \end{itemize}
 Distribution profiles can be specified in terms of involved devices, users and target user interfaces. The user can either select which user interface widgets and other elements of the source to include in the distribution by dragging and dropping them from the source interface to the corresponding target interface or click a button available for each target interface to insert the full version of the source interface as a starting point, and then include/exclude interface elements from the distribution.
+
+Although XDStudio includes mechanisms for inspecting interactive designs on emulated devices and on connected real devices, there is no specific support for debugging such as access to the console. Thus, XDStudio is well suited for seeing what an application looks and feels like on different devices, but debugging the application when something does not work like expected is still a difficult task.
 
 \subsection{Panelrama}
 
@@ -158,14 +176,20 @@ Polychrome provides the interaction and display space distribution mechanisms to
 
 XDSession, developed by Nebeling et al.~\cite{xdsession2015}, is a framework for cross-device application development based on a concept of cross-device sessions which is also useful for logging and debugging. The session controller supports management and testing of cross-device sessions with connected or simulated devices at run time. The session inspector enables inspection and analysis of multi-device/multi-user sessions with support for deterministic record/replay of cross-device sessions. A session consists of users, devices, and information. When a device joins a session, it receives the whole or missing part of the data belonging to the selected session. When a device leaves a session, all data of that session that is not shared with any other session is removed from the device.
 
+XDSeession provides a capture and replay mechanism for user interactions and changes to the sessions and provides a basic device emulation mode that allows developers to emulate one device at a time. However, the record and replay mechanism only works if the framework API is used for the manipulations. Also, XDSession supports debugging at a rather high level of abstraction and is thus better suited for finding problems in interactions rather than bugs in the source code.
+
 \subsection{WatchConnect}
 
-In ~\cite{watchconnect2015}, Houben et al. present WatchConnect. WatchConnect is a toolkit for rapidly prototyping cross-device applications and interaction techniques with smartwatches. It provides an extendable hardware platform that emulates a smartwatch, a UI framework that integrates with an existing UI builder and a rich set of input and output events using a range of built-in sensor mappings.
+In ~\cite{watchconnect2015}, Houben et al. present WatchConnect. WatchConnect is a toolkit for rapidly prototyping cross-device applications and interaction techniques with smartwatches. It provides an extendable hardware platform that emulates a smartwatch, a UI framework that integrates with an existing UI builder and a rich set of input and output events using a range of built-in sensor mappings. WatchConnect is built around a wired prototyping watch, a smart watch emulator composed of a display, a number of sensors and a microprocessor. Applications can thus be tested and debugged directly on the watch prototype. WatchConnect also includes some tools for supporting developers while debugging, but those tools are focused on the machine learning algorithms and the recording of sensor data.
 
 \subsection{Weave}
 
 Weave is a web-based framework for creating cross-device wearable interaction by scripting, developed by Chi et al.~\cite{weave2015}. It provides a set of high-level APIs for developers to easily distribute UI output and combine sensing events and user input across mobile and wearable devices. Devices can be manipulated regarding their capabilities and affordances, rather than low-level specifications. Weave also has an integrated authoring environment for developers to program and test cross-device behaviors. Developers can test their scripts based on a set of simulated or real wearable devices. Weave's APIs capture affordances of wearable devices and provide mechanisms for distributing output and combining sensing events and user input across multiple devices.
 
+Weave allows testing on emulated and real devices and the developer also has access to a log panel, but no further support for debugging is provided. 
+
 \subsection{Summary}
 
-In the sections above, we have described several different frameworks for developing cross-device applications. Some of them are only useful for specific types of applications, while others are suited for cross-device applications of all types. Despite this abundance of frameworks available, most of the papers describing the frameworks do not mention anything about testing and debugging cross-device applications. XDSession is the only framework that has some features related to testing, but those features are mainly limited to testing and replaying sessions. Thus, a proper tool for testing and debugging cross-device applications is clearly still missing.
+In the sections above, we have described several different frameworks for developing cross-device applications. Some of them are only useful for specific types of applications, while others are suited for cross-device applications of all types. Despite this abundance of frameworks available, many of those frameworks provide no support for testing and debugging the applications that are developed with them. Applications DireWolf, Polychrome and XD-MVC all include no features for testing and run in an unmodified browser. Thus, they could all benefit from a web-based tool for testing cross-device applications. Panelrama applications also run in an unmodified browser. The developers of Panelrama mention that a tool for simulating device configurations and previewing the distribution was built on request of some developers. No further details about the tool were mentioned, but the fact that developers requested such a tool shows that it is often difficult to imagine what an application would look like in different device configurations. Thus, the developers of Panelrama applications would certainly also benefit from a cross-device testing tool. Connichiwa requires the installation of a helper application, but the application itself still runs in an unmodified browser. Thus, applications developed with Connichiwa could also be tested with a web-based cross-device testing tool.
+
+Some of the frameworks above allow the emulation of devices as well as the connection of real devices. Emulating multiple devices at a time as well as connecting real devices is a crucial feature for testing and debugging cross-device applications, but without any additional tools that help with debugging, finding and fixing bugs in the applications is still a difficult task. The framework that provides the most support for testing so far is probably XDSession, but as described above, its mechanisms are still not enough for successfully debugging cross-device applications at the source code level.
