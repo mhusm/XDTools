@@ -114,6 +114,10 @@ function JavaScriptConsole() {
             message = message + "<span class='content'>" + process(msg) + "</span></div>";
             $(message).appendTo(this.$history).css("color", "hsla(" + colors[index].color + ", 60%, 50%, 1)");
             this.scrollToBottom();
+            if ($("#filter").val() !== "") {
+                this.filterByName($("#filter").val());
+            }
+            this.filterByClass(this.$jsConsole.find(".category.marked").data("class"));
         }
     };
 

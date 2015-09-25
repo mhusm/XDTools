@@ -71,8 +71,8 @@ Class=LaTeXView
 Document=background.tex
 
 [Frame3_View0,0]
-TopLine=0
-Cursor=1126
+TopLine=212
+Cursor=26627
 
 [Frame4]
 Flags=0
@@ -89,8 +89,8 @@ Class=LaTeXView
 Document=implementation.tex
 
 [Frame4_View0,0]
-TopLine=182
-Cursor=15134
+TopLine=63
+Cursor=4282
 
 [Frame5]
 Flags=0
@@ -107,8 +107,8 @@ Class=LaTeXView
 Document=approach.tex
 
 [Frame5_View0,0]
-TopLine=110
-Cursor=15937
+TopLine=117
+Cursor=18147
 
 [Frame6]
 Flags=0
@@ -144,7 +144,7 @@ Document=sample_apps.tex
 
 [Frame7_View0,0]
 TopLine=31
-Cursor=7542
+Cursor=7838
 
 [Frame8]
 Flags=0
@@ -166,5 +166,5 @@ Cursor=3445
 
 [SessionInfo]
 FrameCount=9
-ActiveFrame=3
+ActiveFrame=5
 

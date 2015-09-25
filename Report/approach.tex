@@ -30,7 +30,14 @@ Our system provides a solution that fulfills all those requirements. Firstly, th
 \end{itemize}
 Although some devices may not easily be classified, e.g. 2-in-1 devices that can either be used as a tablet or laptop by just plugging in a keyboard, those categories give a rough overview of the types of different devices. This categorization of devices also makes it easier for developers to emulate different types of devices without having to know any exact device names. By just adding some devices from each category, the developer can make sure that a very large range of devices is covered, as devices in the same category typically have similar properties such as screen size and input modalities. Our list of existing devices includes multiple devices from each of those categories. For the desktop devices, we just provide some typical resolutions of desktop PCs and laptops. The list of tablets and mobile phones includes most of the well-known devices in that area. The list of wearables so far only includes some smart watches, as most other wearables do not have access to a modern web browser (yet).
 
-Once the developer has created an emulated device, they can move it to the desired location on the screen. Instead of ordering devices automatically, we chose to give the developer the freedom to choose how to place the emulated devices. This makes it easy to accurately simulate specific scenarios, e.g. a presentation room where two large screens are placed next to each other. To conquer the challenge of limited screen size, all emulated devices can be scaled up and down. Scaling a device does not change the resolution of the device and thus has no influence on the look of the application. This allows the developer to scale down an emulated device and have more space available for devices. If the developers has difficulties performing an interaction on a device because it is scaled down, they can just scale it up again. However, dynamically changing the resolution of an emulated device is also possible. Thus, the developer can continuously increase or decrease the resolution of the device to immediately see how the application looks with different resolutions. 
+Once the developer has created an emulated device, they can move it to the desired location on the screen. Instead of ordering devices automatically, we chose to give the developer the freedom to choose how to place the emulated devices. This makes it easy to accurately simulate specific scenarios, e.g. a presentation room where two large screens are placed next to each other. To conquer the challenge of limited screen size, all emulated devices can be scaled up and down. Scaling a device does not change the resolution of the device and thus has no influence on the look of the application. This allows the developer to scale down an emulated device and have more space available for devices. If the developers has difficulties performing an interaction on a device because it is scaled down, they can just scale it up again. However, dynamically changing the resolution of an emulated device is also possible. Thus, the developer can continuously increase or decrease the resolution of the device to immediately see how the application looks with different resolutions. Figure~\ref{fig:difference_resizing_scaling} illustrates the difference between resizing a device and scaling a device using W3School's website\footnote{\url{http://www.w3schools.com/}}.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1.0\textwidth]{images/difference_scaling_resizing.pdf}
+	\caption{Difference between resizing and scaling a website}
+	\label{fig:difference_resizing_scaling}
+\end{figure}
 
 Finally, our system includes a mechanism that prevents the sharing of local resources between emulated devices. In summary, our system allows the developer to create multiple emulated devices with just a few clicks and to order the devices as needed for the application that the developer wants to test. There is no need for constant switching between multiple browser windows and creating new browser profiles. Also, the developer tools can just be opened for the browser window where all devices are emulated instead of having to open them for each emulated device.
  
@@ -68,10 +75,17 @@ Many of the features integrated into the debugging tools of browsers are also im
 	\item JavaScript errors should also be aggregated and be easily identifiable.
 	\item It should be possible to send JavaScript commands to multiple devices at a time. 
 	\item It should be easy to inspect the HTML of a specific device.
-	\item It should be possible to add CSS to multiple devices at the same time.
+	\item It should be possible to add CSS to multiple devices at the same time (see Figure ~\ref{fig:css_aggregation}).
 	\item It should be possible to add breakpoints to multiple devices simultaneously.
 	\item If possible, all of the above requirements should also be applied for real devices.
 \end{itemize}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1.0\textwidth]{images/css_aggregation.pdf}
+	\caption{Editing CSS once for all devices}
+	\label{fig:css_aggregation}
+\end{figure}
 
 Unfortunately, it is not feasible to extend the console of Chrome DevTools due to technical limitations. For this reason, our system includes its own JavaScript console. Each emulated and real device forwards all logging messages and JavaScript errors to our system. This allows us to aggregate all console outputs in our custom console. For easy identifiability, each device gets its own unique color when created and all console outputs are color-coded in the color of the device the output stems from. This color-coding makes it trivial to identify the device a message or error originated from. The large number of messages that are displayed in the console due to the larger number of devices makes it a key requirement that there are some ways of filtering messages. The developer can either filter the messages by type (error, warning, logging message, info), by content, or by device. Our console also allows sending commands to multiple devices. The developer can either send a command to all devices or they can deactivate some devices and only send the message to a subset of devices. Being able to send a command only to a subset of devices is important in a cross-device setting because some commands might only make sense on some devices and executing them on all devices could lead to potential errors or a decrease in performance. The return values of commands are also displayed in the console, again color-coded to match the device they came from. Thus, otherwise complicated tasks like checking the value of a global variable become trivial. Our custom console works exactly the same for emulated as well as real devices. This aggregation of console outputs from both emulated and real devices at least partially eliminates the need for remote debugging.
 

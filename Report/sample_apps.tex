@@ -62,7 +62,13 @@ The device with the largest resolution automatically shows the player view. All 
 
 \subsection{Implementation}
 
-XDYouTube is implemented with XD-MVC in combination with Polymer. The different elements of the views are shown depending on whether certain conditions are met, e.g. if a device has the "player" role, the player view is shown and all other elements are hidden. When devices connect or disconnect, the roles are updated. Updateing the roles automatically also updates the views.
+XDYouTube is implemented with XD-MVC in combination with Polymer. The devices in the application can have three different roles:
+\begin{itemize}
+	\item "player": This role is assigned to the largest device.
+	\item "controller": This role is assigned to all devices except the largest device.
+	\item "xlarge": This role is assigned to devices with a width of more than 1000 pixels.
+\end{itemize}
+Depneding on the role and the orientation of a device, different views are shown. As described above, the device with the role "player" shows the player view. Devices with the roles "xlarge" and "controller" show both parts of the controller view simultaneously, devices that only have the role "controller" show only one part of the controller view, depending on the orientation. Whenever a new device connects or a device disconnects, the roles and thus also the views are updated to reflect the new device configuration.
 
 \section{Insights}
 

@@ -201,6 +201,18 @@ function loadDevice(devices, i) {
             device = new LocalDevice(devices[index].name, id, devices[index].width, devices[index].height, devices[index].devicePixelRatio, $url.val(), url.hostname, devices[index].scaling, devices[index].scaling, devices[index].top, devices[index].left);
         activeDevices[device.id] = device;
         device.create();
+        var foundAutoConnect = false;
+        $("#sessions").find(".auto-connect input").each(function () {
+            if ($(this).is(":checked")) {
+                foundAutoConnect = true;
+                device.$device.find(".main input").click();
+                device.$device.find("select").val(id);
+                connectDevice(id, this.dataset.deviceId);
+            }
+        });
+        if (!foundAutoConnect) {
+            $(".session input[data-device-id='" + device.id + "']").click();
+        }
         if (index + 1 < devices.length) {
             loadDevice(devices, index + 1);
         }
