@@ -1,19 +1,18 @@
 <!doctype html>
 <html>
     <head>
-        <script src="http://129.132.173.2/js/remote_xdyt.js"></script>
+        <script src="http://129.132.173.2/js/remote.js"></script>
         <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+      <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc.html">
         <link rel="import" href="bower_components/polymer/polymer.html">
         <script src="bower_components/xdmvcclient/js/queryParams.js"></script>
-        <script src="js/task1.js"></script>
-        <script src="js/task2.js"></script>
-        <link rel="stylesheet" href="css/task1.css" />
         <link rel="stylesheet" href="css/style.css" />
-
-        <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-synchronised.html">
+      
+      <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-synchronised.html">
         <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-connection.html">
         <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-roles.html">
         <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-devices.html">
+        <link rel="import" href="bower_components/xdmvcclient/polymer/xdmvc-url-pairing.html">
         <link rel="import" href="bower_components/google-youtube/google-youtube.html">
         <link rel="import" href="bower_components/paper-input/paper-input.html">
         <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
@@ -34,7 +33,7 @@
     <body>
         <dom-module id="youtube-app">
             <template>
-                <xdmvc-connection reconnect="false" peerport="9002" ajaxport="9003"></xdmvc-connection>
+                <xdmvc-connection reconnect="true" peerport="9002" ajaxport="9003"></xdmvc-connection>
                 <xdmvc-synchronised id="sync"
                                     objects='{{synced}}'>
                 </xdmvc-synchronised>
@@ -43,6 +42,7 @@
                              roles="{{roles}}">
                 </xdmvc-roles>
                 <xdmvc-devices devices="{{devices}}" id="devices"></xdmvc-devices>
+              <xdmvc-url-pairing connector="visitor" connectee="owner"></xdmvc-url-pairing>
                 <template is="dom-if" if="{{roles.isselected.player}}">
                     <div id="yt-div">
                         <template is="dom-if" if="{{synced.current.index}}">
@@ -65,14 +65,14 @@
                                     start="0"
                                     autoplay="0"
                                     fluid
-                                    controls="1"
-                                    on-google-youtube-state-change="handleStateChange">
+                                    controls="1">
                             </google-youtube>
                         </template>
                     </div>
                 </template>
                 <template is="dom-if" if="{{roles.isselected.controller}}">
-                    <template is="dom-if" if="{{isExtraLargeDevice()}}">
+                    <div>
+                    <template is="dom-if" if="{{roles.isselected.xlarge}}">
                         <link rel="stylesheet" href="css/extra-large-device.css" />
                     </template>
                     <template is="dom-if" if="{{!roles.isselected.player}}">
@@ -80,37 +80,28 @@
                     </template>
                     <div id="video-overview">
                         <h3>Current Video</h3>
-                        <button id="pauseButton" on-click="pauseClicked">PAUSE</button>
                         <template is="dom-if" if="{{!synced.current.index}}">
-                            <div>No video currently playing.</div>
+                            <div class="description">No video currently playing.</div>
                         </template>
                         <template is="dom-if" if="{{synced.current.index}}">
+                            <paper-button id="pauseButton" on-click="pauseClicked" raised>PAUSE</paper-button>
+                            <paper-button id="playButton" on-click="pauseClicked" class="hidden" raised>PLAY</paper-button>
                             <h4>{{synced.current.title}}</h4>
-                            <img class="thumbnail" src="{{synced.current.thumbnail.small}}" alt="" />
-                            <div>{{synced.current.description}}</div>
+                            <img class="thumbnail" src="{{synced.current.thumbnail}}" alt="" />
+                            <div class="description">{{synced.current.description}}</div>
                         </template>
                         <hr />
                         <h3>Queued Videos</h3>
                         <template is="dom-if" if="{{synced.videoQueue}}">
                             <template is="dom-repeat" items="{{synced.videoQueue}}">
                                 <div class="queued-video" data-id="{{item.id}}">
-                                    <template is="dom-if" if="{{!isLargeDevice()}}">
-                                        <img class="thumbnail" src="{{item.thumbnail.small}}" />
-                                    </template>
-                                    <template is="dom-if" if="{{isLargeDevice()}}">
-                                        <style>
-                                            .queued-video {
-                                                max-width: 330px;
-                                            }
-                                        </style>
-                                        <img class="thumbnail" src="{{item.thumbnail.medium}}" />
-                                    </template>
+                                    <img class="thumbnail" src="{{item.thumbnail.small}}" />
                                     <div>{{item.title}}</div>
                                 </div>
                             </template>
                         </template>
-                        <template is="dom-if" if="{{!synced.videoQueue}}">
-                            No queued videos.
+                        <template is="dom-if" if="{{!synced.videoQueue.length}}">
+                            <div class="description">No queued videos.</div>
                         </template>
                     </div>
                     <div id="search-panel">
@@ -120,18 +111,7 @@
                             <template is="dom-repeat" items="{{searchResult}}">
                                 <div class="video" data-id="{{item.id}}">
                                     <paper-dialog>
-                                    <h4>{{item.title}}</h4>
-                                    <template is="dom-if" if="{{!isLargeDevice()}}">
-                                        <img class="thumbnail" src="{{item.thumbnail.small}}" />
-                                    </template>
-                                    <template is="dom-if" if="{{isLargeDevice()}}">
-                                        <style>
-                                            .queued-video {
-                                                max-width: 330px;
-                                            }
-                                        </style>
-                                        <img class="thumbnail" src="{{item.thumbnail.medium}}" />
-                                    </template>
+                                    <h4>{{item.title}}</h4><img class="thumbnail" src="{{item.thumbnail.small}}" />
                                     <div>{{item.description}}</div>
                                     <paper-button on-click="addToQueue" raised>Add to Queue</paper-button>
                                     </paper-dialog>
@@ -145,6 +125,7 @@
                             </div>
                         </template>
                     </div>
+                        </div>
                 </template>
             </template>
         </dom-module>
@@ -156,7 +137,7 @@
                 properties: {
                     synced: {
                         type: Object,
-                        value: {"current": { "index": "", "title": "", "thumbnail": {"small": "", "medium": ""}, "description": ""}, "videoQueue": [], "paused": {"state": false}},
+                        value: {"current": { "index": "", "title": "", "thumbnail": "", "description": ""}, "videoQueue": [], "paused": {"state": false}},
                         notify: true
                     },
                     searchResult: {
@@ -181,21 +162,8 @@
                     }
                 },
 
-                makeSingleDevice: function () {
-                    alert("hi");
-                },
-
                 isOnlyDevice: function () {
                     return XDmvc.othersDevices.small === 0 && XDmvc.othersDevices.medium === 0 && XDmvc.othersDevices.large === 0 && XDmvc.othersDevices.xlarge === 0;
-                },
-
-                isLargeDevice: function () {
-                    return this.$.devices.devices.thisDevice.width > 1000;
-                    //return this.$.devices.devices.thisDevice.type === "large" || this.$.devices.devices.thisDevice.type === "xlarge";
-                },
-
-                isExtraLargeDevice: function () {
-                    return this.$.devices.devices.thisDevice.type === "xlarge"
                 },
 
                 inputKeyPressed: function (ev) {
@@ -205,52 +173,23 @@
                     }
                 },
 
-                contained: function(id) {
-                    return this.synced.videoQueue.indexOf(id) !== -1;
-                },
-
-                pauseVideo: function () {
-                    document.getElementsByTagName("google-youtube")[0].pause();
-                },
-
-                isVideoPlaying: function () {
-                    if (this.synced.current.index) {
-                        return true;
+                updateVideo: function () {
+                    if (this.synced.videoQueue.length > 0) {
+                        var next = this.shift("synced.videoQueue");
+                        this.set("synced.current.index", "");
+                        this.set("synced.current.index", next.id);
+                        this.set("synced.current.title", next.title);
+                        this.set("synced.current.thumbnail", next.thumbnail.small);
+                        this.set("synced.current.description", next.description);
                     }
                     else {
-                        return false;
+                        this.set("synced.current.index", "");
                     }
-                },
-
-                setPausedState: function (state) {
-                    this.synced.paused.state = state;
-                },
-
-                getPausedState: function () {
-                    return this.synced.paused.state;
-                },
-
-                unpauseVideo: function () {
-                    document.getElementsByTagName("google-youtube")[0].play();
-                },
-
-                isPlayer: function () {
-                    return XDmvc.roles.indexOf("player") !== -1;
-                },
-
-                isController: function () {
-                    return XDmvc.roles.indexOf("controller") !== -1;
-                },
-
-                updateVideo: function () {
-                    //TODO: Comment out for study and uncomment updateVideo(this)
-
-                    updateVideo(this);
                 },
 
                 handleStateChange: function (ev) {
-                    //TODO: should be ev.data === YT.PlayerState.ENDED, but that does not work
                     if (ev.detail.data === 0) {
+                        //If the video has ended, load the next video
                         this.updateVideo();
                     }
                     else if (ev.detail.data === 2) {
@@ -262,11 +201,29 @@
                 },
 
                 pauseClicked: function () {
-                    pauseClicked(this);
+                    if (this.synced.current.index){
+                        this.synced.paused.state = !this.synced.paused.state;
+                    }
                 },
 
                 updatePaused: function () {
-                    updatePaused(this);
+                    var paused = this.synced.paused.state;
+                    if (XDmvc.roles.indexOf("player") !== -1){
+                        if (paused) {
+                            $("google-youtube")[0].pause();
+                        } else {
+                            $("google-youtube")[0].play();
+                        }
+                    }
+                    if (XDmvc.roles.indexOf("controller") !== -1){
+                        if (paused) {
+                            $("#playButton").removeClass("hidden");
+                            $("#pauseButton").addClass("hidden");
+                        } else {
+                            $("#playButton").addClass("hidden");
+                            $("#pauseButton").removeClass("hidden");
+                        }
+                    }
                 },
 
                 searchVideo: function (pageToken) {
@@ -337,13 +294,12 @@
                 },
 
                 addToQueue: function (ev) {
-                    var id = $(ev.target).closest(".video")[0].dataId;
-                    var index = this.searchResult.map(function (e) { return e.id; }).indexOf(id);
+                    var id = $(ev.target).closest(".video")[0].dataId,
+                        index = this.searchResult.map(function (e) { return e.id; }).indexOf(id);
                     if (this.synced.videoQueue.length === 0 && this.synced.current.index === "") {
                         this.set("synced.current.index", this.searchResult[index].id);
                         this.set("synced.current.title", this.searchResult[index].title);
-                        this.set("synced.current.thumbnail.small", this.searchResult[index].thumbnail.small);
-                        this.set("synced.current.thumbnail.medium", this.searchResult[index].thumbnail.medium);
+                        this.set("synced.current.thumbnail", this.searchResult[index].thumbnail.small);
                         this.set("synced.current.description", this.searchResult[index].description);
                     }
                     else {
@@ -352,25 +308,30 @@
                 },
 
                 updateViews: function () {
-                    if (this.$.devices.devices.connectedDevices.length === 0) {
+                    if (XDmvc.device.width > 1000) {
+                        this.$.roles.addRole('xlarge');
+                    }
+                    else {
+                        this.$.roles.removeRole('xlarge');
+                    }
+                    if (XDmvc.getConnectedDevices().length === 0) {
                         this.$.roles.addRole('player');
                         this.$.roles.addRole('controller');
-                        var el = document.getElementById("yt-div");
-                        if (el) {
-                            el.setAttribute("style", "");
-                        }
-                        document.body.setAttribute("style", "");
-                        if (!this.isExtraLargeDevice()) {
-                            document.getElementById("search-panel").setAttribute("style", "height: calc(100vh - 56.25vw)");
-                        }
+                        $("#yt-div").css({
+                            "background-color": "transparent",
+                            "width": "100%",
+                            "height": "auto"
+                        });
+                        $("#search-panel").css("height", "calc(100vh - 56.25vw");
                     }
                     else {
                         var largest = true;
-                        for (var i = 0, j = this.$.devices.devices.connectedDevices.length; i < j; ++i) {
-                            if (this.$.devices.devices.connectedDevices[i].device.width > this.$.devices.devices.thisDevice.width) {
+                        var connectedDevices = XDmvc.getConnectedDevices();
+                        for (var i = 0, j = connectedDevices.length; i < j; ++i) {
+                            if (connectedDevices[i].device.width > this.$.devices.devices.thisDevice.width) {
                                 largest = false;
                             }
-                            else if (this.$.devices.devices.connectedDevices[i].device.width === this.$.devices.devices.thisDevice.width) {
+                            else if (connectedDevices[i].device.width === this.$.devices.devices.thisDevice.width) {
                                 var id = parseInt(XDmvc.deviceId.substring(2));
                                 var otherId = parseInt(this.$.devices.devices.connectedDevices[i].id.substring(2));
                                 if (id > otherId) {
@@ -381,17 +342,17 @@
                         if (largest) {
                             this.$.roles.addRole("player");
                             this.$.roles.removeRole("controller");
+                            $("#yt-div").css({
+                               "background-color": "black",
+                                "width": "100%",
+                                "height": "100%"
+                            });
                         }
                         else {
                             this.$.roles.addRole("controller");
                             this.$.roles.removeRole("player");
+                            $("#search-panel").css("height", "93vh");
                         }
-                        //var el = document.getElementById("yt-div");
-                        //if (el) {
-                           // el.setAttribute("style", "background-color: black; width: 100%; height: 100%;");
-                        //}
-                        document.body.setAttribute("style", "margin: 0;");
-                        document.getElementById("search-panel").setAttribute("style", "height: 93vh;");
                     }
                 },
 
@@ -401,8 +362,6 @@
                     if (!connect) {
                         var connectString = 'connect=' + XDmvc.deviceId;
                         window.history.pushState('', '', window.location.search.length > 0 ? window.location.search + "&" + connectString : '?' + connectString);
-                        this.$.roles.addRole('player');
-                        this.$.roles.addRole('controller');
                     } else {
                         if (connect !== XDmvc.deviceId) {
                             if (XDmvc.server) {
@@ -412,11 +371,10 @@
                                     XDmvc.connectTo(getQueryParams(window.location.search).connect);
                                 });
                             }
-                            this.$.roles.addRole('controller');
-                        } else {
-                            this.updateViews();
                         }
                     }
+
+                    this.updateViews();
 
                     var that = this;
 

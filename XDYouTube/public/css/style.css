@@ -10,6 +10,9 @@ body {
 
 #yt-div {
     overflow: hidden;
+    width: 100%;
+    height: auto;
+    background-color: transparent;
 }
 
 div {
@@ -27,10 +30,6 @@ h4, h3, img {
     margin: 5px;
 }
 
-h4 {
-    text-shadow: 1px 1px 2px rgba(150, 150, 150, 1);
-}
-
 hr {
     clear: both;
 }
@@ -42,7 +41,6 @@ hr {
 .thumbnail {
     float: left;
     border-radius: 5px;
-    box-shadow: 2px 2px 9px 0 rgba(0,0,0,0.75);
 }
 
 .queued-video {
@@ -57,6 +55,14 @@ hr {
     white-space: nowrap;
 }
 
+paper-button, paper-input, .description {
+    margin: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
 span {
     font-size: 0.9em;
 }
@@ -66,14 +72,16 @@ paper-input {
 }
 
 paper-button {
-    margin: 5px;
-    min-height: 30px;
+    min-height: 40px;
 }
 
 paper-button.navigation {
     height: 30px;
     min-width: 30px;
     max-width: 30px;
+    min-height: 30px;
+    padding: 5px;
+    margin: 2px;
 }
 
 .content.paper-button {
@@ -108,7 +116,6 @@ paper-dialog span {
 
 paper-dialog paper-button {
     float: right;
-    padding: 0 !important;
     margin: 5px !important;
 }
 

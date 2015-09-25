@@ -58,7 +58,7 @@ var HTML = {
         "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>" +
         "</button>" +
         "<span class='device-id'><b>Device ID: </b>" + device.id + "</span>" +
-        "<span class='device-resolution'><b>Resolution: </b>" + device.width + " x " + device.height + "</span>" +
+        "<span class='device-resolution'><b>Resolution: </b>" + Math.round(device.width) + " x " + Math.round(device.height) + "</span>" +
         "<hr /></div>" +
         "<section class='settings-panel'>" +
         "<input type='url' class='form-control url' value='" + device.url + "' />" +
