@@ -34,9 +34,9 @@
 \BOOKMARK [0][-]{chapter.4}{4 Implementation}{}% 34
 \BOOKMARK [1][-]{section.4.1}{4.1 Architecture}{chapter.4}% 35
 \BOOKMARK [1][-]{section.4.2}{4.2 Choice of Technologies}{chapter.4}% 36
-\BOOKMARK [2][-]{subsection.4.2.1}{4.2.1 node.js}{section.4.2}% 37
-\BOOKMARK [2][-]{subsection.4.2.2}{4.2.2 rainbow-dns}{section.4.2}% 38
-\BOOKMARK [2][-]{subsection.4.2.3}{4.2.3 JavaScript Libraries and CSS Frameworks}{section.4.2}% 39
+\BOOKMARK [2][-]{subsection.4.2.1}{4.2.1 Server Side}{section.4.2}% 37
+\BOOKMARK [2][-]{subsection.4.2.2}{4.2.2 DNS Server}{section.4.2}% 38
+\BOOKMARK [2][-]{subsection.4.2.3}{4.2.3 Client Side}{section.4.2}% 39
 \BOOKMARK [1][-]{section.4.3}{4.3 General Features}{chapter.4}% 40
 \BOOKMARK [1][-]{section.4.4}{4.4 Device Emulation}{chapter.4}% 41
 \BOOKMARK [1][-]{section.4.5}{4.5 Connecting Real Devices}{chapter.4}% 42

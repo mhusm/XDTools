@@ -11,7 +11,7 @@ The architecture of our tools is illustrated in Figure ~\ref{fig:architecture}. 
 
 \section{Choice of Technologies}
 
-Our set of tools is implemented using standard web technologies, i.e. HTML5, CSS3 and JavaScript. This allows our tools to be run in any modern web browser without requiring installation of any additional software. Our tools do not rely on any database, instead local storage is used for the data that we want to store. Our set of tools only need to store three things:
+Since our set of tools includes desktop devices as well as mobile devices, it should be platform-independent. Thus, our tools are implemented using standard web technologies, i.e. HTML5, CSS3 and JavaScript. This allows our tools to be run in any modern web browser without requiring installation of any additional software. The fact that cross-device applications are also typically web-based makes web technologies even more suited for our tools. Our tools do not rely on any database, instead local storage is used for the data that we want to store. Our set of tools only need to store three things:
 \begin{itemize}
 	\item Custom devices for emulation that were added by the developer.
 	\item Device configurations.
@@ -19,27 +19,21 @@ Our set of tools is implemented using standard web technologies, i.e. HTML5, CSS
 \end{itemize}
 All those things only need to be accessed by the developer that created them. Thus, it makes sense to only store the data locally. Furthermore, the amount of data that needs to be stored is rather low and does not require much storage. 
 
-HTML5, CSS3, local storage, ...
+\subsection{Server Side}
 
-\subsection{node.js}
+On the server side, our tools use Node.js\footnote{\url{https://nodejs.org/en/}}. Node.js scales well with a large number of connections and has the advantage that both the client and server side are implemented using JavaScript. Thus, no data conversions are required. In our application, fast communication between the desktop PC and the connected real devices is required and Node.js fulfills those requirements. In order to facilitate our server and increase maintainability, we use Express\footnote{\url{http://expressjs.com/}}. 
 
-\subsubsection{Express}
+For generating device IDs, we use shortid\footnote{\url{https://github.com/dylang/shortid}}. shortid generates short URL-friendly unique IDs. As each emulated device in our system gets a subdomain based on its ID, shortid is ideal for our purpose.
 
-\subsubsection{shortid}
+For communication between the server and client we rely on WebSockets, using the JavaScript library Socket.io\footnote{\url{http://socket.io/}}. Socket.io is better suited for our application than AJAX for multiple reasons: First, we need to be able to send push data to clients from the server for sending commands to devices and AJAX is intended to allow clients to pull data from the server. Also, data transfer with AJAX comes with a significant overhead because HTTP headers are transmitted with each piece of data. As we mentioned before, fast communication between the server and the devices is a requirement for our system and AJAX would not fulfill this requirement sufficiently. However, AJAX is used for communicating with the DNS server.
 
-\subsection{rainbow-dns}
+\subsection{DNS Server}
 
-\subsection{JavaScript Libraries and CSS Frameworks}
+Our system requires a DNS server for registering the subdomains for the emulated devices. It should be easy to dynamically add new subdomains to the DNS server. Furthermore, the DNS server should forward any unknown domains to the standard DNS server. rainbow-dns\footnote{\url{https://github.com/asbjornenge/rainbow-dns}} fulfills both those requirements. It is a Node.js-based DNS server with an HTTP API that makes it trivial to register new domains from our application. When starting the server, the IP address of the standard DNS server can be set, allowing rainbow-dns to forward unknown domains to the standard DNS server.
 
-\subsubsection{Socket.io}
+\subsection{Client Side}
 
-\subsubsection{Bootstrap}
-
-\subsubsection{jQuery}
-
-\subsubsection{jQuery UI}
-
-\subsubsection{jQuery.qrcode}
+Bootstrap, jQuery, jQuery UI, jQuery.qrcode
 
 \section{General Features}
 

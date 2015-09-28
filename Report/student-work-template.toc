@@ -50,23 +50,16 @@
 \contentsline {chapter}{\numberline {4}Implementation}{27}{chapter.4}
 \contentsline {section}{\numberline {4.1}Architecture}{28}{section.4.1}
 \contentsline {section}{\numberline {4.2}Choice of Technologies}{28}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}node.js}{29}{subsection.4.2.1}
-\contentsline {subsubsection}{Express}{29}{section*.20}
-\contentsline {subsubsection}{shortid}{29}{section*.21}
-\contentsline {subsection}{\numberline {4.2.2}rainbow-dns}{29}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}JavaScript Libraries and CSS Frameworks}{29}{subsection.4.2.3}
-\contentsline {subsubsection}{Socket.io}{29}{section*.22}
-\contentsline {subsubsection}{Bootstrap}{29}{section*.23}
-\contentsline {subsubsection}{jQuery}{29}{section*.24}
-\contentsline {subsubsection}{jQuery UI}{29}{section*.25}
-\contentsline {subsubsection}{jQuery.qrcode}{29}{section*.26}
-\contentsline {section}{\numberline {4.3}General Features}{29}{section.4.3}
-\contentsline {section}{\numberline {4.4}Device Emulation}{30}{section.4.4}
+\contentsline {subsection}{\numberline {4.2.1}Server Side}{29}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}DNS Server}{29}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Client Side}{30}{subsection.4.2.3}
+\contentsline {section}{\numberline {4.3}General Features}{30}{section.4.3}
+\contentsline {section}{\numberline {4.4}Device Emulation}{31}{section.4.4}
 \contentsline {section}{\numberline {4.5}Connecting Real Devices}{32}{section.4.5}
 \contentsline {section}{\numberline {4.6}Shared JavaScript Console}{33}{section.4.6}
 \contentsline {section}{\numberline {4.7}Function Debugging}{35}{section.4.7}
 \contentsline {section}{\numberline {4.8}Shared CSS Editor}{36}{section.4.8}
-\contentsline {section}{\numberline {4.9}Record/Replay}{37}{section.4.9}
+\contentsline {section}{\numberline {4.9}Record/Replay}{38}{section.4.9}
 \contentsline {chapter}{\numberline {5}Sample Applications}{41}{chapter.5}
 \contentsline {section}{\numberline {5.1}XDCinema}{42}{section.5.1}
 \contentsline {subsection}{\numberline {5.1.1}Implementation}{43}{subsection.5.1.1}
@@ -76,15 +69,15 @@
 \contentsline {chapter}{\numberline {6}Evaluation}{49}{chapter.6}
 \contentsline {section}{\numberline {6.1}Setup}{50}{section.6.1}
 \contentsline {subsection}{\numberline {6.1.1}Participants}{51}{subsection.6.1.1}
-\contentsline {subsubsection}{Previous Experience}{51}{section*.27}
+\contentsline {subsubsection}{Previous Experience}{52}{section*.20}
 \contentsline {subsection}{\numberline {6.1.2}Tasks}{53}{subsection.6.1.2}
-\contentsline {subsubsection}{XDYouTube}{53}{section*.28}
-\contentsline {subsubsection}{XDCinema}{54}{section*.29}
+\contentsline {subsubsection}{XDYouTube}{54}{section*.21}
+\contentsline {subsubsection}{XDCinema}{55}{section*.22}
 \contentsline {subsection}{\numberline {6.1.3}Evaluation Methods}{55}{subsection.6.1.3}
-\contentsline {subsubsection}{Questionnaires}{55}{section*.30}
-\contentsline {subsubsection}{Video Recording}{56}{section*.31}
-\contentsline {subsubsection}{Personal Feedback}{56}{section*.32}
-\contentsline {subsubsection}{Time Measuring}{57}{section*.33}
+\contentsline {subsubsection}{Questionnaires}{55}{section*.23}
+\contentsline {subsubsection}{Video Recording}{57}{section*.24}
+\contentsline {subsubsection}{Personal Feedback}{57}{section*.25}
+\contentsline {subsubsection}{Time Measuring}{57}{section*.26}
 \contentsline {section}{\numberline {6.2}Results}{57}{section.6.2}
 \contentsline {subsection}{\numberline {6.2.1}XDCinema: Fixing a Bug}{57}{subsection.6.2.1}
 \contentsline {subsection}{\numberline {6.2.2}XDCinema: Implementing a Feature}{59}{subsection.6.2.2}
@@ -92,10 +85,10 @@
 \contentsline {subsection}{\numberline {6.2.4}XDYouTube: Implementing a Feature}{61}{subsection.6.2.4}
 \contentsline {subsection}{\numberline {6.2.5}General}{63}{subsection.6.2.5}
 \contentsline {section}{\numberline {6.3}Discussion}{64}{section.6.3}
-\contentsline {subsubsection}{Aborted Tasks}{69}{section*.34}
-\contentsline {subsubsection}{Devices Used}{69}{section*.35}
-\contentsline {subsubsection}{Debugging/Implementation Strategies}{70}{section*.36}
-\contentsline {subsubsection}{Feature Requests}{71}{section*.37}
+\contentsline {subsubsection}{Aborted Tasks}{69}{section*.27}
+\contentsline {subsubsection}{Devices Used}{69}{section*.28}
+\contentsline {subsubsection}{Debugging/Implementation Strategies}{70}{section*.29}
+\contentsline {subsubsection}{Feature Requests}{71}{section*.30}
 \contentsline {chapter}{\numberline {7}Conclusion}{73}{chapter.7}
 \contentsline {section}{\numberline {7.1}Future Work}{74}{section.7.1}
 \contentsline {chapter}{\numberline {A}Questionnaires}{75}{appendix.A}
