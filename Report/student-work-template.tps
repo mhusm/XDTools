@@ -18,7 +18,7 @@ Document=student-work-template.tex
 
 [Frame0_View0,0]
 TopLine=65
-Cursor=2646
+Cursor=2302
 
 [Frame1]
 Flags=0
@@ -35,8 +35,8 @@ Class=LaTeXView
 Document=evaluation.tex
 
 [Frame1_View0,0]
-TopLine=0
-Cursor=3672
+TopLine=433
+Cursor=51063
 
 [Frame2]
 Flags=0
@@ -89,8 +89,8 @@ Class=LaTeXView
 Document=implementation.tex
 
 [Frame4_View0,0]
-TopLine=9
-Cursor=3929
+TopLine=96
+Cursor=10338
 
 [Frame5]
 Flags=0
@@ -107,8 +107,8 @@ Class=LaTeXView
 Document=approach.tex
 
 [Frame5_View0,0]
-TopLine=124
-Cursor=17588
+TopLine=102
+Cursor=14211
 
 [Frame6]
 Flags=0
@@ -143,8 +143,8 @@ Class=LaTeXView
 Document=sample_apps.tex
 
 [Frame7_View0,0]
-TopLine=31
-Cursor=7838
+TopLine=0
+Cursor=470
 
 [Frame8]
 Flags=0
@@ -166,5 +166,5 @@ Cursor=4118
 
 [SessionInfo]
 FrameCount=9
-ActiveFrame=4
+ActiveFrame=6
 

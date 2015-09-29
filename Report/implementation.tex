@@ -1,17 +1,23 @@
 \section{Architecture}
 
-The architecture of our tools is illustrated in Figure ~\ref{fig:architecture}. Our tools are web-based and use standard web technologies such as HTML5, CSS3 and JavaScript. There is a main application that runs on the developer's desktop PC and provides the UI for our tools. Furthermore, a Chrome extension runs in the browser of the developer's machine that is responsible for coordinating parts of the integration with the  browser's debugging tools. This application is provided by a server that also coordinates the communication between devices and runs a small side application for the real devices. The server runs locally on the developer's machine. Furthermore, a local DNS server runs on the developer's machine that is responsible for creating different subdomains for the emulated devices. The application that is being tested is provided by an application server. The specifics of this server are up to the developer of the application. The only requirement is that the developer injects a small script that is hosted on our server at the top of each HTML page of the application.
+The architecture of our tools is illustrated in Figure ~\ref{fig:architecture}. Our system consists of two applications: a main application that runs on the developer's machine and a helper application that runs on the real devices. Both the main application and the helper application are pure web applications and are provided by a server that is also responsible for forwarding communication between the main application and the side applications running on real devices.
+
+Additionally, a local DNS server runs on the developer's machine. It is responsible for creating different subdomains for the emulated devices. The DNS server is required for properly testing and debugging on emulated devices, but if only real devices are used, it is not needed and can be disabled in the options of our system.
 
 \begin{figure}[H]
   \centering
-    \includegraphics[width=1.0\textwidth]{images/architecture.pdf}
+    \includegraphics[width=1.0\textwidth]{images/architecture_2.pdf}
 	\caption{Architecture of our tools}
 	\label{fig:architecture}
 \end{figure}
 
+Furthermore, a Chrome extension runs in the browser of the developer's machine. This extension is needed for function debugging and inspection as well as HTML inspection.
+
+Finally, some web server needs to provide the application under test. However, any web server can be used and our system does not place any restrictions. The only requirement is that the developer injects a small script that is hosted on our server at the top of each HTML page of the application. The script is responsible for performing many actions that would otherwise be difficult, such as executing JavaScript, recording events and adding CSS to the application under test.
+
 \section{Choice of Technologies}
 
-Since our set of tools includes desktop devices as well as mobile devices, it should be platform-independent. Thus, our tools are implemented using standard web technologies, i.e. HTML5, CSS3 and JavaScript. This allows our tools to be run in any modern web browser without requiring installation of any additional software. The fact that cross-device applications are also typically web-based makes web technologies even more suited for our tools. Our tools do not rely on any database, instead local storage is used for the data that we want to store. Our set of tools only need to store three things:
+Since our set of tools includes desktop devices as well as mobile devices, it should be platform-independent. Thus, our tools are implemented using standard web technologies, i.e. HTML5, CSS3 and JavaScript. This allows our tools to be run in any modern web browser without requiring installation of any additional software. The fact that cross-device applications are also typically web-based makes web technologies even more suited for our tools. Our tools do not rely on any database, instead HTML5 Local Storage\footnote{\url{http://www.w3schools.com/html/html5_webstorage.asp}} is used for the data that we want to store. Our set of tools only need to store three things:
 \begin{itemize}
 	\item Custom devices for emulation that were added by the developer.
 	\item Device configurations.
@@ -21,30 +27,53 @@ All those things only need to be accessed by the developer that created them. Th
 
 \subsection{Server Side}
 
-On the server side, our tools use Node.js\footnote{\url{https://nodejs.org/en/}}. Node.js scales well with a large number of connections and has the advantage that both the client and server side are implemented using JavaScript. Thus, no data conversions are required. In our application, fast communication between the desktop PC and the connected real devices is required and Node.js fulfills those requirements. In order to facilitate our server and increase maintainability, we use Express\footnote{\url{http://expressjs.com/}}. 
+On the server side, our system use Node.js\footnote{\url{https://nodejs.org/en/}}. Node.js is a JavaScript runtime that uses asynchronous I/O with an event-driven programming model. It uis lightweight and scales well with a large number of connections. Furthermore, it has the advantage that both the client and server side are implemented using JavaScript. Thus, no data conversions are required. In our application, fast communication between the desktop PC and the connected real devices is required and Node.js fulfills those requirements. Node.js' package ecosystem, npm\footnote{\url{https://www.npmjs.com/}} provides a large number of modules which extend the capabilities of Node.js. We use the following modules in our system: 
+\begin{itemize}
+	\item Express\footnote{\url{http://expressjs.com/}}: Express is a minimal and flexible web application framework that provides a set of features for web and mobile applications. In our system, Express is responsible for serving the content to the clients.
+	\item shortid\footnote{\url{https://github.com/dylang/shortid}}: shortid generates short URL-friendly unique IDs. shortid generates the device IDs for the emulated devices in our system. As each device gets a subdomain based on its ID, shortid is ideal for our purpose.
+	\item Socket.IO\footnote{\url{http://socket.io/}}: Socket.IO enables real-time bidirectional event-based communication. If available, it uses HTML5 WebSockets, otherwise it uses fallback mechanism like AJAX long-polling. In our system, Socket.io is used for the communication between the server and clients.
+\end{itemize}
 
-For generating device IDs, we use shortid\footnote{\url{https://github.com/dylang/shortid}}. shortid generates short URL-friendly unique IDs. As each emulated device in our system gets a subdomain based on its ID, shortid is ideal for our purpose.
+Socket.io is better suited for our application than AJAX for multiple reasons: First, we need to be able to send push data to clients from the server for sending commands to devices and AJAX is intended to allow clients to pull data from the server. Also, data transfer with AJAX comes with a significant overhead because HTTP headers are transmitted with each piece of data. As we mentioned before, fast communication between the server and the devices is a requirement for our system and AJAX would not fulfill this requirement sufficiently. However, AJAX is used for communicating with the DNS server.
 
-For communication between the server and client we rely on WebSockets, using the JavaScript library Socket.io\footnote{\url{http://socket.io/}}. Socket.io is better suited for our application than AJAX for multiple reasons: First, we need to be able to send push data to clients from the server for sending commands to devices and AJAX is intended to allow clients to pull data from the server. Also, data transfer with AJAX comes with a significant overhead because HTTP headers are transmitted with each piece of data. As we mentioned before, fast communication between the server and the devices is a requirement for our system and AJAX would not fulfill this requirement sufficiently. However, AJAX is used for communicating with the DNS server.
+\subsubsection{DNS Server}
 
-\subsection{DNS Server}
-
-Our system requires a DNS server for registering the subdomains for the emulated devices. It should be easy to dynamically add new subdomains to the DNS server. Furthermore, the DNS server should forward any unknown domains to the standard DNS server. rainbow-dns\footnote{\url{https://github.com/asbjornenge/rainbow-dns}} fulfills both those requirements. It is a Node.js-based DNS server with an HTTP API that makes it trivial to register new domains from our application. When starting the server, the IP address of the standard DNS server can be set, allowing rainbow-dns to forward unknown domains to the standard DNS server.
+Our system requires a DNS server for registering the subdomains for the emulated devices. It should be easy to dynamically add new subdomains to the DNS server. Furthermore, the DNS server should forward any unknown domains to the standard DNS server. rainbow-dns\footnote{\url{https://github.com/asbjornenge/rainbow-dns}} fulfills both those requirements. It is a Node.js-based DNS server with an HTTP API that makes it trivial to register new domains from our application. When starting the server, the IP address of the standard DNS server can be passed as an argument, allowing rainbow-dns to forward unknown domains to the standard DNS server.
 
 \subsection{Client Side}
 
-Bootstrap, jQuery, jQuery UI, jQuery.qrcode
+The client side of our system is implemented using JavaScript with jQuery\footnote{\url{https://jquery.com/}}. jQuery allows easy selection and modification of HTML elements as well as easy event handling, features that are crucial to our system. As an additional helper, we use jQuery UI\footnote{\url{https://jqueryui.com/}}. jQuery UI is mainly used for the autocomplete functionality and for easy resizing of the individual components of our application. It is also used for resizing the emulated devices to change their resolution. The Twitter Bootstrap\footnote{\url{http://getbootstrap.com/}} framework is used to give our application a nice and uniform look-and-feel. It is also used for facilitating the implementation of things like modal boxes and tabs. 
 
-\section{General Features}
+Our system also uses QR codes for connecting real devices to the system. We use the jQuery-based QR Code library jQuery.qrcode\footnote{\url{https://larsjung.de/jquery-qrcode/}} for generating those QR codes. Using jQuery selectors, the content of an HTML element can be set to a QR code with the desired content and size.
 
-In Figure ~\ref{fig:complete}, the complete interface of our set of tools can be seen.
+HTML5 Drag and Drop\footnote{\url{http://www.w3schools.com/html/html5_draganddrop.asp}} is used for allowing accurate positioning of devices and timing of event sequences. HTML5 postMessage is used for communication between the testing application in the iframe and our application. Thus, no additional library for communication is needed inside the testing application.
+
+The script that is injected into the application that is being tested is implemented in pure JavaScript. Using libraries like jQuery inside this script could lead to conflicts with other libraries in the applications or different versions of jQuery. Also, loading jQuery into the application creates some additional overhead and might not be what the developer of the application wants.
+
+\section{Overview of Features}
+
+In Figure ~\ref{fig:complete}, the complete interface of our system except for record and replay can be seen.
 
 \begin{figure}[H]
   \centering
-    \includegraphics[width=1.0\textwidth]{images/screenshots/complete.png}
+    \includegraphics[width=1.0\textwidth]{images/screenshots/complete_labeled.png}
 	\caption{The complete interface}
 	\label{fig:complete}
 \end{figure}
+
+The individual features of our system are labeled in the screenshot:
+\begin{itemize}
+	\item [a)] Buttons for adding emulated devices and showing the QR code for connecting real devices.
+	\item [b)] Input field for loading a URL on all devices and button to refresh all devices.
+	\item [c)] Loading and saving device configurations.
+	\item [d)] Area where the devices can be positioned.
+	\item [e)] Proxy of a connected real device.
+	\item [f)] An emulated device.
+	\item [g)] The shared JavaScript console.
+	\item [h)] Function debugging.
+	\item [i)] The shared CSS editor.
+	\item [j)] Session management.
+\end{itemize}
 
 Figure ~\ref{fig:complete_remote} shows a screenshot of the remote device that is connected to our system in the screenshot shown before.
 
@@ -55,9 +84,9 @@ Figure ~\ref{fig:complete_remote} shows a screenshot of the remote device that i
 	\label{fig:complete_remote}
 \end{figure}
 
-\section{Device Emulation}
+\section{Emulation of Multiple Devices}
 
-Device emulation is emulated using iframes: Each emulated device has its own iframe that loads the application that is being tested. However, loading the same domain inside multiple iframes would lead to the sharing of session and persistent data between all emulated devices. We have already described how developers tackle this problem and the limitations of those solutions. For our tools, we created a more scalable and robust solution. When an emulated device is created, it is assigned a unique ID. Based on this ID, a unique subdomain is registered with the local DNS server. All those subdomains will still point to the same application, but as the application is accessed through different domains, no data is shared between the emulated devices. Domains that are unknown to the local DNS server are forwarded to the standard DNS server. Each iframe has the resolution of the device that it emulates. Currently, only the resolution of the target devices is emulated, but in the future, our tools could be extended to support emulation of more aspects. In Figure ~\ref{fig:emulated_device}, an emulated device can be seen.
+Device emulation is realized using iframes: Each emulated device has its own iframe that loads the application that is being tested. However, loading the same domain inside multiple iframes would lead to the sharing of session and persistent data between all emulated devices. We have already described how developers tackle this problem and the limitations of those solutions. For our tools, we created a more scalable and robust solution. When an emulated device is created, it is assigned a unique ID. Based on this ID, a unique subdomain is registered with the local DNS server. All those subdomains will still point to the same application, but as the application is accessed through different domains, no data is shared between the emulated devices. Domains that are unknown to the local DNS server are forwarded to the standard DNS server. The resolution of each iframe corresponds to the resolution of the device that it represents in CSS pixels. Currently, only the resolution of the target devices is emulated, but in the future, our tools could be extended to support emulation of more aspects. In Figure ~\ref{fig:emulated_device}, an emulated device can be seen.
 
 \begin{figure}[H]
   \centering
@@ -76,7 +105,7 @@ Apart from its unique ID, each device also has a unique color. The border of an 
 	\item The developer can inspect the HTML of the device.
 	\item The developer can connect the device to another device by choosing it in a dropdown menu.
 \end{itemize}
-The device's settings are not constantly used by the developer and showing them at all times would occupy valuable screen space. Thus, the setting menu can be extended and collapsed by the developer by clicking a button. The scaling of the device is set using the CSS property "transform", e.g. by setting "transform: scale(0.5)" to scale a device to half its usual size. Using the "transform" property does not change the resolution of the iframe of the emulated device, only the space that the iframe takes up. Thus, the layout of the emulated device remains intact even if it is scaled down. If the developer instead wants to change the resolution of a device, they can click in the bottom-right corner of the iframe and drag to increase or decrease the resolution. This is realized using jQuery UI's Resizable\footnote{\url{https://jqueryui.com/resizable/}}. An example of a settings menu can be seen in Figure ~\ref{fig:settings_menu}. 
+The device's settings are not constantly used by the developer and showing them at all times would occupy valuable screen space. Thus, the setting menu can be extended and collapsed by the developer by clicking a button. The scaling of the device is set using the CSS property "transform", e.g. by setting "transform: scale(0.5)" to scale a device to half its usual size. Using the "transform" property does not change the resolution of the iframe of the emulated device, only the space that the iframe takes up. Thus, the layout of the emulated device remains intact even if it is scaled down. If the developer instead wants to change the resolution of a device, they can click in the bottom-right corner of the iframe and drag to increase or decrease the resolution. An example of a settings menu can be seen in Figure ~\ref{fig:settings_menu}. 
 
 \begin{figure}[H]
   \centering
@@ -85,11 +114,19 @@ The device's settings are not constantly used by the developer and showing them 
 	\label{fig:settings_menu}
 \end{figure}
 
-The devices can be moved by the developer as desired. Using HTML5's Drag and Drop\footnote{\url{http://www.w3schools.com/html/html5_draganddrop.asp}}, our tools allows the developer to click on the header of the device and then drag it to the desired location. 
+In principle, the developer can add as many emulated devices as desired. The only limiting factor is the available screen space, but scaling can be used to solve this issue. The devices can be moved by the developer as desired. Using HTML5's Drag and Drop, our tools allows the developer to click on the header of the device and then drag it to the desired location. Because we require the developer to click on a specific area of the device, we cannot enable dragging by default on the devices. When the developer clicks on the device, we first check if they clicked on the header of the device and enable dragging the device if so. When the developer starts dragging the device, the device ID is assigned as data to the event. However, the device ID is not the only required data. If the developer drops the device at the target location, we cannot simply set the position of the device to those coordinates because otherwise the re-positioning would not be accurate enough. For accurate positioning, we also need to consider where exactly on the header the developer clicked, e.g. if the developer clicked 20 pixels to the left and 10 pixels to the bottom of the header, we need to subtract those 10 and 20 pixels from the position where the device is dropped. Otherwise, the device would be shifted by 10/20 pixels. Thus, we also set the offset of the click on the device header as data to the event.
 
-\section{Connecting Real Devices}
+\subsection{Color Generation}
+As described above, each device has its own unique color. We use the HSL\footnote{\url{https://en.wikipedia.org/wiki/HSL_and_HSV}} color space for determining device colors because finding distinct colors is a much simpler task compared to the RGB model. In the HSL color space, colors consist of three values: Hue, saturation and value. The value can also be described as the brightness. The colors of the devices should all have the same saturation and brightness, thus the only value that needs to be determined is the hue. The hue can have any value between 0 and 360. Our goal is to have colors that are easily distinguishable, thus their hues should be as different as possible. A simple algorithm can be used for determining the color of the next device:
+\begin{itemize}
+	\item If no colors have been assigned yet, assign the color 0/360.
+	\item If only one color has been assigned, assign the color 180.
+	\item If at least two colors have been assigned, compute the maximum distance between two assigned colors and assign the color in between.
+\end{itemize}
 
-Real devices can be connected by scanning a QR code or opening the URL. Once a real device has loaded the URL, the application that is being tested is shown in a full-screen iframe on the device. The developer can use the application on the real device, but everything relating to our tools is coordinated through the main application. Each connected real device is represented by a proxy within our main application. The proxy of the real device also contains a settings menu, but no iframe is shown in the main application for the real device. The settings menu is also missing a few things:
+\section{Easy Integration of Real Devices}
+
+Real devices can be connected by scanning a QR code or opening the URL. When the URL is opened, the device loads the helper application. Once the helper application is loaded the URL, the application that is being tested is shown in a full-screen iframe on the device. The developer can use the application on the real device, but everything relating to our tools is coordinated through the main application. Therefore, no interface elements are required on the real device. Each connected real device is represented by a proxy within our main application. The proxy of the real device also contains a settings menu, but no iframe. The settings menu is also missing a few things:
 \begin{itemize}
 	\item Scaling of the device: There is no need to scale real devices, as no iframe is shown in the main application.
 	\item Switching orientation: The orientation of a real device can be switched on the real device itself by simply rotating the real device.
@@ -104,9 +141,26 @@ Figure ~\ref{fig:settings_menu_remote} shows the settings menu of a remote devic
 	\label{fig:settings_menu_remote}
 \end{figure}
 
-The proxy of the real device can be moved around just like the emulated devices and its settings menu can  also be collapsed and extended.
+The proxy of the real device can be moved around just like the emulated devices and its settings menu can also be collapsed and extended.
 
-\section{Shared JavaScript Console}
+\section{Easy Switching of Device Configurations}
+
+The developer can save different configurations of emulated devices. The developer can type the name of a device configuration into an input field and then either click a save button to save the current device configuration under that name or click a load button to load a device configuration with that name (if it exists). Autocomplete is used for providing suggestions for existing device configurations that could be loaded (see Figure ~\ref{fig:session_management}). 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.6\textwidth]{images/screenshots/session_management_2.png}
+	\caption{Saving/Loading Device Configurations}
+	\label{fig:session_management}
+\end{figure}
+
+Device configurations are stored in Local Storage. The Local Storage stores an array containing the names of all saved device configurations. This array is used for the autocomplete functionality and for retrieving the actual device configuration. The actual device configuration is an array of devices. For each device, the name, width, height, device pixel ratio, scaling, layer and position is stored. It does not make any sense to store real devices because they might not be available and they need to be re-connected manually anyway, thus only emulated devices are stored in device configurations. If the developer wants to load a device configuration, an ID is requested for each device, then the device is created and its scaling and position are set according to the values in the Local Storage.
+
+\section{Integration with Debugging Tools}
+
+Our system includes three different features that are also available in normal browser debugging tools. However, we extended the features to support debugging of multiple devices at the same time.
+
+\subsection{Shared JavaScript Console}
 
 The shared JavaScript console aggregates the console outputs of all devices and allows the developer to send commands to all devices. The following types of logging messages are forwarded:
 \begin{itemize}
@@ -119,13 +173,22 @@ The shared JavaScript console aggregates the console outputs of all devices and 
 	\item console.dir
 	\item console.assert
 \end{itemize}
-In the script that is injected in the application being tested, those functions are overwritten by a new function. The new function first sends the content and type of the logging message to our server and then calls the original logging function. For forwarding JavaScript errors, an event handler is assigned using "window.onerror" that is called whenever a JavaScript error occurs. The error is then forwarded to our server, together with the stack trace if available. 
+In the script that is injected in the application being tested, those functions are overwritten by a new function and the original functions are stored. The new function first sends the content and type of the logging message to our server and then calls the original logging function. For forwarding JavaScript errors, an event handler is assigned using "window.onerror" that is called whenever a JavaScript error occurs. The error is then forwarded to our server, together with the stack trace if available. 
 
-Depending on the type of message that is sent (error, warning, info, log and all others), a different symbol is used in front of the message being displayed in the console. The message itself is colored in the color of the device that sent it. If a device is deactivated, it does not forward any messages or errors anymore and all existing messages are filtered out. The console can be filtered by the four types of messages mentioned above. All messages that do not have the symbol that represents this type of message are hidden as long as the filtering is active. If the developer types a string to filter by, all messages are checked and if a message does not contain this string anywhere, it is hidden.
+Depending on the type of message that is sent (error, warning, info, log and all others), a different symbol is used in front of the message being displayed in the console. The message itself is colored in the color of the device that sent it. If a device is deactivated, it does not forward any messages or errors anymore and all existing messages are filtered out. The console can be filtered by the four types of messages mentioned above. All messages that do not have the symbol that represents this type of message are hidden as long as the filtering is active. If the developer types a string to filter by, all messages are checked and if a message does not contain this string, it is hidden.
+
+When a JavaScript error with stack trace is received by the console, the stack trace can be collapsed and extended in the console. The trace is split into multiple lines where each line represents one entry of the stack trace. By default, the developer only sees the error message itself. By clicking on an arrow button next to the error message, they can extend the error to show the entire stack trace. Figure ~\ref{fig:stack_trace} shows what such a stack trace looks like in our JavaScript console.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1.0\textwidth]{images/screenshots/stack_trace.png}
+	\caption{Stack trace}
+	\label{fig:stack_trace}
+\end{figure}
 
 If the user types a command into the console, the command is sent to all active devices. Inside the script in the application, the JavaScript function "eval" is called with the command string as argument. The return value of the command is sent back to the server and displayed in the shared JavaScript console.
 
-The screenshot in Figure ~\ref{fig:js_console} shows the shared JavaScript console including a few examples of how to use it. First, the developer tries to call a function on all devices but makes a typo. Because the function with the typo in the name does not exist, an error message is displayed by all devices. The developer then notices the typo, types the correct function and sees the return value of the functions (the coordinates of a cinema). Finally, the developer wants to see which roles have been assigned to the devices. They type the name of the variable that contains the roles and the value of this variable on all devices is shown in the console.
+The screenshot in Figure ~\ref{fig:js_console} shows the shared JavaScript console including a few examples of how to use it. First, the developer tries to call a function on all devices but makes a typo. Because the function with the typo in the name does not exist, an error message is displayed by all devices. The developer then notices the typo, types the correct function and sees the return values of the function (the coordinates of a cinema). Finally, the developer wants to see which roles have been assigned to the devices. They type the name of the variable that contains the roles and the value of this variable on all devices is shown in the console.
 
 \begin{figure}[H]
   \centering
@@ -134,7 +197,9 @@ The screenshot in Figure ~\ref{fig:js_console} shows the shared JavaScript conso
 	\label{fig:js_console}
 \end{figure}
 
-\section{Function Debugging}
+The JavaScript console also has a history function similar to Chrome DevTools. Whenever the user types a command, the command is added to an array containing the command history. By using the arrow keys, the developer can navigate through this array and call previously called command again.
+
+\subsection{Function Debugging}
 
 For function debugging, the Chrome extension is required. The developer has access to an input field where they can type the name of the function they want to debug. When the developer adds a function to debug, a command is sent to each activated emulated device. As soon as a device receives the name of a function to debug, it overwrites the function by another function and stores the original function. The function that overwrites the original function first highlights the device with a semi-transparent green overlay, then calls the original function and stores the return value, then it removes the highlighting from the device and returns the return value. After the function is overwritten, it sends a message back to the server that it is ready for debugging. The server then sends a command to the Chrome extension with the name of the original function. The Chrome extension receives the command and the URL of the device the message originated from. The Chrome extension then adds the function for debugging using the function name and the URL of the frame that represents the device as parameters. 
 
@@ -151,9 +216,20 @@ If the developer is done debugging a function, they can remove it from the list 
 
 Apart from function debugging, the Chrome extension is also used for inspecting the HTML of the device. The developer can click on a button in the settings menu of an emulated device to jump directly to the body of the HTML of the device inside the Chrome DevTools. When the developer clicks on the button, a command is sent to the server and then forwarded to the DevTools. The DevTools call the function "inspect" that is part of the DevTools API with the URL of the frame of the device and "document.body" as arguments.
 
-\section{Shared CSS Editor}
+\subsection{Shared CSS Editor}
 
-For the CSS editor, a stylesheet is created and added to the document inside the script. If the developer adds a new rule to the CSS editor, a command is sent to all devices and the rule is added to the stylesheet. The rules are also stored in an array of CSS rules and the stylesheet is rewritten every time something changes for simplicity. The developer can enable and disable rules. If a rule is disabled, it is removed from the stylesheet; if it is enabled again, it is re-added to the stylesheet.
+For the CSS editor, a stylesheet is created and added to the document inside the injected script. If the developer adds a new rule to the CSS editor, a command is sent to all devices and the rule is added to the stylesheet. The rules are also stored in an array of CSS rules and the stylesheet is rewritten every time something changes for simplicity. The developer can enable and disable rules. If a rule is disabled, it is removed from the stylesheet; if it is enabled again, it is re-added to the stylesheet.
+
+The CSS editor also has some autocomplete functionality: If the developer starts typing the name of a property, the property is automatically completed using the first CSS property name that matches the text typed by the developer (see Figure ~\ref{fig:css_autocomplete}.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1.0\textwidth]{images/screenshots/css_autocomplete.png}
+	\caption{Autocomplete in the CSS editor}
+	\label{fig:css_autocomplete}
+\end{figure}
+
+The available CSS properties are retrieved using "document.body.style" which contains all available CSS properties, even if they are not set.
 
 Figure ~\ref{fig:css_editor} shows a screenshot of the CSS editor in action. In this screenshot, some CSS rules are added to the body element of all devices.
 
@@ -168,12 +244,27 @@ In Figure ~\ref{fig:css_applied}, the effects of the CSS shown in the screenshot
 
 \begin{figure}[H]
   \centering
-    \includegraphics[width=0.5\textwidth]{images/screenshots/emulated_device_2.png}
+    \includegraphics[width=0.5\textwidth]{images/screenshots/emulated_device_4.png}
 	\caption{CSS applied to emulated device}
 	\label{fig:css_applied}
 \end{figure}
 
-\section{Record/Replay}
+\section{Automatic Connection Management}
+
+The devices in our system can be connected in two ways. They can either be connected automatically or manually. Each set of connected devices represents a session. For each session, a checkbox allows the developer to toggle on or off auto-connect. When the first device is created or connected, auto-connect is turned on by default. If auto-connect is on, all newly created and connected devices will be connected to that session. Thus, if the developer simply adds or connects a number of devices, they will automatically all be connected. If the developer wants to have multiple sessions, they can turn off auto-connect and then add more devices. Each device also has a drop-down menu in its settings menu for manually connecting to other devices. 
+
+All current sessions are displayed at the bottom of the page of our application. Each session displays all connected devices (see Figure ~\ref{fig:sessions}). The developer can also refresh all devices in a session and reset a session. Resetting a session assigns new IDs to all devices and thus erases the data of the devices. 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.6\textwidth]{images/screenshots/session_management.png}
+	\caption{A device session}
+	\label{fig:sessions}
+\end{figure}
+
+In the script that is injected into the testing application, a connection function is available. When a device wants to connect to another device, a command is sent to that device. That command is then forwarded to the iframe and the iframe calls the connection function. The connection function returns the URL that has to be loaded to connect to the device. The URL is then sent back to the device that wants to connect and can be loaded to connect the device.
+
+\section{Coordinated Record and Replay}
 
 As soon as the script is loaded, event handlers are assigned for all relevant events that we want to record. However, the event handlers do not do anything as long as recording has not started yet. When the developer starts recording, all events are logged to an array. After finishing recording, the array of events is sent to the server and then to the main application. The event handlers are already assigned when loading the script because otherwise other scripts would get a chance to assign event handlers and thus receive events before our script. Furthermore, the event handlers are assigned to the document itself and capturing, thus no other element can receive an event first. This is important because otherwise the page could be modified before we receive the event or the event could even be stopped from propagating. Before sending event sequences back to the server, all circular structures are removed. All other event properties are kept so the events can be replayed accurately.
 
@@ -185,11 +276,14 @@ Furthermore, the developer can add breakpoints to the replaying timing. By click
 
 All events are replayed using the properties recorded in the event sequences. Using the hierarchy computed when recording, the target element of the event is determined. For most events, replaying with the properties logged when recording is enough for realistically reproducing the events. However, some events require a bit more work. Replaying key events is possible, but no text is written into input fields. In addition to the key events, we also need to replay a text event using the correct char code. Scrolling events also do not scroll. Thus, we also log the scrolling position after a scrolling event occurs and manually set it after replaying the event. Furthermore, the backspace key cannot be reproduced with neither text events nor key events. Thus, we manually determine the position of the caret if the backspace key is pressed and delete the last character before the caret when replaying. 
 
-Consider Shadow DOM for event hierarchy
-
 \begin{figure}[H]
   \centering
     \includegraphics[width=1.0\textwidth]{images/screenshots/record_replay.png}
 	\caption{Record and Replay}
 	\label{fig:record_replay}
 \end{figure}
+
+\section{Integration with Polymer}
+Shadow DOM event hierarchy
+Layers
+
