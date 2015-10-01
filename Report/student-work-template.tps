@@ -12,13 +12,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.bottom=1239
 Class=LaTeXView
-Document=student-work-template.tex
+Document=chapters\implementation.tex
 
 [Frame0_View0,0]
-TopLine=65
-Cursor=2302
+TopLine=27
+Cursor=7781
 
 [Frame1]
 Flags=0
@@ -30,13 +30,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=2393
-NormalPos.bottom=1240
-Class=LaTeXView
-Document=evaluation.tex
+NormalPos.bottom=1239
+Class=BibTeXView
+Document=bibliography.bib
 
 [Frame1_View0,0]
-TopLine=433
-Cursor=51063
+TopLine=60
+Cursor=4118
 
 [Frame2]
 Flags=0
@@ -48,13 +48,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.bottom=1239
 Class=LaTeXView
-Document=introduction.tex
+Document=chapters\sample_apps.tex
 
 [Frame2_View0,0]
-TopLine=8
-Cursor=6684
+TopLine=0
+Cursor=7352
 
 [Frame3]
 Flags=0
@@ -66,13 +66,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.bottom=1239
 Class=LaTeXView
-Document=background.tex
+Document=student-work-template.tex
 
 [Frame3_View0,0]
-TopLine=212
-Cursor=26627
+TopLine=91
+Cursor=3986
 
 [Frame4]
 Flags=0
@@ -84,13 +84,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.bottom=1239
 Class=LaTeXView
-Document=implementation.tex
+Document=chapters\conclusion.tex
 
 [Frame4_View0,0]
-TopLine=96
-Cursor=10338
+TopLine=0
+Cursor=3743
 
 [Frame5]
 Flags=0
@@ -102,13 +102,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.bottom=1239
 Class=LaTeXView
-Document=approach.tex
+Document=chapters\approach.tex
 
 [Frame5_View0,0]
-TopLine=102
-Cursor=14211
+TopLine=126
+Cursor=18167
 
 [Frame6]
 Flags=0
@@ -120,13 +120,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.bottom=1239
 Class=LaTeXView
-Document=conclusion.tex
+Document=chapters\evaluation.tex
 
 [Frame6_View0,0]
-TopLine=0
-Cursor=318
+TopLine=433
+Cursor=46935
 
 [Frame7]
 Flags=0
@@ -138,13 +138,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=2393
-NormalPos.bottom=1240
+NormalPos.bottom=1239
 Class=LaTeXView
-Document=sample_apps.tex
+Document=chapters\background.tex
 
 [Frame7_View0,0]
 TopLine=0
-Cursor=470
+Cursor=2322
 
 [Frame8]
 Flags=0
@@ -156,15 +156,15 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=2393
-NormalPos.bottom=1240
-Class=BibTeXView
-Document=bibliography.bib
+NormalPos.bottom=1239
+Class=LaTeXView
+Document=chapters\introduction.tex
 
 [Frame8_View0,0]
-TopLine=60
-Cursor=4118
+TopLine=0
+Cursor=0
 
 [SessionInfo]
 FrameCount=9
-ActiveFrame=6
+ActiveFrame=8
 

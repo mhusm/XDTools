@@ -1,0 +1,52 @@
+\chapter{Conclusion}
+
+In this master's thesis, we have analyzed how existing tools support the testing and debugging of cross-device web applications. We found that there are many tools available for testing web applications in general and also responsive web applications, but all those tools have significant disadvantages when it comes to cross-device application testing. There are significant differences between cross-device applications and traditional web applications: One of the biggest differences is that multiple different devices that show different content are typically involved in a cross-device scenario. Those differences make it difficult to debug cross-device applications using tools aimed at testing traditional applications that usually only involve one device at a time. We also analyzed existing cross-device application development frameworks and found that they provide little to no support for testing and especially debugging the applications. However, many of those frameworks could benefit from a tool that helps debug the applications developed with them.
+
+With the limitations discovered during our analysis in mind, we specified a set of requirement that a cross-device application testing and debugging tool has to fulfill. Using those requirements, we implemented a system that facilitates the testing and debugging of cross-device applications. The system is implemented as a web application and can thus be used in any browser on any OS. Our system includes features that have already been seen in responsive web application testing tools as well as features that are well-known from browser debugging tools and only required extension to suit the needs of cross-device applications. Our system also features a record and replay tool. Record and replay has already proven to be useful for reproducing bugs in traditional web applications and it provides additional value for cross-device applications where multiple users can be simulated with such a tool. Finally, our system also includes some features targeted specifically at cross-device applications, such as an automatic connection tool. 
+
+Using our system, we also implemented two sample applications that provided useful insights for further improvements to our system and also served as basis for our user study. 
+
+Finally, we conducted a user study to evaluate our system. The participants of our study had to complete multiple tasks where they had to either fix a bug or implement a new feature, either using our system or only using traditional browser debugging tools. The results of the user study show that our system indeed helps with debugging cross-device applications and we received some enthusiastic feedback from participants that already had some previous experience with cross-device applications and struggled with testing them. 
+
+Overall, we think that our system already provides a number of useful features for cross-device application testing and debugging cross-device applications and adds a lot of value to the existing web-based cross-device application development frameworks. Testing cross-device applications is an important step on the way to a more widespread adaptation of cross-device applications and we hope that it will help advance the field further.
+
+\section{Future Work}
+
+We will now present a few ideas for future work that could improve our tools.
+
+\subsection{Extended Record and Replay}
+
+So far, record and replay only records user interactions. However, there are a lot of other factors that influence the behavior of a web application. In the future, record and replay could be extended to support recording of other non-deterministic factors. Those factors could for example include:
+\begin{itemize}
+	\item Dates
+	\item Random numbers
+	\item Server responses
+	\item Interrupts by \lstinline|setTimeout| and \lstinline|setInterval|
+\end{itemize}
+Recording additional data could lead to more accurate replaying of events and could help reproduce some bugs that could not be reproduced so far. Furthermore, the replaying of events could be improved: So far, if data is recorded on one device and then replayed on another device, the coordinates of things like click events are kept. The same applies for scrolling where the scrolling position is set manually. However, if devices have different resolutions, this could lead to inaccurate replaying of events. Ideally, the events would be adjusted to the target resolution before replaying.
+
+\subsection{Extended Device Emulation}
+
+The device emulation in our system only emulates the resolution of the devices. However, the resolution is not the only difference between a desktop device and mobile devices. More things could be considered when emulating devices for a more realistic experience:
+\begin{itemize}
+	\item Touch interactions
+	\item Network conditions
+	\item Location
+	\item Input from sensors
+	\item Hardware performance
+\end{itemize}
+Although an emulated device will never be completely equivalent to a real device, including more factors into device emulation can enable more sophisticated testing on emulated devices. Emulating things like location and network conditions can even reveal issues that are not necessarily found when testing on real devices. Testing on real devices typically still happens inside the office, a somewhat artificial setting. In the office, network conditions will typically be good and sensor readings like location do not change much. If those things can be emulated, testing applications in the office can become more realistic and useful.
+
+\subsection{Tighter Integration with Browser}
+
+It would be very useful if our system could be integrated more with the debugging tools provided by browsers and also with the browser itself. Even though we actually implemented a Chrome DevTools extension, the access to the debugging tools is still rather limited. Tighter integration with the debugging tools could further improve the debugging capabilities, especially concerning JavaScript debugging: Within our system, it was only possible to add breakpoints at the beginning of functions and functions that are not globally accessible cannot be debugged at all. In the ideal case, it would be possible to set a breakpoint on one device and automatically transfer it to other devices if desired. 
+
+Furthermore, our shared JavaScript console and CSS editor provide less features than the console and CSS editor included directly in the browser. If our aggregation features would be integrated directly into the browser debugging tools, more extensive debugging would be possible.
+
+If our tools would be integrated directly into the browser, the DNS server would not be required anymore. Instead, the browser could just make sure that different devices do not share data. With everything from our tools included directly into the browser, no installation of additional components would be required anymore and debugging cross-device applications would be possible directly from the browser's debugging tools.
+
+\subsection{Long-Term Study}
+
+Our study only took two hours and the tasks were all rather short. Also, solving some tasks in a user study is always an artificial setting: Usually, developers work with applications that they already know, which was not the case in our study. Thus, the participants also spent some time learning how to use the application and finding out what the code does. The code that the participants had access to was only a subset of the entire application code. In the real world, developers typically deal with much larger amounts of code. Also, the presence of an instructor and camera might influence the behavior of a developer. Finally, some features were also deactivated for the user study and could not be evaluated at all.
+
+Our study yielded promising results, but it would be useful to perform a long-term study to see how developers use our tools in the wild. Ideally, developers that are developing a cross-device application anyway would use our tools over the course of development and report feedback periodically. Such a long-term study could prove if our tools are really useful and what improvements still have to be made for making our tools more usable. Analyzing the actual usage of the application could also provide interesting insights, helping to improve future versions of the tools.

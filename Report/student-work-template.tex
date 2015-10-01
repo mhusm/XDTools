@@ -10,10 +10,16 @@
 \usepackage{shadethm}
 \usepackage{makeidx}
 \usepackage[a4paper,portrait,twoside,inner=3.25cm,outer=3.5cm,top=3.5cm,bottom=4.0cm]{geometry}
-\usepackage{hyperref}
 \usepackage{globis}
 \usepackage{float}
-\usepackage{subfigure}
+\usepackage{listings}
+\usepackage{pdfpages}
+\usepackage{subcaption}
+\usepackage{caption}
+\usepackage{hyperref}
+
+\pdfoptionpdfminorversion=6
+\pdfsuppresswarningpagegroup=1
 
 \renewcommand{\sectfont}{\sffamily\bfseries\Huge}
 
@@ -24,6 +30,33 @@
 \addtolength{\shadedtextwidth}{-\shaderightshift}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{5pt}
+
+\lstset{ %
+  aboveskip=\bigskipamount,			     % top margin
+	belowskip=\bigskipamount,			     % bottom margin
+  basicstyle=\ttfamily,       	   	 % the size of the fonts that are used for the code
+  numbers=left,                      % where to put the line-numbers
+  numberstyle=\tiny\color{gray},     % the style that is used for the line-numbers
+  stepnumber=1,                      % the step between two line-numbers. If it's 1, each line will be numbered
+  numbersep=5pt,                     % how far the line-numbers are from the code
+  backgroundcolor=\color{white},     % choose the background color. You must add \usepackage{color}
+  showspaces=false,                  % show spaces adding particular underscores
+  showstringspaces=false,            % underline spaces within strings
+  showtabs=false,                    % show tabs within strings adding particular underscores
+  frame=single,                      % adds a frame around the code
+  rulecolor=\color{black},           % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments)
+  tabsize=4,                         % sets default tabsize to 2 spaces
+  captionpos=t,                      % sets the caption-position to bottom
+  belowcaptionskip=\smallskipamount, % margin below caption
+  breaklines=true,                   % sets automatic line breaking
+  breakatwhitespace=false,           % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                    % show the filename of files included with \lstinputlisting; also try caption instead of title
+  keywordstyle=\color{blue},         % keyword style
+  commentstyle=\color{comments},     % comment style
+  stringstyle=\color{strings},       % string literal style
+  identifierstyle=\color{black},     % identifier style
+  escapeinside={(*@}{@*)}            % if you want to add LaTeX within your code
+}
 
 \sloppy
 
@@ -54,9 +87,8 @@
 
 \raggedbottom
 
-% Please adapt the following fields if necessary!
 \title{Testing Cross-Device Applications}
-\category{Master Thesis} % Something like Semester Project, Bachelor Thesis or Master Thesis
+\category{Master Thesis}
 \author{Nina Heyder}
 \email{$<$heydern@student.ethz.ch$>$}
 \professor{Prof. Dr. Moira C. Norrie}
@@ -80,43 +112,38 @@
 
 \chapter*{Abstract}
 
-Here comes the abstract.
+TODO
 
 \tableofcontents
 
 \mainmatter
 
-% Here comes the content
-
-\chapter{Introduction}
-\include{introduction}
-
-\chapter{Background and Related Work}
-\include{background}
-
-\chapter{Approach}
-\include{approach}
-
-\chapter{Implementation}
-\include{implementation}
-
-\chapter{Sample Applications}
-\include{sample_apps}
-
-\chapter{Evaluation}
-\include{evaluation}
-
-\chapter{Conclusion}
-\include{conclusion}
+\include{chapters/introduction}
+\include{chapters/background}
+\include{chapters/approach}
+\include{chapters/implementation}
+\include{chapters/sample_apps}
+\include{chapters/evaluation}
+\include{chapters/conclusion}
 
 \appendix
-
 \chapter{Questionnaires}
+\label{sec:questionnaires}
+\newpage
+\includepdf[pages={1-}]{images/forms/general_2.pdf}
+\newpage
+\includepdf[pages={1-}]{images/forms/with_tools_2.pdf}
+\newpage
+\includepdf[pages={1-}]{images/forms/without_tools_2.pdf}
+\newpage
+\includepdf[pages={1-}]{images/forms/concluding_2.pdf}
 
 \listoffigures
 \listoftables
 
 \chapter*{Acknowledgements}
+
+TODO
 
 \newpage
 \thispagestyle{empty}

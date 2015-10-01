@@ -43,29 +43,36 @@
 \BOOKMARK [1][-]{section.4.6}{4.6 Easy Switching of Device Configurations}{chapter.4}% 43
 \BOOKMARK [1][-]{section.4.7}{4.7 Integration with Debugging Tools}{chapter.4}% 44
 \BOOKMARK [2][-]{subsection.4.7.1}{4.7.1 Shared JavaScript Console}{section.4.7}% 45
-\BOOKMARK [2][-]{subsection.4.7.2}{4.7.2 Function Debugging}{section.4.7}% 46
-\BOOKMARK [2][-]{subsection.4.7.3}{4.7.3 Shared CSS Editor}{section.4.7}% 47
-\BOOKMARK [1][-]{section.4.8}{4.8 Automatic Connection Management}{chapter.4}% 48
-\BOOKMARK [1][-]{section.4.9}{4.9 Coordinated Record and Replay}{chapter.4}% 49
-\BOOKMARK [1][-]{section.4.10}{4.10 Integration with Polymer}{chapter.4}% 50
-\BOOKMARK [0][-]{chapter.5}{5 Sample Applications}{}% 51
-\BOOKMARK [1][-]{section.5.1}{5.1 XDCinema}{chapter.5}% 52
-\BOOKMARK [2][-]{subsection.5.1.1}{5.1.1 Implementation}{section.5.1}% 53
-\BOOKMARK [1][-]{section.5.2}{5.2 XDYouTube}{chapter.5}% 54
-\BOOKMARK [2][-]{subsection.5.2.1}{5.2.1 Implementation}{section.5.2}% 55
-\BOOKMARK [1][-]{section.5.3}{5.3 Insights}{chapter.5}% 56
-\BOOKMARK [0][-]{chapter.6}{6 Evaluation}{}% 57
-\BOOKMARK [1][-]{section.6.1}{6.1 Setup}{chapter.6}% 58
-\BOOKMARK [2][-]{subsection.6.1.1}{6.1.1 Participants}{section.6.1}% 59
-\BOOKMARK [2][-]{subsection.6.1.2}{6.1.2 Tasks}{section.6.1}% 60
-\BOOKMARK [2][-]{subsection.6.1.3}{6.1.3 Evaluation Methods}{section.6.1}% 61
-\BOOKMARK [1][-]{section.6.2}{6.2 Results}{chapter.6}% 62
-\BOOKMARK [2][-]{subsection.6.2.1}{6.2.1 XDCinema: Fixing a Bug}{section.6.2}% 63
-\BOOKMARK [2][-]{subsection.6.2.2}{6.2.2 XDCinema: Implementing a Feature}{section.6.2}% 64
-\BOOKMARK [2][-]{subsection.6.2.3}{6.2.3 XDYouTube: Fixing a Bug}{section.6.2}% 65
-\BOOKMARK [2][-]{subsection.6.2.4}{6.2.4 XDYouTube: Implementing a Feature}{section.6.2}% 66
-\BOOKMARK [2][-]{subsection.6.2.5}{6.2.5 General}{section.6.2}% 67
-\BOOKMARK [1][-]{section.6.3}{6.3 Discussion}{chapter.6}% 68
-\BOOKMARK [0][-]{chapter.7}{7 Conclusion}{}% 69
-\BOOKMARK [1][-]{section.7.1}{7.1 Future Work}{chapter.7}% 70
-\BOOKMARK [0][-]{appendix.A}{A Questionnaires}{}% 71
+\BOOKMARK [2][-]{subsection.4.7.2}{4.7.2 Function Debugging and Inspection}{section.4.7}% 46
+\BOOKMARK [2][-]{subsection.4.7.3}{4.7.3 HTML Inspection}{section.4.7}% 47
+\BOOKMARK [2][-]{subsection.4.7.4}{4.7.4 Shared CSS Editor}{section.4.7}% 48
+\BOOKMARK [1][-]{section.4.8}{4.8 Automatic Connection Management}{chapter.4}% 49
+\BOOKMARK [1][-]{section.4.9}{4.9 Coordinated Record and Replay}{chapter.4}% 50
+\BOOKMARK [1][-]{section.4.10}{4.10 Integration with Polymer and Shadow DOM}{chapter.4}% 51
+\BOOKMARK [2][-]{subsection.4.10.1}{4.10.1 Determining Event Targets}{section.4.10}% 52
+\BOOKMARK [2][-]{subsection.4.10.2}{4.10.2 Determining Scopes}{section.4.10}% 53
+\BOOKMARK [0][-]{chapter.5}{5 Sample Applications}{}% 54
+\BOOKMARK [1][-]{section.5.1}{5.1 XDCinema}{chapter.5}% 55
+\BOOKMARK [2][-]{subsection.5.1.1}{5.1.1 Implementation}{section.5.1}% 56
+\BOOKMARK [1][-]{section.5.2}{5.2 XDYouTube}{chapter.5}% 57
+\BOOKMARK [2][-]{subsection.5.2.1}{5.2.1 Implementation}{section.5.2}% 58
+\BOOKMARK [1][-]{section.5.3}{5.3 Insights}{chapter.5}% 59
+\BOOKMARK [0][-]{chapter.6}{6 Evaluation}{}% 60
+\BOOKMARK [1][-]{section.6.1}{6.1 Setup}{chapter.6}% 61
+\BOOKMARK [2][-]{subsection.6.1.1}{6.1.1 Participants}{section.6.1}% 62
+\BOOKMARK [2][-]{subsection.6.1.2}{6.1.2 Tasks}{section.6.1}% 63
+\BOOKMARK [2][-]{subsection.6.1.3}{6.1.3 Evaluation Methods}{section.6.1}% 64
+\BOOKMARK [1][-]{section.6.2}{6.2 Results}{chapter.6}% 65
+\BOOKMARK [2][-]{subsection.6.2.1}{6.2.1 XDCinema: Fixing a Bug}{section.6.2}% 66
+\BOOKMARK [2][-]{subsection.6.2.2}{6.2.2 XDCinema: Implementing a Feature}{section.6.2}% 67
+\BOOKMARK [2][-]{subsection.6.2.3}{6.2.3 XDYouTube: Fixing a Bug}{section.6.2}% 68
+\BOOKMARK [2][-]{subsection.6.2.4}{6.2.4 XDYouTube: Implementing a Feature}{section.6.2}% 69
+\BOOKMARK [2][-]{subsection.6.2.5}{6.2.5 General}{section.6.2}% 70
+\BOOKMARK [1][-]{section.6.3}{6.3 Discussion}{chapter.6}% 71
+\BOOKMARK [0][-]{chapter.7}{7 Conclusion}{}% 72
+\BOOKMARK [1][-]{section.7.1}{7.1 Future Work}{chapter.7}% 73
+\BOOKMARK [2][-]{subsection.7.1.1}{7.1.1 Extended Record and Replay}{section.7.1}% 74
+\BOOKMARK [2][-]{subsection.7.1.2}{7.1.2 Extended Device Emulation}{section.7.1}% 75
+\BOOKMARK [2][-]{subsection.7.1.3}{7.1.3 Tighter Integration with Browser}{section.7.1}% 76
+\BOOKMARK [2][-]{subsection.7.1.4}{7.1.4 Long-Term Study}{section.7.1}% 77
+\BOOKMARK [0][-]{appendix.A}{A Questionnaires}{}% 78

@@ -1,10 +1,10 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: student-work-template.aux
-A level-1 auxiliary file: introduction.aux
-A level-1 auxiliary file: background.aux
-A level-1 auxiliary file: approach.aux
-A level-1 auxiliary file: implementation.aux
-A level-1 auxiliary file: sample_apps.aux
-A level-1 auxiliary file: evaluation.aux
-A level-1 auxiliary file: conclusion.aux
+A level-1 auxiliary file: chapters/introduction.aux
+A level-1 auxiliary file: chapters/background.aux
+A level-1 auxiliary file: chapters/approach.aux
+A level-1 auxiliary file: chapters/implementation.aux
+A level-1 auxiliary file: chapters/sample_apps.aux
+A level-1 auxiliary file: chapters/evaluation.aux
+A level-1 auxiliary file: chapters/conclusion.aux
 The style file: plain.bst
 Database file #1: bibliography.bib
