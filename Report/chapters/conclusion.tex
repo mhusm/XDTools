@@ -12,7 +12,7 @@ Overall, we think that our system already provides a number of useful features f
 
 \section{Future Work}
 
-We will now present a few ideas for future work that could improve our tools.
+We will now present a few ideas for future work that could improve XDTools.
 
 \subsection{Extended Record and Replay}
 
@@ -27,7 +27,7 @@ Recording additional data could lead to more accurate replaying of events and co
 
 \subsection{Extended Device Emulation}
 
-The device emulation in our system only emulates the resolution of the devices. However, the resolution is not the only difference between a desktop device and mobile devices. More things could be considered when emulating devices for a more realistic experience:
+The device emulation in XDTools only emulates the resolution of the devices. However, the resolution is not the only difference between a desktop device and mobile devices. More things could be considered when emulating devices for a more realistic experience:
 \begin{itemize}
 	\item Touch interactions
 	\item Network conditions
@@ -39,14 +39,14 @@ Although an emulated device will never be completely equivalent to a real device
 
 \subsection{Tighter Integration with Browser}
 
-It would be very useful if our system could be integrated more with the debugging tools provided by browsers and also with the browser itself. Even though we actually implemented a Chrome DevTools extension, the access to the debugging tools is still rather limited. Tighter integration with the debugging tools could further improve the debugging capabilities, especially concerning JavaScript debugging: Within our system, it was only possible to add breakpoints at the beginning of functions and functions that are not globally accessible cannot be debugged at all. In the ideal case, it would be possible to set a breakpoint on one device and automatically transfer it to other devices if desired. 
+It would be very useful if XDTools could be integrated more with the debugging tools provided by browsers and also with the browser itself. Even though we actually implemented a Chrome DevTools extension, the access to the debugging tools is still rather limited. Tighter integration with the debugging tools could further improve the debugging capabilities, especially concerning JavaScript debugging: Within XDTools, it was only possible to add breakpoints at the beginning of functions and functions that are not globally accessible cannot be debugged at all. In the ideal case, it would be possible to set a breakpoint on one device and automatically transfer it to other devices if desired. 
 
 Furthermore, our shared JavaScript console and CSS editor provide less features than the console and CSS editor included directly in the browser. If our aggregation features would be integrated directly into the browser debugging tools, more extensive debugging would be possible.
 
-If our tools would be integrated directly into the browser, the DNS server would not be required anymore. Instead, the browser could just make sure that different devices do not share data. With everything from our tools included directly into the browser, no installation of additional components would be required anymore and debugging cross-device applications would be possible directly from the browser's debugging tools.
+If XDTools would be integrated directly into the browser, the DNS server would not be required anymore. Instead, the browser could just make sure that different devices do not share data. With everything from XDTools included directly into the browser, no installation of additional components would be required anymore and debugging cross-device applications would be possible directly from the browser's debugging tools.
 
 \subsection{Long-Term Study}
 
-Our study only took two hours and the tasks were all rather short. Also, solving some tasks in a user study is always an artificial setting: Usually, developers work with applications that they already know, which was not the case in our study. Thus, the participants also spent some time learning how to use the application and finding out what the code does. The code that the participants had access to was only a subset of the entire application code. In the real world, developers typically deal with much larger amounts of code. Also, the presence of an instructor and camera might influence the behavior of a developer. Finally, some features were also deactivated for the user study and could not be evaluated at all.
+Although our user study yielded promising results, it obviously was an artificial setting: The tasks were rather short and the participants were not familiar with the application they worked with. Thus, they also spent some getting to know the application and understanding the code. Also, the participants only had access to a subset of the code of the entire application. In the real world, developers typically deal with a much larger amount of code. Additionally, the instructor was always sitting next to the participants and a camera was recording the participants. This might influence the behavior of the participants. Finally, some features were disabled for the user study and could not be evaluated yet.
 
-Our study yielded promising results, but it would be useful to perform a long-term study to see how developers use our tools in the wild. Ideally, developers that are developing a cross-device application anyway would use our tools over the course of development and report feedback periodically. Such a long-term study could prove if our tools are really useful and what improvements still have to be made for making our tools more usable. Analyzing the actual usage of the application could also provide interesting insights, helping to improve future versions of the tools.
+It would be very useful if a long-term study could be conducted to see how developers use XDTools in the wild. Giving developers that are in the process of developing a cross-device application access to XDTools during the entire course of development would help further evaluate XDTools. The developers would be in their natural "habitat" and could use XDTools in a way that best fits their needs. The developers could provide feedback during the development of the application and the actual usage of XDTools could be recorded and analyzed to gain further insights. After finishing development of their application, developers could be interviewed, giving them a chance to tell us what they think of XDTools and provide suggestions for further improvements. Conducting such a long-term user study could be very helpful when releasing future versions of XDTools. As a first step for further evaluation and improvement of XDTools, we plan to make XDTools available on Github\footnote{\url{https://github.com/}} in the near future. Hopefully, some developers can already benefit from XDTools if it is available to the public and we might also receive some valuable feedback.

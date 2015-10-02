@@ -5,7 +5,7 @@
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Difference between resizing and scaling a device}}{20}{figure.caption.21}
 \contentsline {figure}{\numberline {3.2}{\ignorespaces CSS editor aggregation}}{24}{figure.caption.22}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Architecture of our system}}{28}{figure.caption.23}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Architecture of XDTools}}{28}{figure.caption.23}
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Screenshot: Complete Interface}}{31}{figure.caption.25}
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Screenshot: Remote Device}}{32}{figure.caption.26}
 \contentsline {figure}{\numberline {4.4}{\ignorespaces Screenshot: Options}}{33}{figure.caption.27}
@@ -33,21 +33,21 @@
 \contentsline {figure}{\numberline {6.2}{\ignorespaces Previous experience of participants}}{60}{figure.caption.48}
 \contentsline {figure}{\numberline {6.3}{\ignorespaces Years of experience}}{60}{figure.caption.49}
 \contentsline {figure}{\numberline {6.4}{\ignorespaces Previous experience with Chrome DevTools}}{61}{figure.caption.50}
-\contentsline {figure}{\numberline {6.5}{\ignorespaces xdc-bug: Comparison}}{66}{figure.caption.57}
+\contentsline {figure}{\numberline {6.5}{\ignorespaces xdc-bug: Comparison}}{65}{figure.caption.57}
 \contentsline {figure}{\numberline {6.6}{\ignorespaces xdc-bug: Features used}}{66}{figure.caption.58}
 \contentsline {figure}{\numberline {6.7}{\ignorespaces xdc-impl: Comparison}}{67}{figure.caption.59}
 \contentsline {figure}{\numberline {6.8}{\ignorespaces xdc-impl: Features used}}{68}{figure.caption.60}
-\contentsline {figure}{\numberline {6.9}{\ignorespaces xdyt-bug: Comparison}}{69}{figure.caption.61}
+\contentsline {figure}{\numberline {6.9}{\ignorespaces xdyt-bug: Comparison}}{68}{figure.caption.61}
 \contentsline {figure}{\numberline {6.10}{\ignorespaces xdyt-bug: Features used}}{69}{figure.caption.62}
 \contentsline {figure}{\numberline {6.11}{\ignorespaces xdyt-impl: Comparison}}{70}{figure.caption.63}
-\contentsline {figure}{\numberline {6.12}{\ignorespaces xdyt-impl: Features used}}{71}{figure.caption.64}
+\contentsline {figure}{\numberline {6.12}{\ignorespaces xdyt-impl: Features used}}{70}{figure.caption.64}
 \contentsline {figure}{\numberline {6.13}{\ignorespaces Easiness of implementing}}{72}{figure.caption.65}
-\contentsline {figure}{\numberline {6.14}{\ignorespaces Efficiency of implementing}}{73}{figure.caption.66}
-\contentsline {figure}{\numberline {6.15}{\ignorespaces Preference for implementing}}{73}{figure.caption.67}
+\contentsline {figure}{\numberline {6.14}{\ignorespaces Efficiency of implementing}}{72}{figure.caption.66}
+\contentsline {figure}{\numberline {6.15}{\ignorespaces Preference for implementing}}{72}{figure.caption.67}
 \contentsline {figure}{\numberline {6.16}{\ignorespaces Easiness of debugging}}{73}{figure.caption.68}
-\contentsline {figure}{\numberline {6.17}{\ignorespaces Efficiency of debugging}}{74}{figure.caption.69}
-\contentsline {figure}{\numberline {6.18}{\ignorespaces Preference for debugging}}{74}{figure.caption.70}
-\contentsline {figure}{\numberline {6.19}{\ignorespaces Usefulness}}{75}{figure.caption.71}
+\contentsline {figure}{\numberline {6.17}{\ignorespaces Efficiency of debugging}}{73}{figure.caption.69}
+\contentsline {figure}{\numberline {6.18}{\ignorespaces Preference for debugging}}{73}{figure.caption.70}
+\contentsline {figure}{\numberline {6.19}{\ignorespaces Usefulness}}{74}{figure.caption.71}
 \contentsline {figure}{\numberline {6.20}{\ignorespaces General Evaluation}}{75}{figure.caption.72}
 \contentsline {figure}{\numberline {6.21}{\ignorespaces Features that participants would use}}{76}{figure.caption.73}
 \contentsline {figure}{\numberline {6.22}{\ignorespaces Emulated device used}}{78}{figure.caption.76}

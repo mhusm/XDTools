@@ -2,24 +2,24 @@
 
 \section{Architecture}
 
-The architecture of our system is illustrated in Figure~\ref{fig:architecture}. Our system consists of two applications: a main application that runs on the developer's machine and a helper application that runs on the real devices. Both the main application and the helper application are pure web applications and are provided by a server that is also responsible for forwarding communication between the main application and the side applications running on real devices.
+The architecture of XDTools is illustrated in Figure~\ref{fig:architecture}. XDTools consists of two applications: a main application that runs on the developer's machine and a helper application that runs on the real devices. Both the main application and the helper application are pure web applications and are provided by a server that is also responsible for forwarding communication between the main application and the side applications running on real devices.
 
-Additionally, a local DNS server runs on the developer's machine. It is responsible for creating different subdomains for the emulated devices. The DNS server is required for properly testing and debugging on emulated devices, but if only real devices are used, it is not needed and can be disabled in the options of our system.
+Additionally, a local DNS server runs on the developer's machine. It is responsible for creating different subdomains for the emulated devices. The DNS server is required for properly testing and debugging on emulated devices, but if only real devices are used, it is not needed and can be disabled in the options of XDTools.
 
 \begin{figure}[H]
   \centering
     \includegraphics[width=1.0\textwidth]{images/architecture_2.pdf}
-	\caption[Architecture of our system]{Architecture of our system}
+	\caption[Architecture of XDTools]{Architecture of XDTools}
 	\label{fig:architecture}
 \end{figure}
 
 Furthermore, a Chrome extension runs in the browser of the developer's machine. This extension is needed for function debugging and inspection as well as HTML inspection. The Chrome extension communicates with the main application via the server.
 
-Finally, some web server needs to provide the application under test. However, any web server can be used and our system does not place any restrictions. The only requirement is that the developer injects a small script that is hosted on our server at the top of each HTML page of the application. The script is responsible for performing many actions that would otherwise be difficult, such as executing JavaScript, recording events and adding CSS to the application under test.
+Finally, some web server needs to provide the application under test. However, any web server can be used and XDTools does not place any restrictions. The only requirement is that the developer injects a small script that is hosted on our server at the top of each HTML page of the application. The script is responsible for performing many actions that would otherwise be difficult, such as executing JavaScript, recording events and adding CSS to the application under test.
 
 \section{Choice of Technologies}
 
-Since our set of tools includes desktop devices as well as mobile devices, it should be platform-independent. Thus, our tools are implemented using standard web technologies, i.e. HTML5, CSS3 and JavaScript. This allows our tools to be run in any modern web browser without requiring installation of any additional software. The fact that cross-device applications are also typically web-based makes web technologies even more suited for our tools. Our tools do not rely on any database, instead HTML5 Local Storage\footnote{\url{http://www.w3schools.com/html/html5_webstorage.asp}} is used for the data that we want to store. Our set of tools only need to store three things:
+Since XDTools includes desktop devices as well as mobile devices, it should be platform-independent. Thus, XDTools is implemented using standard web technologies, i.e. HTML5, CSS3 and JavaScript. This allows XDTools to be run in any modern web browser without requiring installation of any additional software. The fact that cross-device applications are also typically web-based makes web technologies even more suited for XDTools. Our tools do not rely on any database, instead HTML5 Local Storage\footnote{\url{http://www.w3schools.com/html/html5_webstorage.asp}} is used for the data that we want to store. XDTools only need to store three things:
 \begin{itemize}
 	\item Custom devices for emulation that were added by the developer.
 	\item Device configurations.
@@ -29,24 +29,24 @@ All those things only need to be accessed by the developer that created them. Th
 
 \subsection{Server Side}
 
-On the server side, our system uses Node.js\footnote{\url{https://nodejs.org/en/}}. Node.js is a JavaScript runtime that uses asynchronous I/O with an event-driven programming model. It is lightweight and scales well with a large number of connections. Furthermore, it has the advantage that both the client and server side are implemented using JavaScript. Thus, no data conversions are required. In our application, fast communication between the desktop PC and the connected real devices is required and Node.js fulfills those requirements. Node.js' package ecosystem, npm\footnote{\url{https://www.npmjs.com/}} provides a large number of modules which extend the capabilities of Node.js. We use the following modules in our system: 
+On the server side, XDTools uses Node.js\footnote{\url{https://nodejs.org/en/}}. Node.js is a JavaScript runtime that uses asynchronous I/O with an event-driven programming model. It is lightweight and scales well with a large number of connections. Furthermore, it has the advantage that both the client and server side are implemented using JavaScript. Thus, no data conversions are required. In XDTools, fast communication between the desktop PC and the connected real devices is required and Node.js fulfills those requirements. Node.js' package ecosystem, npm\footnote{\url{https://www.npmjs.com/}} provides a large number of modules which extend the capabilities of Node.js. We use the following modules in XDTools: 
 \begin{itemize}
-	\item Express\footnote{\url{http://expressjs.com/}}: Express is a minimal and flexible web application framework that provides a set of features for web and mobile applications. In our system, Express is responsible for serving the content to the clients.
-	\item shortid\footnote{\url{https://github.com/dylang/shortid}}: shortid generates short URL-friendly unique IDs. shortid generates the device IDs for the emulated devices in our system. As each device gets a subdomain based on its ID, shortid is ideal for our purpose.
-	\item Socket.IO\footnote{\url{http://socket.io/}}: Socket.IO enables real-time bidirectional event-based communication. If available, it uses HTML5 WebSockets, otherwise it uses fallback mechanism like AJAX long-polling. In our system, Socket.io is used for the communication between the server and clients.
+	\item Express\footnote{\url{http://expressjs.com/}}: Express is a minimal and flexible web application framework that provides a set of features for web and mobile applications. In XDTools, Express is responsible for serving the content to the clients.
+	\item shortid\footnote{\url{https://github.com/dylang/shortid}}: shortid generates short URL-friendly unique IDs. shortid generates the device IDs for the emulated devices in XDTools. As each device gets a subdomain based on its ID, shortid is ideal for our purpose.
+	\item Socket.IO\footnote{\url{http://socket.io/}}: Socket.IO enables real-time bidirectional event-based communication. If available, it uses HTML5 WebSockets, otherwise it uses fallback mechanism like AJAX long-polling. In XDTools, Socket.io is used for the communication between the server and clients.
 \end{itemize}
 
-Socket.io is better suited for our application than AJAX for multiple reasons: First, we need to be able to send push data to clients from the server for sending commands to devices and AJAX is intended to allow clients to pull data from the server. Also, data transfer with AJAX comes with a significant overhead because HTTP headers are transmitted with each piece of data. As we mentioned before, fast communication between the server and the devices is a requirement for our system and AJAX would not fulfill this requirement sufficiently. However, AJAX is used for communicating with the DNS server.
+Socket.io is better suited for XDTools than AJAX for multiple reasons: First, we need to be able to send push data to clients from the server for sending commands to devices and AJAX is intended to allow clients to pull data from the server. Also, data transfer with AJAX comes with a significant overhead because HTTP headers are transmitted with each piece of data. As we mentioned before, fast communication between the server and the devices is a requirement for XDTools and AJAX would not fulfill this requirement sufficiently. However, AJAX is used for communicating with the DNS server.
 
 \subsubsection{DNS Server}
 
-Our system requires a DNS server for registering the subdomains for the emulated devices. It should be easy to dynamically register new subdomains to the DNS server. Furthermore, the DNS server should forward any unknown domains to the standard DNS server. rainbow-dns\footnote{\url{https://github.com/asbjornenge/rainbow-dns}} fulfills both those requirements. It is a Node.js-based DNS server with an HTTP API that makes it trivial to register new domains from our application. When starting the server, the IP address of the standard DNS server can be passed as an argument, allowing rainbow-dns to forward unknown domains to the standard DNS server.
+XDTools requires a DNS server for registering the subdomains for the emulated devices. It should be easy to dynamically register new subdomains to the DNS server. Furthermore, the DNS server should forward any unknown domains to the standard DNS server. rainbow-dns\footnote{\url{https://github.com/asbjornenge/rainbow-dns}} fulfills both those requirements. It is a Node.js-based DNS server with an HTTP API that makes it trivial to register new domains from the main application of XDTools. When starting the server, the IP address of the standard DNS server can be passed as an argument, allowing rainbow-dns to forward unknown domains to the standard DNS server.
 
 \subsection{Client Side}
 
-The client side of our system is implemented using JavaScript with jQuery\footnote{\url{https://jquery.com/}}. jQuery allows easy selection and modification of HTML elements as well as easy event handling, features that are crucial to our system. As an additional helper, we use jQuery UI\footnote{\url{https://jqueryui.com/}}. jQuery UI is mainly used for the autocomplete functionality and for easy resizing of the individual components of our application. It is also used for resizing the emulated devices to change their resolution. The Twitter Bootstrap\footnote{\url{http://getbootstrap.com/}} framework is used to give our application a nice and uniform look-and-feel. It is also used for facilitating the implementation of things like modal boxes and tabs. 
+The client side of XDTools is implemented using JavaScript with jQuery\footnote{\url{https://jquery.com/}}. jQuery allows easy selection and modification of HTML elements as well as easy event handling, features that are crucial to XDTools. As an additional helper, we use jQuery UI\footnote{\url{https://jqueryui.com/}}. jQuery UI is mainly used for the autocomplete functionality and for easy resizing of the individual interface components of XDTools. It is also used for resizing the emulated devices to change their resolution. The Twitter Bootstrap\footnote{\url{http://getbootstrap.com/}} framework is used to give XDTools a nice and uniform look-and-feel. It is also used for facilitating the implementation of things like modal boxes and tabs. 
 
-Our system also uses QR codes for connecting real devices to the system. We use the jQuery-based QR Code library jQuery.qrcode\footnote{\url{https://larsjung.de/jquery-qrcode/}} for generating those QR codes. Using jQuery selectors, the content of an HTML element can be set to a QR code with the desired content and size.
+XDTools also uses QR codes for connecting real devices to the server. We use the jQuery-based QR Code library jQuery.qrcode\footnote{\url{https://larsjung.de/jquery-qrcode/}} for generating those QR codes. Using jQuery selectors, the content of an HTML element can be set to a QR code with the desired content and size.
 
 HTML5 Drag and Drop\footnote{\url{http://www.w3schools.com/html/html5_draganddrop.asp}} is used for allowing accurate positioning of devices and timing of event sequences. HTML5 \lstinline|postMessage| is used for communication between the testing application in the \lstinline|iframe| and our application. Thus, no additional library for communication is needed inside the testing application.
 
@@ -56,7 +56,7 @@ The Chrome DevTools extension is implemented using JavaScript. It uses the Comma
 
 \section{Overview of Features}
 
-In Figure~\ref{fig:complete}, the complete interface of our system except for record and replay can be seen.
+In Figure~\ref{fig:complete}, the complete interface of XDTools except for record and replay can be seen.
 
 \begin{figure}[H]
   \centering
@@ -65,7 +65,7 @@ In Figure~\ref{fig:complete}, the complete interface of our system except for re
 	\label{fig:complete}
 \end{figure}
 
-The individual features of our system are labeled in the screenshot:
+The individual features of XDTools are labeled in the screenshot:
 \begin{itemize}
 	\item [a)] Buttons for adding emulated devices and showing the QR code for connecting real devices.
 	\item [b)] Input field for loading a URL on all devices and button to refresh all devices.
@@ -79,7 +79,7 @@ The individual features of our system are labeled in the screenshot:
 	\item [j)] Session management.
 \end{itemize}
 
-Figure~\ref{fig:complete_remote} shows a screenshot of the remote device that is connected to our system in the screenshot shown above.
+Figure~\ref{fig:complete_remote} shows a screenshot of the remote device that is connected to XDTools in the screenshot shown above.
 
 \begin{figure}[H]
   \centering
@@ -122,7 +122,7 @@ All those features perform some interactions with the devices automatically, thu
 
 \section{Emulation of Multiple Devices}
 
-Devices are emulated with \lstinline|iframes|: Each emulated device is represented by its own \lstinline|iframe| that loads the application under test. However, loading the same domain inside multiple \lstinline|iframes| would lead to the sharing of session and persistent data between emulated devices. We have already described how developers tackle this problem and the limitations of those solutions. For our tools, we created a more scalable and robust solution. When an emulated device is created, it is assigned a unique ID. Based on this ID, a unique subdomain is registered with the local DNS server. All those subdomains point to the application under test, but as the application is accessed through different domains, no data is shared between the emulated devices. Domains that are unknown to the local DNS server are forwarded to the standard DNS server. The resolution of each \lstinline|iframe| corresponds to the resolution of the device that it represents in CSS pixels. Currently, only the resolution of the target devices is emulated, but in the future, our tools could be extended to support emulation of more aspects. In Figure~\ref{fig:emulated_device}, an emulated device can be seen.
+Devices are emulated with \lstinline|iframes|: Each emulated device is represented by its own \lstinline|iframe| that loads the application under test. However, loading the same domain inside multiple \lstinline|iframes| would lead to the sharing of session and persistent data between emulated devices. We have already described how developers tackle this problem and the limitations of those solutions. For XDTools, we implemented a more scalable and robust solution. When an emulated device is created, it is assigned a unique ID. Based on this ID, a unique subdomain is registered with the local DNS server. All those subdomains point to the application under test, but as the application is accessed through different domains, no data is shared between the emulated devices. Domains that are unknown to the local DNS server are forwarded to the standard DNS server. The resolution of each \lstinline|iframe| corresponds to the resolution of the device that it represents in CSS pixels. Currently, only the resolution of the target devices is emulated, but in the future, XDTools could be extended to support emulation of more aspects. In Figure~\ref{fig:emulated_device}, an emulated device can be seen.
 
 \begin{figure}[H]
   \centering
@@ -154,7 +154,7 @@ In principle, the developer can add as many emulated devices as desired. The onl
 
 The devices can be moved around as desired. Using HTML5's Drag and Drop, the developer can move the device by clicking on the header of the device and dragging it to the desired location. However, we cannot just make the devices \lstinline|draggable| by default. The developer should not be able to move the device if they click on the \lstinline|iframe| because otherwise interaction with the \lstinline|iframe| would be difficult. Thus, we chose to only make devices \lstinline|draggable| if the developer clicks on the header of the device. For this reason, we assign a click handler to each device that checks if the developer clicked on the header of the device. If they did, we make the device \lstinline|draggable|. 
 
-When the developer starts dragging the device, the device ID is assigned as data to the event. However, the device ID is not the only required data. If the developer drags the device at a certain position, we cannot just assign this position to the device. If we did, the top left corner of the device would be at the position where the device was dropped, but the developer probably did not click on the top left corner of the device when they started dragging the device. Thus, we need to compute the offset of the click from the top left corner of the device and adjust the position accordingly when the device is dropped. For example, if the developer clicks on the device 10 pixels from the top and drops the device x pixels from the top of the device area, we need to assign the position x - 10 to the device. For achieving this, we compute the offset when the developer clicks on the header of a device and also set the offset as data to the event.
+When the developer starts dragging the device, the device ID is assigned as data to the event. However, the device ID is not the only required data. If the developer drags the device at a certain position, we cannot just assign this position to the device. If we did, the top left corner of the device would be at the position where the device was dropped, but the developer probably did not click on the top left corner of the device when they started dragging the device. Thus, we need to compute the offset of the click from the top left corner of the device and adjust the position accordingly when the device is dropped. For example, if the developer clicks on the device 10 pixels from the top and drops the device x pixels from the top of the device area, we need to assign the position x - 10 to the device. For achieving this, we compute the offset when the developer clicks on the header of a device and set the offset as data to the event.
 
 \subsection{Color Generation}
 As described above, each device has its own unique color. We use the HSL\footnote{\url{https://en.wikipedia.org/wiki/HSL_and_HSV}} color space for determining device colors because finding distinct colors is a much simpler task in the HSL model compared to the RGB model. In the HSL color space, colors consist of three values: Hue, saturation and lightness. The colors of the devices should all have the same saturation and lightness, thus the only value that needs to be determined is the hue. The hue can have any value between 0 and 360. Our goal is to have colors that are easily distinguishable, thus their hues should be as different as possible. A simple algorithm can be used for determining the color of the next device:
@@ -198,7 +198,7 @@ Device configurations are stored in Local Storage. The Local Storage stores an a
 
 \section{Integration with Debugging Tools}
 
-Our system includes a few different features that are also available in normal browser debugging tools. Those features work in a similar way as in the browser, but we extended them to support debugging of multiple devices at the same time.
+XDTools includes a few different features that are also available in normal browser debugging tools. Those features work in a similar way as in the browser, but we extended them to support debugging of multiple devices at the same time.
 
 \subsection{Shared JavaScript Console}
 
@@ -213,7 +213,7 @@ The shared JavaScript console aggregates the console output (logging and JavaScr
 	\item \lstinline|console.dir|
 	\item \lstinline|console.assert|
 \end{itemize}
-In the script that is injected in the application under test, those functions are overwritten by a new function and the original functions are stored. The new function performs the following two actions: First, it sends the content and type of the logging message to our server. Second, it calls the original logging function. Thus, the logging messages are still displayed in the standard console, but are forwarded to our console in addition.
+In the script that is injected into the application under test, those functions are overwritten by a new function and the original functions are stored. The new function performs the following two actions: First, it sends the content and type of the logging message to our server. Second, it calls the original logging function. Thus, the logging messages are still displayed in the standard console, but are forwarded to our console in addition.
 
 Apart from forwarding logging messages, we also forward JavaScript errors. This is implemented by assigning an event handler to JavaScript errors using \lstinline|window.onerror|. Whenever a JavaScript error occurs, the event handler is called. Inside the event handler, the JavaScript error message is sent to our server, together with the stack trace if available. 
 
@@ -321,7 +321,7 @@ In Figure~\ref{fig:css_applied}, the effects of the CSS shown in the screenshot 
 
 \section{Automatic Connection Management}
 
-The devices in our system can either be connected automatically or manually. Each set of connected devices represents a session. For each session, a checkbox allows the developer to toggle on or off auto-connect. When the first device is created or connected, auto-connect is turned on by default. If auto-connect is on, all newly created and connected devices will automatically be connected to that session. Thus, if the developer simply adds or connects a number of devices, they will automatically all be connected. If the developer wants to have multiple sessions, they can turn off auto-connect and then add more devices. Each device also has a drop-down menu in its settings menu for manually connecting to other devices. 
+The devices in XDTools can either be connected automatically or manually. Each set of connected devices represents a session. For each session, a checkbox allows the developer to toggle on or off auto-connect. When the first device is created or connected, auto-connect is turned on by default. If auto-connect is on, all newly created and connected devices will automatically be connected to that session. Thus, if the developer simply adds or connects a number of devices, they will automatically all be connected. If the developer wants to have multiple sessions, they can turn off auto-connect and then add more devices. Each device also has a drop-down menu in its settings menu for manually connecting to other devices. 
 
 All current sessions are displayed at the bottom of the page of our application. Each session displays all connected devices (see Figure~\ref{fig:sessions}). The developer can also refresh all devices in a session and reset a session. Resetting a session assigns new IDs to all devices and thus erases the data of the devices. 
 
@@ -332,7 +332,7 @@ All current sessions are displayed at the bottom of the page of our application.
 	\label{fig:sessions}
 \end{figure}
 
-In the script that is injected into the testing application, a connection function is available. When a device wants to connect to another device, a command is sent to that device. That device then calls the connection function. The connection function returns the URL that has to be loaded to connect to the device. The URL is then sent back to the device that wants to connect and can be loaded to connect the device.
+In the script that is injected into the application under test, a connection function is available. When a device wants to connect to another device, a command is sent to that device. That device then calls the connection function. The connection function returns the URL that has to be loaded to connect to the device. The URL is then sent back to the device that wants to connect and can be loaded to connect the device.
 
 The URL required for connecting depends on the application. Thus, the developer has to adjust the connection function such that it returns the appropriate URL. So far, only connecting via URL is supported, but extending the connection function to support other connection mechanisms would be possible.
 
@@ -359,7 +359,7 @@ All events are replayed using the properties recorded in the event sequences. Us
 
 \section{Integration with Polymer and Shadow DOM}
 
-Although our system works with all web-based cross-device applications, one of the initial goals was to make it work with applications developed with XD-MVC. XD-MVC can either just be used as a JavaScript API or it can be used together with Polymer\footnote{\url{https://www.polymer-project.org}}. Polymer provides developers with the option to use Shadow DOM\footnote{\url{http://www.w3.org/TR/shadow-dom/}}. Shadow DOM refers to the ability of the browser to include a subtree of DOM elements into the rendering of the document, but not into the main document tree. Thus, it can encapsulate components and prevent them from being reached by traditional tree walking functions such as \lstinline|childNodes| and \lstinline|firstChild|. We must assume that some applications implemented with XD-MVC use Polymer and Shadow DOM and our system should support those applications as well. However, a few modifications are required for supporting both Polymer and Shadow DOM. First, determining the target of an event can become more difficult because the element might not be accessible from the global scope. Second, debugging functions that are not accessible from the global scope should be possible and we need some way of accessing those functions. Furthermore, we want to be able to add CSS to elements that are not accessible from the global scope.
+Although XDTools works with all web-based cross-device applications, one of the initial goals was to make it work with applications developed with XD-MVC. XD-MVC can either just be used as a JavaScript API or it can be used together with Polymer\footnote{\url{https://www.polymer-project.org}}. Polymer provides developers with the option to use Shadow DOM\footnote{\url{http://www.w3.org/TR/shadow-dom/}}. Shadow DOM refers to the ability of the browser to include a subtree of DOM elements into the rendering of the document, but not into the main document tree. Thus, it can encapsulate components and prevent them from being reached by traditional tree walking functions such as \lstinline|childNodes| and \lstinline|firstChild|. We must assume that some applications implemented with XD-MVC use Polymer and Shadow DOM and XDTools should support those applications as well. However, a few modifications are required for supporting both Polymer and Shadow DOM. First, determining the target of an event can become more difficult because the element might not be accessible from the global scope. Second, debugging functions that are not accessible from the global scope should be possible and we need some way of accessing those functions. Furthermore, we want to be able to add CSS to elements that are not accessible from the global scope.
 
 \subsection{Determining Event Targets}
 
@@ -390,7 +390,7 @@ There are two things to be considered: First, there may be shadow roots in the a
 \end{enumerate}
 When the algorithm has finished, the list of scopes is sent to the main application. In the main application, the developer can choose the scope that they want to work with from a dropdown menu.
 
-The selected scope has an influence on the following three components of our system:
+The selected scope has an influence on the following three components of XDTools:
 \begin{itemize}
 	\item Shared JavaScript console: In the shared JavaScript console, all commands in the console are executed in the selected scope. 
 	\item Shared CSS editor: In the CSS editor, the CSS rule is added on the currently selected scope. Each scope has its own stylesheet containing the CSS rules of that scope.

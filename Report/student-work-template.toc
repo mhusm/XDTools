@@ -1,8 +1,7 @@
 \select@language {british}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
-\contentsline {section}{\numberline {1.1}Problem Statement}{1}{section.1.1}
-\contentsline {section}{\numberline {1.2}Contributions}{3}{section.1.2}
-\contentsline {section}{\numberline {1.3}Structure of this Document}{4}{section.1.3}
+\contentsline {section}{\numberline {1.1}Contributions}{2}{section.1.1}
+\contentsline {section}{\numberline {1.2}Structure of this Document}{4}{section.1.2}
 \contentsline {chapter}{\numberline {2}Background and Related Work}{5}{chapter.2}
 \contentsline {section}{\numberline {2.1}Web Application Testing}{5}{section.2.1}
 \contentsline {subsection}{\numberline {2.1.1}Browser-Integrated Debugging Tools}{5}{subsection.2.1.1}
@@ -11,33 +10,33 @@
 \contentsline {subsubsection}{Summary}{6}{section*.6}
 \contentsline {subsection}{\numberline {2.1.2}Record and Replay}{6}{subsection.2.1.2}
 \contentsline {subsubsection}{Timelapse}{6}{section*.7}
-\contentsline {subsubsection}{Mugshot}{6}{section*.8}
+\contentsline {subsubsection}{Mugshot}{7}{section*.8}
 \contentsline {subsubsection}{WaRR}{7}{section*.9}
 \contentsline {subsubsection}{Rumadai}{7}{section*.10}
-\contentsline {subsubsection}{FireCrystal}{7}{section*.11}
+\contentsline {subsubsection}{FireCrystal}{8}{section*.11}
 \contentsline {subsubsection}{Summary}{8}{section*.12}
 \contentsline {section}{\numberline {2.2}Responsive Web Application Testing}{8}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Web Services}{8}{subsection.2.2.1}
-\contentsline {subsubsection}{BrowserStack}{8}{section*.13}
+\contentsline {subsubsection}{BrowserStack}{9}{section*.13}
 \contentsline {subsubsection}{CrossBrowserTesting}{9}{section*.14}
 \contentsline {subsection}{\numberline {2.2.2}Testing with Actual Devices}{9}{subsection.2.2.2}
 \contentsline {subsubsection}{Remote Preview}{9}{section*.15}
 \contentsline {subsubsection}{BrowserSync}{9}{section*.16}
-\contentsline {subsubsection}{Adobe Edge Inspect CC}{9}{section*.17}
+\contentsline {subsubsection}{Adobe Edge Inspect CC}{10}{section*.17}
 \contentsline {subsubsection}{Ghostlab}{10}{section*.18}
 \contentsline {subsection}{\numberline {2.2.3}Device Emulation}{10}{subsection.2.2.3}
 \contentsline {subsubsection}{Chrome Device Mode}{10}{section*.19}
-\contentsline {subsubsection}{Firefox's Responsive Design View}{10}{section*.20}
+\contentsline {subsubsection}{Firefox's Responsive Design View}{11}{section*.20}
 \contentsline {subsection}{\numberline {2.2.4}Summary}{11}{subsection.2.2.4}
 \contentsline {section}{\numberline {2.3}Cross-Device Application Development Frameworks}{11}{section.2.3}
 \contentsline {subsection}{\numberline {2.3.1}XD-MVC}{11}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}Connichiwa}{11}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.2}Connichiwa}{12}{subsection.2.3.2}
 \contentsline {subsection}{\numberline {2.3.3}DireWolf}{12}{subsection.2.3.3}
-\contentsline {subsection}{\numberline {2.3.4}XDStudio}{12}{subsection.2.3.4}
+\contentsline {subsection}{\numberline {2.3.4}XDStudio}{13}{subsection.2.3.4}
 \contentsline {subsection}{\numberline {2.3.5}Panelrama}{13}{subsection.2.3.5}
-\contentsline {subsection}{\numberline {2.3.6}Polychrome}{13}{subsection.2.3.6}
+\contentsline {subsection}{\numberline {2.3.6}Polychrome}{14}{subsection.2.3.6}
 \contentsline {subsection}{\numberline {2.3.7}XDSession}{14}{subsection.2.3.7}
-\contentsline {subsection}{\numberline {2.3.8}WatchConnect}{14}{subsection.2.3.8}
+\contentsline {subsection}{\numberline {2.3.8}WatchConnect}{15}{subsection.2.3.8}
 \contentsline {subsection}{\numberline {2.3.9}Weave}{15}{subsection.2.3.9}
 \contentsline {subsection}{\numberline {2.3.10}Summary}{15}{subsection.2.3.10}
 \contentsline {chapter}{\numberline {3}Approach}{17}{chapter.3}
@@ -84,16 +83,16 @@
 \contentsline {subsection}{\numberline {6.1.3}Evaluation Methods}{63}{subsection.6.1.3}
 \contentsline {subsubsection}{Questionnaires}{63}{section*.53}
 \contentsline {subsubsection}{Video Recording}{64}{section*.54}
-\contentsline {subsubsection}{Personal Feedback}{65}{section*.55}
-\contentsline {subsubsection}{Time Measuring}{65}{section*.56}
-\contentsline {section}{\numberline {6.2}Results}{65}{section.6.2}
+\contentsline {subsubsection}{Personal Feedback}{64}{section*.55}
+\contentsline {subsubsection}{Time Measuring}{64}{section*.56}
+\contentsline {section}{\numberline {6.2}Results}{64}{section.6.2}
 \contentsline {subsection}{\numberline {6.2.1}XDCinema: Fixing a Bug}{65}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}XDCinema: Implementing a Feature}{67}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.2}XDCinema: Implementing a Feature}{66}{subsection.6.2.2}
 \contentsline {subsection}{\numberline {6.2.3}XDYouTube: Fixing a Bug}{68}{subsection.6.2.3}
 \contentsline {subsection}{\numberline {6.2.4}XDYouTube: Implementing a Feature}{69}{subsection.6.2.4}
-\contentsline {subsection}{\numberline {6.2.5}General}{71}{subsection.6.2.5}
-\contentsline {section}{\numberline {6.3}Discussion}{72}{section.6.3}
-\contentsline {subsubsection}{Aborted Tasks}{77}{section*.74}
+\contentsline {subsection}{\numberline {6.2.5}General}{70}{subsection.6.2.5}
+\contentsline {section}{\numberline {6.3}Discussion}{71}{section.6.3}
+\contentsline {subsubsection}{Aborted Tasks}{76}{section*.74}
 \contentsline {subsubsection}{Devices Used}{77}{section*.75}
 \contentsline {subsubsection}{Debugging/Implementation Strategies}{79}{section*.77}
 \contentsline {subsubsection}{Feature Requests}{80}{section*.78}
