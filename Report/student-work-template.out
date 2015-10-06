@@ -13,65 +13,68 @@
 \BOOKMARK [2][-]{subsection.2.2.3}{2.2.3 Device Emulation}{section.2.2}% 13
 \BOOKMARK [2][-]{subsection.2.2.4}{2.2.4 Summary}{section.2.2}% 14
 \BOOKMARK [1][-]{section.2.3}{2.3 Cross-Device Application Development Frameworks}{chapter.2}% 15
-\BOOKMARK [2][-]{subsection.2.3.1}{2.3.1 XD-MVC}{section.2.3}% 16
-\BOOKMARK [2][-]{subsection.2.3.2}{2.3.2 Connichiwa}{section.2.3}% 17
-\BOOKMARK [2][-]{subsection.2.3.3}{2.3.3 DireWolf}{section.2.3}% 18
-\BOOKMARK [2][-]{subsection.2.3.4}{2.3.4 XDStudio}{section.2.3}% 19
-\BOOKMARK [2][-]{subsection.2.3.5}{2.3.5 Panelrama}{section.2.3}% 20
-\BOOKMARK [2][-]{subsection.2.3.6}{2.3.6 Polychrome}{section.2.3}% 21
-\BOOKMARK [2][-]{subsection.2.3.7}{2.3.7 XDSession}{section.2.3}% 22
-\BOOKMARK [2][-]{subsection.2.3.8}{2.3.8 WatchConnect}{section.2.3}% 23
-\BOOKMARK [2][-]{subsection.2.3.9}{2.3.9 Weave}{section.2.3}% 24
-\BOOKMARK [2][-]{subsection.2.3.10}{2.3.10 Summary}{section.2.3}% 25
-\BOOKMARK [0][-]{chapter.3}{3 Approach}{}% 26
-\BOOKMARK [1][-]{section.3.1}{3.1 Emulation of Multiple Devices}{chapter.3}% 27
-\BOOKMARK [1][-]{section.3.2}{3.2 Easy Integration of Real and Emulated Devices}{chapter.3}% 28
-\BOOKMARK [1][-]{section.3.3}{3.3 Easy Switching of Device Configurations}{chapter.3}% 29
-\BOOKMARK [1][-]{section.3.4}{3.4 Integration with Debugging Tools}{chapter.3}% 30
-\BOOKMARK [1][-]{section.3.5}{3.5 Automatic Connection Management}{chapter.3}% 31
-\BOOKMARK [1][-]{section.3.6}{3.6 Coordinated Record and Replay}{chapter.3}% 32
-\BOOKMARK [0][-]{chapter.4}{4 Implementation}{}% 33
-\BOOKMARK [1][-]{section.4.1}{4.1 Architecture}{chapter.4}% 34
-\BOOKMARK [1][-]{section.4.2}{4.2 Choice of Technologies}{chapter.4}% 35
-\BOOKMARK [2][-]{subsection.4.2.1}{4.2.1 Server Side}{section.4.2}% 36
-\BOOKMARK [2][-]{subsection.4.2.2}{4.2.2 Client Side}{section.4.2}% 37
-\BOOKMARK [1][-]{section.4.3}{4.3 Overview of Features}{chapter.4}% 38
-\BOOKMARK [1][-]{section.4.4}{4.4 Emulation of Multiple Devices}{chapter.4}% 39
-\BOOKMARK [2][-]{subsection.4.4.1}{4.4.1 Color Generation}{section.4.4}% 40
-\BOOKMARK [1][-]{section.4.5}{4.5 Easy Integration of Real Devices}{chapter.4}% 41
-\BOOKMARK [1][-]{section.4.6}{4.6 Easy Switching of Device Configurations}{chapter.4}% 42
-\BOOKMARK [1][-]{section.4.7}{4.7 Integration with Debugging Tools}{chapter.4}% 43
-\BOOKMARK [2][-]{subsection.4.7.1}{4.7.1 Shared JavaScript Console}{section.4.7}% 44
-\BOOKMARK [2][-]{subsection.4.7.2}{4.7.2 Function Debugging and Inspection}{section.4.7}% 45
-\BOOKMARK [2][-]{subsection.4.7.3}{4.7.3 HTML Inspection}{section.4.7}% 46
-\BOOKMARK [2][-]{subsection.4.7.4}{4.7.4 Shared CSS Editor}{section.4.7}% 47
-\BOOKMARK [1][-]{section.4.8}{4.8 Automatic Connection Management}{chapter.4}% 48
-\BOOKMARK [1][-]{section.4.9}{4.9 Coordinated Record and Replay}{chapter.4}% 49
-\BOOKMARK [1][-]{section.4.10}{4.10 Integration with Polymer and Shadow DOM}{chapter.4}% 50
-\BOOKMARK [2][-]{subsection.4.10.1}{4.10.1 Determining Event Targets}{section.4.10}% 51
-\BOOKMARK [2][-]{subsection.4.10.2}{4.10.2 Determining Scopes}{section.4.10}% 52
-\BOOKMARK [0][-]{chapter.5}{5 Sample Applications}{}% 53
-\BOOKMARK [1][-]{section.5.1}{5.1 XDCinema}{chapter.5}% 54
-\BOOKMARK [2][-]{subsection.5.1.1}{5.1.1 Implementation}{section.5.1}% 55
-\BOOKMARK [1][-]{section.5.2}{5.2 XDYouTube}{chapter.5}% 56
-\BOOKMARK [2][-]{subsection.5.2.1}{5.2.1 Implementation}{section.5.2}% 57
-\BOOKMARK [1][-]{section.5.3}{5.3 Insights}{chapter.5}% 58
-\BOOKMARK [0][-]{chapter.6}{6 Evaluation}{}% 59
-\BOOKMARK [1][-]{section.6.1}{6.1 Setup}{chapter.6}% 60
-\BOOKMARK [2][-]{subsection.6.1.1}{6.1.1 Participants}{section.6.1}% 61
-\BOOKMARK [2][-]{subsection.6.1.2}{6.1.2 Tasks}{section.6.1}% 62
-\BOOKMARK [2][-]{subsection.6.1.3}{6.1.3 Evaluation Methods}{section.6.1}% 63
-\BOOKMARK [1][-]{section.6.2}{6.2 Results}{chapter.6}% 64
-\BOOKMARK [2][-]{subsection.6.2.1}{6.2.1 XDCinema: Fixing a Bug}{section.6.2}% 65
-\BOOKMARK [2][-]{subsection.6.2.2}{6.2.2 XDCinema: Implementing a Feature}{section.6.2}% 66
-\BOOKMARK [2][-]{subsection.6.2.3}{6.2.3 XDYouTube: Fixing a Bug}{section.6.2}% 67
-\BOOKMARK [2][-]{subsection.6.2.4}{6.2.4 XDYouTube: Implementing a Feature}{section.6.2}% 68
-\BOOKMARK [2][-]{subsection.6.2.5}{6.2.5 General}{section.6.2}% 69
-\BOOKMARK [1][-]{section.6.3}{6.3 Discussion}{chapter.6}% 70
-\BOOKMARK [0][-]{chapter.7}{7 Conclusion}{}% 71
-\BOOKMARK [1][-]{section.7.1}{7.1 Future Work}{chapter.7}% 72
-\BOOKMARK [2][-]{subsection.7.1.1}{7.1.1 Extended Record and Replay}{section.7.1}% 73
-\BOOKMARK [2][-]{subsection.7.1.2}{7.1.2 Extended Device Emulation}{section.7.1}% 74
-\BOOKMARK [2][-]{subsection.7.1.3}{7.1.3 Tighter Integration with Browser}{section.7.1}% 75
-\BOOKMARK [2][-]{subsection.7.1.4}{7.1.4 Long-Term Study}{section.7.1}% 76
-\BOOKMARK [0][-]{appendix.A}{A Questionnaires}{}% 77
+\BOOKMARK [2][-]{subsection.2.3.1}{2.3.1 Frameworks that have some Testing Tools}{section.2.3}% 16
+\BOOKMARK [2][-]{subsection.2.3.2}{2.3.2 Frameworks that would Benefit from Testing Tools}{section.2.3}% 17
+\BOOKMARK [2][-]{subsection.2.3.3}{2.3.3 Summary}{section.2.3}% 18
+\BOOKMARK [0][-]{chapter.3}{3 Requirements}{}% 19
+\BOOKMARK [1][-]{section.3.1}{3.1 Emulation of Multiple Devices}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.2}{3.2 Easy Integration of Real and Emulated Devices}{chapter.3}% 21
+\BOOKMARK [1][-]{section.3.3}{3.3 Easy Switching of Device Configurations}{chapter.3}% 22
+\BOOKMARK [1][-]{section.3.4}{3.4 Integration with Debugging Tools}{chapter.3}% 23
+\BOOKMARK [1][-]{section.3.5}{3.5 Automatic Connection Management}{chapter.3}% 24
+\BOOKMARK [1][-]{section.3.6}{3.6 Coordinated Record and Replay}{chapter.3}% 25
+\BOOKMARK [0][-]{chapter.4}{4 XDTools}{}% 26
+\BOOKMARK [1][-]{section.4.1}{4.1 Overview of Features}{chapter.4}% 27
+\BOOKMARK [1][-]{section.4.2}{4.2 Emulation of Multiple Devices}{chapter.4}% 28
+\BOOKMARK [1][-]{section.4.3}{4.3 Easy Integration of Real and Emulated Devices}{chapter.4}% 29
+\BOOKMARK [1][-]{section.4.4}{4.4 Easy Switching of Device Configurations}{chapter.4}% 30
+\BOOKMARK [1][-]{section.4.5}{4.5 Integration with Debugging Tools}{chapter.4}% 31
+\BOOKMARK [2][-]{subsection.4.5.1}{4.5.1 Shared JavaScript Console}{section.4.5}% 32
+\BOOKMARK [2][-]{subsection.4.5.2}{4.5.2 Function Debugging and Inspection}{section.4.5}% 33
+\BOOKMARK [2][-]{subsection.4.5.3}{4.5.3 HTML Inspection}{section.4.5}% 34
+\BOOKMARK [2][-]{subsection.4.5.4}{4.5.4 Shared CSS Editor}{section.4.5}% 35
+\BOOKMARK [1][-]{section.4.6}{4.6 Automatic Connection Management}{chapter.4}% 36
+\BOOKMARK [1][-]{section.4.7}{4.7 Coordinated Record and Replay}{chapter.4}% 37
+\BOOKMARK [0][-]{chapter.5}{5 Implementation}{}% 38
+\BOOKMARK [1][-]{section.5.1}{5.1 Architecture}{chapter.5}% 39
+\BOOKMARK [1][-]{section.5.2}{5.2 Choice of Technologies}{chapter.5}% 40
+\BOOKMARK [2][-]{subsection.5.2.1}{5.2.1 Server Side}{section.5.2}% 41
+\BOOKMARK [2][-]{subsection.5.2.2}{5.2.2 Client Side}{section.5.2}% 42
+\BOOKMARK [1][-]{section.5.3}{5.3 Emulation of Multiple Devices}{chapter.5}% 43
+\BOOKMARK [2][-]{subsection.5.3.1}{5.3.1 Color Generation}{section.5.3}% 44
+\BOOKMARK [1][-]{section.5.4}{5.4 Easy Integration of Real Devices}{chapter.5}% 45
+\BOOKMARK [1][-]{section.5.5}{5.5 Easy Switching of Device Configurations}{chapter.5}% 46
+\BOOKMARK [1][-]{section.5.6}{5.6 Integration with Debugging Tools}{chapter.5}% 47
+\BOOKMARK [2][-]{subsection.5.6.1}{5.6.1 Shared JavaScript Console}{section.5.6}% 48
+\BOOKMARK [2][-]{subsection.5.6.2}{5.6.2 Function Debugging and Inspection}{section.5.6}% 49
+\BOOKMARK [2][-]{subsection.5.6.3}{5.6.3 HTML Inspection}{section.5.6}% 50
+\BOOKMARK [2][-]{subsection.5.6.4}{5.6.4 Shared CSS Editor}{section.5.6}% 51
+\BOOKMARK [1][-]{section.5.7}{5.7 Automatic Connection Management}{chapter.5}% 52
+\BOOKMARK [1][-]{section.5.8}{5.8 Coordinated Record and Replay}{chapter.5}% 53
+\BOOKMARK [1][-]{section.5.9}{5.9 Integration with Polymer and Shadow DOM}{chapter.5}% 54
+\BOOKMARK [2][-]{subsection.5.9.1}{5.9.1 Determining Event Targets}{section.5.9}% 55
+\BOOKMARK [2][-]{subsection.5.9.2}{5.9.2 Determining Scopes}{section.5.9}% 56
+\BOOKMARK [0][-]{chapter.6}{6 Sample Applications}{}% 57
+\BOOKMARK [1][-]{section.6.1}{6.1 XDCinema}{chapter.6}% 58
+\BOOKMARK [2][-]{subsection.6.1.1}{6.1.1 Implementation}{section.6.1}% 59
+\BOOKMARK [1][-]{section.6.2}{6.2 XDYouTube}{chapter.6}% 60
+\BOOKMARK [2][-]{subsection.6.2.1}{6.2.1 Implementation}{section.6.2}% 61
+\BOOKMARK [1][-]{section.6.3}{6.3 Insights}{chapter.6}% 62
+\BOOKMARK [0][-]{chapter.7}{7 Evaluation}{}% 63
+\BOOKMARK [1][-]{section.7.1}{7.1 Setup}{chapter.7}% 64
+\BOOKMARK [2][-]{subsection.7.1.1}{7.1.1 Participants}{section.7.1}% 65
+\BOOKMARK [2][-]{subsection.7.1.2}{7.1.2 Tasks}{section.7.1}% 66
+\BOOKMARK [2][-]{subsection.7.1.3}{7.1.3 Evaluation Methods}{section.7.1}% 67
+\BOOKMARK [1][-]{section.7.2}{7.2 Results}{chapter.7}% 68
+\BOOKMARK [2][-]{subsection.7.2.1}{7.2.1 XDCinema: Fixing a Bug}{section.7.2}% 69
+\BOOKMARK [2][-]{subsection.7.2.2}{7.2.2 XDCinema: Implementing a Feature}{section.7.2}% 70
+\BOOKMARK [2][-]{subsection.7.2.3}{7.2.3 XDYouTube: Fixing a Bug}{section.7.2}% 71
+\BOOKMARK [2][-]{subsection.7.2.4}{7.2.4 XDYouTube: Implementing a Feature}{section.7.2}% 72
+\BOOKMARK [1][-]{section.7.3}{7.3 Discussion}{chapter.7}% 73
+\BOOKMARK [0][-]{chapter.8}{8 Conclusion}{}% 74
+\BOOKMARK [1][-]{section.8.1}{8.1 Future Work}{chapter.8}% 75
+\BOOKMARK [2][-]{subsection.8.1.1}{8.1.1 Extended Record and Replay}{section.8.1}% 76
+\BOOKMARK [2][-]{subsection.8.1.2}{8.1.2 Extended Device Emulation}{section.8.1}% 77
+\BOOKMARK [2][-]{subsection.8.1.3}{8.1.3 Tighter Integration with Browser}{section.8.1}% 78
+\BOOKMARK [2][-]{subsection.8.1.4}{8.1.4 Long-Term Study}{section.8.1}% 79
+\BOOKMARK [0][-]{appendix.A}{A Questionnaires}{}% 80

@@ -115,31 +115,19 @@ While the tools described above already provide a wide variety of features that 
 
 In the following subsections, we will describe some frameworks that facilitate the development of cross-device applications. Some of those frameworks already provide some mechanisms for testing the applications developed with them, but other include none and could benefit a lot from tools that would allows easy testing of cross-device applications.
 
-\subsection{Frameworks that Have some Testing Tools}
+\subsection{Frameworks that have some Testing Tools}
 
 The following frameworks already include some mechanisms for testing and debugging applications, but most of those mechanisms are limited to specific aspects of the applications and require the applications to be developed with the framework.
 
 \subsubsection{XDStudio}
 
-In ~\cite{xdstudio2014}, Nebeling et al. present their web-based GUI builder, XDStudio. XDStudio is designed to support interactive development of cross-device web interfaces. It has two complementary authoring modes: Simulated authoring allows designing for a multi-device environment on a single device by simulating other target devices. On-device authoring allows the design process itself to be distributed over multiple devices. The design process is still coordinated by a main device, but directly involves target devices. The user can switch between two different modes:
-\begin{itemize}
-	\item Use mode: The user can interact normally with the interface loaded into the editor
-	\item Design mode: The user can manipulate the interface directly
-\end{itemize}
-XDStudio makes the following contributions:
-\begin{itemize}
-	\item It explores two scenarios thatt were developed as interesting use cases of multi-device, distributed user interfaces and used to drive the design and evaluation of XDStudio
-	\item The notion of distribution profiles at the core of XDStudio extends existing context models to multiple devices and users
-	\item It provides cross-device authoring concepts and tools that cater for cases where not all devices and users are available, or where they are even different, at design and run-time
-	\item User study to evaluate XDStudio
-\end{itemize}
-Distribution profiles can be specified in terms of involved devices, users and target user interfaces. The user can either select which user interface widgets and other elements of the source to include in the distribution by dragging and dropping them from the source interface to the corresponding target interface or click a button available for each target interface to insert the full version of the source interface as a starting point, and then include/exclude interface elements from the distribution.
+In ~\cite{xdstudio2014}, Nebeling et al. present their web-based GUI builder, XDStudio. XDStudio is designed to support interactive development of cross-device web interfaces. It has two complementary authoring modes: \emph{Simulated authoring} allows designing for a multi-device environment on a single device by simulating other target devices. \emph{On-device authoring} allows the design process itself to be distributed over multiple devices. The design process is still coordinated by a main device, but directly involves target devices. The user can switch between two different modes: In \emph{use mode}, the user can interact normally with the interface loaded into the editor. In \emph{design mode}, the user can manipulate the interface directly. XDStudio also allows the specification of \emph{distribution profiles} in terms of involved devices, users and target user interfaces.
 
 Although XDStudio includes mechanisms for inspecting interactive designs on emulated devices and on connected real devices, there is no specific support for debugging such as access to the console. Thus, XDStudio is well suited for seeing what an application looks and feels like on different devices, but debugging the application when something does not work as expected is still a difficult task.
 
 \subsubsection{XDSession}
 
-XDSession, developed by Nebeling et al.~\cite{xdsession2015}, is a framework for cross-device application development based on a concept of cross-device sessions which is also useful for logging and debugging. The session controller supports management and testing of cross-device sessions with connected or simulated devices at run time. The session inspector enables inspection and analysis of multi-device/multi-user sessions with support for deterministic record/replay of cross-device sessions. A session consists of users, devices, and information. When a device joins a session, it receives the whole or missing part of the data belonging to the selected session. When a device leaves a session, all data of that session that is not shared with any other session is removed from the device.
+XDSession, developed by Nebeling et al.~\cite{xdsession2015}, is a framework for cross-device application development based on the concept of \emph{cross-device sessions} which is also useful for logging and debugging. The session controller supports management and testing of cross-device sessions with connected or simulated devices at run time. The session inspector enables inspection and analysis of multi-device/multi-user sessions with support for deterministic record/replay of cross-device sessions. A session consists of users, devices, and information.
 
 XDSeession provides a capture and replay mechanism for user interactions and changes to the sessions and provides a basic device emulation mode that allows developers to emulate one device at a time. However, the record and replay mechanism only works if the framework API is used for the manipulations. Also, XDSession supports debugging at a rather high level of abstraction and is thus better suited for finding problems in interactions rather than bugs in the source code.
 
@@ -149,62 +137,33 @@ Weave is a web-based framework for creating cross-device wearable interaction by
 
 Weave allows testing on emulated and real devices and the developer also has access to a log panel, but no further support for debugging is provided. 
 
+\subsubsection{WatchConnect}
+
+In ~\cite{watchconnect2015}, Houben et al. present WatchConnect. WatchConnect is a toolkit for rapidly prototyping cross-device applications and interaction techniques with smartwatches. It provides an extendable hardware platform that emulates a smartwatch, a UI framework that integrates with an existing UI builder and a rich set of input and output events using a range of built-in sensor mappings. WatchConnect is built around a wired prototyping watch, a smart watch emulator composed of a display, a number of sensors and a microprocessor. Applications can thus be tested and debugged directly on the watch prototype. WatchConnect also includes some tools for supporting developers while debugging, but those tools are focused on the machine learning algorithms and the recording of sensor data.
+
 \subsection{Frameworks that would Benefit from Testing Tools}
 
 The following frameworks include no tools for testing and debugging the applications developed with them and would certainly benefit from such tools.
 
 \subsubsection{XD-MVC}
 
-XD-MVC is a framework that combines cross-device capabilities with MVC frameworks. It can be used as a plain JavaScript library or in combination with Polymer. The framework consists of a server-side and a client-side part. For communicating, either a peer-to-peer or a client-server approach can be used. Developers that use XD-MVC can assign roles to devices that are connected to the application. Depending on the role that a device is assigned, different parts of the interface are shown on the device. 
+XD-MVC is a framework that combines cross-device capabilities with MVC frameworks. It can be used as a plain JavaScript library or in combination with Polymer. The framework consists of a server-side and a client-side part. For communicating, either a \emph{peer-to-peer} or a \emph{client-server} approach can be used. Developers that use XD-MVC can assign \emph{roles} to devices that are connected to the application. Depending on the role that a device is assigned, different parts of the interface are shown on the device. 
 
 \subsubsection{Connichiwa}
 
-Connichiwa is a framework for developing cross-device web applications developed by Schreiner at al.~\cite{connichiwa2015}. It runs local web applications on one of the devices without requiring an existing network or internet connection. It has four key goals:
-\begin{itemize}
-	\item Integration of existing devices: Devices should be supported without the need to augment them with additional hardware, markers, or tags
-	\item Independence of network infrastructure: No remote server is used, therefore the device neither needs to be in the same network nor have a permanent internet connection
-	\item Usability of its API
-\end{itemize}
-A native helper-application runs a web server on-demand. The native application automatically detects other devices using Bluetooth Low Energy, which are then connected by sending the IP address of the local web server over Bluetooth. Connichiwa's JavaScript API gives easy access to common functions like device detection and connection and it also provides JavaScript events to notify about device detection and connection.
+Connichiwa is a framework for developing cross-device web applications developed by Schreiner at al.~\cite{connichiwa2015}. It runs local web applications on one of the devices without requiring an existing network or internet connection. \emph{No remote server} is used, instead a native helper-application runs a web server on-demand. The native application automatically \emph{detects other devices} using Bluetooth Low Energy, which are then connected by sending the IP address of the local web server over Bluetooth. Connichiwa's \emph{JavaScript API} gives easy access to common functions like device detection and connection and it also provides JavaScript events to notify about device detection and connection.
 
 \subsubsection{DireWolf}
 
-DireWolf is a framework for distributed web applications based on widgets. It was developed by Kovachev et al.~\cite{direwolf2013}. Widgets can be shared, reused, mashed up and personalized between applications. Splitting the interface into separate widgets and enabling them to exchange information allows the development of customizable web applications. It makes the following contributions:
-\begin{itemize}
-	\item They provide a framework for easy browser-based distribution of Web widgets between multiple devices.
-	\item They facilitate extended multi-modal real-time interactions on a federation of personal computing devices
-	\item They provide continuous state-preserving widget migration
-\end{itemize}
-DireWolf helps managing a set of devices and handles communication and control of distributed parts of the web application. Local inter-widget communication is used to communicate with widgets running in the same browser context and remote inter-widget communication provides the message-exchange mechanism for widgets located at different devices.
+DireWolf is a framework for distributed web applications based on widgets. It was developed by Kovachev et al.~\cite{direwolf2013}. Widgets can be shared, reused, mashed up and personalized between applications. Splitting the interface into separate widgets and enabling them to exchange information allows the development of customizable web applications. Direwolf provides a \emph{framework for easy browser-based distribution} of web widgets between multiple devices, facilitates extended \emph{multi-modal real-time interactions} on a federation of personal computing devices and provides \emph{continuous state-preserving widget migration}. DireWolf helps managing a set of devices and handles communication and control of distributed parts of the web application. 
 
 \subsubsection{Panelrama}
 
-Panelrama, developed by Yang et al.~\cite{panelrama2014}, is a web-based framework for the construction of applications using distributed user interfaces. It introduces a new XML element, "panel", which may be placed around groupings of control and it facilitates the distribution and synchronization of panels among the connected devices. The developer can specify the state information that should be synchronized across devices as well as the suitability of panels to different types of devices. An optimization algorithm distributes panels to devices that maximize their match for the developer's intent. An existing application can be converted to Panelrama using the following steps:
-\begin{enumerate}
-	\item Wrap grouping of HTML UI elements within a "panel" tag
-	\item Complete a Panelrama definition including by selecting the state information for synchronization and rating each panel for its needs with respect to various device characteristics
-	\item Modify the business logic such that it accesses the new synchronized state information
-\end{enumerate}
+Panelrama, developed by Yang et al.~\cite{panelrama2014}, is a web-based framework for the construction of applications using distributed user interfaces. It introduces a new XML element, "panel", which may be placed around groupings of control and it facilitates the \emph{distribution and synchronization of panels} among the connected devices. The developer can specify the state information that should be synchronized across devices as well as the suitability of panels to different types of devices. An \emph{optimization algorithm} distributes panels to devices that maximize their match for the developer's intent.
 
 \subsubsection{Polychrome}
 
-Polychrome is a web application framework for creating web-based collaborative visualizations that can span multiple devices. It was developed by Badam et al.~\cite{polychrome2014}. It supports:
-\begin{itemize}
-	\item Co-browsing new web applications as well as legacy websites with no migration costs
-	\item An API to develop new web applications that can synchronize the UI state on multiple devices to support synchronous and asynchronous collaboration
-	\item Maintenance of state and input events on a server to handle common issues with distributed applications such as consistency management, conflict resolution, and undo operations
-\end{itemize}
-Polychrome provides the interaction and display space distribution mechanisms to create new collaborative web visualizations that utilize multiple devices and it provides framework modules to store the user interaction. Combined with the initial state of the website, the interaction logs are useful for synchronizing devices within the collaborative environment, consistency management and interaction replay. There are three different modes for sharing:
-\begin{itemize}
-	\item Explicit sharing: The user decides when the operations should be shared, which operations to share, and whom to share them with
-	\item Explicit sharing: The user decides when the operations should be shared, which operations to share, and whom to share them with
-	\item Implicit sharing: Operations are automatically shared with all connected devices
-	\item Unilateral sharing: One device (the leader) always shares its operations automatically, while the other devices only listen to the operations shared by the leader
-\end{itemize}
-
-\subsubsection{WatchConnect}
-
-In ~\cite{watchconnect2015}, Houben et al. present WatchConnect. WatchConnect is a toolkit for rapidly prototyping cross-device applications and interaction techniques with smartwatches. It provides an extendable hardware platform that emulates a smartwatch, a UI framework that integrates with an existing UI builder and a rich set of input and output events using a range of built-in sensor mappings. WatchConnect is built around a wired prototyping watch, a smart watch emulator composed of a display, a number of sensors and a microprocessor. Applications can thus be tested and debugged directly on the watch prototype. WatchConnect also includes some tools for supporting developers while debugging, but those tools are focused on the machine learning algorithms and the recording of sensor data.
+Polychrome is a web application framework for creating web-based collaborative visualizations that can span multiple devices. It was developed by Badam et al.~\cite{polychrome2014}. It supports co-browsing new web applications as well as legacy websites with \emph{no migration costs}, an \emph{API to develop new web applications} that can synchronize the UI state on multiple devices to support synchronous and asynchronous collaboration and \emph{maintenance of state and input events} on a server to handle common issues with distributed applications. Polychrome provides the interaction and display space distribution mechanisms to create new collaborative web visualizations that utilize multiple devices and it provides framework modules to store the user interaction. Combined with the initial state of the website, the interaction logs are useful for synchronizing devices within the collaborative environment, consistency management and interaction replay.
 
 \subsection{Summary}
 

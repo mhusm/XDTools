@@ -17,8 +17,8 @@ Class=LaTeXView
 Document=chapters\implementation.tex
 
 [Frame0_View0,0]
-TopLine=27
-Cursor=7781
+TopLine=195
+Cursor=25901
 
 [Frame1]
 Flags=0
@@ -71,8 +71,8 @@ Class=LaTeXView
 Document=student-work-template.tex
 
 [Frame3_View0,0]
-TopLine=91
-Cursor=3986
+TopLine=0
+Cursor=719
 
 [Frame4]
 Flags=0
@@ -104,11 +104,11 @@ NormalPos.top=26
 NormalPos.right=2393
 NormalPos.bottom=1239
 Class=LaTeXView
-Document=chapters\approach.tex
+Document=chapters\evaluation.tex
 
 [Frame5_View0,0]
-TopLine=126
-Cursor=18167
+TopLine=386
+Cursor=46935
 
 [Frame6]
 Flags=0
@@ -122,11 +122,11 @@ NormalPos.top=26
 NormalPos.right=2393
 NormalPos.bottom=1239
 Class=LaTeXView
-Document=chapters\evaluation.tex
+Document=chapters\background.tex
 
 [Frame6_View0,0]
-TopLine=433
-Cursor=46935
+TopLine=0
+Cursor=2322
 
 [Frame7]
 Flags=0
@@ -140,11 +140,11 @@ NormalPos.top=26
 NormalPos.right=2393
 NormalPos.bottom=1239
 Class=LaTeXView
-Document=chapters\background.tex
+Document=chapters\introduction.tex
 
 [Frame7_View0,0]
 TopLine=0
-Cursor=2322
+Cursor=8046
 
 [Frame8]
 Flags=0
@@ -158,13 +158,13 @@ NormalPos.top=26
 NormalPos.right=2393
 NormalPos.bottom=1239
 Class=LaTeXView
-Document=chapters\introduction.tex
+Document=chapters\xdtools.tex
 
 [Frame8_View0,0]
-TopLine=0
-Cursor=0
+TopLine=45
+Cursor=5349
 
 [SessionInfo]
 FrameCount=9
-ActiveFrame=8
+ActiveFrame=3
 
