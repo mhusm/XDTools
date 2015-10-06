@@ -12,7 +12,14 @@ Over the last few years, browsers have added more and more tools for debugging w
 
 \subsubsection{Chrome DevTools}
 
-Google Chrome already provides a wide range of features for testing and debugging web applications. First of all, it lets the developer inspect the DOM tree  and allows inspection and on-the-fly editing of DOM elements. Furthermore, new CSS rules or properties can be added or existing ones can be modified. Another useful feature is the JavaScript Console. It has two main purposes: First, it can be used to log diagnostic information in the development process. Second, it is a shell prompt which can be used to interact with the document and DevTools. Chrome DevTools can also be used to debug JavaScript. In the DevTools, all scripts that are part of the inspected page can be seen. Breakpoints can be set in the scripts and standard controls to pause, resume and step through code are provided. All features mentioned before are also available for debugging remote devices. Remote debugging can be used by connecting a device to the desktop PC with a cable.
+Google Chrome already provides a wide range of features for testing and debugging web applications. First of all, it lets the developer inspect the DOM tree and allows inspection and on-the-fly editing of DOM elements. Furthermore, new CSS rules or properties can be added or existing ones can be modified. Figure~\ref{fig:chrome_devtools} shows a screenshot of the HTML and CSS inspector in Chrome DevTools. Another useful feature is the JavaScript Console. It has two main purposes: First, it can be used to log diagnostic information in the development process. Second, it is a shell prompt which can be used to interact with the document and DevTools. Chrome DevTools can also be used to debug JavaScript. In the DevTools, all scripts that are part of the inspected page can be seen. Breakpoints can be set in the scripts and standard controls to pause, resume and step through code are provided. All features mentioned before are also available for debugging remote devices. Remote debugging can be used by connecting a device to the desktop PC with a cable.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1.0\textwidth]{images/relatedwork/chrome_devtools_3.png}
+	\caption[Screenshot: Chrome DevTools]{HTML/CSS inspector of Chrome DevTools}
+	\label{fig:chrome_devtools}
+\end{figure}
 
 Chrome DevTools provides many more features useful for debugging, but explaining them all would exceed the scope of this document. While all those features are very useful for testing and debugging web applications, the main disadvantage is that they can only be used to debug one device and one website at a time.
 
@@ -30,7 +37,14 @@ Record and replay has already successfully been used for debugging web applicati
 
 \subsubsection{Timelapse}
 
-In~\cite{timelapse2013}, Burg et al. describe their record and replay tool Timelapse. Timelapse is a tool for recording, reproducing, and debugging interactive behaviors in web applications. Timelapse is built on Dolos, a record/replay infrastructure that ensures deterministic execution by capturing and reusing user inputs, network responses, and other nondeterministic inputs. Developers can use Timelapse to browser, visualize, and seek within recorded program executions while simultaneously using familiar debugging tools such as breakpoints and logging. The developers of Timelapse conducted a user study with 14 web developers which showed no significant effect on task times, task success, or time spent reproducing behaviors when developers had access to Timelapse. Expert developers seemed to better integrate Timelapse into their workflow, using Timelapse to accelerate familiar tasks rather than redesigning their workflow. However, Timelapse distracted less-skilled developers that were led astray by unverified assumptions.
+In~\cite{timelapse2013}, Burg et al. describe their record and replay tool Timelapse. Timelapse is a tool for recording, reproducing, and debugging interactive behaviors in web applications. Timelapse is built on Dolos, a record/replay infrastructure that ensures deterministic execution by capturing and reusing user inputs, network responses, and other non-deterministic inputs. Developers can use Timelapse to browser, visualize, and seek within recorded program executions while simultaneously using familiar debugging tools such as breakpoints and logging. Figure~\ref{fig:timelapse} shows Timelapse while being used with the debugging tools. The developers of Timelapse conducted a user study with 14 web developers which showed no significant effect on task times, task success, or time spent reproducing behaviors when developers had access to Timelapse. Expert developers seemed to better integrate Timelapse into their workflow, using Timelapse to accelerate familiar tasks rather than redesigning their workflow. However, Timelapse distracted less-skilled developers that were led astray by unverified assumptions.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1.0\textwidth]{images/relatedwork/timelapse.png}
+	\caption[Screenshot: Timelapse]{Screenshot of Timelapse}
+	\label{fig:timelapse}
+\end{figure}
 
 \subsubsection{Mugshot}
 
@@ -73,7 +87,14 @@ BrowserStack\footnote{\url{https://www.browserstack.com/}} allows developers to 
 
 \subsubsection{CrossBrowserTesting}
 
-With CrossBrowserTesting, developers can select a number of devices as well as the operating system, browser and resolution and generate screenshots. The layout differences between different devices can then automatically be analyzed. Furthermore, websites can also be live tested and Selenium automated testing is available as well. The main advantage of CrossBrowserTesting is that all screenshots are generated on real devices and a very wide variety of devices is available. Also, interactions can be tested. The usefulness of the tool is again limited by the fact that live testing is only possible on one device at once. Additionally, while detecting layout differences is a useful feature in general, it is not yet very mature and some layout differences that are detected seem rather trivial (the body element of a larger device is larger), while other differences are not noticed at all.
+With CrossBrowserTesting, developers can select a number of devices as well as the operating system, browser and resolution and generate screenshots. The layout differences between different devices can then automatically be analyzed. Furthermore, websites can also be live tested and Selenium automated testing is available as well. The main advantage of CrossBrowserTesting is that all screenshots are generated on real devices and a very wide variety of devices is available. Also, interactions can be tested. The usefulness of the tool is again limited by the fact that live testing is only possible on one device at once. Additionally, while detecting layout differences is a useful feature in general, it is not yet very mature and some layout differences that are detected seem rather trivial (the body element of a larger device is larger), while other differences are not noticed at all. Figure~\ref{fig:crossbrowsertesting} shows CrossBrowserTesting while taking screenshots on multiple devices.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1.0\textwidth]{images/relatedwork/cross_browser_testing.png}
+	\caption[Screenshot: CrossBrowserTesting]{Taking screenshots on multiple devices simultaneously}
+	\label{fig:crossbrowsertesting}
+\end{figure}
 
 \subsection{Testing with Actual Devices}
 
@@ -85,7 +106,14 @@ Remote Preview\footnote{\url{https://github.com/viljamis/Remote-Preview}} allows
 
 \subsubsection{BrowserSync}
 
-BrowserSync provides a large number of features for testing websites. It allows remote debugging of HTML and CSS, can add CSS outlines or box shadows to all elements and add a CSS grid overlay. It can also load a URL on all devices or refresh all devices as well as automatically refresh devices when files are changed. Furthermore, it allows synchronizing interaction between devices, i.e. clicks, scrolls, form submits, form inputs and form toggles. It also provides network throttling. The advantages of BrowserSync are that it provides a wide range of features, including synchronizing interactions, which is a feature that distinguishes it from other tools. However, for cross-device application testing, synchronizing interactions among all devices is of limited usefulness, as different devices have different roles and thus also different responsibilities.
+BrowserSync (see Figure~\ref{fig:browsersync}) provides a large number of features for testing websites. It allows remote debugging of HTML and CSS, can add CSS outlines or box shadows to all elements and add a CSS grid overlay. It can also load a URL on all devices or refresh all devices as well as automatically refresh devices when files are changed. Furthermore, it allows synchronizing interaction between devices, i.e. clicks, scrolls, form submits, form inputs and form toggles. It also provides network throttling. The advantages of BrowserSync are that it provides a wide range of features, including synchronizing interactions, which is a feature that distinguishes it from other tools. However, for cross-device application testing, synchronizing interactions among all devices is of limited usefulness, as different devices have different roles and thus also different responsibilities.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1.0\textwidth]{images/relatedwork/browser_sync_3.png}
+	\caption[Screenshot: BrowserSync]{Screenshot of BrowserSync}
+	\label{fig:browsersync}
+\end{figure}
 
 \subsubsection{Adobe Edge Inspect CC}
 
@@ -101,7 +129,14 @@ The following tools allow developers to emulate devices.
 
 \subsubsection{Chrome Device Mode}
 
-Google Chrome provides extensive support for emulating devices with its Device Mode. If the developer opens the DevTools, they can switch to the Device Mode and emulate any device. The developer can select an arbitrary device from a large list of predefined devices or create a custom device. They can also enable network throttling, touch emulation and location emulation. The large number of different aspects that are emulated in Device Mode make it very well suited for testing responsive web applications. While most other device emulation tools are limited to emulating resolution and maybe touch, Chrome Device Mode allows to emulate many other aspects as well.
+Google Chrome provides extensive support for emulating devices with its Device Mode (see Figure~\ref{fig:device_mode}). If the developer opens the DevTools, they can switch to the Device Mode and emulate any device. The developer can select an arbitrary device from a large list of predefined devices or create a custom device. They can also enable network throttling, touch emulation and location emulation. The large number of different aspects that are emulated in Device Mode make it very well suited for testing responsive web applications. While most other device emulation tools are limited to emulating resolution and maybe touch, Chrome Device Mode allows to emulate many other aspects as well.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.8\textwidth]{images/relatedwork/device_mode_2.png}
+	\caption[Screenshot: Chrome Device Mode]{Screenshot of Chrome Device Mode}
+	\label{fig:device_mode}
+\end{figure}
 
 \subsubsection{Firefox's Responsive Design View}
 
@@ -121,7 +156,14 @@ The following frameworks already include some mechanisms for testing and debuggi
 
 \subsubsection{XDStudio}
 
-In ~\cite{xdstudio2014}, Nebeling et al. present their web-based GUI builder, XDStudio. XDStudio is designed to support interactive development of cross-device web interfaces. It has two complementary authoring modes: \emph{Simulated authoring} allows designing for a multi-device environment on a single device by simulating other target devices. \emph{On-device authoring} allows the design process itself to be distributed over multiple devices. The design process is still coordinated by a main device, but directly involves target devices. The user can switch between two different modes: In \emph{use mode}, the user can interact normally with the interface loaded into the editor. In \emph{design mode}, the user can manipulate the interface directly. XDStudio also allows the specification of \emph{distribution profiles} in terms of involved devices, users and target user interfaces.
+In ~\cite{xdstudio2014}, Nebeling et al. present their web-based GUI builder, XDStudio (see Figure~\ref{fig:xdstudio}). XDStudio is designed to support interactive development of cross-device web interfaces. It has two complementary authoring modes: \emph{Simulated authoring} allows designing for a multi-device environment on a single device by simulating other target devices. \emph{On-device authoring} allows the design process itself to be distributed over multiple devices. The design process is still coordinated by a main device, but directly involves target devices. The user can switch between two different modes: In \emph{use mode}, the user can interact normally with the interface loaded into the editor. In \emph{design mode}, the user can manipulate the interface directly. XDStudio also allows the specification of \emph{distribution profiles} in terms of involved devices, users and target user interfaces.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.8\textwidth]{images/relatedwork/xdstudio.png}
+	\caption[Screenshot: XDStudio]{Screenshot of XDStudio}
+	\label{fig:xdstudio}
+\end{figure}
 
 Although XDStudio includes mechanisms for inspecting interactive designs on emulated devices and on connected real devices, there is no specific support for debugging such as access to the console. Thus, XDStudio is well suited for seeing what an application looks and feels like on different devices, but debugging the application when something does not work as expected is still a difficult task.
 

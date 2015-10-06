@@ -1,57 +1,64 @@
 \select@language {british}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Screenshot: Chrome DevTools}}{6}{figure.caption.5}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Screenshot: Timelapse}}{7}{figure.caption.9}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Screenshot: CrossBrowserTesting}}{10}{figure.caption.17}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Screenshot: BrowserSync}}{11}{figure.caption.20}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Screenshot: Chrome Device Mode}}{13}{figure.caption.24}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Screenshot: XDStudio}}{14}{figure.caption.27}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Difference between resizing and scaling a device}}{19}{figure.caption.30}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces CSS editor aggregation}}{22}{figure.caption.31}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Difference between resizing and scaling a device}}{21}{figure.caption.36}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces CSS editor aggregation}}{24}{figure.caption.37}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Screenshot: Complete Interface}}{25}{figure.caption.32}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Screenshot: Remote Device}}{26}{figure.caption.33}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Screenshot: Options}}{27}{figure.caption.34}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Screenshot: Active/inactive devices}}{27}{figure.caption.35}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Screenshot: Adding emulated devices}}{28}{figure.caption.36}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Screenshot: Emulated device}}{29}{figure.caption.37}
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Screenshot: Settings menu emulated device}}{30}{figure.caption.38}
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Screenshot: Settings menu remote device}}{31}{figure.caption.39}
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Screenshot: Saving/Loading device configurations}}{32}{figure.caption.40}
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Screenshot: Stack trace}}{32}{figure.caption.41}
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Screenshot: JavaScript console}}{34}{figure.caption.42}
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Screenshot: Function debugging}}{35}{figure.caption.43}
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Screenshot: CSS editor autocomplete}}{36}{figure.caption.44}
-\contentsline {figure}{\numberline {4.14}{\ignorespaces Screenshot: CSS editor}}{36}{figure.caption.45}
-\contentsline {figure}{\numberline {4.15}{\ignorespaces Screenshot: CSS effects}}{36}{figure.caption.46}
-\contentsline {figure}{\numberline {4.16}{\ignorespaces Screenshot: Session}}{37}{figure.caption.47}
-\contentsline {figure}{\numberline {4.17}{\ignorespaces Screenshot: Record and replay}}{38}{figure.caption.48}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Screenshot: Complete Interface}}{27}{figure.caption.38}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Screenshot: Remote Device}}{28}{figure.caption.39}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Screenshot: Options}}{29}{figure.caption.40}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Screenshot: Active/inactive devices}}{29}{figure.caption.41}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Screenshot: Adding emulated devices}}{30}{figure.caption.42}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Screenshot: Emulated device}}{31}{figure.caption.43}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Screenshot: Settings menu emulated device}}{32}{figure.caption.44}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Screenshot: Settings menu remote device}}{33}{figure.caption.45}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Screenshot: Saving/Loading device configurations}}{34}{figure.caption.46}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Screenshot: Stack trace}}{34}{figure.caption.47}
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Screenshot: JavaScript console}}{36}{figure.caption.48}
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Screenshot: Function debugging}}{37}{figure.caption.49}
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Screenshot: CSS editor autocomplete}}{38}{figure.caption.50}
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Screenshot: CSS editor}}{38}{figure.caption.51}
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Screenshot: CSS effects}}{38}{figure.caption.52}
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Screenshot: Session}}{39}{figure.caption.53}
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Screenshot: Record and replay}}{40}{figure.caption.54}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Architecture of XDTools}}{42}{figure.caption.49}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Screenshot: Function debugging warning}}{48}{figure.caption.51}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Architecture of XDTools}}{44}{figure.caption.55}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Screenshot: Function debugging warning}}{50}{figure.caption.57}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Screenshot XDCinema: Different views}}{54}{figure.caption.52}
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Screenshot XDYouTube: Player view}}{55}{figure.caption.53}
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Screenshot XDYouTube: Controller view (first part)}}{56}{figure.caption.54}
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Screenshot XDYouTube: Controller view (second part)}}{57}{figure.caption.55}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Screenshot XDCinema: Different views}}{56}{figure.caption.58}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Screenshot XDYouTube: Player view}}{57}{figure.caption.59}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Screenshot XDYouTube: Controller view (first part)}}{58}{figure.caption.60}
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Screenshot XDYouTube: Controller view (second part)}}{59}{figure.caption.61}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {7.1}{\ignorespaces Photo: Study setup}}{60}{figure.caption.56}
-\contentsline {figure}{\numberline {7.2}{\ignorespaces Previous experience of participants}}{62}{figure.caption.58}
-\contentsline {figure}{\numberline {7.3}{\ignorespaces Years of experience}}{62}{figure.caption.59}
-\contentsline {figure}{\numberline {7.4}{\ignorespaces Previous experience with Chrome DevTools}}{63}{figure.caption.60}
-\contentsline {figure}{\numberline {7.5}{\ignorespaces xdc-bug: Comparison}}{67}{figure.caption.67}
-\contentsline {figure}{\numberline {7.6}{\ignorespaces xdc-bug: Features used}}{67}{figure.caption.68}
-\contentsline {figure}{\numberline {7.7}{\ignorespaces xdc-impl: Comparison}}{68}{figure.caption.69}
-\contentsline {figure}{\numberline {7.8}{\ignorespaces xdc-impl: Features used}}{69}{figure.caption.70}
-\contentsline {figure}{\numberline {7.9}{\ignorespaces xdyt-bug: Comparison}}{69}{figure.caption.71}
-\contentsline {figure}{\numberline {7.10}{\ignorespaces xdyt-bug: Features used}}{70}{figure.caption.72}
-\contentsline {figure}{\numberline {7.11}{\ignorespaces xdyt-impl: Comparison}}{71}{figure.caption.73}
-\contentsline {figure}{\numberline {7.12}{\ignorespaces xdyt-impl: Features used}}{71}{figure.caption.74}
-\contentsline {figure}{\numberline {7.13}{\ignorespaces Easiness of implementing}}{72}{figure.caption.75}
-\contentsline {figure}{\numberline {7.14}{\ignorespaces Efficiency of implementing}}{72}{figure.caption.76}
-\contentsline {figure}{\numberline {7.15}{\ignorespaces Preference for implementing}}{73}{figure.caption.77}
-\contentsline {figure}{\numberline {7.16}{\ignorespaces Easiness of debugging}}{73}{figure.caption.78}
-\contentsline {figure}{\numberline {7.17}{\ignorespaces Efficiency of debugging}}{73}{figure.caption.79}
-\contentsline {figure}{\numberline {7.18}{\ignorespaces Preference for debugging}}{74}{figure.caption.80}
-\contentsline {figure}{\numberline {7.19}{\ignorespaces Usefulness}}{74}{figure.caption.81}
-\contentsline {figure}{\numberline {7.20}{\ignorespaces General Evaluation}}{75}{figure.caption.82}
-\contentsline {figure}{\numberline {7.21}{\ignorespaces Features that participants would use}}{76}{figure.caption.83}
-\contentsline {figure}{\numberline {7.22}{\ignorespaces Emulated device used}}{77}{figure.caption.86}
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Photo: Study setup}}{62}{figure.caption.62}
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Previous experience of participants}}{64}{figure.caption.64}
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Years of experience}}{64}{figure.caption.65}
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Previous experience with Chrome DevTools}}{65}{figure.caption.66}
+\contentsline {figure}{\numberline {7.5}{\ignorespaces xdc-bug: Comparison}}{69}{figure.caption.73}
+\contentsline {figure}{\numberline {7.6}{\ignorespaces xdc-bug: Features used}}{69}{figure.caption.74}
+\contentsline {figure}{\numberline {7.7}{\ignorespaces xdc-impl: Comparison}}{70}{figure.caption.75}
+\contentsline {figure}{\numberline {7.8}{\ignorespaces xdc-impl: Features used}}{71}{figure.caption.76}
+\contentsline {figure}{\numberline {7.9}{\ignorespaces xdyt-bug: Comparison}}{71}{figure.caption.77}
+\contentsline {figure}{\numberline {7.10}{\ignorespaces xdyt-bug: Features used}}{72}{figure.caption.78}
+\contentsline {figure}{\numberline {7.11}{\ignorespaces xdyt-impl: Comparison}}{73}{figure.caption.79}
+\contentsline {figure}{\numberline {7.12}{\ignorespaces xdyt-impl: Features used}}{73}{figure.caption.80}
+\contentsline {figure}{\numberline {7.13}{\ignorespaces Easiness of implementing}}{74}{figure.caption.81}
+\contentsline {figure}{\numberline {7.14}{\ignorespaces Efficiency of implementing}}{74}{figure.caption.82}
+\contentsline {figure}{\numberline {7.15}{\ignorespaces Preference for implementing}}{75}{figure.caption.83}
+\contentsline {figure}{\numberline {7.16}{\ignorespaces Easiness of debugging}}{75}{figure.caption.84}
+\contentsline {figure}{\numberline {7.17}{\ignorespaces Efficiency of debugging}}{75}{figure.caption.85}
+\contentsline {figure}{\numberline {7.18}{\ignorespaces Preference for debugging}}{76}{figure.caption.86}
+\contentsline {figure}{\numberline {7.19}{\ignorespaces Usefulness}}{76}{figure.caption.87}
+\contentsline {figure}{\numberline {7.20}{\ignorespaces General Evaluation}}{77}{figure.caption.88}
+\contentsline {figure}{\numberline {7.21}{\ignorespaces Features that participants would use}}{78}{figure.caption.89}
+\contentsline {figure}{\numberline {7.22}{\ignorespaces Emulated device used}}{79}{figure.caption.92}
+\addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

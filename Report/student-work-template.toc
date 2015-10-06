@@ -6,112 +6,113 @@
 \contentsline {section}{\numberline {2.1}Web Application Testing}{5}{section.2.1}
 \contentsline {subsection}{\numberline {2.1.1}Browser-Integrated Debugging Tools}{5}{subsection.2.1.1}
 \contentsline {subsubsection}{Chrome DevTools}{5}{section*.4}
-\contentsline {subsubsection}{Firefox Developer Tools}{6}{section*.5}
-\contentsline {subsubsection}{Summary}{6}{section*.6}
-\contentsline {subsection}{\numberline {2.1.2}Record and Replay}{6}{subsection.2.1.2}
-\contentsline {subsubsection}{Timelapse}{7}{section*.7}
-\contentsline {subsubsection}{Mugshot}{7}{section*.8}
-\contentsline {subsubsection}{WaRR}{7}{section*.9}
-\contentsline {subsubsection}{Rumadai}{8}{section*.10}
-\contentsline {subsubsection}{FireCrystal}{8}{section*.11}
-\contentsline {subsubsection}{Summary}{8}{section*.12}
+\contentsline {subsubsection}{Firefox Developer Tools}{6}{section*.6}
+\contentsline {subsubsection}{Summary}{7}{section*.7}
+\contentsline {subsection}{\numberline {2.1.2}Record and Replay}{7}{subsection.2.1.2}
+\contentsline {subsubsection}{Timelapse}{7}{section*.8}
+\contentsline {subsubsection}{Mugshot}{7}{section*.10}
+\contentsline {subsubsection}{WaRR}{8}{section*.11}
+\contentsline {subsubsection}{Rumadai}{8}{section*.12}
+\contentsline {subsubsection}{FireCrystal}{8}{section*.13}
+\contentsline {subsubsection}{Summary}{9}{section*.14}
 \contentsline {section}{\numberline {2.2}Responsive Web Application Testing}{9}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Web Services}{9}{subsection.2.2.1}
-\contentsline {subsubsection}{BrowserStack}{9}{section*.13}
-\contentsline {subsubsection}{CrossBrowserTesting}{9}{section*.14}
-\contentsline {subsection}{\numberline {2.2.2}Testing with Actual Devices}{9}{subsection.2.2.2}
-\contentsline {subsubsection}{Remote Preview}{10}{section*.15}
-\contentsline {subsubsection}{BrowserSync}{10}{section*.16}
-\contentsline {subsubsection}{Adobe Edge Inspect CC}{10}{section*.17}
-\contentsline {subsubsection}{Ghostlab}{10}{section*.18}
-\contentsline {subsection}{\numberline {2.2.3}Device Emulation}{11}{subsection.2.2.3}
-\contentsline {subsubsection}{Chrome Device Mode}{11}{section*.19}
-\contentsline {subsubsection}{Firefox's Responsive Design View}{11}{section*.20}
-\contentsline {subsection}{\numberline {2.2.4}Summary}{11}{subsection.2.2.4}
-\contentsline {section}{\numberline {2.3}Cross-Device Application Development Frameworks}{12}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Frameworks that have some Testing Tools}{12}{subsection.2.3.1}
-\contentsline {subsubsection}{XDStudio}{12}{section*.21}
-\contentsline {subsubsection}{XDSession}{12}{section*.22}
-\contentsline {subsubsection}{Weave}{13}{section*.23}
-\contentsline {subsubsection}{WatchConnect}{13}{section*.24}
-\contentsline {subsection}{\numberline {2.3.2}Frameworks that would Benefit from Testing Tools}{13}{subsection.2.3.2}
-\contentsline {subsubsection}{XD-MVC}{13}{section*.25}
-\contentsline {subsubsection}{Connichiwa}{14}{section*.26}
-\contentsline {subsubsection}{DireWolf}{14}{section*.27}
-\contentsline {subsubsection}{Panelrama}{14}{section*.28}
-\contentsline {subsubsection}{Polychrome}{14}{section*.29}
-\contentsline {subsection}{\numberline {2.3.3}Summary}{15}{subsection.2.3.3}
-\contentsline {chapter}{\numberline {3}Requirements}{17}{chapter.3}
-\contentsline {section}{\numberline {3.1}Emulation of Multiple Devices}{17}{section.3.1}
-\contentsline {section}{\numberline {3.2}Easy Integration of Real and Emulated Devices}{19}{section.3.2}
-\contentsline {section}{\numberline {3.3}Easy Switching of Device Configurations}{20}{section.3.3}
-\contentsline {section}{\numberline {3.4}Integration with Debugging Tools}{21}{section.3.4}
-\contentsline {section}{\numberline {3.5}Automatic Connection Management}{22}{section.3.5}
-\contentsline {section}{\numberline {3.6}Coordinated Record and Replay}{23}{section.3.6}
-\contentsline {chapter}{\numberline {4}XDTools}{25}{chapter.4}
-\contentsline {section}{\numberline {4.1}Overview of Features}{25}{section.4.1}
-\contentsline {section}{\numberline {4.2}Emulation of Multiple Devices}{27}{section.4.2}
-\contentsline {section}{\numberline {4.3}Easy Integration of Real and Emulated Devices}{30}{section.4.3}
-\contentsline {section}{\numberline {4.4}Easy Switching of Device Configurations}{31}{section.4.4}
-\contentsline {section}{\numberline {4.5}Integration with Debugging Tools}{32}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Shared JavaScript Console}{32}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}Function Debugging and Inspection}{34}{subsection.4.5.2}
-\contentsline {subsection}{\numberline {4.5.3}HTML Inspection}{35}{subsection.4.5.3}
-\contentsline {subsection}{\numberline {4.5.4}Shared CSS Editor}{35}{subsection.4.5.4}
-\contentsline {section}{\numberline {4.6}Automatic Connection Management}{37}{section.4.6}
-\contentsline {section}{\numberline {4.7}Coordinated Record and Replay}{37}{section.4.7}
-\contentsline {chapter}{\numberline {5}Implementation}{41}{chapter.5}
-\contentsline {section}{\numberline {5.1}Architecture}{41}{section.5.1}
-\contentsline {section}{\numberline {5.2}Choice of Technologies}{42}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Server Side}{43}{subsection.5.2.1}
-\contentsline {subsubsection}{DNS Server}{43}{section*.50}
-\contentsline {subsection}{\numberline {5.2.2}Client Side}{44}{subsection.5.2.2}
-\contentsline {section}{\numberline {5.3}Emulation of Multiple Devices}{44}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}Color Generation}{45}{subsection.5.3.1}
-\contentsline {section}{\numberline {5.4}Easy Integration of Real Devices}{46}{section.5.4}
-\contentsline {section}{\numberline {5.5}Easy Switching of Device Configurations}{46}{section.5.5}
-\contentsline {section}{\numberline {5.6}Integration with Debugging Tools}{46}{section.5.6}
-\contentsline {subsection}{\numberline {5.6.1}Shared JavaScript Console}{46}{subsection.5.6.1}
-\contentsline {subsection}{\numberline {5.6.2}Function Debugging and Inspection}{47}{subsection.5.6.2}
-\contentsline {subsection}{\numberline {5.6.3}HTML Inspection}{48}{subsection.5.6.3}
-\contentsline {subsection}{\numberline {5.6.4}Shared CSS Editor}{48}{subsection.5.6.4}
-\contentsline {section}{\numberline {5.7}Automatic Connection Management}{49}{section.5.7}
-\contentsline {section}{\numberline {5.8}Coordinated Record and Replay}{49}{section.5.8}
-\contentsline {section}{\numberline {5.9}Integration with Polymer and Shadow DOM}{50}{section.5.9}
-\contentsline {subsection}{\numberline {5.9.1}Determining Event Targets}{50}{subsection.5.9.1}
-\contentsline {subsection}{\numberline {5.9.2}Determining Scopes}{51}{subsection.5.9.2}
-\contentsline {chapter}{\numberline {6}Sample Applications}{53}{chapter.6}
-\contentsline {section}{\numberline {6.1}XDCinema}{53}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}Implementation}{54}{subsection.6.1.1}
-\contentsline {section}{\numberline {6.2}XDYouTube}{55}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Implementation}{57}{subsection.6.2.1}
-\contentsline {section}{\numberline {6.3}Insights}{57}{section.6.3}
-\contentsline {chapter}{\numberline {7}Evaluation}{59}{chapter.7}
-\contentsline {section}{\numberline {7.1}Setup}{59}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}Participants}{61}{subsection.7.1.1}
-\contentsline {subsubsection}{Previous Experience}{61}{section*.57}
-\contentsline {subsection}{\numberline {7.1.2}Tasks}{63}{subsection.7.1.2}
-\contentsline {subsubsection}{XDYouTube}{63}{section*.61}
-\contentsline {subsubsection}{XDCinema}{64}{section*.62}
-\contentsline {subsection}{\numberline {7.1.3}Evaluation Methods}{65}{subsection.7.1.3}
-\contentsline {subsubsection}{Questionnaires}{65}{section*.63}
-\contentsline {subsubsection}{Video Recording}{66}{section*.64}
-\contentsline {subsubsection}{Personal Feedback}{66}{section*.65}
-\contentsline {subsubsection}{Time Measuring}{66}{section*.66}
-\contentsline {section}{\numberline {7.2}Results}{66}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}XDCinema: Fixing a Bug}{66}{subsection.7.2.1}
-\contentsline {subsection}{\numberline {7.2.2}XDCinema: Implementing a Feature}{67}{subsection.7.2.2}
-\contentsline {subsection}{\numberline {7.2.3}XDYouTube: Fixing a Bug}{69}{subsection.7.2.3}
-\contentsline {subsection}{\numberline {7.2.4}XDYouTube: Implementing a Feature}{70}{subsection.7.2.4}
-\contentsline {section}{\numberline {7.3}Discussion}{71}{section.7.3}
-\contentsline {subsubsection}{Aborted Tasks}{76}{section*.84}
-\contentsline {subsubsection}{Devices Used}{77}{section*.85}
-\contentsline {subsubsection}{Debugging and Implementation Strategies}{78}{section*.87}
-\contentsline {subsubsection}{Feature Requests}{79}{section*.88}
-\contentsline {chapter}{\numberline {8}Conclusion}{81}{chapter.8}
-\contentsline {section}{\numberline {8.1}Future Work}{82}{section.8.1}
-\contentsline {subsection}{\numberline {8.1.1}Extended Record and Replay}{82}{subsection.8.1.1}
-\contentsline {subsection}{\numberline {8.1.2}Extended Device Emulation}{82}{subsection.8.1.2}
-\contentsline {subsection}{\numberline {8.1.3}Tighter Integration with Browser}{83}{subsection.8.1.3}
-\contentsline {subsection}{\numberline {8.1.4}Long-Term Study}{83}{subsection.8.1.4}
-\contentsline {chapter}{\numberline {A}Questionnaires}{85}{appendix.A}
+\contentsline {subsubsection}{BrowserStack}{9}{section*.15}
+\contentsline {subsubsection}{CrossBrowserTesting}{10}{section*.16}
+\contentsline {subsection}{\numberline {2.2.2}Testing with Actual Devices}{10}{subsection.2.2.2}
+\contentsline {subsubsection}{Remote Preview}{11}{section*.18}
+\contentsline {subsubsection}{BrowserSync}{11}{section*.19}
+\contentsline {subsubsection}{Adobe Edge Inspect CC}{11}{section*.21}
+\contentsline {subsubsection}{Ghostlab}{12}{section*.22}
+\contentsline {subsection}{\numberline {2.2.3}Device Emulation}{12}{subsection.2.2.3}
+\contentsline {subsubsection}{Chrome Device Mode}{12}{section*.23}
+\contentsline {subsubsection}{Firefox's Responsive Design View}{13}{section*.25}
+\contentsline {subsection}{\numberline {2.2.4}Summary}{13}{subsection.2.2.4}
+\contentsline {section}{\numberline {2.3}Cross-Device Application Development Frameworks}{14}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Frameworks that have some Testing Tools}{14}{subsection.2.3.1}
+\contentsline {subsubsection}{XDStudio}{14}{section*.26}
+\contentsline {subsubsection}{XDSession}{15}{section*.28}
+\contentsline {subsubsection}{Weave}{15}{section*.29}
+\contentsline {subsubsection}{WatchConnect}{15}{section*.30}
+\contentsline {subsection}{\numberline {2.3.2}Frameworks that would Benefit from Testing Tools}{16}{subsection.2.3.2}
+\contentsline {subsubsection}{XD-MVC}{16}{section*.31}
+\contentsline {subsubsection}{Connichiwa}{16}{section*.32}
+\contentsline {subsubsection}{DireWolf}{16}{section*.33}
+\contentsline {subsubsection}{Panelrama}{16}{section*.34}
+\contentsline {subsubsection}{Polychrome}{17}{section*.35}
+\contentsline {subsection}{\numberline {2.3.3}Summary}{17}{subsection.2.3.3}
+\contentsline {chapter}{\numberline {3}Requirements}{19}{chapter.3}
+\contentsline {section}{\numberline {3.1}Emulation of Multiple Devices}{19}{section.3.1}
+\contentsline {section}{\numberline {3.2}Easy Integration of Real and Emulated Devices}{21}{section.3.2}
+\contentsline {section}{\numberline {3.3}Easy Switching of Device Configurations}{22}{section.3.3}
+\contentsline {section}{\numberline {3.4}Integration with Debugging Tools}{23}{section.3.4}
+\contentsline {section}{\numberline {3.5}Automatic Connection Management}{24}{section.3.5}
+\contentsline {section}{\numberline {3.6}Coordinated Record and Replay}{25}{section.3.6}
+\contentsline {chapter}{\numberline {4}XDTools}{27}{chapter.4}
+\contentsline {section}{\numberline {4.1}Overview of Features}{27}{section.4.1}
+\contentsline {section}{\numberline {4.2}Emulation of Multiple Devices}{29}{section.4.2}
+\contentsline {section}{\numberline {4.3}Easy Integration of Real and Emulated Devices}{32}{section.4.3}
+\contentsline {section}{\numberline {4.4}Easy Switching of Device Configurations}{33}{section.4.4}
+\contentsline {section}{\numberline {4.5}Integration with Debugging Tools}{34}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Shared JavaScript Console}{34}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}Function Debugging and Inspection}{36}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}HTML Inspection}{37}{subsection.4.5.3}
+\contentsline {subsection}{\numberline {4.5.4}Shared CSS Editor}{37}{subsection.4.5.4}
+\contentsline {section}{\numberline {4.6}Automatic Connection Management}{39}{section.4.6}
+\contentsline {section}{\numberline {4.7}Coordinated Record and Replay}{39}{section.4.7}
+\contentsline {chapter}{\numberline {5}Implementation}{43}{chapter.5}
+\contentsline {section}{\numberline {5.1}Architecture}{43}{section.5.1}
+\contentsline {section}{\numberline {5.2}Choice of Technologies}{44}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Server Side}{45}{subsection.5.2.1}
+\contentsline {subsubsection}{DNS Server}{45}{section*.56}
+\contentsline {subsection}{\numberline {5.2.2}Client Side}{46}{subsection.5.2.2}
+\contentsline {section}{\numberline {5.3}Emulation of Multiple Devices}{46}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Color Generation}{47}{subsection.5.3.1}
+\contentsline {section}{\numberline {5.4}Easy Integration of Real Devices}{48}{section.5.4}
+\contentsline {section}{\numberline {5.5}Easy Switching of Device Configurations}{48}{section.5.5}
+\contentsline {section}{\numberline {5.6}Integration with Debugging Tools}{48}{section.5.6}
+\contentsline {subsection}{\numberline {5.6.1}Shared JavaScript Console}{48}{subsection.5.6.1}
+\contentsline {subsection}{\numberline {5.6.2}Function Debugging and Inspection}{49}{subsection.5.6.2}
+\contentsline {subsection}{\numberline {5.6.3}HTML Inspection}{50}{subsection.5.6.3}
+\contentsline {subsection}{\numberline {5.6.4}Shared CSS Editor}{50}{subsection.5.6.4}
+\contentsline {section}{\numberline {5.7}Automatic Connection Management}{51}{section.5.7}
+\contentsline {section}{\numberline {5.8}Coordinated Record and Replay}{51}{section.5.8}
+\contentsline {section}{\numberline {5.9}Integration with Polymer and Shadow DOM}{52}{section.5.9}
+\contentsline {subsection}{\numberline {5.9.1}Determining Event Targets}{52}{subsection.5.9.1}
+\contentsline {subsection}{\numberline {5.9.2}Determining Scopes}{53}{subsection.5.9.2}
+\contentsline {chapter}{\numberline {6}Sample Applications}{55}{chapter.6}
+\contentsline {section}{\numberline {6.1}XDCinema}{55}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Implementation}{56}{subsection.6.1.1}
+\contentsline {section}{\numberline {6.2}XDYouTube}{57}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Implementation}{59}{subsection.6.2.1}
+\contentsline {section}{\numberline {6.3}Insights}{59}{section.6.3}
+\contentsline {chapter}{\numberline {7}Evaluation}{61}{chapter.7}
+\contentsline {section}{\numberline {7.1}Setup}{61}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}Participants}{63}{subsection.7.1.1}
+\contentsline {subsubsection}{Previous Experience}{63}{section*.63}
+\contentsline {subsection}{\numberline {7.1.2}Tasks}{65}{subsection.7.1.2}
+\contentsline {subsubsection}{XDYouTube}{65}{section*.67}
+\contentsline {subsubsection}{XDCinema}{66}{section*.68}
+\contentsline {subsection}{\numberline {7.1.3}Evaluation Methods}{67}{subsection.7.1.3}
+\contentsline {subsubsection}{Questionnaires}{67}{section*.69}
+\contentsline {subsubsection}{Video Recording}{68}{section*.70}
+\contentsline {subsubsection}{Personal Feedback}{68}{section*.71}
+\contentsline {subsubsection}{Time Measuring}{68}{section*.72}
+\contentsline {section}{\numberline {7.2}Results}{68}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}XDCinema: Fixing a Bug}{68}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}XDCinema: Implementing a Feature}{69}{subsection.7.2.2}
+\contentsline {subsection}{\numberline {7.2.3}XDYouTube: Fixing a Bug}{71}{subsection.7.2.3}
+\contentsline {subsection}{\numberline {7.2.4}XDYouTube: Implementing a Feature}{72}{subsection.7.2.4}
+\contentsline {section}{\numberline {7.3}Discussion}{73}{section.7.3}
+\contentsline {subsubsection}{Aborted Tasks}{78}{section*.90}
+\contentsline {subsubsection}{Devices Used}{79}{section*.91}
+\contentsline {subsubsection}{Debugging and Implementation Strategies}{80}{section*.93}
+\contentsline {subsubsection}{Feature Requests}{81}{section*.94}
+\contentsline {chapter}{\numberline {8}Conclusion}{83}{chapter.8}
+\contentsline {section}{\numberline {8.1}Future Work}{84}{section.8.1}
+\contentsline {subsection}{\numberline {8.1.1}Extended Record and Replay}{84}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}Extended Device Emulation}{84}{subsection.8.1.2}
+\contentsline {subsection}{\numberline {8.1.3}Tighter Integration with Browser}{85}{subsection.8.1.3}
+\contentsline {subsection}{\numberline {8.1.4}Long-Term Study}{85}{subsection.8.1.4}
+\contentsline {chapter}{\numberline {A}Questionnaires}{87}{appendix.A}
+\contentsline {chapter}{\numberline {B}Tasks}{97}{appendix.B}
