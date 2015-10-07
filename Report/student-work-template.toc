@@ -50,16 +50,16 @@
 \contentsline {section}{\numberline {3.6}Coordinated Record and Replay}{25}{section.3.6}
 \contentsline {chapter}{\numberline {4}XDTools}{27}{chapter.4}
 \contentsline {section}{\numberline {4.1}Overview of Features}{27}{section.4.1}
-\contentsline {section}{\numberline {4.2}Emulation of Multiple Devices}{29}{section.4.2}
-\contentsline {section}{\numberline {4.3}Easy Integration of Real and Emulated Devices}{32}{section.4.3}
-\contentsline {section}{\numberline {4.4}Easy Switching of Device Configurations}{33}{section.4.4}
-\contentsline {section}{\numberline {4.5}Integration with Debugging Tools}{34}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Shared JavaScript Console}{34}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}Function Debugging and Inspection}{36}{subsection.4.5.2}
-\contentsline {subsection}{\numberline {4.5.3}HTML Inspection}{37}{subsection.4.5.3}
-\contentsline {subsection}{\numberline {4.5.4}Shared CSS Editor}{37}{subsection.4.5.4}
-\contentsline {section}{\numberline {4.6}Automatic Connection Management}{39}{section.4.6}
-\contentsline {section}{\numberline {4.7}Coordinated Record and Replay}{39}{section.4.7}
+\contentsline {section}{\numberline {4.2}Emulation of Multiple Devices}{30}{section.4.2}
+\contentsline {section}{\numberline {4.3}Easy Integration of Real and Emulated Devices}{33}{section.4.3}
+\contentsline {section}{\numberline {4.4}Easy Switching of Device Configurations}{34}{section.4.4}
+\contentsline {section}{\numberline {4.5}Integration with Debugging Tools}{35}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Shared JavaScript Console}{35}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}Function Debugging and Inspection}{37}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}HTML Inspection}{38}{subsection.4.5.3}
+\contentsline {subsection}{\numberline {4.5.4}Shared CSS Editor}{38}{subsection.4.5.4}
+\contentsline {section}{\numberline {4.6}Automatic Connection Management}{40}{section.4.6}
+\contentsline {section}{\numberline {4.7}Coordinated Record and Replay}{40}{section.4.7}
 \contentsline {chapter}{\numberline {5}Implementation}{43}{chapter.5}
 \contentsline {section}{\numberline {5.1}Architecture}{43}{section.5.1}
 \contentsline {section}{\numberline {5.2}Choice of Technologies}{44}{section.5.2}
@@ -84,35 +84,35 @@
 \contentsline {section}{\numberline {6.1}XDCinema}{55}{section.6.1}
 \contentsline {subsection}{\numberline {6.1.1}Implementation}{56}{subsection.6.1.1}
 \contentsline {section}{\numberline {6.2}XDYouTube}{57}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Implementation}{59}{subsection.6.2.1}
-\contentsline {section}{\numberline {6.3}Insights}{59}{section.6.3}
-\contentsline {chapter}{\numberline {7}Evaluation}{61}{chapter.7}
-\contentsline {section}{\numberline {7.1}Setup}{61}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}Participants}{63}{subsection.7.1.1}
-\contentsline {subsubsection}{Previous Experience}{63}{section*.63}
-\contentsline {subsection}{\numberline {7.1.2}Tasks}{65}{subsection.7.1.2}
-\contentsline {subsubsection}{XDYouTube}{65}{section*.67}
-\contentsline {subsubsection}{XDCinema}{66}{section*.68}
-\contentsline {subsection}{\numberline {7.1.3}Evaluation Methods}{67}{subsection.7.1.3}
-\contentsline {subsubsection}{Questionnaires}{67}{section*.69}
-\contentsline {subsubsection}{Video Recording}{68}{section*.70}
-\contentsline {subsubsection}{Personal Feedback}{68}{section*.71}
-\contentsline {subsubsection}{Time Measuring}{68}{section*.72}
-\contentsline {section}{\numberline {7.2}Results}{68}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}XDCinema: Fixing a Bug}{68}{subsection.7.2.1}
-\contentsline {subsection}{\numberline {7.2.2}XDCinema: Implementing a Feature}{69}{subsection.7.2.2}
-\contentsline {subsection}{\numberline {7.2.3}XDYouTube: Fixing a Bug}{71}{subsection.7.2.3}
-\contentsline {subsection}{\numberline {7.2.4}XDYouTube: Implementing a Feature}{72}{subsection.7.2.4}
-\contentsline {section}{\numberline {7.3}Discussion}{73}{section.7.3}
-\contentsline {subsubsection}{Aborted Tasks}{78}{section*.90}
-\contentsline {subsubsection}{Devices Used}{79}{section*.91}
-\contentsline {subsubsection}{Debugging and Implementation Strategies}{80}{section*.93}
-\contentsline {subsubsection}{Feature Requests}{81}{section*.94}
-\contentsline {chapter}{\numberline {8}Conclusion}{83}{chapter.8}
-\contentsline {section}{\numberline {8.1}Future Work}{84}{section.8.1}
-\contentsline {subsection}{\numberline {8.1.1}Extended Record and Replay}{84}{subsection.8.1.1}
-\contentsline {subsection}{\numberline {8.1.2}Extended Device Emulation}{84}{subsection.8.1.2}
-\contentsline {subsection}{\numberline {8.1.3}Tighter Integration with Browser}{85}{subsection.8.1.3}
-\contentsline {subsection}{\numberline {8.1.4}Long-Term Study}{85}{subsection.8.1.4}
-\contentsline {chapter}{\numberline {A}Questionnaires}{87}{appendix.A}
-\contentsline {chapter}{\numberline {B}Tasks}{97}{appendix.B}
+\contentsline {subsection}{\numberline {6.2.1}Implementation}{60}{subsection.6.2.1}
+\contentsline {section}{\numberline {6.3}Insights}{60}{section.6.3}
+\contentsline {chapter}{\numberline {7}Evaluation}{63}{chapter.7}
+\contentsline {section}{\numberline {7.1}Setup}{63}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}Participants}{65}{subsection.7.1.1}
+\contentsline {subsubsection}{Previous Experience}{65}{section*.63}
+\contentsline {subsection}{\numberline {7.1.2}Tasks}{67}{subsection.7.1.2}
+\contentsline {subsubsection}{XDYouTube}{67}{section*.67}
+\contentsline {subsubsection}{XDCinema}{68}{section*.68}
+\contentsline {subsection}{\numberline {7.1.3}Evaluation Methods}{69}{subsection.7.1.3}
+\contentsline {subsubsection}{Questionnaires}{69}{section*.69}
+\contentsline {subsubsection}{Video Recording}{70}{section*.70}
+\contentsline {subsubsection}{Personal Feedback}{70}{section*.71}
+\contentsline {subsubsection}{Time Measuring}{70}{section*.72}
+\contentsline {section}{\numberline {7.2}Results}{70}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}XDCinema: Fixing a Bug}{70}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}XDCinema: Implementing a Feature}{71}{subsection.7.2.2}
+\contentsline {subsection}{\numberline {7.2.3}XDYouTube: Fixing a Bug}{73}{subsection.7.2.3}
+\contentsline {subsection}{\numberline {7.2.4}XDYouTube: Implementing a Feature}{74}{subsection.7.2.4}
+\contentsline {section}{\numberline {7.3}Discussion}{75}{section.7.3}
+\contentsline {subsubsection}{Aborted Tasks}{80}{section*.90}
+\contentsline {subsubsection}{Devices Used}{81}{section*.91}
+\contentsline {subsubsection}{Debugging and Implementation Strategies}{82}{section*.93}
+\contentsline {subsubsection}{Feature Requests}{83}{section*.94}
+\contentsline {chapter}{\numberline {8}Conclusion}{85}{chapter.8}
+\contentsline {section}{\numberline {8.1}Future Work}{86}{section.8.1}
+\contentsline {subsection}{\numberline {8.1.1}Extended Record and Replay}{86}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}Extended Device Emulation}{86}{subsection.8.1.2}
+\contentsline {subsection}{\numberline {8.1.3}Tighter Integration with Browser}{87}{subsection.8.1.3}
+\contentsline {subsection}{\numberline {8.1.4}Long-Term Study}{87}{subsection.8.1.4}
+\contentsline {chapter}{\numberline {A}Questionnaires}{89}{appendix.A}
+\contentsline {chapter}{\numberline {B}Tasks}{99}{appendix.B}

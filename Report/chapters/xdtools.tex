@@ -1,6 +1,6 @@
 \chapter{XDTools}
 
-The following sections will describe XDTools and its features in detail.
+XDTools is an integrated set of tools that can be loaded directly into the browser. XDTools allows developers to test and debug their cross-device applications in multiple ways. The following sections will describe XDTools in detail.
 
 \section{Overview of Features}
 
@@ -51,7 +51,7 @@ Devices can also be activated and deactivated. If a device is inactive, it is no
 	\item Shared CSS editor
 	\item Function debugging
 \end{itemize}
-All those features perform some interactions with the devices automatically, thus they should be deactivated for inactive devices. Other features like record and replay still include inactive devices because manual interaction is needed anyway before something happens with the device. Devices can be activated and deactivated by clicking on their name/ID that is displayed above the JavaScript console, CSS editor and other stuff. When the device is active, the background of its name is in the color of the device, otherwise it is grey and the text color is in the color of the device. Figure~\ref{fig:active_inactive} illustrates the difference between active and inactive devices. The first device is inactive, the other two devices are active.
+All those features perform some interactions with the devices automatically, thus they should be deactivated for inactive devices. Other features like record and replay still include inactive devices because manual interaction is needed anyway before something happens with the device. Devices can be activated and deactivated by clicking on their name/ID that is displayed above the JavaScript console. When the device is active, the background of its name is in the color of the device, otherwise it is grey and the text color is in the color of the device. Figure~\ref{fig:active_inactive} illustrates the difference between active and inactive devices. The first device is inactive, the other two devices are active.
 
 \begin{figure}[H]
   \centering
@@ -78,7 +78,7 @@ Although some devices may not easily be classified, e.g. 2-in-1 devices that can
 	\label{fig:adding_emulated}
 \end{figure}
 
-Once the developer has created an emulated device (see Figure~\ref{fig:emulated_device}), they can move it to the desired location on the screen. Instead of ordering devices automatically, we chose to give the developer the freedom to choose how to place the emulated devices. This makes it easy to accurately simulate specific scenarios, e.g. a presentation room where two large screens are placed next to each other. To conquer the challenge of limited screen size, all emulated devices can be scaled up and down. Scaling a device does not change the resolution of the device and thus has no influence on the look of the application. This allows the developer to scale down an emulated device and have more space available for devices. If the developer has difficulties performing an interaction on a device because it is scaled down, they can just scale it up again. However, dynamically changing the resolution of an emulated device is also possible. Thus, the developer can continuously increase or decrease the resolution of the device to immediately see what the application looks with different resolutions.
+Once the developer has created an emulated device (see Figure~\ref{fig:emulated_device}), they can move it to the desired location on the screen. Instead of ordering devices automatically, we chose to give the developer the freedom to choose how to place the emulated devices. This makes it easy to accurately simulate specific scenarios, e.g. a presentation room where two large screens are placed next to each other. To conquer the challenge of limited screen size, all emulated devices can be scaled up and down. Scaling a device does not change the resolution of the device and thus has no influence on the look of the application. This allows the developer to scale down an emulated device and have more space available for devices. If the developer has difficulties performing an interaction on a device because it is scaled down, they can just scale it up again. However, dynamically changing the resolution of an emulated device is also possible. Thus, the developer can continuously increase or decrease the resolution of the device to immediately see what the application looks with different resolutions. Finally, the developer can also change the layer of the device. Changing the layer of a device essentially moves the device to the front or back, thus devices can overlap each other and the developer can move the device that they want to use to the front.
 
 \begin{figure}[H]
   \centering
@@ -110,7 +110,7 @@ Finally, XDTools also includes a mechanism that prevents the sharing of local re
  
 \section{Easy Integration of Real and Emulated Devices}
 
-Real devices can be connected to XDTools by scanning a QR code or opening a URL. This makes it easy and efficient to connect a large number of real devices to XDTools. When the URL is opened, the device loads the application under test. The real devices only show the application under test and no interface elements. The developer can use the application on the real device, but everything relating to testing and debugging is coordinated through the developer's  machine. Each connected real device is represented by a proxy within XDTools. The proxy of the real device also contains a settings menu similar to the one of an emualted device. However, the settings menu is missing a few things compared to emulated devices:
+QR codes have become increasingly popular over the last few years and almost all devices nowadays are equipped with at least one camera. Thus, XDTools includes a QR code that can be displayed and scanned by developers to connect a real device to XDTools. As a fallback mechanisms, devices can also be connected by typing a URL in the browser of the device. This makes it easy and efficient to connect a large number of real devices to XDTools. When the URL is opened, the device loads the application under test. The real devices only show the application under test and no interface elements. The developer can use the application on the real device, but everything relating to testing and debugging is coordinated through the developer's machine. Each connected real device is represented by a proxy within XDTools. The proxy of the real device also contains a settings menu similar to the one of an emulated device. However, the settings menu is missing a few things compared to emulated devices:
 \begin{itemize}
 	\item Scaling of the device: There is no need to scale real devices, as no \lstinline|iframe| is shown in the main application.
 	\item Switching orientation: The orientation of a real device can be switched on the real device itself by simply rotating the real device.
@@ -204,7 +204,7 @@ Figure~\ref{fig:function_debugging_complete} shows a screenshot while a function
 
 If the developer is done debugging a function, they can remove it from the list of debugged functions.
 
-The developer can also just inspect the function without it being called by clicking on a button next to the function name in the list of debugged functions. If this button is clicked, an emulated device is picked at random and the function is opened on this device. 
+The developer can also just inspect the function without it being called by clicking on a button next to the function name in the list of debugged functions. If this button is clicked, an emulated device is picked at random and the source code of the function is opened on this device. 
 
 Unfortunately, function debugging only works on emulated devices. Chrome's DevTools do not have access to the JavaScript code of a connected real device, thus debugging the function using the DevTools is impossible.
 
@@ -264,7 +264,7 @@ So far, automatic connection is only possible for applications that connect via 
 
 XDTools allows the developer to record a sequence of interactions and replay them. Recording can be started on one device at any time. Once recording has started, the developer can perform the desired interactions on the device. After finishing recording, the interactions can be replayed on the same device, moved to other devices, or saved for later.  Furthermore, event sequences can be cut into multiple parts. The timing of the replays can be configured arbitrarily by dragging and dropping event sequences. This allows the developer to configure replays in many different ways: They can be executed in parallel, one after another, or anything in-between. The replays can then be started on all devices simultaneously r on one device at a time. This makes it easy to simulate multiple users and devices in a cross-device environment. Since the events contained in an event sequence are performed by a real user, i.e. the developer, the timing of the individual events in an event sequence is very realistic.
 
-After a device finishes recording, the event sequence is visualized. Figure~\ref{fig:record_replay} shows how event sequences are visualized.
+After a device finishes recording, the event sequence is visualized (Figure~\ref{fig:record_replay}).
 
 \begin{figure}[H]
   \centering

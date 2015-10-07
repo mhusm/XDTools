@@ -17,7 +17,7 @@ Class=LaTeXView
 Document=chapters\implementation.tex
 
 [Frame0_View0,0]
-TopLine=195
+TopLine=179
 Cursor=25901
 
 [Frame1]
@@ -71,8 +71,8 @@ Class=LaTeXView
 Document=student-work-template.tex
 
 [Frame3_View0,0]
-TopLine=0
-Cursor=719
+TopLine=73
+Cursor=3866
 
 [Frame4]
 Flags=0
@@ -107,8 +107,8 @@ Class=LaTeXView
 Document=chapters\evaluation.tex
 
 [Frame5_View0,0]
-TopLine=386
-Cursor=46935
+TopLine=75
+Cursor=7682
 
 [Frame6]
 Flags=0
@@ -125,8 +125,8 @@ Class=LaTeXView
 Document=chapters\background.tex
 
 [Frame6_View0,0]
-TopLine=0
-Cursor=2322
+TopLine=161
+Cursor=19173
 
 [Frame7]
 Flags=0
@@ -166,5 +166,5 @@ Cursor=5349
 
 [SessionInfo]
 FrameCount=9
-ActiveFrame=3
+ActiveFrame=6
 
