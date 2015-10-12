@@ -6,7 +6,8 @@ var app = require("express")(),
     remoteDevices = [],
     devToolsConnected = false,
     //only required for study
-    fs = require("fs");
+    fs = require("fs"),
+    port = 80;
 
 var StaticRoutes = require("./routes/routes");
 
@@ -180,8 +181,8 @@ devtools.on("connection", function (socket) {
     });
 });
 
-http.listen(80, function () {
-    console.log("Listening on port 80");
+http.listen(port, function () {
+    console.log("Listening on port " + port);
 });
 
 function getDeviceIndex(deviceID) {

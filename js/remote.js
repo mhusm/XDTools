@@ -2,7 +2,7 @@ function getConnectionURL() {
     //TODO: adjust implementation of this function to connect devices to each other:
     //      Adjust IP to the IP where the application is running
     //      Adjust URL if you are running another application (possibly from another framework)
-    return "http://129.132.173.2:8083/index.html?connect=" + XDmvc.deviceId;
+    return "http://129.132.173.2:8084/index.html?connect=" + XDmvc.deviceId;
 }
 
 var XDTest = {

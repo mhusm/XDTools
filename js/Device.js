@@ -108,10 +108,10 @@ function Device(id, url, layer, top, left, isRemote) {
         }
     };
     /*
-        Reset the session of a device:
-            - Request new ID for the device
-            - Adjust URL etc.
-            - Reconnect all devices that are connected to the device
+     Reset the session of a device:
+     - Request new ID for the device
+     - Adjust URL etc.
+     - Reconnect all devices that are connected to the device
      */
     this.reset = function () {
         var oldId = this.id;
