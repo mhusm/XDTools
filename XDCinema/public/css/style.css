@@ -1,9 +1,56 @@
-html { height: 100% }
-body { height: 100%; margin: 0; padding: 0;}
-#map-canvas { height: 100% }
+body {
+    height: 100%; margin: 0; padding: 0;
+}
 
 form {
     width: 100%;
+    clear: both;
+}
+
+html {
+    height: 100%
+}
+
+hr:last-of-type {
+    display: none;
+}
+
+iframe {
+    width: 100vw;
+    height: 55vw;
+    margin: 0;
+    padding: 0;
+}
+
+label {
+    width: 10% !important;
+    float: left !important;
+    clear: both !important;
+    padding-top: 7px !important;
+}
+
+label, input, button {
+    margin: 5px !important;
+}
+
+.cinema {
+    clear: both;
+}
+
+.cinema .name {
+    cursor: pointer;
+}
+
+.cinemas {
+    font-size: 13px;
+}
+
+.clear {
+    clear: both;
+}
+
+.genres {
+    clear: both;
 }
 
 .group {
@@ -11,44 +58,14 @@ form {
     flex-flow: row;
 }
 
-#location {
-    height: 100%;
-}
-
-#general {
-    height: 100%;
-    display: flex;
-    flex-flow: column;
-}
-
-#movie {
-    margin: 10px;
-}
-
-#movie .title {
-    font-weight: bold;
-}
-
-#movie img {
-    float: left;
-    margin: 5px;
-}
-
-#movie .genres, .runtime, .rating {
-    margin: 5px 0;
-}
-
-.cinema .name {
-    cursor: pointer;
-}
-
 .highlighted {
     background-color: black;
     color: white;
 }
 
-.movie img, .movie h3 {
-    cursor: pointer;
+.movie h3 {
+    font-size: 20px;
+    margin: 7px;
 }
 
 .movie img {
@@ -57,13 +74,13 @@ form {
     margin: 5px;
 }
 
+.movie img, .movie h3 {
+    cursor: pointer;
+}
+
 .movie .cinemas {
     float: left;
     width: 68%;
-}
-
-.cinema {
-    clear: both;
 }
 
 .movie .name {
@@ -76,13 +93,14 @@ form {
     float: left;
 }
 
-.movie h3 {
-    font-size: 20px;
-    margin: 7px;
+#general {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
 }
 
-.clear {
-    clear: both;
+#location {
+    height: 100%;
 }
 
 #logo {
@@ -94,37 +112,27 @@ form {
     max-height: 5vh;
 }
 
-form {
-    clear: both;
+#map-canvas { height: 100% }
+
+#movie {
+    margin: 10px;
 }
 
-#search-results {
-    overflow-y: auto;
-    width: 100%;
-    overflow-x: hidden;
+#movie img {
+    float: left;
+    margin: 5px;
 }
 
-.cinemas {
-    font-size: 13px;
+#movie .genres, .runtime, .rating {
+    margin: 5px 0;
 }
 
-.genres {
-    clear: both;
+#movie .title {
+    font-weight: bold;
 }
 
-label, input, button {
-    margin: 5px !important;
-}
-
-label {
-    width: 10% !important;
-    float: left !important;
-    clear: both !important;
-    padding-top: 7px !important;
-}
-
-hr:last-of-type {
-    display: none;
+#prices li {
+    list-style-type: none;
 }
 
 #search {
@@ -132,9 +140,8 @@ hr:last-of-type {
     display: block;
 }
 
-iframe {
-    width: 100vw;
-    height: 55vw;
-    margin: 0;
-    padding: 0;
+#search-results {
+    overflow-y: auto;
+    width: 100%;
+    overflow-x: hidden;
 }
