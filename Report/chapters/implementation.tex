@@ -4,7 +4,7 @@ The following sections describe the architecture of XDTools, the technologies us
 
 \section{Architecture}
 
-The architecture of XDTools is illustrated in Figure~\ref{fig:architecture}. XDTools consists of two applications: a main application that runs on the developer's machine and a helper application that runs on the real devices. Both the main application and the helper application are pure web applications and are provided by a server that is also responsible for forwarding communication between the main application and the side applications running on real devices.
+The architecture of XDTools is illustrated in Figure~\ref{fig:architecture}. XDTools consists of two applications: a main application that runs on the developer's machine and a helper application that runs on the real devices. Both the main application and the helper application are pure web applications and are provided by a server that is also responsible for forwarding communication between the main application and the helper applications.
 
 Additionally, a local DNS server runs on the developer's machine. It is responsible for creating different subdomains for the emulated devices. The DNS server is required for properly testing and debugging on emulated devices, but if only real devices are used, it is not needed and can be disabled in the options of XDTools.
 
@@ -27,18 +27,18 @@ Since XDTools includes desktop devices as well as mobile devices, it should be p
 	\item Device configurations.
 	\item Event sequences for replaying.
 \end{itemize}
-All those things only need to be accessed by the developer that created them. Thus, it makes sense to only store the data locally. Furthermore, the amount of data that needs to be stored is rather low and does not require much storage. 
+All those things only need to be accessed by the developer that created them. Thus, it makes sense to only store the data locally. Furthermore, the amount of data that needs to be stored is rather low. 
 
 \subsection{Server Side}
 
-On the server side, XDTools uses Node.js\footnote{\url{https://nodejs.org/en/}}. Node.js is a JavaScript runtime that uses asynchronous I/O with an event-driven programming model. It is lightweight and scales well with a large number of connections. Furthermore, it has the advantage that both the client and server side are implemented using JavaScript. Thus, no data conversions are required. In XDTools, fast communication between the desktop PC and the connected real devices is required and Node.js fulfills those requirements. Node.js' package ecosystem, npm\footnote{\url{https://www.npmjs.com/}}, provides a large number of modules which extend the capabilities of Node.js. We use the following modules in XDTools: 
+On the server side, XDTools uses Node.js\footnote{\url{https://nodejs.org/en/}}. Node.js is a JavaScript runtime that uses asynchronous I/O with an event-driven programming model. It is lightweight and scales well with a large number of connections. Furthermore, it has the advantage that both the client and server side are implemented using JavaScript. Thus, no data conversions are required. In XDTools, fast communication between the desktop PC and the connected real devices is required and Node.js fulfills this requirement. Node.js' package ecosystem, npm\footnote{\url{https://www.npmjs.com/}}, provides a large number of modules which extend the capabilities of Node.js. XDTools uses the following modules: 
 \begin{itemize}
 	\item Express\footnote{\url{http://expressjs.com/}}: Express is a minimal and flexible web application framework that provides a set of features for web and mobile applications. In XDTools, Express is responsible for serving the content to the clients.
-	\item shortid\footnote{\url{https://github.com/dylang/shortid}}: shortid generates short URL-friendly unique IDs. shortid generates the device IDs for the emulated and real devices in XDTools. As each emulated device gets a subdomain based on its ID, shortid is ideal for our purpose.
+	\item shortid\footnote{\url{https://github.com/dylang/shortid}}: shortid generates short URL-friendly unique IDs and is responsible for generating the device IDs for the emulated and real devices in XDTools. As each emulated device gets a subdomain based on its ID, shortid is ideal for our purpose.
 	\item Socket.IO\footnote{\url{http://socket.io/}}: Socket.IO enables real-time bidirectional event-based communication. If available, it uses HTML5 WebSockets, otherwise it uses fallback mechanism like AJAX\footnote{\url{http://www.w3schools.com/ajax/}} long-polling. In XDTools, Socket.io is used for the communication between the server and clients.
 \end{itemize}
 
-Socket.io is better suited for XDTools than AJAX for multiple reasons: First, we need to be able to send push data to clients from the server for sending commands to devices and AJAX is intended to allow clients to pull data from the server. Also, data transfer with AJAX comes with a significant overhead because HTTP headers are transmitted with each piece of data. As we mentioned before, fast communication between the server and the devices is a requirement for XDTools and AJAX would not fulfill this requirement sufficiently. However, AJAX is used for communicating with the DNS server.
+Socket.io is better suited for XDTools than AJAX for multiple reasons: First, we need to be able to send push data to clients from the server when sending commands to devices and AJAX is intended to allow clients to pull data from the server. Also, data transfer with AJAX comes with a significant overhead because HTTP headers are transmitted with each piece of data. As we mentioned before, fast communication between the server and the devices is a requirement for XDTools and AJAX would not fulfill this requirement sufficiently. However, AJAX is used for communicating with the DNS server.
 
 \subsubsection{DNS Server}
 
@@ -50,7 +50,7 @@ The client side of XDTools is implemented using JavaScript with jQuery\footnote{
 
 XDTools uses QR codes for connecting real devices to the server. We use the jQuery-based QR Code library jQuery.qrcode\footnote{\url{https://larsjung.de/jquery-qrcode/}} for generating those QR codes. Using jQuery selectors, the content of an HTML element can be set to a QR code with the desired content and size.
 
-HTML5 Drag and Drop\footnote{\url{http://www.w3schools.com/html/html5_draganddrop.asp}} is used for allowing accurate positioning of devices and timing of event sequences. HTML5 \lstinline|postMessage| is used for communication between the testing application in the \lstinline|iframe| and our application. Thus, no additional library for communication is needed inside the testing application.
+HTML5 Drag and Drop\footnote{\url{http://www.w3schools.com/html/html5_draganddrop.asp}} is used for allowing accurate positioning of devices and timing of event sequences. HTML5 \lstinline|postMessage| is used for communication between the application under test in the \lstinline|iframe| and XDTools. Thus, no additional library for communication is needed inside the application under test.
 
 The script that is injected into the application under test is implemented in pure JavaScript. Using libraries like jQuery inside this script could lead to conflicts with other libraries in the application under test or different versions of jQuery. Also, loading jQuery into the application creates some additional overhead and might not be what the developer of the application wants.
 
@@ -58,20 +58,21 @@ The Chrome DevTools extension is implemented using JavaScript. It uses the Comma
 
 \section{Emulation of Multiple Devices}
 
-Devices are emulated with \lstinline|iframes|: Each emulated device is represented by its own \lstinline|iframe| that loads the application under test. However, loading the same domain inside multiple \lstinline|iframes| would lead to the sharing of session and persistent data between emulated devices. We already described mechanisms that developers currently use for preventing the sharing of data, but for XDTools, we wanted a more scalable and robust solution. When an emulated device is created, it is assigned a unique ID. Based on this ID, a unique subdomain is registered with the local DNS server. All those subdomains point to the application under test, but as the application is accessed through different domains, no data is shared between the emulated devices. Domains that are unknown to the local DNS server are forwarded to the standard DNS server. 
+Devices are emulated using \lstinline|iframes|: Each emulated device is represented by its own \lstinline|iframe| that loads the application under test. However, loading the same domain inside multiple \lstinline|iframes| would lead to the sharing of local resources between emulated devices.  In order to prevent this, a unique subdomain based on the ID of the device is registered with the local DNS server. All subdomains point to the application under test, but as the application is accessed through different domains, no local resources are shared between the emulated devices. Domains that are unknown to the local DNS server are forwarded to the standard DNS server. 
 
-The resolution of each \lstinline|iframe| corresponds to the resolution of the device that it represents in CSS pixels. Currently, only the resolution of the target devices is emulated, but in the future, XDTools could be extended to support emulation of more aspects. The scaling of the device is set using the CSS property "transform", e.g. by setting "transform: scale(0.5)" to scale a device to half its usual size. Using the "transform" property does not change the resolution of the \lstinline|iframe| of the emulated device, only the space that the \lstinline|iframe| occupies. Thus, the layout of the emulated device remains intact even if it is scaled down. If the developer instead wants to change the resolution of a device, they can click in the bottom-right corner of the \lstinline|iframe| and drag to increase or decrease the resolution. 
+The resolution of each \lstinline|iframe| corresponds to the resolution of the device that it represents in CSS pixels. Currently, only the resolution of the target devices is emulated, but in the future, XDTools could be extended to support emulation of other aspects. The scaling of the device is set using the CSS property "transform", e.g. by setting "transform: scale(0.5)" to scale a device to half its usual size. Using the "transform" property does not change the resolution of the \lstinline|iframe| of the emulated device, only the space that the \lstinline|iframe| occupies. Thus, the layout of the emulated device remains intact even if it is scaled down. If the developer instead wants to change the resolution of a device, they can click on the bottom-right corner of the \lstinline|iframe| and drag to increase or decrease the resolution. 
 
-The devices can be moved around using HTML5's Drag and Drop. However, we cannot just make the devices \lstinline|draggable| by default. The developer should not be able to move the device if they click on the \lstinline|iframe| because otherwise interaction with the \lstinline|iframe| would be difficult. Thus, we chose to only make devices \lstinline|draggable| if the developer clicks on the header of the device. For this reason, we assign a click handler to each device that checks if the developer clicked on the header of the device. If they did, we make the device \lstinline|draggable|. 
+The devices can be moved around using HTML5 Drag and Drop. However, we cannot just make the devices \lstinline|draggable| by default. The developer should not be able to move the device if they click on the \lstinline|iframe| because otherwise interaction with the \lstinline|iframe| would be difficult. Thus, we chose to only make devices \lstinline|draggable| if the developer clicks on the header of the device. For this reason, we assign a click handler to each device that checks if the developer clicked on the header of the device. If they did, we make the device \lstinline|draggable|. 
 
-When the developer starts dragging the device, the device ID is assigned as data to the event. However, the device ID is not the only required data. If the developer drags the device to a certain position, we cannot just assign this position to the device. If we did, the top left corner of the device would be at the position where the device was dropped, but the developer probably did not click on the top left corner of the device when they started dragging the device. Thus, we need to compute the offset of the click from the top left corner of the device and adjust the position accordingly when the device is dropped. For example, if the developer clicks on the device 10 pixels from the top and drops the device x pixels from the top of the device area, we need to assign the position x - 10 to the device. For achieving this, we compute the offset when the developer clicks on the header of a device and set the offset as data to the event.
+When the developer starts dragging the device, the device ID is assigned as data to the event. However, the device ID is not the only required data. If the developer drags the device to a certain position, we cannot just assign this position to the device. If we did, the top left corner of the device would be at the position where the device was dropped, but the developer probably did not click on the top left corner of the device when they started dragging the device. Thus, we need to compute the offset of the click from the top left corner of the device and adjust the position accordingly when the device is dropped. For example, if the developer clicks on the device 10 pixels from the top and drops the device x pixels from the top of the device area, we need to assign the position x - 10 to the device. For achieving this, we compute the offset when the developer clicks on the header of the device and set the offset as data to the event.
 
 \subsection{Color Generation}
-We use the HSL\footnote{\url{https://en.wikipedia.org/wiki/HSL_and_HSV}} color space for determining the unique device colors because finding distinct colors is a much simpler task in the HSL model compared to the RGB model and the colors of the different devices should be easy to distinguish. In the HSL color space, colors consist of three values: Hue, saturation and lightness. The colors of the devices should all have the same saturation and lightness, thus the only value that needs to be determined is the hue. The hue can have any value between 0 and 360. Since our goal is to have colors that are easily distinguishable, their hues should be as different as possible. A simple algorithm can be used for determining the color of the next device:
+
+The primary goal of the device colors was to make it easy to distinguish devices, thus their colors should be as distinct as possible. For achieving this, we use the HSL color space\footnote{\url{https://en.wikipedia.org/wiki/HSL_and_HSV}}. Finding distinct colors is a much simpler task in the HSL color space compared to the RGB color space because only one of the three color components has to be modified. In the HSL color space, colors consist of the three values hue, saturation and lightness. The colors of the devices should all have the same saturation and lightness, thus the only value that needs to be determined is the hue. The hue can have any value between 0 and 360. Since our goal is to have colors that are easily distinguishable, their hues should be as different as possible. A simple algorithm can be used for determining the color of the next device:
 \begin{enumerate}
 	\item If no colors have been assigned yet, assign the color 0/360.
 	\item If only one color has been assigned, assign the color 180.
-	\item If at least two colors have been assigned, compute the maximum distance between two assigned colors and assign the color in between.
+	\item If at least two colors have been assigned: Order the assigned colors by their values, compute the maximum distance between any two neighboring colors and assign the color in-between.
 \end{enumerate}
 
 \section{Easy Integration of Real Devices}
@@ -107,7 +108,7 @@ Commands that are sent to devices are executed by calling \lstinline|eval| with 
 
 \subsection{Function Debugging and Inspection}
 
-Function debugging and inspection requires the Chrome extension. When the developer opens the Chrome DevTools, the function debugging area displayed at the bottom of the main application. When the developer adds a new function to debug, a command is sent to each activated emulated device. If a device receives the name of a function to debug, it overwrites the function to debug by a new function and stores the original function. The function that overwrites the original function performs the following actions:
+Function debugging and inspection requires the Chrome extension. When the developer opens the Chrome DevTools, the function debugging area displayed. When the developer adds a new function to debug, a command is sent to each activated emulated device. If a device receives the name of a function to debug, it overwrites the function to debug by a new function and stores the original function. The function that overwrites the original function performs the following actions:
 \begin{enumerate}
 	\item It highlights the device with a semi-transparent green overlay.
 	\item It calls the original function and stores the return value.
@@ -122,7 +123,7 @@ The functions that are debugged run inside an \lstinline|iframe| and the URL of 
 
 \begin{figure}[H]
   \centering
-    \includegraphics[width=0.7\textwidth]{images/screenshots/warning.png}
+    \includegraphics[width=0.6\textwidth]{images/screenshots/warning.png}
 	\caption[Screenshot: Function debugging warning]{Warning that is shown for function debugging}
 	\label{fig:warning}
 \end{figure}
@@ -139,17 +140,17 @@ For the CSS autocomplete functionality, we need to get all available CSS propert
 
 \section{Automatic Connection Management}
 
-In the script that is injected into the application under test, a connection function is available. When a device wants to connect to another device, a command is sent to that device. That device then calls the connection function. The connection function returns the URL that has to be loaded to connect to the device. The URL is then sent back to the device that wants to connect and can be loaded to connect the device.
+In the script that is injected into the application under test, a connection function is available. When a device wants to connect to another device, a command is sent to that device. That device then calls the connection function. The connection function returns the URL that has to be loaded to connect to the device. The URL is then loaded on the device that wants to connect.
 
 The connection function has to be implemented by the developer.
 
 \section{Coordinated Record and Replay}
 
-Recording interactions is done by assigning event handlers for all relevant events that we want to record. It is important that no-one receives the recorded events before us, because otherwise they could modify the page or even stop event propagation. For this reason, the event handlers are assigned as soon as the injected script is loaded and the script has to be placed at the top of the page. However, the event handlers do not do anything as long as recording has not started yet. When the developer starts recording, all events are logged to an array. After finishing recording, the array of events is sent to the main application. 
+Recording interactions is done by assigning event handlers for all relevant events that we want to record. It is important that no other script receives the events before us, because otherwise they could modify the page or even stop event propagation. For this reason, the event handlers are assigned as soon as the injected script is loaded and the script has to be placed at the top of the page. However, the event handlers do not do anything as long as recording has not started yet. When the developer starts recording, all events are logged to an array. After finishing recording, the array of events is sent to the main application. 
 
 Furthermore, all event handlers are capturing and are assigned to the document itself. Since no other element in the DOM hierarchy can be above the document element, the document element is always the first element that receives an event with capturing event handlers. After finishing recording and before sending the event sequence back to the server, all circular structures are removed. All other event properties are kept so the events can be replayed accurately.
 
-The event sequences should be replayable on other devices than the recording devices, therefore some way of determining the target of the event is required. Whenever an event handler is triggered, the DOM hierarchy is traveled up from the target of the event until an ID is encountered. Using this ID, we can determine the target element by taking the correct child until the target element is reached. From this, we can derive a hierarchy that describes how to reach the target element on a device and replaying the event on another device becomes possible.
+The event sequences should be replayable on other devices than the recording device, therefore some way of determining the target of the event is required. Whenever an event handler is triggered, the DOM hierarchy is traveled up from the target of the event until an ID is encountered. Using this ID, we can determine the target element by taking the appropriate child until the target element is reached. From this, we can derive a hierarchy that describes how to reach the target element on a device and replaying the event on another device becomes possible.
 
 When visualizing event sequences, each event requires some space. Thus, events that happen close together in time are grouped together. If events were not grouped, the visualization of the event sequence would not represent the true timing of the events: Even though two events might occur almost simultaneously, they would both require some space when visualized and thus give the impression that some time passed between them. The following algorithm is used for grouping events:
 \begin{enumerate}
@@ -159,7 +160,7 @@ When visualizing event sequences, each event requires some space. Thus, events t
 	\item Go to Step 1.
 \end{enumerate}
 
-When the developer starts replaying, the event sequences assigned to a device are sent to the device along with the list of breakpoints. The events that happen before the first breakpoint are then triggered using \lstinline|setTimeout|. If a breakpoint is reached, a message is sent to the main application. After the developer chooses to continue, a message is sent to all replaying devices telling them to continue event replaying.
+When the developer starts replaying, the event sequences assigned to a device are sent to that device along with the list of breakpoints. The events that happen before the first breakpoint are then triggered using \lstinline|setTimeout|. After all events have been triggered, a message is sent to the main application, telling it that a breakpoint has been reached. After the developer chooses to continue, a message is sent to all replaying devices telling them to continue event replaying.
 
 All events are replayed using the properties recorded in the event sequences. Using the hierarchy computed when recording, the target element of the event is determined. For most events, replaying with the properties logged when recording is enough for realistically reproducing the events. However, some events require a bit more work. Replaying key events is possible, but no text is written into input fields. In addition to the key events, we also need to trigger a text event using the correct char code. Scrolling events also do not scroll. Thus, we also log the scrolling position after a scrolling event occurs and manually set it after replaying the event. Furthermore, the backspace key cannot be reproduced with neither text events nor key events. Thus, we manually determine the position of the caret if the backspace key is pressed and delete the last character before the caret when replaying. 
 
@@ -169,7 +170,7 @@ Although XDTools works with all web-based cross-device applications, one of the 
 
 \subsection{Determining Event Targets}
 
-An element can define Shadow DOM by attaching a shadow root to itself. The shadow DOM can be accessed using the \lstinline|shadowRoot| property of the element. Without Shadow DOM, finding the nearest element with an ID was enough for determining the path that leads to the target element of an event. With Shadow DOM, we need to additionally consider all shadow roots that lead from the \lstinline|body| element to the target element. The \lstinline|path| property of the event contains all elements that were visited by the event. We adjusted our algorithm in the following way:
+An element can define Shadow DOM by attaching a shadow root to itself. The Shadow DOM can be accessed using the \lstinline|shadowRoot| property of the element. Without Shadow DOM, finding the nearest element with an ID was enough for determining the path that leads to the target element of an event. With Shadow DOM, we need to additionally consider all shadow roots that lead from the \lstinline|body| element to the target element. The \lstinline|path| property of the event contains all elements that were visited by the event. We adjusted our algorithm in the following way:
 \begin{enumerate}
 	\item Take the lowest (in the DOM hierarchy) element in the \lstinline|path| that has not yet been processed.
 	\item Determine how to reach this element from the next higher element in the path:
@@ -196,7 +197,7 @@ There are two things to be considered: First, there may be shadow roots in the a
 		\item If neither of the above is true, we have not found a new scope and we simply add all children of the element to the processing queue.
 	\end{enumerate}
 \end{enumerate}
-When the algorithm has finished, the list of scopes is sent to the main application. In the main application, the developer can choose the scope that they want to work with from a dropdown menu.
+When the algorithm has finished, the list of scopes is sent to the main application. In the main application, the developer can choose the scope that they want to work with from a drop-down menu.
 
 The selected scope has an influence on the following three components of XDTools:
 \begin{itemize}
@@ -204,3 +205,4 @@ The selected scope has an influence on the following three components of XDTools
 	\item Shared CSS editor: In the CSS editor, the CSS rule is added on the currently selected scope. Each scope has its own stylesheet containing the CSS rules for that scope.
 	\item Function debugging: The functions that are debugged are on the selected scope.
 \end{itemize}
+In addition, the developer can directly jump into the HTML of each scope by clicking the HTML inspection button and choosing the scope from a drop-down menu.

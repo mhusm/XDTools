@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.9.8)  9 OCT 2015 17:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.9.8)  12 OCT 2015 14:58
 entering extended mode
 **student-work-template.tex
 (student-work-template.tex
@@ -704,17 +704,17 @@ Chapter 3.
 
 
 
-] [20] <images/difference_scaling_resizing.pdf, id=671, 504.08777pt x 446.70879pt>
+] <images/difference_scaling_resizing.pdf, id=667, 504.08777pt x 446.70879pt>
 File: images/difference_scaling_resizing.pdf Graphic file (type pdf)
 
 <use images/difference_scaling_resizing.pdf>
-Package pdftex.def Info: images/difference_scaling_resizing.pdf used on input line 33.
+Package pdftex.def Info: images/difference_scaling_resizing.pdf used on input line 23.
 (pdftex.def)             Requested size: 405.45178pt x 359.31694pt.
- [21 <./images/difference_scaling_resizing.pdf>] [22] [23]
+ [20] [21 <./images/difference_scaling_resizing.pdf>] [22] [23]
 <images/css_aggregation_4.pdf, id=693, 947.9512pt x 638.84576pt>
 File: images/css_aggregation_4.pdf Graphic file (type pdf)
  <use images/css_aggregation_4.pdf>
-Package pdftex.def Info: images/css_aggregation_4.pdf used on input line 71.
+Package pdftex.def Info: images/css_aggregation_4.pdf used on input line 61.
 (pdftex.def)             Requested size: 405.45178pt x 273.24586pt.
  [24 <./images/css_aggregation_4.pdf>]) [25] (chapters/xdtools.tex [26
 
@@ -754,7 +754,7 @@ File: images/screenshots/adding_device_predefined.png Graphic file (type png)
 Package pdftex.def Info: images/screenshots/adding_device_predefined.png used on input line 76.
 (pdftex.def)             Requested size: 324.36266pt x 331.22267pt.
  [30 <./images/screenshots/active_inactive.png>]
-<images/screenshots/emulated_device_3.png, id=748, 498.36188pt x 362.10281pt>
+<images/screenshots/emulated_device_3.png, id=747, 498.36188pt x 362.10281pt>
 File: images/screenshots/emulated_device_3.png Graphic file (type png)
 
 <use images/screenshots/emulated_device_3.png>
@@ -774,51 +774,51 @@ File: images/screenshots/remote_device.png Graphic file (type png)
 Package pdftex.def Info: images/screenshots/remote_device.png used on input line 123.
 (pdftex.def)             Requested size: 202.72589pt x 155.84305pt.
 
-[33 <./images/screenshots/settings_menu_2.png>]
-<images/screenshots/session_management_2.png, id=771, 295.85532pt x 120.45pt>
+[33 <./images/screenshots/settings_menu_2.png>] [34 <./images/screenshots/remote_device.png>]
+<images/screenshots/session_management_2.png, id=775, 295.85532pt x 120.45pt>
 File: images/screenshots/session_management_2.png Graphic file (type png)
 
 <use images/screenshots/session_management_2.png>
-Package pdftex.def Info: images/screenshots/session_management_2.png used on input line 146.
+Package pdftex.def Info: images/screenshots/session_management_2.png used on input line 148.
 (pdftex.def)             Requested size: 243.27353pt x 99.0453pt.
- [34 <./images/screenshots/remote_device.png>]
-<images/screenshots/stack_trace_4.png, id=778, 672.26157pt x 93.34875pt>
+
+<images/screenshots/stack_trace_4.png, id=777, 672.26157pt x 93.34875pt>
 File: images/screenshots/stack_trace_4.png Graphic file (type png)
  <use images/screenshots/stack_trace_4.png>
-Package pdftex.def Info: images/screenshots/stack_trace_4.png used on input line 161.
+Package pdftex.def Info: images/screenshots/stack_trace_4.png used on input line 163.
 (pdftex.def)             Requested size: 405.45178pt x 56.30025pt.
 
 [35 <./images/screenshots/session_management_2.png> <./images/screenshots/stack_trace_4.png>]
 <images/screenshots/js_console_3.png, id=786, 482.55281pt x 235.63031pt>
 File: images/screenshots/js_console_3.png Graphic file (type png)
  <use images/screenshots/js_console_3.png>
-Package pdftex.def Info: images/screenshots/js_console_3.png used on input line 185.
+Package pdftex.def Info: images/screenshots/js_console_3.png used on input line 187.
 (pdftex.def)             Requested size: 405.45178pt x 197.98923pt.
 
 [36] <images/screenshots/function_debugging_complete.png, id=793, 1927.2pt x 1137.4997pt>
 File: images/screenshots/function_debugging_complete.png Graphic file (type png)
 
 <use images/screenshots/function_debugging_complete.png>
-Package pdftex.def Info: images/screenshots/function_debugging_complete.png used on input line 200.
+Package pdftex.def Info: images/screenshots/function_debugging_complete.png used on input line 202.
 (pdftex.def)             Requested size: 405.45178pt x 239.29855pt.
  [37 <./images/screenshots/js_console_3.png>] [38 <./images/screenshots/function_debugging_complete.png>] <images/screen
 shots/css_autocomplete.png, id=804, 676.02562pt x 59.47218pt>
 File: images/screenshots/css_autocomplete.png Graphic file (type png)
 
 <use images/screenshots/css_autocomplete.png>
-Package pdftex.def Info: images/screenshots/css_autocomplete.png used on input line 225.
+Package pdftex.def Info: images/screenshots/css_autocomplete.png used on input line 227.
 (pdftex.def)             Requested size: 405.45178pt x 35.66997pt.
  <images/screenshots/css_editor.png, id=806, 532.23843pt x 179.92218pt>
 File: images/screenshots/css_editor.png Graphic file (type png)
 
 <use images/screenshots/css_editor.png>
-Package pdftex.def Info: images/screenshots/css_editor.png used on input line 234.
+Package pdftex.def Info: images/screenshots/css_editor.png used on input line 236.
 (pdftex.def)             Requested size: 405.45178pt x 137.06622pt.
  <images/screenshots/emulated_device_4.png, id=808, 377.91188pt x 331.99031pt>
 File: images/screenshots/emulated_device_4.png Graphic file (type png)
 
 <use images/screenshots/emulated_device_4.png>
-Package pdftex.def Info: images/screenshots/emulated_device_4.png used on input line 243.
+Package pdftex.def Info: images/screenshots/emulated_device_4.png used on input line 245.
 (pdftex.def)             Requested size: 202.72589pt x 178.09177pt.
  [39 <./images/screenshots/css_autocomplete.png> <./images/screenshots/css_editor.png> <./images/screenshots/emulated_de
 vice_4.png>]
@@ -826,13 +826,13 @@ vice_4.png>]
 File: images/screenshots/session_management.png Graphic file (type png)
 
 <use images/screenshots/session_management.png>
-Package pdftex.def Info: images/screenshots/session_management.png used on input line 256.
+Package pdftex.def Info: images/screenshots/session_management.png used on input line 258.
 (pdftex.def)             Requested size: 243.27353pt x 79.17072pt.
 
 <images/screenshots/record_replay_2.png, id=820, 575.90157pt x 547.2947pt>
 File: images/screenshots/record_replay_2.png Graphic file (type png)
  <use images/screenshots/record_replay_2.png>
-Package pdftex.def Info: images/screenshots/record_replay_2.png used on input line 271.
+Package pdftex.def Info: images/screenshots/record_replay_2.png used on input line 273.
 (pdftex.def)             Requested size: 405.45178pt x 385.32504pt.
 
 [40 <./images/screenshots/session_management.png>]) [41 <./images/screenshots/record_replay_2.png>]
@@ -852,8 +852,8 @@ Package pdftex.def Info: images/architecture_2.pdf used on input line 13.
 File: images/screenshots/warning.png Graphic file (type png)
 
 <use images/screenshots/warning.png>
-Package pdftex.def Info: images/screenshots/warning.png used on input line 125.
-(pdftex.def)             Requested size: 283.815pt x 60.22884pt.
+Package pdftex.def Info: images/screenshots/warning.png used on input line 126.
+(pdftex.def)             Requested size: 243.27353pt x 51.62329pt.
  [50 <./images/screenshots/warning.png>] [51] [52] [53]) [54]
 (chapters/sample_apps.tex
 Chapter 6.
@@ -1473,18 +1473,18 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 168.
 Here is how much of TeX's memory you used:
  11001 strings out of 493673
  173816 string characters out of 3141120
- 266010 words of memory out of 3000000
+ 266040 words of memory out of 3000000
  13649 multiletter control sequences out of 15000+200000
  129842 words of font info for 75 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 42i,18n,51p,3409b,1046s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,18n,51p,3592b,1046s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.91/fonts/enc/dvips/fontname/8r.enc}<C:/Program Files (x86)/MiKTeX 2.91/fonts/type1/pu
 blic/amsfonts/cm/cmmi12.pfb><C:/Users/heydern/AppData/Roaming/MiKTeX/2.9/fonts/type1/ETH/letb8a.pfb><C:/Users/heydern/Ap
 pData/Roaming/MiKTeX/2.9/fonts/type1/ETH/letr8a.pfb><C:/Users/heydern/AppData/Roaming/MiKTeX/2.9/fonts/type1/ETH/letri8a
 .pfb><C:/Program Files (x86)/MiKTeX 2.91/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files (x86)/MiKTeX 2.91/fonts/ty
 pe1/urw/helvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.91/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files (x86)
 /MiKTeX 2.91/fonts/type1/urw/times/utmri8a.pfb>
-Output written on student-work-template.pdf (120 pages, 13638231 bytes).
+Output written on student-work-template.pdf (120 pages, 13640528 bytes).
 PDF statistics:
  3724 PDF objects out of 4296 (max. 8388607)
  372 named destinations out of 1000 (max. 500000)
