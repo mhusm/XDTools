@@ -2,9 +2,9 @@
 \BOOKMARK [0][-]{toc.0}{Contents}{}% 2
 \BOOKMARK [0][-]{chapter.1}{1 Introduction}{}% 3
 \BOOKMARK [1][-]{section.1.1}{1.1 Contributions}{chapter.1}% 4
-\BOOKMARK [1][-]{section.1.2}{1.2 Structure of this Document}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.2}{1.2 Structure of This Document}{chapter.1}% 5
 \BOOKMARK [0][-]{chapter.2}{2 Background and Related Work}{}% 6
-\BOOKMARK [1][-]{section.2.1}{2.1 Web Application Testing}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.1}{2.1 Web Application Testing and Debuggings}{chapter.2}% 7
 \BOOKMARK [2][-]{subsection.2.1.1}{2.1.1 Browser-Integrated Debugging Tools}{section.2.1}% 8
 \BOOKMARK [2][-]{subsection.2.1.2}{2.1.2 Record and Replay}{section.2.1}% 9
 \BOOKMARK [1][-]{section.2.2}{2.2 Responsive Web Application Testing}{chapter.2}% 10
@@ -13,8 +13,8 @@
 \BOOKMARK [2][-]{subsection.2.2.3}{2.2.3 Device Emulation}{section.2.2}% 13
 \BOOKMARK [2][-]{subsection.2.2.4}{2.2.4 Summary}{section.2.2}% 14
 \BOOKMARK [1][-]{section.2.3}{2.3 Cross-Device Application Development Frameworks}{chapter.2}% 15
-\BOOKMARK [2][-]{subsection.2.3.1}{2.3.1 Frameworks that have some Testing Tools}{section.2.3}% 16
-\BOOKMARK [2][-]{subsection.2.3.2}{2.3.2 Frameworks that would Benefit from Testing Tools}{section.2.3}% 17
+\BOOKMARK [2][-]{subsection.2.3.1}{2.3.1 Frameworks With Tool Support}{section.2.3}% 16
+\BOOKMARK [2][-]{subsection.2.3.2}{2.3.2 Web-Based Frameworks}{section.2.3}% 17
 \BOOKMARK [2][-]{subsection.2.3.3}{2.3.3 Summary}{section.2.3}% 18
 \BOOKMARK [0][-]{chapter.3}{3 Requirements}{}% 19
 \BOOKMARK [1][-]{section.3.1}{3.1 Emulation of Multiple Devices}{chapter.3}% 20

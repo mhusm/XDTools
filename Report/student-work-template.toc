@@ -1,9 +1,9 @@
 \select@language {british}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
-\contentsline {section}{\numberline {1.1}Contributions}{3}{section.1.1}
-\contentsline {section}{\numberline {1.2}Structure of this Document}{4}{section.1.2}
+\contentsline {section}{\numberline {1.1}Contributions}{2}{section.1.1}
+\contentsline {section}{\numberline {1.2}Structure of This Document}{4}{section.1.2}
 \contentsline {chapter}{\numberline {2}Background and Related Work}{5}{chapter.2}
-\contentsline {section}{\numberline {2.1}Web Application Testing}{5}{section.2.1}
+\contentsline {section}{\numberline {2.1}Web Application Testing and Debuggings}{5}{section.2.1}
 \contentsline {subsection}{\numberline {2.1.1}Browser-Integrated Debugging Tools}{5}{subsection.2.1.1}
 \contentsline {subsubsection}{Chrome DevTools}{5}{section*.4}
 \contentsline {subsubsection}{Firefox Developer Tools}{6}{section*.6}
@@ -14,33 +14,34 @@
 \contentsline {subsubsection}{WaRR}{8}{section*.11}
 \contentsline {subsubsection}{Rumadai}{8}{section*.12}
 \contentsline {subsubsection}{FireCrystal}{9}{section*.13}
-\contentsline {subsubsection}{Summary}{9}{section*.14}
-\contentsline {section}{\numberline {2.2}Responsive Web Application Testing}{9}{section.2.2}
+\contentsline {subsubsection}{Selenium}{9}{section*.14}
+\contentsline {subsubsection}{Summary}{9}{section*.15}
+\contentsline {section}{\numberline {2.2}Responsive Web Application Testing}{10}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Web Services}{10}{subsection.2.2.1}
-\contentsline {subsubsection}{BrowserStack}{10}{section*.15}
-\contentsline {subsubsection}{CrossBrowserTesting}{10}{section*.16}
+\contentsline {subsubsection}{BrowserStack}{10}{section*.16}
+\contentsline {subsubsection}{CrossBrowserTesting}{10}{section*.17}
 \contentsline {subsection}{\numberline {2.2.2}Testing with Actual Devices}{11}{subsection.2.2.2}
-\contentsline {subsubsection}{Remote Preview}{11}{section*.18}
-\contentsline {subsubsection}{BrowserSync}{11}{section*.19}
-\contentsline {subsubsection}{Adobe Edge Inspect CC}{12}{section*.21}
-\contentsline {subsubsection}{Ghostlab}{12}{section*.22}
+\contentsline {subsubsection}{Remote Preview}{11}{section*.19}
+\contentsline {subsubsection}{BrowserSync}{11}{section*.20}
+\contentsline {subsubsection}{Adobe Edge Inspect CC}{12}{section*.22}
+\contentsline {subsubsection}{Ghostlab}{13}{section*.23}
 \contentsline {subsection}{\numberline {2.2.3}Device Emulation}{13}{subsection.2.2.3}
-\contentsline {subsubsection}{Chrome Device Mode}{13}{section*.23}
-\contentsline {subsubsection}{Firefox's Responsive Design View}{13}{section*.25}
+\contentsline {subsubsection}{Chrome Device Mode}{13}{section*.24}
+\contentsline {subsubsection}{Firefox's Responsive Design View}{14}{section*.26}
 \contentsline {subsection}{\numberline {2.2.4}Summary}{14}{subsection.2.2.4}
-\contentsline {section}{\numberline {2.3}Cross-Device Application Development Frameworks}{14}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Frameworks that have some Testing Tools}{14}{subsection.2.3.1}
-\contentsline {subsubsection}{XDStudio}{14}{section*.26}
-\contentsline {subsubsection}{XDSession}{15}{section*.28}
-\contentsline {subsubsection}{Weave}{15}{section*.29}
-\contentsline {subsubsection}{WatchConnect}{16}{section*.30}
-\contentsline {subsection}{\numberline {2.3.2}Frameworks that would Benefit from Testing Tools}{16}{subsection.2.3.2}
-\contentsline {subsubsection}{XD-MVC}{16}{section*.31}
-\contentsline {subsubsection}{Connichiwa}{16}{section*.32}
-\contentsline {subsubsection}{DireWolf}{17}{section*.33}
-\contentsline {subsubsection}{Panelrama}{17}{section*.34}
-\contentsline {subsubsection}{Polychrome}{17}{section*.35}
-\contentsline {subsection}{\numberline {2.3.3}Summary}{17}{subsection.2.3.3}
+\contentsline {section}{\numberline {2.3}Cross-Device Application Development Frameworks}{15}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Frameworks With Tool Support}{15}{subsection.2.3.1}
+\contentsline {subsubsection}{XDStudio}{15}{section*.27}
+\contentsline {subsubsection}{XDSession}{16}{section*.29}
+\contentsline {subsubsection}{Weave}{16}{section*.30}
+\contentsline {subsubsection}{WatchConnect}{16}{section*.31}
+\contentsline {subsection}{\numberline {2.3.2}Web-Based Frameworks}{17}{subsection.2.3.2}
+\contentsline {subsubsection}{XD-MVC}{17}{section*.32}
+\contentsline {subsubsection}{Connichiwa}{17}{section*.33}
+\contentsline {subsubsection}{DireWolf}{17}{section*.34}
+\contentsline {subsubsection}{Panelrama}{17}{section*.35}
+\contentsline {subsubsection}{Polychrome}{18}{section*.36}
+\contentsline {subsection}{\numberline {2.3.3}Summary}{18}{subsection.2.3.3}
 \contentsline {chapter}{\numberline {3}Requirements}{19}{chapter.3}
 \contentsline {section}{\numberline {3.1}Emulation of Multiple Devices}{19}{section.3.1}
 \contentsline {section}{\numberline {3.2}Easy Integration of Real and Emulated Devices}{21}{section.3.2}
@@ -64,7 +65,7 @@
 \contentsline {section}{\numberline {5.1}Architecture}{43}{section.5.1}
 \contentsline {section}{\numberline {5.2}Choice of Technologies}{44}{section.5.2}
 \contentsline {subsection}{\numberline {5.2.1}Server Side}{45}{subsection.5.2.1}
-\contentsline {subsubsection}{DNS Server}{45}{section*.56}
+\contentsline {subsubsection}{DNS Server}{45}{section*.57}
 \contentsline {subsection}{\numberline {5.2.2}Client Side}{46}{subsection.5.2.2}
 \contentsline {section}{\numberline {5.3}Emulation of Multiple Devices}{46}{section.5.3}
 \contentsline {subsection}{\numberline {5.3.1}Color Generation}{47}{subsection.5.3.1}
@@ -89,25 +90,25 @@
 \contentsline {chapter}{\numberline {7}Evaluation}{63}{chapter.7}
 \contentsline {section}{\numberline {7.1}Setup}{63}{section.7.1}
 \contentsline {subsection}{\numberline {7.1.1}Participants}{65}{subsection.7.1.1}
-\contentsline {subsubsection}{Previous Experience}{65}{section*.63}
+\contentsline {subsubsection}{Previous Experience}{65}{section*.64}
 \contentsline {subsection}{\numberline {7.1.2}Tasks}{67}{subsection.7.1.2}
-\contentsline {subsubsection}{XDYouTube}{68}{section*.67}
-\contentsline {subsubsection}{XDCinema}{68}{section*.68}
+\contentsline {subsubsection}{XDYouTube}{68}{section*.68}
+\contentsline {subsubsection}{XDCinema}{68}{section*.69}
 \contentsline {subsection}{\numberline {7.1.3}Evaluation Methods}{69}{subsection.7.1.3}
-\contentsline {subsubsection}{Questionnaires}{69}{section*.69}
-\contentsline {subsubsection}{Video Recording}{70}{section*.70}
-\contentsline {subsubsection}{Personal Feedback}{70}{section*.71}
-\contentsline {subsubsection}{Time Measuring}{70}{section*.72}
+\contentsline {subsubsection}{Questionnaires}{69}{section*.70}
+\contentsline {subsubsection}{Video Recording}{70}{section*.71}
+\contentsline {subsubsection}{Personal Feedback}{70}{section*.72}
+\contentsline {subsubsection}{Time Measuring}{70}{section*.73}
 \contentsline {section}{\numberline {7.2}Results}{70}{section.7.2}
 \contentsline {subsection}{\numberline {7.2.1}XDCinema: Fixing a Bug}{70}{subsection.7.2.1}
 \contentsline {subsection}{\numberline {7.2.2}XDCinema: Implementing a Feature}{71}{subsection.7.2.2}
 \contentsline {subsection}{\numberline {7.2.3}XDYouTube: Fixing a Bug}{73}{subsection.7.2.3}
 \contentsline {subsection}{\numberline {7.2.4}XDYouTube: Implementing a Feature}{74}{subsection.7.2.4}
 \contentsline {section}{\numberline {7.3}Discussion}{75}{section.7.3}
-\contentsline {subsubsection}{Aborted Tasks}{80}{section*.90}
-\contentsline {subsubsection}{Devices Used}{81}{section*.91}
-\contentsline {subsubsection}{Debugging and Implementation Strategies}{82}{section*.93}
-\contentsline {subsubsection}{Feature Requests}{83}{section*.94}
+\contentsline {subsubsection}{Aborted Tasks}{80}{section*.91}
+\contentsline {subsubsection}{Devices Used}{81}{section*.92}
+\contentsline {subsubsection}{Debugging and Implementation Strategies}{82}{section*.94}
+\contentsline {subsubsection}{Feature Requests}{83}{section*.95}
 \contentsline {chapter}{\numberline {8}Conclusion}{85}{chapter.8}
 \contentsline {section}{\numberline {8.1}Future Work}{86}{section.8.1}
 \contentsline {subsection}{\numberline {8.1.1}Extended Record and Replay}{86}{subsection.8.1.1}

@@ -1,10 +1,10 @@
 \chapter{Background and Related Work}
 
-In the following sections, we will present some background information and related work to our project. We will start by analyzing existing tools for debugging traditional web applications, including debugging tools that are integrated directly into browsers. We will also discuss some tools aimed at testing responsive web applications. Finally, we will present a few cross-device application development frameworks that either provide some cross-device testing mechanisms themselves or that could benefit from such mechanisms.
+In the following sections, we will present some background information and related work to our project. We will start by analyzing existing tools for testing and debugging traditional web applications, including debugging tools that are integrated directly into browsers. We will also discuss some tools aimed at testing responsive web applications. Finally, we will present a few cross-device application development frameworks that either provide some cross-device testing mechanisms themselves or that could benefit from such mechanisms.
 
-\section{Web Application Testing}
+\section{Web Application Testing and Debuggings}
 
-In the following subsections, we will present a few tools supporting the testing and debugging of traditional web applications. Those tools are clearly also relevant for cross-device applications, as most cross-device applications are web applications.
+In the following subsections, we will present a few tools supporting the testing and debugging of traditional web applications. Many cross-device applications are web applications and we decided to focus only on those applications. Therefore, tools for debugging traditional web applications are clearly also relevant for our project.
 
 \subsection{Browser-Integrated Debugging Tools}
 
@@ -37,7 +37,7 @@ Record and replay has already successfully been used for debugging web applicati
 
 \subsubsection{Timelapse}
 
-In~\cite{timelapse2013}, Burg et al. describe their record and replay tool Timelapse. Timelapse is a tool for recording, reproducing, and debugging interactive behaviors in web applications. Timelapse is built on Dolos, a record/replay infrastructure that ensures deterministic execution by capturing and reusing user inputs, network responses, and other non-deterministic inputs. Developers can use Timelapse to browse, visualize, and seek within recorded program executions while simultaneously using familiar debugging tools such as breakpoints and logging. Figure~\ref{fig:timelapse} shows Timelapse. The developers of Timelapse conducted a user study with 14 web developers which showed no significant effect on task times, task success, or time spent reproducing behaviors when developers had access to Timelapse. Expert developers seemed to better integrate Timelapse into their workflow, using Timelapse to accelerate familiar tasks rather than redesigning their workflow. However, Timelapse distracted less-skilled developers that were led astray by unverified assumptions.
+In~\cite{timelapse2013}, Burg et al. describe their record and replay tool Timelapse. Timelapse is a tool for recording, reproducing, and debugging interactive behaviors in web applications. Timelapse is built on Dolos, a record/replay infrastructure that ensures deterministic execution by capturing and reusing user inputs, network responses, and other non-deterministic inputs. Developers can use Timelapse to browse, visualize, and seek within recorded program executions (see Figure ~\ref{fig:timelapse}) while simultaneously using familiar debugging tools such as breakpoints and logging. The developers of Timelapse conducted a user study with 14 web developers which showed no significant effect on task times, task success, or time spent reproducing behaviors when developers had access to Timelapse. Expert developers seemed to better integrate Timelapse into their workflow, using Timelapse to accelerate familiar tasks rather than redesigning their workflow. However, Timelapse distracted less-skilled developers that were led astray by unverified assumptions.
 
 \begin{figure}[H]
   \centering
@@ -48,7 +48,7 @@ In~\cite{timelapse2013}, Burg et al. describe their record and replay tool Timel
 
 \subsubsection{Mugshot}
 
-Mugshot, developed by Mickens et al.~\cite{mugshot2010}, is a record/replay system that captures all events in a JavaScript program, allowing developers to deterministically replay past executions of web applications. The goal of Mugshot is to provide low-overhead, "always-on" capture and replay for web-deployed JavaScript programs. Mugshot logs explicit user interactions like mouse clicks as well as background activities such as random number generation and the firing of timer callbacks. The client-side log is sent to the developer in response to a trigger like an unexpected exception being caught. The developer can then use Mugshot's replay mode to recreate the original JavaScript execution in his unmodified browser. 
+Mugshot, developed by Mickens et al.~\cite{mugshot2010}, is a record/replay system that captures all events in a JavaScript program, allowing developers to deterministically replay past executions of web applications. The goal of Mugshot is to provide low-overhead, "always-on" capture and replay for web-deployed JavaScript programs. Mugshot logs explicit user interactions like mouse clicks as well as background activities such as random number generation and the firing of timer callbacks. The client-side log is sent to the developer in response to a trigger like an unexpected exception being caught. The developer can then use Mugshot's replay mode to recreate the original JavaScript execution in their unmodified browser. 
 
 \subsubsection{WaRR}
 
@@ -66,6 +66,10 @@ Yildiz et al.~\cite{rumadai2012} developed Rumadai, a Visual Studio plug-in that
 \subsubsection{FireCrystal}
 
 FireCrystal~\cite{firecrystal2009} is a Firefox extension that allows developers to extract the implementation details of interactive behaviors from other websites. Developers can tell FireCrystal to start recording and then demonstrate the interactive behavior they want to extract. FireCrystal records the interaction, keeping track of DOM changes, JavaScript executions and user input events. The developer can then replay the interactions and FireCrystal displays the HTML, CSS and JavaScript code that affected a particular element at any specific time. FireCrystal also provides an execution timeline that developers can scrub back and forth.
+
+\subsubsection{Selenium}
+
+Selenium\footnote{\url{http://www.seleniumhq.org/}} consists of two different parts: The first part, Selenium IDE, allows the developer to record, edit and debug tests. Apart from the recording capability, Selenium IDE also allows editing of scripts by hand. The second part, Selenium WebDriver, accepts commands and sends them to the browser, allowing the developer to control the browser and automate it. The developer can write automated tests in (almost) any programming language, allowing for better integration of Selenium into existing testing environments.
 
 \subsubsection{Summary}
 
@@ -91,7 +95,7 @@ With CrossBrowserTesting, developers can select a number of devices as well as t
 
 \begin{figure}[H]
   \centering
-    \includegraphics[width=1.0\textwidth]{images/relatedwork/cross_browser_testing.png}
+    \includegraphics[width=1.0\textwidth]{images/relatedwork/cross_browser_testing_2.png}
 	\caption[Screenshot: CrossBrowserTesting]{Taking screenshots on multiple devices simultaneously}
 	\label{fig:crossbrowsertesting}
 \end{figure}
@@ -110,7 +114,7 @@ BrowserSync (see Figure~\ref{fig:browsersync}) provides a large number of featur
 
 \begin{figure}[H]
   \centering
-    \includegraphics[width=1.0\textwidth]{images/relatedwork/browser_sync_3.png}
+    \includegraphics[width=1.0\textwidth]{images/relatedwork/browser_sync_4.png}
 	\caption[Screenshot: BrowserSync]{Screenshot of BrowserSync}
 	\label{fig:browsersync}
 \end{figure}
@@ -148,9 +152,9 @@ While the tools described above already provide a wide variety of features that 
 
 \section{Cross-Device Application Development Frameworks}
 
-In the following subsections, we will describe some frameworks that facilitate the development of cross-device applications. Some of those frameworks already provide some basic mechanisms for testing the applications developed with them, but others include none and could benefit a lot from such mechanisms.
+In the following subsections, we will describe some frameworks that facilitate the development of cross-device applications. Some of those frameworks already provide some basic tools for testing the applications developed with them, but others include none and could benefit a lot from such tools.
 
-\subsection{Frameworks that have some Testing Tools}
+\subsection{Frameworks With Tool Support}
 
 The following frameworks already include some mechanisms for testing and debugging applications, but most of those mechanisms are limited to specific aspects of the applications and require the applications to be developed with the framework.
 
@@ -183,7 +187,7 @@ Weave allows testing on emulated and real devices and the developer also has acc
 
 In ~\cite{watchconnect2015}, Houben et al. present WatchConnect. WatchConnect is a toolkit for rapidly prototyping cross-device applications and interaction techniques with smartwatches. It provides an \emph{extendable hardware platform} that emulates a smartwatch, a \emph{UI framework} that integrates with an existing UI builder and a rich set of \emph{input and output events} using a range of built-in sensor mappings. WatchConnect is built around a wired prototyping watch, a smart watch emulator composed of a display, a number of sensors and a microprocessor. Applications can thus be tested and debugged directly on the watch prototype. WatchConnect also includes some tools for supporting developers while debugging, but those tools are focused on the machine learning algorithms and the recording of sensor data.
 
-\subsection{Frameworks that would Benefit from Testing Tools}
+\subsection{Web-Based Frameworks}
 
 The following frameworks allow developers to develop cross-device web applications but include no tools for testing and debugging the applications developed with them and would certainly benefit from such tools.
 

@@ -17,8 +17,8 @@ Class=LaTeXView
 Document=chapters\implementation.tex
 
 [Frame0_View0,0]
-TopLine=164
-Cursor=25901
+TopLine=39
+Cursor=8626
 
 [Frame1]
 Flags=0
@@ -71,8 +71,8 @@ Class=LaTeXView
 Document=student-work-template.tex
 
 [Frame3_View0,0]
-TopLine=0
-Cursor=685
+TopLine=110
+Cursor=6404
 
 [Frame4]
 Flags=0
@@ -125,7 +125,7 @@ Class=LaTeXView
 Document=chapters\background.tex
 
 [Frame6_View0,0]
-TopLine=185
+TopLine=226
 Cursor=24452
 
 [Frame7]
@@ -161,8 +161,8 @@ Class=LaTeXView
 Document=chapters\xdtools.tex
 
 [Frame8_View0,0]
-TopLine=264
-Cursor=23153
+TopLine=265
+Cursor=23327
 
 [Frame9]
 Flags=0
@@ -179,10 +179,10 @@ Class=LaTeXView
 Document=chapters\requirements.tex
 
 [Frame9_View0,0]
-TopLine=46
-Cursor=13502
+TopLine=0
+Cursor=4449
 
 [SessionInfo]
 FrameCount=10
-ActiveFrame=9
+ActiveFrame=3
 
