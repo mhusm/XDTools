@@ -147,7 +147,7 @@ Figure~\ref{fig:xdc_bug_features_used} shows how many participants used the indi
 
 \subsection{XDCinema: Implementing a Feature}
 
-In Figure~\ref{fig:xdc_impl_comparison}, the results for the implementation task in XDCinema can be seen. In this task, the difference in suitability is less pronounced than in the XDCinema debugging task, but the difference for the question about efficiency and easiness is larger. In general, the task was considered as rather easy independent of the tools the participant had access to, although participants that had access to XDTools perceived it as a bit easier. The median value of five with XDTools suggests that participants had no problems completing the task at all when they had access to XDTools. Similar results can be observed concerning efficiency. The difference in median values suggests that the participants felt a bit more efficient with XDTools. Surprisingly, if we compare the average and median completion times for this task, the participants that had access to XDTools were considerably slower (comparing median values, the participants that had access to XDTools were about 9 minutes slower). In fact, this is the only task where the difference in completion times with and without XDTools is noticeable; the completion times for all other tasks are almost equivalent. However, those two facts do not necessarily contradict each other, as there were participants with very different experience levels and due to the low number of participants, such factors can easily have a big influence on completion times. In general, the completion times should not be considered as especially relevant, after all the instructor also gave some hints during the study and this can also distort completion times significantly. However, it would be interesting to see how completion times differ if there is a larger number of participants and if the participants had to complete tasks completely on their own. 
+In Figure~\ref{fig:xdc_impl_comparison}, the results for the implementation task in XDCinema can be seen. In this task, the difference in suitability is less pronounced than in the XDCinema debugging task, but the difference for the question about efficiency and easiness is larger. In general, the task was considered as rather easy independent of the tools the participant had access to, although participants that had access to XDTools perceived it as a bit easier. The median value of five with XDTools suggests that participants had no problems completing the task at all when they had access to XDTools. Similar results can be observed concerning efficiency. The difference in median values suggests that the participants felt a bit more efficient with XDTools. Surprisingly, if we compare the average and median completion times for this task, the participants that had access to XDTools were considerably slower (comparing average completion times, the participants that had access to XDTools were about 5.5 minutes slower). In fact, this is the only task where the difference in completion times with and without XDTools is noticeable; the completion times for all other tasks are almost equivalent. However, those two facts do not necessarily contradict each other, as there were participants with very different experience levels and due to the low number of participants, such factors can easily have a big influence on completion times. In general, the completion times should not be considered as especially relevant, after all the instructor also gave some hints during the study and this can also distort completion times significantly. However, it would be interesting to see how completion times differ if there is a larger number of participants and if the participants had to complete tasks completely on their own. 
 
 \begin{figure}[H]
   \centering
@@ -207,20 +207,16 @@ In Figure~\ref{fig:xdyt_impl_features_used}, the use and ratings of the individu
 
 \section{Discussion}
 
-Figure~\ref{fig:implementing_easier} shows that about three quarters of all participants considered implementing a feature easier with XDTools. Only one participant found it easier to implement a feature without XDTools. However, in principle, this option is redundant as the participants still have access to the browser debugging tools even when they have access to XDTools. This essentiall means that about one quarter of the participants did not see any gain in easiness from using XDTools. The same applies to the question about whether implementing a feature feels more efficient with XDTools (see Figure~\ref{fig:implementing_efficient}); this figure shows exactly the same results as the figure about easiness. However, all except one participant preferred implementing a feature with XDTools (see Figure~\ref{fig:prefer_implementing}). Thus, it seems that participants like to have access to XDTools even if they cannot directly relate it to a decrease in difficulty or to an increase in efficiency.
-\begin{figure}[H]
-  \centering
-    \includegraphics[width=0.6\textwidth]{images/charts/implementing_easier.pdf}
-	\caption[Easiness of implementing]{Easiness of implementing a feature}
-	\label{fig:implementing_easier}
-\end{figure}
+Figure~\ref{fig:implementing_easier} shows that about three quarters of all participants considered implementing a feature easier with XDTools. Only one participant found it easier to implement a feature without XDTools. However, in principle, this option is redundant as the participants still have access to the browser debugging tools even when they have access to XDTools. This essentially means that about one quarter of the participants did not see any gain in easiness from using XDTools. The same applies to the question about whether implementing a feature feels more efficient with XDTools; this question was answered exactly the same.
 
 \begin{figure}[H]
   \centering
-    \includegraphics[width=0.6\textwidth]{images/charts/implementing_efficient.pdf}
-	\caption[Efficiency of implementing]{Efficiency of implementing a feature}
-	\label{fig:implementing_efficient}
+    \includegraphics[width=0.6\textwidth]{images/charts/implementing_easier.pdf}
+	\caption[Easiness of implementing]{Easiness/Efficiency of implementing a feature}
+	\label{fig:implementing_easier}
 \end{figure}
+
+However, all except one participant preferred implementing a feature with XDTools (see Figure~\ref{fig:prefer_implementing}). Thus, it seems that participants like to have access to XDTools even if they cannot directly relate it to a decrease in difficulty or to an increase in efficiency.
 
 \begin{figure}[H]
   \centering
@@ -229,7 +225,7 @@ Figure~\ref{fig:implementing_easier} shows that about three quarters of all part
 	\label{fig:prefer_implementing}
 \end{figure}
 
-Figure~\ref{fig:debugging_easier} shows that most participants found it easier to debug a cross-device application with XDTools. The results get even more obvious if we look at Figure~\ref{fig:debugging_efficient} and Figure~\ref{fig:prefer_debugging}. Those two figures show that all participants felt more efficient when debugging with XDTools and also preferred debugging with XDTools.
+Figure~\ref{fig:debugging_easier} shows that most participants found it easier to debug a cross-device application with XDTools.
 
 \begin{figure}[H]
   \centering
@@ -238,20 +234,14 @@ Figure~\ref{fig:debugging_easier} shows that most participants found it easier t
 	\label{fig:debugging_easier}
 \end{figure}
 
+The results get even more obvious when we look at Figure~\ref{fig:debugging_efficient}. This figure shows that all participants felt more efficient when debugging with XDTools and also preferred debugging with XDTools.
+
 \begin{figure}[H]
   \centering
     \includegraphics[width=0.6\textwidth]{images/charts/debugging_efficient.pdf}
-	\caption[Efficiency of debugging]{Efficiency of debugging}
+	\caption[Efficiency of debugging]{Efficiency of debugging/Preference for debugging}
 	\label{fig:debugging_efficient}
 \end{figure}
-
-\begin{figure}[H]
-  \centering
-    \includegraphics[width=0.6\textwidth]{images/charts/prefer_debugging.pdf}
-	\caption[Preference for debugging]{Preference for debugging}
-	\label{fig:prefer_debugging}
-\end{figure}
-
 
 We also asked the participants if they would use XDTools for debugging and implementing cross-device applications and if they think that XDTools would be useful for cross-device application testing. The results can be seen in Figure~\ref{fig:usefulness_tool}. Almost all participants think that XDTools would be very useful for implementing as well as debugging cross-device applications and the remaining few also think that they would be useful. All participants would use XDTools for implementing cross-device applications and all except one participant would use them for debugging cross-device applications. A few more participants stated that they strongly agree with the statement that they would use XDTools for debugging than for implementing. This is consistent with our previous results, where all participants preferred debugging with XDTools but about one quarter did not prefer implementing with XDTools.
 
@@ -289,6 +279,10 @@ Record and replay was disabled for the user study, but one participant that had 
 \subsubsection{Aborted Tasks}
 
 Due to the time limits that we set, we also had to abort some tasks. There were five cases where we had to abort a task, four while participants had access to XDTools, and one where the participant did not have access to XDTools. There was one participant that finished all tasks except the XDCinema debugging task. The participant had access to XDTools for this task, but we do not consider this relevant for this specific case, as the time required for completing this task can vary greatly depending on how fast the participant notices the switched variable. Also, the participant had completed all other tasks successfully. Furthermore, there was one participant for whom we had to abort both implementation tasks (one with XDTools and one without) and one participant where we had to abort both XDCinema tasks (both with XDTools). Both those participants had very low experience in web application development and had problems completing basic things like placing brackets correctly around an if-statement and creating a new line in HTML. This indicates that those participants had very low programming experience in general and it is not surprising that they failed to complete some tasks. The participants also had problems completing the other tasks, but eventually managed to finish the tasks with a lot of help from the instructor. Thus, we do not think that the fact that most of the aborted tasks were carried out with XDTools says anything relevant about XDTools. 
+
+\subsubsection{Completion Times}
+
+In Figure TODO, the average completion times and the standard deviation for all tasks with and without access to XDTools can be seen. As mentioned before, all tasks except the XDCinema implementation task have almost the same average completion time. However, even the difference of 5.5 minutes in the XDCinema implementation task is rather insignificant since the number of participants was very low from the beginning and some participants had to be excluded from the average completion time because the task was aborted. The difference in completion times was less than two minutes for all other tasks, indicating that XDTools did not have any influence on the performance of the participants. However, our evaluation shows that the standard deviation is a bit larger for all tasks when the participants have access to XDTools. This might be because participants with lower experience levels need more time to get used to XDTools, but further investigation is needed to see if this is really the case. In general, it would be interesting to see if XDTools has a positive effect on the efficiency of the participants if they have more time to get familiar with XDTools.
 
 \subsubsection{Devices Used}
 

@@ -1,0 +1,10 @@
+{
+  "name": "master-thesis-nina",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "^4.12.3",
+    "request": "^2.55.0",
+    "shortid": "^2.2.2",
+    "socket.io": "^1.3.5"
+  }
+}

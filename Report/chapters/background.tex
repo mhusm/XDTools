@@ -127,6 +127,17 @@ Adobe Edge Inspect CC allows developers to take screenshots on all connected dev
 
 Ghostlab\footnote{\url{http://www.vanamco.com/ghostlab/}} is one of the most advanced tools for responsive web application testing and provides features similar to BrowserSync. It can also load a URL on all devices or refresh all devices at once and refresh automatically when files are changed. It provides means for synchronized browsing as well as synchronized HTML and CSS inspection on multiple devices. Furthermore, it can automatically fill out forms and provides remote Javascript debugging. Synchronization can be turned on and off on a per-device basis, which makes the tool more useful than tools that simply synchronize all devices. However, the usefulness is still limited because constantly changing the devices that should be synchronized is time-consuming and error-prone. Also, interactions on cross-device applications typically do not happen in a synchronous fashion.
 
+\subsubsection{Smartphone Test Farm}
+
+STF\footnote{\url{http://openstf.io/}} (Smartphone Test Farm) allows developers to remote control mobile devices in real-time from their desktop PC without having to physically pick up the device (see Figure ~\ref{fig:stf}). The developer can see which devices are connected and who is using the devices. STF also allows copy and paste to and from the device, screenshot taking, remote debugging with Chrome DevTools and Android Studio\footnote{\url{http://developer.android.com/tools/studio/index.html}} and more. It also has support for multi-touch. STF is a very powerful tool in general, but like most other tools, it only supports testing on one device at a time.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.8\textwidth]{images/relatedwork/stf_2.png}
+	\caption[Screenshot: Smartphone Test Farm]{Screenshot of STF}
+	\label{fig:stf}
+\end{figure}
+
 \subsection{Device Emulation}
 
 The following tools allow the developer to emulate mobile devices on a desktop PC. 

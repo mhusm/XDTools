@@ -1,0 +1,147 @@
+body {
+    height: 100%; margin: 0; padding: 0;
+}
+
+form {
+    width: 100%;
+    clear: both;
+}
+
+html {
+    height: 100%
+}
+
+hr:last-of-type {
+    display: none;
+}
+
+iframe {
+    width: 100vw;
+    height: 55vw;
+    margin: 0;
+    padding: 0;
+}
+
+label {
+    width: 10% !important;
+    float: left !important;
+    clear: both !important;
+    padding-top: 7px !important;
+}
+
+label, input, button {
+    margin: 5px !important;
+}
+
+.cinema {
+    clear: both;
+}
+
+.cinema .name {
+    cursor: pointer;
+}
+
+.cinemas {
+    font-size: 13px;
+}
+
+.clear {
+    clear: both;
+}
+
+.genres {
+    clear: both;
+}
+
+.group {
+    display: flex;
+    flex-flow: row;
+}
+
+.highlighted {
+    background-color: black;
+    color: white;
+}
+
+.movie h3 {
+    font-size: 20px;
+    margin: 7px;
+}
+
+.movie img {
+    max-width: 28%;
+    float: left;
+    margin: 5px;
+}
+
+.movie img, .movie h3 {
+    cursor: pointer;
+}
+
+.movie .cinemas {
+    float: left;
+    width: 68%;
+}
+
+.movie .name {
+    font-weight: bold;
+    float: left;
+}
+
+.movie .time {
+    margin: 0 5px;
+    float: left;
+}
+
+#general {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+#location {
+    height: 100%;
+}
+
+#logo {
+    margin: 5px;
+    float: right;
+    width: auto;
+    height: auto;
+    max-width: 50vw;
+    max-height: 5vh;
+}
+
+#map-canvas { height: 100% }
+
+#movie {
+    margin: 10px;
+}
+
+#movie img {
+    float: left;
+    margin: 5px;
+}
+
+#movie .genres, .runtime, .rating {
+    margin: 5px 0;
+}
+
+#movie .title {
+    font-weight: bold;
+}
+
+#prices li {
+    list-style-type: none;
+}
+
+#search {
+    clear: both !important;
+    display: block;
+}
+
+#search-results {
+    overflow-y: auto;
+    width: 100%;
+    overflow-x: hidden;
+}

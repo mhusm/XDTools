@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.9.8)  13 OCT 2015 12:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.9.8)  13 OCT 2015 17:10
 entering extended mode
 **student-work-template.tex
 (student-work-template.tex
@@ -645,9 +645,9 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 
 ]
 LaTeX Font Info:    Font shape `OT1/let/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/let/b/n' tried instead on input line 11.
+(Font)              Font shape `OT1/let/b/n' tried instead on input line 13.
  [2]
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 23.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 25.
 
 ("C:\Program Files (x86)\MiKTeX 2.91\tex\latex\psnfss\ts1ptm.fd"
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
@@ -686,370 +686,363 @@ File: images/relatedwork/browser_sync_4.png Graphic file (type png)
 Package pdftex.def Info: images/relatedwork/browser_sync_4.png used on input line 117.
 (pdftex.def)             Requested size: 405.45178pt x 195.12581pt.
 
-[12 <./images/relatedwork/browser_sync_4.png>] <images/relatedwork/device_mode_2.png, id=607, 523.9575pt x 348.55219pt>
+[12 <./images/relatedwork/browser_sync_4.png>] <images/relatedwork/stf_2.png, id=611, 776.14969pt x 587.19376pt>
+File: images/relatedwork/stf_2.png Graphic file (type png)
+
+<use images/relatedwork/stf_2.png>
+Package pdftex.def Info: images/relatedwork/stf_2.png used on input line 136.
+(pdftex.def)             Requested size: 324.36266pt x 245.40115pt.
+ [13 <./images/relatedwork/stf_2.png>]
+<images/relatedwork/device_mode_2.png, id=624, 523.9575pt x 348.55219pt>
 File: images/relatedwork/device_mode_2.png Graphic file (type png)
-
-<use images/relatedwork/device_mode_2.png>
-Package pdftex.def Info: images/relatedwork/device_mode_2.png used on input line 140.
+ <use images/relatedwork/device_mode_2.png>
+Package pdftex.def Info: images/relatedwork/device_mode_2.png used on input line 151.
 (pdftex.def)             Requested size: 324.36266pt x 215.78099pt.
- [13] [14 <./images/relatedwork/device_mode_2.png>]
-<images/relatedwork/xdstudio.png, id=623, 751.30687pt x 457.71pt>
+
+[14 <./images/relatedwork/device_mode_2.png>] <images/relatedwork/xdstudio.png, id=634, 751.30687pt x 457.71pt>
 File: images/relatedwork/xdstudio.png Graphic file (type png)
- <use images/relatedwork/xdstudio.png>
-Package pdftex.def Info: images/relatedwork/xdstudio.png used on input line 167.
+
+<use images/relatedwork/xdstudio.png>
+Package pdftex.def Info: images/relatedwork/xdstudio.png used on input line 178.
 (pdftex.def)             Requested size: 324.36266pt x 197.60765pt.
- [15 <./images/relatedwork/xdstudio.png>] [16] [17]) [18] (chapters/requirements.tex
+ [15] [16 <./images/relatedwork/xdstudio.png>] [17] [18]) [19]
+(chapters/requirements.tex [20
+
+
+
+]
 Chapter 3.
-[19
-
-
-
-] <images/difference_scaling_resizing.pdf, id=672, 504.08777pt x 446.70879pt>
+[21] <images/difference_scaling_resizing.pdf, id=691, 504.08777pt x 446.70879pt>
 File: images/difference_scaling_resizing.pdf Graphic file (type pdf)
 
 <use images/difference_scaling_resizing.pdf>
 Package pdftex.def Info: images/difference_scaling_resizing.pdf used on input line 23.
 (pdftex.def)             Requested size: 405.45178pt x 359.31694pt.
- [20] [21 <./images/difference_scaling_resizing.pdf>] [22] [23]
-<images/css_aggregation_4.pdf, id=698, 947.9512pt x 638.84576pt>
+ [22] [23 <./images/difference_scaling_resizing.pdf>] [24] [25]
+<images/css_aggregation_4.pdf, id=717, 947.9512pt x 638.84576pt>
 File: images/css_aggregation_4.pdf Graphic file (type pdf)
  <use images/css_aggregation_4.pdf>
 Package pdftex.def Info: images/css_aggregation_4.pdf used on input line 61.
 (pdftex.def)             Requested size: 405.45178pt x 273.24586pt.
- [24 <./images/css_aggregation_4.pdf>]) [25] (chapters/xdtools.tex [26
+ [26 <./images/css_aggregation_4.pdf>]) [27] (chapters/xdtools.tex [28
 
 
 
 ]
 Chapter 4.
-<images/screenshots/complete_3.png, id=720, 1927.2pt x 1142.2675pt>
+<images/screenshots/complete_3.png, id=739, 1927.2pt x 1142.2675pt>
 File: images/screenshots/complete_3.png Graphic file (type png)
  <use images/screenshots/complete_3.png>
 Package pdftex.def Info: images/screenshots/complete_3.png used on input line 11.
 (pdftex.def)             Requested size: 405.45178pt x 240.30156pt.
- [27]
-<images/screenshots/remote_device.jpg, id=727, 4662.41875pt x 2875.74374pt>
+ [29]
+<images/screenshots/remote_device.jpg, id=747, 4662.41875pt x 2875.74374pt>
 File: images/screenshots/remote_device.jpg Graphic file (type jpg)
  <use images/screenshots/remote_device.jpg>
 Package pdftex.def Info: images/screenshots/remote_device.jpg used on input line 34.
 (pdftex.def)             Requested size: 405.45178pt x 250.0736pt.
 
-[28 <./images/screenshots/complete_3.png>] <images/screenshots/options.png, id=735, 456.20438pt x 242.40562pt>
+[30 <./images/screenshots/complete_3.png>] <images/screenshots/options.png, id=755, 456.20438pt x 242.40562pt>
 File: images/screenshots/options.png Graphic file (type png)
 
 <use images/screenshots/options.png>
 Package pdftex.def Info: images/screenshots/options.png used on input line 43.
 (pdftex.def)             Requested size: 364.90413pt x 193.89885pt.
- [29 <./images/screenshots/remote_device.jpg> <./images/screenshots/options.png>]
-<images/screenshots/active_inactive.png, id=743, 371.88937pt x 20.32594pt>
+ [31 <./images/screenshots/remote_device.jpg> <./images/screenshots/options.png>]
+<images/screenshots/active_inactive.png, id=762, 371.88937pt x 20.32594pt>
 File: images/screenshots/active_inactive.png Graphic file (type png)
  <use images/screenshots/active_inactive.png>
 Package pdftex.def Info: images/screenshots/active_inactive.png used on input line 58.
 (pdftex.def)             Requested size: 324.36266pt x 17.7287pt.
 
-<images/screenshots/adding_device_predefined.png, id=745, 462.97969pt x 472.76625pt>
+<images/screenshots/adding_device_predefined.png, id=764, 462.97969pt x 472.76625pt>
 File: images/screenshots/adding_device_predefined.png Graphic file (type png)
 
 <use images/screenshots/adding_device_predefined.png>
 Package pdftex.def Info: images/screenshots/adding_device_predefined.png used on input line 76.
 (pdftex.def)             Requested size: 324.36266pt x 331.22267pt.
- [30 <./images/screenshots/active_inactive.png>]
-<images/screenshots/emulated_device_3.png, id=752, 498.36188pt x 362.10281pt>
+ [32 <./images/screenshots/active_inactive.png>]
+<images/screenshots/emulated_device_3.png, id=771, 498.36188pt x 362.10281pt>
 File: images/screenshots/emulated_device_3.png Graphic file (type png)
 
 <use images/screenshots/emulated_device_3.png>
 Package pdftex.def Info: images/screenshots/emulated_device_3.png used on input line 85.
 (pdftex.def)             Requested size: 324.36266pt x 235.6845pt.
- [31 <./images/screenshots/adding_device_predefined.png>]
-<images/screenshots/settings_menu_2.png, id=760, 497.60907pt x 219.82124pt>
+ [33 <./images/screenshots/adding_device_predefined.png>]
+<images/screenshots/settings_menu_2.png, id=779, 497.60907pt x 219.82124pt>
 File: images/screenshots/settings_menu_2.png Graphic file (type png)
 
 <use images/screenshots/settings_menu_2.png>
 Package pdftex.def Info: images/screenshots/settings_menu_2.png used on input line 104.
 (pdftex.def)             Requested size: 324.36266pt x 143.29132pt.
- [32 <./images/screenshots/emulated_device_3.png>]
-<images/screenshots/remote_device.png, id=768, 231.11343pt x 177.66376pt>
+ [34 <./images/screenshots/emulated_device_3.png>]
+<images/screenshots/remote_device.png, id=787, 231.11343pt x 177.66376pt>
 File: images/screenshots/remote_device.png Graphic file (type png)
  <use images/screenshots/remote_device.png>
 Package pdftex.def Info: images/screenshots/remote_device.png used on input line 123.
 (pdftex.def)             Requested size: 202.72589pt x 155.84305pt.
 
-[33 <./images/screenshots/settings_menu_2.png>] [34 <./images/screenshots/remote_device.png>]
-<images/screenshots/session_management_2.png, id=780, 295.85532pt x 120.45pt>
+[35 <./images/screenshots/settings_menu_2.png>] [36 <./images/screenshots/remote_device.png>]
+<images/screenshots/session_management_2.png, id=800, 295.85532pt x 120.45pt>
 File: images/screenshots/session_management_2.png Graphic file (type png)
 
 <use images/screenshots/session_management_2.png>
 Package pdftex.def Info: images/screenshots/session_management_2.png used on input line 148.
 (pdftex.def)             Requested size: 243.27353pt x 99.0453pt.
 
-<images/screenshots/stack_trace_4.png, id=782, 672.26157pt x 93.34875pt>
+<images/screenshots/stack_trace_4.png, id=802, 672.26157pt x 93.34875pt>
 File: images/screenshots/stack_trace_4.png Graphic file (type png)
  <use images/screenshots/stack_trace_4.png>
 Package pdftex.def Info: images/screenshots/stack_trace_4.png used on input line 163.
 (pdftex.def)             Requested size: 405.45178pt x 56.30025pt.
 
-[35 <./images/screenshots/session_management_2.png> <./images/screenshots/stack_trace_4.png>]
-<images/screenshots/js_console_3.png, id=791, 482.55281pt x 235.63031pt>
+[37 <./images/screenshots/session_management_2.png> <./images/screenshots/stack_trace_4.png>]
+<images/screenshots/js_console_3.png, id=810, 482.55281pt x 235.63031pt>
 File: images/screenshots/js_console_3.png Graphic file (type png)
  <use images/screenshots/js_console_3.png>
 Package pdftex.def Info: images/screenshots/js_console_3.png used on input line 187.
 (pdftex.def)             Requested size: 405.45178pt x 197.98923pt.
 
-[36] <images/screenshots/function_debugging_complete.png, id=798, 1927.2pt x 1137.4997pt>
+[38] <images/screenshots/function_debugging_complete.png, id=817, 1927.2pt x 1137.4997pt>
 File: images/screenshots/function_debugging_complete.png Graphic file (type png)
 
 <use images/screenshots/function_debugging_complete.png>
 Package pdftex.def Info: images/screenshots/function_debugging_complete.png used on input line 202.
 (pdftex.def)             Requested size: 405.45178pt x 239.29855pt.
- [37 <./images/screenshots/js_console_3.png>] [38 <./images/screenshots/function_debugging_complete.png>] <images/screen
-shots/css_autocomplete.png, id=809, 676.02562pt x 59.47218pt>
+ [39 <./images/screenshots/js_console_3.png>] [40 <./images/screenshots/function_debugging_complete.png>] <images/screen
+shots/css_autocomplete.png, id=828, 676.02562pt x 59.47218pt>
 File: images/screenshots/css_autocomplete.png Graphic file (type png)
 
 <use images/screenshots/css_autocomplete.png>
 Package pdftex.def Info: images/screenshots/css_autocomplete.png used on input line 227.
 (pdftex.def)             Requested size: 405.45178pt x 35.66997pt.
- <images/screenshots/css_editor.png, id=811, 532.23843pt x 179.92218pt>
+ <images/screenshots/css_editor.png, id=830, 532.23843pt x 179.92218pt>
 File: images/screenshots/css_editor.png Graphic file (type png)
 
 <use images/screenshots/css_editor.png>
 Package pdftex.def Info: images/screenshots/css_editor.png used on input line 236.
 (pdftex.def)             Requested size: 405.45178pt x 137.06622pt.
- <images/screenshots/emulated_device_4.png, id=813, 377.91188pt x 331.99031pt>
+ <images/screenshots/emulated_device_4.png, id=832, 377.91188pt x 331.99031pt>
 File: images/screenshots/emulated_device_4.png Graphic file (type png)
 
 <use images/screenshots/emulated_device_4.png>
 Package pdftex.def Info: images/screenshots/emulated_device_4.png used on input line 245.
 (pdftex.def)             Requested size: 202.72589pt x 178.09177pt.
- [39 <./images/screenshots/css_autocomplete.png> <./images/screenshots/css_editor.png> <./images/screenshots/emulated_de
+ [41 <./images/screenshots/css_autocomplete.png> <./images/screenshots/css_editor.png> <./images/screenshots/emulated_de
 vice_4.png>]
-<images/screenshots/session_management.png, id=823, 381.67593pt x 124.21407pt>
+<images/screenshots/session_management.png, id=843, 381.67593pt x 124.21407pt>
 File: images/screenshots/session_management.png Graphic file (type png)
 
 <use images/screenshots/session_management.png>
 Package pdftex.def Info: images/screenshots/session_management.png used on input line 258.
 (pdftex.def)             Requested size: 243.27353pt x 79.17072pt.
 
-<images/screenshots/record_replay_2.png, id=825, 575.90157pt x 547.2947pt>
+<images/screenshots/record_replay_2.png, id=845, 575.90157pt x 547.2947pt>
 File: images/screenshots/record_replay_2.png Graphic file (type png)
  <use images/screenshots/record_replay_2.png>
 Package pdftex.def Info: images/screenshots/record_replay_2.png used on input line 273.
 (pdftex.def)             Requested size: 405.45178pt x 385.32504pt.
 
-[40 <./images/screenshots/session_management.png>]) [41 <./images/screenshots/record_replay_2.png>]
-(chapters/implementation.tex [42
+[42 <./images/screenshots/session_management.png>]) [43 <./images/screenshots/record_replay_2.png>]
+(chapters/implementation.tex [44
 
 
 
 ]
 Chapter 5.
-<images/architecture_2.pdf, id=843, 710.36993pt x 396.91559pt>
+<images/architecture_2.pdf, id=862, 710.36993pt x 396.91559pt>
 File: images/architecture_2.pdf Graphic file (type pdf)
  <use images/architecture_2.pdf>
 Package pdftex.def Info: images/architecture_2.pdf used on input line 13.
 (pdftex.def)             Requested size: 405.45178pt x 226.54704pt.
- [43] [44 <./images/architecture_2.pdf>] [45] [46] [47] [48] [49] <images/screenshots/warning.png, id=945, 308.65312pt x
+ [45] [46 <./images/architecture_2.pdf>] [47] [48] [49] [50] [51] <images/screenshots/warning.png, id=964, 308.65312pt x
  65.49469pt>
 File: images/screenshots/warning.png Graphic file (type png)
 
 <use images/screenshots/warning.png>
 Package pdftex.def Info: images/screenshots/warning.png used on input line 126.
 (pdftex.def)             Requested size: 243.27353pt x 51.62329pt.
- [50 <./images/screenshots/warning.png>] [51] [52] [53]) [54]
+ [52 <./images/screenshots/warning.png>] [53] [54] [55]) [56]
 (chapters/sample_apps.tex
 Chapter 6.
-[55
+[57
 
 
 
-] <images/screenshots/xdcinema_5_labeled.png, id=995, 1071.00125pt x 727.71875pt>
+] <images/screenshots/xdcinema_5_labeled.png, id=1014, 1071.00125pt x 727.71875pt>
 File: images/screenshots/xdcinema_5_labeled.png Graphic file (type png)
 
 <use images/screenshots/xdcinema_5_labeled.png>
 Package pdftex.def Info: images/screenshots/xdcinema_5_labeled.png used on input line 17.
 (pdftex.def)             Requested size: 405.45178pt x 275.4922pt.
- [56 <./images/screenshots/xdcinema_5_labeled.png>]
-<images/screenshots/xdyt/player_2.png, id=1002, 1458.95062pt x 901.86937pt>
+ [58 <./images/screenshots/xdcinema_5_labeled.png>]
+<images/screenshots/xdyt/player_2.png, id=1021, 1458.95062pt x 901.86937pt>
 File: images/screenshots/xdyt/player_2.png Graphic file (type png)
  <use images/screenshots/xdyt/player_2.png>
 Package pdftex.def Info: images/screenshots/xdyt/player_2.png used on input line 36.
 (pdftex.def)             Requested size: 405.45178pt x 250.63638pt.
 
-[57] <images/screenshots/xdyt/controller_portrait_2.png, id=1010, 284.56313pt x 571.38469pt>
+[59] <images/screenshots/xdyt/controller_portrait_2.png, id=1030, 284.56313pt x 571.38469pt>
 File: images/screenshots/xdyt/controller_portrait_2.png Graphic file (type png)
 
 <use images/screenshots/xdyt/controller_portrait_2.png>
 Package pdftex.def Info: images/screenshots/xdyt/controller_portrait_2.png used on input line 51.
 (pdftex.def)             Requested size: 243.27353pt x 488.5041pt.
- [58 <./images/screenshots/xdyt/player_2.png>]
-<images/screenshots/xdyt/controller_landscape_2.png, id=1017, 495.35063pt x 359.84438pt>
+ [60 <./images/screenshots/xdyt/player_2.png>]
+<images/screenshots/xdyt/controller_landscape_2.png, id=1037, 495.35063pt x 359.84438pt>
 File: images/screenshots/xdyt/controller_landscape_2.png Graphic file (type png)
 
 <use images/screenshots/xdyt/controller_landscape_2.png>
 Package pdftex.def Info: images/screenshots/xdyt/controller_landscape_2.png used on input line 58.
 (pdftex.def)             Requested size: 364.90413pt x 265.08368pt.
- [59 <./images/screenshots/xdyt/controller_portrait_2.png>]
-[60 <./images/screenshots/xdyt/controller_landscape_2.png>]) [61] (chapters/evaluation.tex [62
+ [61 <./images/screenshots/xdyt/controller_portrait_2.png>]
+[62 <./images/screenshots/xdyt/controller_landscape_2.png>]) [63] (chapters/evaluation.tex [64
 
 
 
 ]
 Chapter 7.
-<images/study_setup2.png, id=1036, 1927.2pt x 1084.05pt>
+<images/study_setup2.png, id=1055, 1927.2pt x 1084.05pt>
 File: images/study_setup2.png Graphic file (type png)
  <use images/study_setup2.png>
 Package pdftex.def Info: images/study_setup2.png used on input line 11.
 (pdftex.def)             Requested size: 324.36266pt x 182.44998pt.
- [63] [64 <./images/study_setup2.png>] <images/charts/xp.pdf, id=1048, 492.40744pt x 259.02873pt>
+ [65] [66 <./images/study_setup2.png>] <images/charts/xp.pdf, id=1068, 492.40744pt x 259.02873pt>
 File: images/charts/xp.pdf Graphic file (type pdf)
  <use images/charts/xp.pdf>
 Package pdftex.def Info: images/charts/xp.pdf used on input line 49.
 (pdftex.def)             Requested size: 324.36266pt x 170.63933pt.
- [65]
-<images/charts/years_of_xp.pdf, id=1057, 492.40471pt x 256.2373pt>
+ [67]
+<images/charts/years_of_xp.pdf, id=1076, 492.40471pt x 256.2373pt>
 File: images/charts/years_of_xp.pdf Graphic file (type pdf)
  <use images/charts/years_of_xp.pdf>
 Package pdftex.def Info: images/charts/years_of_xp.pdf used on input line 56.
 (pdftex.def)             Requested size: 324.36266pt x 168.80043pt.
- [66 <./images/charts/xp.pdf> <./images/charts/years_of_xp.pdf>] <images/charts/devtools_xp.pdf, id=1232, 490.52309pt x 
+ [68 <./images/charts/xp.pdf> <./images/charts/years_of_xp.pdf>] <images/charts/devtools_xp.pdf, id=1251, 490.52309pt x 
 257.07744pt>
 File: images/charts/devtools_xp.pdf Graphic file (type pdf)
 
 <use images/charts/devtools_xp.pdf>
 Package pdftex.def Info: images/charts/devtools_xp.pdf used on input line 69.
 (pdftex.def)             Requested size: 324.36266pt x 170.00113pt.
- [67 <./images/charts/devtools_xp.pdf>] [68] [69]
-<images/charts/xdc_bug_comparison.pdf, id=1358, 490.56314pt x 257.22298pt>
+ [69 <./images/charts/devtools_xp.pdf>] [70] [71]
+<images/charts/xdc_bug_comparison.pdf, id=1378, 490.56314pt x 257.22298pt>
 File: images/charts/xdc_bug_comparison.pdf Graphic file (type pdf)
  <use images/charts/xdc_bug_comparison.pdf>
 Package pdftex.def Info: images/charts/xdc_bug_comparison.pdf used on input line 134.
 (pdftex.def)             Requested size: 324.36266pt x 170.08559pt.
 
-[70] <images/charts/xdc_bug_features_used.pdf, id=1368, 492.40471pt x 259.02873pt>
+[72] <images/charts/xdc_bug_features_used.pdf, id=1388, 492.40471pt x 259.02873pt>
 File: images/charts/xdc_bug_features_used.pdf Graphic file (type pdf)
 
 <use images/charts/xdc_bug_features_used.pdf>
 Package pdftex.def Info: images/charts/xdc_bug_features_used.pdf used on input line 143.
 (pdftex.def)             Requested size: 324.36266pt x 170.63933pt.
- [71 <./images/charts/xdc_bug_comparison.pdf> <./images/charts/xdc_bug_features_used.pdf>] <images/charts/xdc_impl_compa
-rison.pdf, id=1558, 490.52309pt x 257.07744pt>
+ [73 <./images/charts/xdc_bug_comparison.pdf> <./images/charts/xdc_bug_features_used.pdf>] <images/charts/xdc_impl_compa
+rison.pdf, id=1577, 490.52309pt x 257.07744pt>
 File: images/charts/xdc_impl_comparison.pdf Graphic file (type pdf)
 
 <use images/charts/xdc_impl_comparison.pdf>
 Package pdftex.def Info: images/charts/xdc_impl_comparison.pdf used on input line 154.
 (pdftex.def)             Requested size: 324.36266pt x 170.00113pt.
- [72 <./images/charts/xdc_impl_comparison.pdf>]
-<images/charts/xdc_impl_features_used.pdf, id=1647, 492.41246pt x 256.17506pt>
+ [74 <./images/charts/xdc_impl_comparison.pdf>]
+<images/charts/xdc_impl_features_used.pdf, id=1666, 492.41246pt x 256.17506pt>
 File: images/charts/xdc_impl_features_used.pdf Graphic file (type pdf)
 
 <use images/charts/xdc_impl_features_used.pdf>
 Package pdftex.def Info: images/charts/xdc_impl_features_used.pdf used on input line 163.
 (pdftex.def)             Requested size: 324.36266pt x 168.74771pt.
 
-<images/charts/xdyt_bug_comparison.pdf, id=1649, 490.56314pt x 262.76772pt>
+<images/charts/xdyt_bug_comparison.pdf, id=1668, 490.56314pt x 262.76772pt>
 File: images/charts/xdyt_bug_comparison.pdf Graphic file (type pdf)
  <use images/charts/xdyt_bug_comparison.pdf>
 Package pdftex.def Info: images/charts/xdyt_bug_comparison.pdf used on input line 174.
 (pdftex.def)             Requested size: 324.36266pt x 173.75198pt.
 
-[73 <./images/charts/xdc_impl_features_used.pdf> <./images/charts/xdyt_bug_comparison.pdf>]
-<images/charts/xdyt_bug_features_used.pdf, id=1838, 490.52309pt x 257.07744pt>
+[75 <./images/charts/xdc_impl_features_used.pdf> <./images/charts/xdyt_bug_comparison.pdf>]
+<images/charts/xdyt_bug_features_used.pdf, id=1857, 490.52309pt x 257.07744pt>
 File: images/charts/xdyt_bug_features_used.pdf Graphic file (type pdf)
 
 <use images/charts/xdyt_bug_features_used.pdf>
 Package pdftex.def Info: images/charts/xdyt_bug_features_used.pdf used on input line 183.
 (pdftex.def)             Requested size: 324.36266pt x 170.00113pt.
 
-<images/charts/xdyt_impl_comparison.pdf, id=1840, 490.52309pt x 257.07744pt>
+<images/charts/xdyt_impl_comparison.pdf, id=1859, 490.52309pt x 257.07744pt>
 File: images/charts/xdyt_impl_comparison.pdf Graphic file (type pdf)
 
 <use images/charts/xdyt_impl_comparison.pdf>
 Package pdftex.def Info: images/charts/xdyt_impl_comparison.pdf used on input line 194.
 (pdftex.def)             Requested size: 324.36266pt x 170.00113pt.
- [74 <./images/charts/xdyt_bug_features_used.pdf>]
-<images/charts/xdyt_impl_features_used.pdf, id=1939, 490.52309pt x 257.07744pt>
+ [76 <./images/charts/xdyt_bug_features_used.pdf>]
+<images/charts/xdyt_impl_features_used.pdf, id=1958, 490.52309pt x 257.07744pt>
 File: images/charts/xdyt_impl_features_used.pdf Graphic file (type pdf)
 
 <use images/charts/xdyt_impl_features_used.pdf>
 Package pdftex.def Info: images/charts/xdyt_impl_features_used.pdf used on input line 203.
 (pdftex.def)             Requested size: 324.36266pt x 170.00113pt.
 
-<images/charts/implementing_easier.pdf, id=1943, 486.67984pt x 295.08743pt>
+<images/charts/implementing_easier.pdf, id=1960, 486.67984pt x 295.08743pt>
 File: images/charts/implementing_easier.pdf Graphic file (type pdf)
  <use images/charts/implementing_easier.pdf>
-Package pdftex.def Info: images/charts/implementing_easier.pdf used on input line 213.
+Package pdftex.def Info: images/charts/implementing_easier.pdf used on input line 214.
 (pdftex.def)             Requested size: 243.27353pt x 147.50282pt.
 
-[75 <./images/charts/xdyt_impl_comparison.pdf> <./images/charts/xdyt_impl_features_used.pdf>]
-<images/charts/implementing_efficient.pdf, id=2139, 486.461pt x 295.01617pt>
-File: images/charts/implementing_efficient.pdf Graphic file (type pdf)
-
-<use images/charts/implementing_efficient.pdf>
-Package pdftex.def Info: images/charts/implementing_efficient.pdf used on input line 220.
-(pdftex.def)             Requested size: 243.27353pt x 147.53473pt.
-
-<images/charts/prefer_implementing.pdf, id=2140, 484.87318pt x 295.99785pt>
+[77 <./images/charts/xdyt_impl_comparison.pdf> <./images/charts/xdyt_impl_features_used.pdf>]
+<images/charts/prefer_implementing.pdf, id=2158, 484.87318pt x 295.99785pt>
 File: images/charts/prefer_implementing.pdf Graphic file (type pdf)
  <use images/charts/prefer_implementing.pdf>
-Package pdftex.def Info: images/charts/prefer_implementing.pdf used on input line 227.
+Package pdftex.def Info: images/charts/prefer_implementing.pdf used on input line 223.
 (pdftex.def)             Requested size: 243.27353pt x 148.51344pt.
 
-[76 <./images/charts/implementing_easier.pdf> <./images/charts/implementing_efficient.pdf>]
-<images/charts/debugging_easier.pdf, id=2249, 484.87318pt x 296.05507pt>
+<images/charts/debugging_easier.pdf, id=2160, 484.87318pt x 296.05507pt>
 File: images/charts/debugging_easier.pdf Graphic file (type pdf)
  <use images/charts/debugging_easier.pdf>
-Package pdftex.def Info: images/charts/debugging_easier.pdf used on input line 236.
+Package pdftex.def Info: images/charts/debugging_easier.pdf used on input line 232.
 (pdftex.def)             Requested size: 243.27353pt x 148.54214pt.
 
-<images/charts/debugging_efficient.pdf, id=2250, 486.461pt x 294.9449pt>
+[78 <./images/charts/implementing_easier.pdf> <./images/charts/prefer_implementing.pdf>]
+<images/charts/debugging_efficient.pdf, id=2261, 486.461pt x 294.9449pt>
 File: images/charts/debugging_efficient.pdf Graphic file (type pdf)
  <use images/charts/debugging_efficient.pdf>
-Package pdftex.def Info: images/charts/debugging_efficient.pdf used on input line 243.
+Package pdftex.def Info: images/charts/debugging_efficient.pdf used on input line 241.
 (pdftex.def)             Requested size: 243.27353pt x 147.49908pt.
 
-<images/charts/prefer_debugging.pdf, id=2251, 486.5343pt x 294.93286pt>
-File: images/charts/prefer_debugging.pdf Graphic file (type pdf)
- <use images/charts/prefer_debugging.pdf>
-Package pdftex.def Info: images/charts/prefer_debugging.pdf used on input line 250.
-(pdftex.def)             Requested size: 243.27353pt x 147.47055pt.
-
-[77 <./images/charts/prefer_implementing.pdf> <./images/charts/debugging_easier.pdf> <./images/charts/debugging_efficien
-t.pdf>] <images/charts/usefulness_tool.pdf, id=2381, 490.52309pt x 256.9319pt>
+<images/charts/usefulness_tool.pdf, id=2263, 490.52309pt x 256.9319pt>
 File: images/charts/usefulness_tool.pdf Graphic file (type pdf)
  <use images/charts/usefulness_tool.pdf>
-Package pdftex.def Info: images/charts/usefulness_tool.pdf used on input line 260.
+Package pdftex.def Info: images/charts/usefulness_tool.pdf used on input line 250.
 (pdftex.def)             Requested size: 324.36266pt x 169.90488pt.
-
-[78 <./images/charts/prefer_debugging.pdf> <./images/charts/usefulness_tool.pdf>]
-<images/charts/tool_general.pdf, id=2512, 490.52309pt x 256.9319pt>
+ [79 <./images/charts/debugging_easier.pdf> <./images/charts/debugging_efficient.pdf>]
+<images/charts/tool_general.pdf, id=2348, 490.52309pt x 256.9319pt>
 File: images/charts/tool_general.pdf Graphic file (type pdf)
  <use images/charts/tool_general.pdf>
-Package pdftex.def Info: images/charts/tool_general.pdf used on input line 269.
+Package pdftex.def Info: images/charts/tool_general.pdf used on input line 259.
 (pdftex.def)             Requested size: 324.36266pt x 169.90488pt.
-
-<images/charts/would_use_features.pdf, id=2514, 490.56314pt x 257.07744pt>
+ [80 <./images/charts/usefulness_tool.pdf> <./images/charts/tool_general.pdf>]
+<images/charts/would_use_features.pdf, id=2545, 490.56314pt x 257.07744pt>
 File: images/charts/would_use_features.pdf Graphic file (type pdf)
  <use images/charts/would_use_features.pdf>
-Package pdftex.def Info: images/charts/would_use_features.pdf used on input line 278.
+Package pdftex.def Info: images/charts/would_use_features.pdf used on input line 268.
 (pdftex.def)             Requested size: 324.36266pt x 169.98936pt.
 
-[79 <./images/charts/tool_general.pdf>] [80 <./images/charts/would_use_features.pdf>]
-<images/charts/n_emulated.pdf, id=2738, 506.5328pt x 272.25916pt>
+[81 <./images/charts/would_use_features.pdf>] [82] <images/charts/n_emulated.pdf, id=2669, 506.5328pt x 272.25916pt>
 File: images/charts/n_emulated.pdf Graphic file (type pdf)
- <use images/charts/n_emulated.pdf>
-Package pdftex.def Info: images/charts/n_emulated.pdf used on input line 299.
+
+<use images/charts/n_emulated.pdf>
+Package pdftex.def Info: images/charts/n_emulated.pdf used on input line 293.
 (pdftex.def)             Requested size: 324.36266pt x 174.3408pt.
- [81] [82 <./images/charts/n_emulated.pdf>] [83]) [84] (chapters/conclusion.tex
+ [83 <./images/charts/n_emulated.pdf>] [84]) [85] [86] (chapters/conclusion.tex
 Chapter 8.
-[85
+[87
 
 
 
-] [86] [87]) [88]
+] [88] [89]) [90]
 Appendix A.
-[89
+[91
 
 
-] <appendix/questionnaires/general_2.pdf, id=2866, 598.235pt x 846.16125pt>
+] <appendix/questionnaires/general_2.pdf, id=2797, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/general_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/general_2.pdf>
@@ -1060,7 +1053,7 @@ File: appendix/questionnaires/general_2.pdf Graphic file (type pdf)
 Package pdftex.def Info: appendix/questionnaires/general_2.pdf used on input line 135.
 (pdftex.def)             Requested size: 598.23354pt x 846.1592pt.
 
-<appendix/questionnaires/general_2.pdf, id=2869, page=1, 598.235pt x 846.16125pt>
+<appendix/questionnaires/general_2.pdf, id=2800, page=1, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/general_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/general_2.pdf, page 1>
@@ -1084,11 +1077,11 @@ File: appendix/questionnaires/general_2.pdf Graphic file (type pdf)
 <use appendix/questionnaires/general_2.pdf, page 1>
 Package pdftex.def Info: appendix/questionnaires/general_2.pdf, page1 used on input line 135.
 (pdftex.def)             Requested size: 597.55803pt x 845.20375pt.
- [90 <./appendix/questionnaires/general_2.pdf
+ [92 <./appendix/questionnaires/general_2.pdf
 
 pdfTeX warning: pdflatex.exe (file ./appendix/questionnaires/general_2.pdf): PDF inclusion: invalid other resource which
  is no dict (key 'ProcSets', type <array>); ignored.
->] <appendix/questionnaires/general_2.pdf, id=2933, page=2, 598.235pt x 846.16125pt>
+>] <appendix/questionnaires/general_2.pdf, id=2864, page=2, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/general_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/general_2.pdf, page 2>
@@ -1103,11 +1096,11 @@ File: appendix/questionnaires/general_2.pdf Graphic file (type pdf)
 <use appendix/questionnaires/general_2.pdf, page 2>
 Package pdftex.def Info: appendix/questionnaires/general_2.pdf, page2 used on input line 135.
 (pdftex.def)             Requested size: 597.55803pt x 845.20375pt.
- [91 <./appendix/questionnaires/general_2.pdf
+ [93 <./appendix/questionnaires/general_2.pdf
 
 pdfTeX warning: pdflatex.exe (file ./appendix/questionnaires/general_2.pdf): PDF inclusion: invalid other resource which
  is no dict (key 'ProcSets', type <array>); ignored.
->] <appendix/questionnaires/with_tools_2.pdf, id=2994, 598.235pt x 846.16125pt>
+>] <appendix/questionnaires/with_tools_2.pdf, id=2925, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/with_tools_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/with_tools_2.pdf>
@@ -1118,7 +1111,7 @@ File: appendix/questionnaires/with_tools_2.pdf Graphic file (type pdf)
 Package pdftex.def Info: appendix/questionnaires/with_tools_2.pdf used on input line 137.
 (pdftex.def)             Requested size: 598.23354pt x 846.1592pt.
 
-<appendix/questionnaires/with_tools_2.pdf, id=2997, page=1, 598.235pt x 846.16125pt>
+<appendix/questionnaires/with_tools_2.pdf, id=2928, page=1, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/with_tools_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/with_tools_2.pdf, page 1>
@@ -1142,11 +1135,11 @@ File: appendix/questionnaires/with_tools_2.pdf Graphic file (type pdf)
 <use appendix/questionnaires/with_tools_2.pdf, page 1>
 Package pdftex.def Info: appendix/questionnaires/with_tools_2.pdf, page1 used on input line 137.
 (pdftex.def)             Requested size: 597.55803pt x 845.20375pt.
- [92 <./appendix/questionnaires/with_tools_2.pdf
+ [94 <./appendix/questionnaires/with_tools_2.pdf
 
 pdfTeX warning: pdflatex.exe (file ./appendix/questionnaires/with_tools_2.pdf): PDF inclusion: invalid other resource wh
 ich is no dict (key 'ProcSets', type <array>); ignored.
->] <appendix/questionnaires/with_tools_2.pdf, id=3133, page=2, 598.235pt x 846.16125pt>
+>] <appendix/questionnaires/with_tools_2.pdf, id=3064, page=2, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/with_tools_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/with_tools_2.pdf, page 2>
@@ -1161,11 +1154,11 @@ File: appendix/questionnaires/with_tools_2.pdf Graphic file (type pdf)
 <use appendix/questionnaires/with_tools_2.pdf, page 2>
 Package pdftex.def Info: appendix/questionnaires/with_tools_2.pdf, page2 used on input line 137.
 (pdftex.def)             Requested size: 597.55803pt x 845.20375pt.
- [93 <./appendix/questionnaires/with_tools_2.pdf
+ [95 <./appendix/questionnaires/with_tools_2.pdf
 
 pdfTeX warning: pdflatex.exe (file ./appendix/questionnaires/with_tools_2.pdf): PDF inclusion: invalid other resource wh
 ich is no dict (key 'ProcSets', type <array>); ignored.
->] <appendix/questionnaires/without_tools_2.pdf, id=3150, 598.235pt x 846.16125pt>
+>] <appendix/questionnaires/without_tools_2.pdf, id=3082, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/without_tools_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/without_tools_2.pdf>
@@ -1176,7 +1169,7 @@ File: appendix/questionnaires/without_tools_2.pdf Graphic file (type pdf)
 Package pdftex.def Info: appendix/questionnaires/without_tools_2.pdf used on input line 139.
 (pdftex.def)             Requested size: 598.23354pt x 846.1592pt.
 
-<appendix/questionnaires/without_tools_2.pdf, id=3153, page=1, 598.235pt x 846.16125pt>
+<appendix/questionnaires/without_tools_2.pdf, id=3085, page=1, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/without_tools_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/without_tools_2.pdf, page 1>
@@ -1200,11 +1193,11 @@ File: appendix/questionnaires/without_tools_2.pdf Graphic file (type pdf)
 <use appendix/questionnaires/without_tools_2.pdf, page 1>
 Package pdftex.def Info: appendix/questionnaires/without_tools_2.pdf, page1 used on input line 139.
 (pdftex.def)             Requested size: 597.55803pt x 845.20375pt.
- [94 <./appendix/questionnaires/without_tools_2.pdf
+ [96 <./appendix/questionnaires/without_tools_2.pdf
 
 pdfTeX warning: pdflatex.exe (file ./appendix/questionnaires/without_tools_2.pdf): PDF inclusion: invalid other resource
  which is no dict (key 'ProcSets', type <array>); ignored.
->] <appendix/questionnaires/without_tools_2.pdf, id=3224, page=2, 598.235pt x 846.16125pt>
+>] <appendix/questionnaires/without_tools_2.pdf, id=3156, page=2, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/without_tools_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/without_tools_2.pdf, page 2>
@@ -1219,11 +1212,11 @@ File: appendix/questionnaires/without_tools_2.pdf Graphic file (type pdf)
 <use appendix/questionnaires/without_tools_2.pdf, page 2>
 Package pdftex.def Info: appendix/questionnaires/without_tools_2.pdf, page2 used on input line 139.
 (pdftex.def)             Requested size: 597.55803pt x 845.20375pt.
- [95 <./appendix/questionnaires/without_tools_2.pdf
+ [97 <./appendix/questionnaires/without_tools_2.pdf
 
 pdfTeX warning: pdflatex.exe (file ./appendix/questionnaires/without_tools_2.pdf): PDF inclusion: invalid other resource
  which is no dict (key 'ProcSets', type <array>); ignored.
->] <appendix/questionnaires/concluding_2.pdf, id=3235, 598.235pt x 846.16125pt>
+>] <appendix/questionnaires/concluding_2.pdf, id=3166, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/concluding_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/concluding_2.pdf>
@@ -1234,7 +1227,7 @@ File: appendix/questionnaires/concluding_2.pdf Graphic file (type pdf)
 Package pdftex.def Info: appendix/questionnaires/concluding_2.pdf used on input line 141.
 (pdftex.def)             Requested size: 598.23354pt x 846.1592pt.
 
-<appendix/questionnaires/concluding_2.pdf, id=3238, page=1, 598.235pt x 846.16125pt>
+<appendix/questionnaires/concluding_2.pdf, id=3169, page=1, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/concluding_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/concluding_2.pdf, page 1>
@@ -1258,11 +1251,11 @@ File: appendix/questionnaires/concluding_2.pdf Graphic file (type pdf)
 <use appendix/questionnaires/concluding_2.pdf, page 1>
 Package pdftex.def Info: appendix/questionnaires/concluding_2.pdf, page1 used on input line 141.
 (pdftex.def)             Requested size: 597.55803pt x 845.20375pt.
- [96 <./appendix/questionnaires/concluding_2.pdf
+ [98 <./appendix/questionnaires/concluding_2.pdf
 
 pdfTeX warning: pdflatex.exe (file ./appendix/questionnaires/concluding_2.pdf): PDF inclusion: invalid other resource wh
 ich is no dict (key 'ProcSets', type <array>); ignored.
->] <appendix/questionnaires/concluding_2.pdf, id=3308, page=2, 598.235pt x 846.16125pt>
+>] <appendix/questionnaires/concluding_2.pdf, id=3239, page=2, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/concluding_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/concluding_2.pdf, page 2>
@@ -1277,11 +1270,11 @@ File: appendix/questionnaires/concluding_2.pdf Graphic file (type pdf)
 <use appendix/questionnaires/concluding_2.pdf, page 2>
 Package pdftex.def Info: appendix/questionnaires/concluding_2.pdf, page2 used on input line 141.
 (pdftex.def)             Requested size: 597.55803pt x 845.20375pt.
- [97 <./appendix/questionnaires/concluding_2.pdf
+ [99 <./appendix/questionnaires/concluding_2.pdf
 
 pdfTeX warning: pdflatex.exe (file ./appendix/questionnaires/concluding_2.pdf): PDF inclusion: invalid other resource wh
 ich is no dict (key 'ProcSets', type <array>); ignored.
->] <appendix/questionnaires/concluding_2.pdf, id=3385, page=3, 598.235pt x 846.16125pt>
+>] <appendix/questionnaires/concluding_2.pdf, id=3316, page=3, 598.235pt x 846.16125pt>
 File: appendix/questionnaires/concluding_2.pdf Graphic file (type pdf)
 
 <use appendix/questionnaires/concluding_2.pdf, page 3>
@@ -1296,15 +1289,15 @@ File: appendix/questionnaires/concluding_2.pdf Graphic file (type pdf)
 <use appendix/questionnaires/concluding_2.pdf, page 3>
 Package pdftex.def Info: appendix/questionnaires/concluding_2.pdf, page3 used on input line 141.
 (pdftex.def)             Requested size: 597.55803pt x 845.20375pt.
- [98 <./appendix/questionnaires/concluding_2.pdf
+ [100 <./appendix/questionnaires/concluding_2.pdf
 
 pdfTeX warning: pdflatex.exe (file ./appendix/questionnaires/concluding_2.pdf): PDF inclusion: invalid other resource wh
 ich is no dict (key 'ProcSets', type <array>); ignored.
 >]
 Appendix B.
-[99
+[101
 
-] <appendix/tasks/xdyt-bug.pdf, id=3418, 597.55246pt x 845.07718pt>
+] <appendix/tasks/xdyt-bug.pdf, id=3350, 597.55246pt x 845.07718pt>
 File: appendix/tasks/xdyt-bug.pdf Graphic file (type pdf)
  <use appendix/tasks/xdyt-bug.pdf>
 Package pdftex.def Info: appendix/tasks/xdyt-bug.pdf used on input line 146.
@@ -1314,7 +1307,7 @@ File: appendix/tasks/xdyt-bug.pdf Graphic file (type pdf)
 <use appendix/tasks/xdyt-bug.pdf>
 Package pdftex.def Info: appendix/tasks/xdyt-bug.pdf used on input line 146.
 (pdftex.def)             Requested size: 597.551pt x 845.07512pt.
- <appendix/tasks/xdyt-bug.pdf, id=3421, page=1, 597.55246pt x 845.07718pt>
+ <appendix/tasks/xdyt-bug.pdf, id=3353, page=1, 597.55246pt x 845.07718pt>
 File: appendix/tasks/xdyt-bug.pdf Graphic file (type pdf)
 
 <use appendix/tasks/xdyt-bug.pdf, page 1>
@@ -1338,8 +1331,8 @@ File: appendix/tasks/xdyt-bug.pdf Graphic file (type pdf)
 <use appendix/tasks/xdyt-bug.pdf, page 1>
 Package pdftex.def Info: appendix/tasks/xdyt-bug.pdf, page1 used on input line 146.
 (pdftex.def)             Requested size: 597.57834pt x 845.1138pt.
- [100 <./appendix/tasks/xdyt-bug.pdf>]
-<appendix/tasks/xdyt-impl.pdf, id=3441, 597.55246pt x 845.07718pt>
+ [102 <./appendix/tasks/xdyt-bug.pdf>]
+<appendix/tasks/xdyt-impl.pdf, id=3373, 597.55246pt x 845.07718pt>
 File: appendix/tasks/xdyt-impl.pdf Graphic file (type pdf)
  <use appendix/tasks/xdyt-impl.pdf>
 Package pdftex.def Info: appendix/tasks/xdyt-impl.pdf used on input line 148.
@@ -1349,7 +1342,7 @@ File: appendix/tasks/xdyt-impl.pdf Graphic file (type pdf)
 <use appendix/tasks/xdyt-impl.pdf>
 Package pdftex.def Info: appendix/tasks/xdyt-impl.pdf used on input line 148.
 (pdftex.def)             Requested size: 597.551pt x 845.07512pt.
- <appendix/tasks/xdyt-impl.pdf, id=3444, page=1, 597.55246pt x 845.07718pt>
+ <appendix/tasks/xdyt-impl.pdf, id=3376, page=1, 597.55246pt x 845.07718pt>
 File: appendix/tasks/xdyt-impl.pdf Graphic file (type pdf)
 
 <use appendix/tasks/xdyt-impl.pdf, page 1>
@@ -1373,8 +1366,8 @@ File: appendix/tasks/xdyt-impl.pdf Graphic file (type pdf)
 <use appendix/tasks/xdyt-impl.pdf, page 1>
 Package pdftex.def Info: appendix/tasks/xdyt-impl.pdf, page1 used on input line 148.
 (pdftex.def)             Requested size: 597.57834pt x 845.1138pt.
- [101 <./appendix/tasks/xdyt-impl.pdf>]
-<appendix/tasks/xdc-bug.pdf, id=3472, 597.55246pt x 845.07718pt>
+ [103 <./appendix/tasks/xdyt-impl.pdf>]
+<appendix/tasks/xdc-bug.pdf, id=3403, 597.55246pt x 845.07718pt>
 File: appendix/tasks/xdc-bug.pdf Graphic file (type pdf)
  <use appendix/tasks/xdc-bug.pdf>
 Package pdftex.def Info: appendix/tasks/xdc-bug.pdf used on input line 150.
@@ -1384,7 +1377,7 @@ File: appendix/tasks/xdc-bug.pdf Graphic file (type pdf)
 <use appendix/tasks/xdc-bug.pdf>
 Package pdftex.def Info: appendix/tasks/xdc-bug.pdf used on input line 150.
 (pdftex.def)             Requested size: 597.551pt x 845.07512pt.
- <appendix/tasks/xdc-bug.pdf, id=3475, page=1, 597.55246pt x 845.07718pt>
+ <appendix/tasks/xdc-bug.pdf, id=3406, page=1, 597.55246pt x 845.07718pt>
 File: appendix/tasks/xdc-bug.pdf Graphic file (type pdf)
 
 <use appendix/tasks/xdc-bug.pdf, page 1>
@@ -1408,8 +1401,8 @@ File: appendix/tasks/xdc-bug.pdf Graphic file (type pdf)
 <use appendix/tasks/xdc-bug.pdf, page 1>
 Package pdftex.def Info: appendix/tasks/xdc-bug.pdf, page1 used on input line 150.
 (pdftex.def)             Requested size: 597.57834pt x 845.1138pt.
- [102 <./appendix/tasks/xdc-bug.pdf>]
-<appendix/tasks/xdc-impl.pdf, id=3495, 597.55246pt x 845.07718pt>
+ [104 <./appendix/tasks/xdc-bug.pdf>]
+<appendix/tasks/xdc-impl.pdf, id=3426, 597.55246pt x 845.07718pt>
 File: appendix/tasks/xdc-impl.pdf Graphic file (type pdf)
  <use appendix/tasks/xdc-impl.pdf>
 Package pdftex.def Info: appendix/tasks/xdc-impl.pdf used on input line 152.
@@ -1419,7 +1412,7 @@ File: appendix/tasks/xdc-impl.pdf Graphic file (type pdf)
 <use appendix/tasks/xdc-impl.pdf>
 Package pdftex.def Info: appendix/tasks/xdc-impl.pdf used on input line 152.
 (pdftex.def)             Requested size: 597.551pt x 845.07512pt.
- <appendix/tasks/xdc-impl.pdf, id=3498, page=1, 597.55246pt x 845.07718pt>
+ <appendix/tasks/xdc-impl.pdf, id=3429, page=1, 597.55246pt x 845.07718pt>
 File: appendix/tasks/xdc-impl.pdf Graphic file (type pdf)
 
 <use appendix/tasks/xdc-impl.pdf, page 1>
@@ -1443,22 +1436,22 @@ File: appendix/tasks/xdc-impl.pdf Graphic file (type pdf)
 <use appendix/tasks/xdc-impl.pdf, page 1>
 Package pdftex.def Info: appendix/tasks/xdc-impl.pdf, page1 used on input line 152.
 (pdftex.def)             Requested size: 597.57834pt x 845.1138pt.
- [103 <./appendix/tasks/xdc-impl.pdf>] [104
+ [105 <./appendix/tasks/xdc-impl.pdf>] [106
 
 ] (student-work-template.lof
-[105])
+[107])
 \tf@lof=\write6
- [106] (student-work-template.lot)
+ [108] (student-work-template.lot)
 \tf@lot=\write7
- [107
+ [109
 
-] [108
+] [110
 
-] [109] (student-work-template.bbl [110
+] [111] (student-work-template.bbl [112
 
-] [111])
+] [113])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 168.
- [112]
+ [114]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 168.
 
 (student-work-template.aux (chapters/introduction.aux) (chapters/background.aux) (chapters/requirements.aux)
@@ -1471,10 +1464,10 @@ Package rerunfilecheck Info: File `student-work-template.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 168.
  ) 
 Here is how much of TeX's memory you used:
- 11003 strings out of 493673
- 173849 string characters out of 3141120
- 266054 words of memory out of 3000000
- 13649 multiletter control sequences out of 15000+200000
+ 11002 strings out of 493673
+ 173614 string characters out of 3141120
+ 266028 words of memory out of 3000000
+ 13644 multiletter control sequences out of 15000+200000
  129842 words of font info for 75 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
  42i,18n,51p,3592b,1046s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1484,9 +1477,9 @@ pData/Roaming/MiKTeX/2.9/fonts/type1/ETH/letr8a.pfb><C:/Users/heydern/AppData/Ro
 .pfb><C:/Program Files (x86)/MiKTeX 2.91/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files (x86)/MiKTeX 2.91/fonts/ty
 pe1/urw/helvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.91/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files (x86)
 /MiKTeX 2.91/fonts/type1/urw/times/utmri8a.pfb>
-Output written on student-work-template.pdf (120 pages, 13459556 bytes).
+Output written on student-work-template.pdf (122 pages, 13398264 bytes).
 PDF statistics:
- 3730 PDF objects out of 4296 (max. 8388607)
- 374 named destinations out of 1000 (max. 500000)
- 1109 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 3662 PDF objects out of 4296 (max. 8388607)
+ 379 named destinations out of 1000 (max. 500000)
+ 1104 words of extra memory for PDF output out of 10000 (max. 10000000)
 

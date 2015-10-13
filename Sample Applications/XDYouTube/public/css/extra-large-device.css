@@ -1,0 +1,57 @@
+#search-panel, #video-overview {
+    display: block;
+    width: 50%;
+}
+
+.queued-video {
+    max-width: 30% !important;
+    margin: 1.5%;
+}
+
+.queued-video img {
+    width: 100%;
+}
+
+#video-overview {
+    float: right;
+}
+
+#search-panel {
+    float: left;
+    height: 93vh;
+    display: flex;
+    flex-flow: column;
+}
+
+#youtube-logo {
+    height: 7vh;
+    float: left;
+}
+
+#results {
+    width: 100%;
+}
+
+div {
+    font-size: 1.2em;
+}
+
+h4 {
+    font-size: 1.5em;
+}
+
+paper-input {
+    min-height: 50px;
+}
+
+paper-button {
+    min-height: 30px;
+}
+
+#search-navigation {
+    min-height: 35px;
+}
+
+body {
+    overflow-y: auto;
+}
