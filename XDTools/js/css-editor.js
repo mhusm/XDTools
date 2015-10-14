@@ -45,14 +45,13 @@ $(document).ready(function () {
         if ($(this).hasClass("empty")) {
             //If an empty selector is set, add a new empty rule for the next selector to be added and add empty property and value for this rule
             if ($(this).text()) {
-                var selectedLayer = $("#layer").find("option:selected").text(),
-                    layerIndex = layers.map(function (e) { return e.path.join("."); }).indexOf(selectedLayer),
-                    name = layers[layerIndex].id ? layers[layerIndex].name + "#" + layers[layerIndex].id : layers[layerIndex].name,
+                //TODO: could be solved better, path to layer is different for each device
+                var deviceID = Object.keys(activeDevices)[0],
+                    selectedLayer = $("#layer").find("option:selected").text(),
+                    layerIndex = activeDevices[deviceID].hasLayer(selectedLayer),
+                    name = layerIndex ? activeDevices[deviceID].getLayer(selectedLayer) : "document.body",
                     $cssProperty = $(this).closest(".css-property");
-                if (layers[layerIndex].type === "shadow") {
-                    selectedLayer = selectedLayer + ".shadowRoot";
-                }
-                $(this).removeClass("empty").attr("data-layer", selectedLayer);
+                $(this).removeClass("empty").attr("data-layer", name);
                 $(".remove-css").removeClass("hidden");
                 $cssProperty.find(".layer-label").removeClass("hidden").text(name);
                 $(HTML.CSSRule()).prependTo("#css-console .properties");

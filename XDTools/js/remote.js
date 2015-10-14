@@ -931,7 +931,6 @@ function initialize() {
             }
             else if (command.name === "executeJS") {
                 //Execute a JS command and send the return value to the parent frame
-                //TODO: check if command is a function or variable (not if statement etc.) and react
                 var returnVal;
                 if (command.layer !== "document.body") {
                     var index = command.code.indexOf("(");

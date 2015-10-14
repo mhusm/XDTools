@@ -29,7 +29,7 @@ function Device(id, url, layer, top, left, isRemote) {
         }
     };
     this.hasLayer = function (name) {
-        return this.layers.map(function (e) { return e.path.join(".")}).indexOf(name) !== -1;
+        return this.layers.map(function (e) { return e.name + (e.id ? "#" + e.id : "") }).indexOf(name) !== -1;
     };
     this.getLayer = function (name) {
         var index = this.layers.map(function (e) { return e.name + (e.id ? "#" + e.id : "") }).indexOf(name);

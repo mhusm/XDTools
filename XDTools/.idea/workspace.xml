@@ -6,50 +6,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d3b228a-b937-4f5d-85b7-3c65d80b825d" name="Default" comment="">
-      <change type="DELETED" beforePath="Y:\master-thesis-nina\Report\images\charts\times.pdf" afterPath="" />
-      <change type="DELETED" beforePath="Y:\master-thesis-nina\Report\images\charts\years_of_xp_borderless.pdf" afterPath="" />
-      <change type="DELETED" beforePath="Y:\master-thesis-nina\XDTools\js\remote_xdc.js" afterPath="" />
-      <change type="DELETED" beforePath="Y:\master-thesis-nina\XDTools\js\remote_xdyt.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/completion_times.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/completion_times.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/debugging_easier.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/debugging_easier.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/debugging_efficient.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/debugging_efficient.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/devtools_xp.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/devtools_xp.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/implementing_easier.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/implementing_easier.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/implementing_efficient.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/implementing_efficient.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/n_emulated.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/n_emulated.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/prefer_debugging.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/prefer_debugging.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/prefer_implementing.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/prefer_implementing.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/student-work-template.pdf" afterPath="$PROJECT_DIR$/../Report/student-work-template.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/tool_general.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/tool_general.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/usefulness_tool.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/usefulness_tool.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/would_use_features.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/would_use_features.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/xdc_bug_comparison.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/xdc_bug_comparison.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/xdc_bug_features_used.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/xdc_bug_features_used.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/xdc_impl_comparison.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/xdc_impl_comparison.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/xdc_impl_features_used.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/xdc_impl_features_used.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/xdyt_bug_comparison.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/xdyt_bug_comparison.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/xdyt_bug_features_used.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/xdyt_bug_features_used.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/xdyt_impl_comparison.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/xdyt_impl_comparison.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/xdyt_impl_features_used.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/xdyt_impl_features_used.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/xp.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/xp.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/images/charts/years_of_xp.pdf" afterPath="$PROJECT_DIR$/../Report/images/charts/years_of_xp.pdf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Device.js" afterPath="$PROJECT_DIR$/js/Device.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/device-interaction.js" afterPath="$PROJECT_DIR$/js/device-interaction.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/device-management.js" afterPath="$PROJECT_DIR$/js/device-management.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/chapters/evaluation.aux" afterPath="$PROJECT_DIR$/../Report/chapters/evaluation.aux" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/chapters/evaluation.tex" afterPath="$PROJECT_DIR$/../Report/chapters/evaluation.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/function-debugging.js" afterPath="$PROJECT_DIR$/js/function-debugging.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/html-generation.js" afterPath="$PROJECT_DIR$/js/html-generation.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/index.js" afterPath="$PROJECT_DIR$/js/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/chapters/introduction.aux" afterPath="$PROJECT_DIR$/../Report/chapters/introduction.aux" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/chapters/introduction.tex" afterPath="$PROJECT_DIR$/../Report/chapters/introduction.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/javascript-console.js" afterPath="$PROJECT_DIR$/js/javascript-console.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/css-editor.js" afterPath="$PROJECT_DIR$/js/css-editor.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/remote.js" afterPath="$PROJECT_DIR$/js/remote.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/student-work-template.lof" afterPath="$PROJECT_DIR$/../Report/student-work-template.lof" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/student-work-template.log" afterPath="$PROJECT_DIR$/../Report/student-work-template.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/student-work-template.tex" afterPath="$PROJECT_DIR$/../Report/student-work-template.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/student-work-template.toc" afterPath="$PROJECT_DIR$/../Report/student-work-template.toc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Report/student-work-template.tps" afterPath="$PROJECT_DIR$/../Report/student-work-template.tps" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="master-thesis-nina.iws" />
@@ -71,11 +30,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="css-editor.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/css-editor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-12.551724">
+              <caret line="47" column="90" selection-start-line="47" selection-start-column="90" selection-end-line="47" selection-end-column="90" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="remote.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/remote.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="37" selection-start-line="4" selection-start-column="37" selection-end-line="4" selection-end-column="37" />
+            <state vertical-scroll-proportion="-11.379311">
+              <caret line="707" column="27" selection-start-line="707" selection-start-column="16" selection-end-line="707" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -94,8 +63,8 @@
       <file leaf-file-name="function-debugging.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/function-debugging.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-20.48276">
-              <caret line="62" column="45" selection-start-line="62" selection-start-column="45" selection-end-line="62" selection-end-column="45" />
+            <state vertical-scroll-proportion="-11.379311">
+              <caret line="51" column="104" selection-start-line="51" selection-start-column="104" selection-end-line="51" selection-end-column="104" />
               <folding />
             </state>
           </provider>
@@ -104,8 +73,8 @@
       <file leaf-file-name="Device.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/Device.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.379311">
-              <caret line="55" column="16" selection-start-line="55" selection-start-column="6" selection-end-line="55" selection-end-column="16" />
+            <state vertical-scroll-proportion="-20.51724">
+              <caret line="35" column="49" selection-start-line="35" selection-start-column="49" selection-end-line="35" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -154,8 +123,8 @@
       <file leaf-file-name="device-interaction.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/device-interaction.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.40120968">
-              <caret line="95" column="9" selection-start-line="95" selection-start-column="9" selection-end-line="95" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.7429435">
+              <caret line="275" column="115" selection-start-line="275" selection-start-column="115" selection-end-line="275" selection-end-column="115" />
               <folding />
             </state>
           </provider>
@@ -203,7 +172,6 @@
         <option value="$PROJECT_DIR$/results.txt" />
         <option value="$PROJECT_DIR$/js/event-capturing.js" />
         <option value="$PROJECT_DIR$/js/object-observing.js" />
-        <option value="$PROJECT_DIR$/js/css-editor.js" />
         <option value="$PROJECT_DIR$/Chrome Extension/devtools.js" />
         <option value="$PROJECT_DIR$/js/command-management.js" />
         <option value="$PROJECT_DIR$/js/options.js" />
@@ -213,11 +181,12 @@
         <option value="$PROJECT_DIR$/js/function-debugging.js" />
         <option value="$PROJECT_DIR$/js/html-generation.js" />
         <option value="$PROJECT_DIR$/js/javascript-console.js" />
-        <option value="$PROJECT_DIR$/js/remote.js" />
         <option value="$PROJECT_DIR$/js/device-management.js" />
-        <option value="$PROJECT_DIR$/js/Device.js" />
         <option value="$PROJECT_DIR$/js/index.js" />
         <option value="$PROJECT_DIR$/js/device-interaction.js" />
+        <option value="$PROJECT_DIR$/js/remote.js" />
+        <option value="$PROJECT_DIR$/js/Device.js" />
+        <option value="$PROJECT_DIR$/js/css-editor.js" />
       </list>
     </option>
   </component>
@@ -390,7 +359,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1616" extended-state="7" />
+    <frame x="-8" y="-8" width="2576" height="1616" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.08510638" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -709,26 +678,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/css-editor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="269" column="9" selection-start-line="269" selection-start-column="9" selection-end-line="269" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/event-capturing.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="91" column="0" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/remote.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="37" selection-start-line="4" selection-start-column="37" selection-end-line="4" selection-end-column="37" />
           <folding />
         </state>
       </provider>
@@ -757,14 +710,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/function-debugging.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-20.48276">
-          <caret line="62" column="45" selection-start-line="62" selection-start-column="45" selection-end-line="62" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/device-management.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -781,18 +726,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/Device.js">
+    <entry file="file://$PROJECT_DIR$/js/function-debugging.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-11.379311">
-          <caret line="55" column="16" selection-start-line="55" selection-start-column="6" selection-end-line="55" selection-end-column="16" />
+          <caret line="51" column="104" selection-start-line="51" selection-start-column="104" selection-end-line="51" selection-end-column="104" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/remote.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.379311">
+          <caret line="707" column="27" selection-start-line="707" selection-start-column="16" selection-end-line="707" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Device.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-20.51724">
+          <caret line="35" column="49" selection-start-line="35" selection-start-column="49" selection-end-line="35" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/css-editor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.551724">
+          <caret line="47" column="90" selection-start-line="47" selection-start-column="90" selection-end-line="47" selection-end-column="90" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/device-interaction.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40120968">
-          <caret line="95" column="9" selection-start-line="95" selection-start-column="9" selection-end-line="95" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.7429435">
+          <caret line="275" column="115" selection-start-line="275" selection-start-column="115" selection-end-line="275" selection-end-column="115" />
           <folding />
         </state>
       </provider>
