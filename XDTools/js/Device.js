@@ -157,11 +157,6 @@ function Device(id, url, layer, top, left, isRemote) {
         });
         this.left = x;
         this.top = y;
-        var index = devicePositions.map(function (e) { return e.id; }).indexOf(this.id);
-        devicePositions[index].x0 = this.left;
-        devicePositions[index].y0 = this.top;
-        devicePositions[index].x1 = this.left + this.width * this.scaling;
-        devicePositions[index].y1 = this.top + this.height * this.scaling;
     };
 }
 
@@ -179,17 +174,15 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
     this.$device = null;
     this.originalUrl = url;
     $("#function-debugging-overlay").removeClass("hidden");
-    devicePositions.push({
-        id: this.id,
-        x0: left,
-        x1: left + width * scaling,
-        y0: top,
-        y1: top + height * scaling
-    });
     this.toString = function () {
         return JSON.stringify(this.getDevice());
     };
     this.setUrl = function (url) {
+        if (url.indexOf(this.id) === -1) {
+            this.originalUrl = url;
+            this.oldURL = url;
+            this.originalHost = "http://" + new URL(url).hostname;
+        }
         if (url !== this.url) {
             this.url = url;
             var mainDevice = this.id;
@@ -228,9 +221,6 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
             "transform": "scale(" + scale + ")"
         });
         this.$device.find("h4").css("max-width", "calc(" + (this.width * scale) + "px - 100px)");
-        var index = devicePositions.map(function (e) { return e.id; }).indexOf(this.id);
-        devicePositions[index].x1 = this.left + this.width * scale;
-        devicePositions[index].y1 = this.top + this.height * scale;
     };
     //Update the layer of the device
     this.setLayer = function (layer) {
@@ -239,6 +229,11 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
     };
     //Load an URL on the device
     this.loadURL = function (url) {
+        if (url.indexOf(this.id) === -1) {
+            this.originalUrl = url;
+            this.originalHost = "http://" + new URL(url).hostname;
+            this.oldURL = url;
+        }
         var rewrittenURL = rewriteURL(url, this.id);
         if (rewrittenURL !== this.url) {
             $("#function-debugging-overlay").removeClass("hidden");
@@ -271,9 +266,6 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
         this.width = this.height;
         this.height = oldWidth;
         this.$device.find(".device-resolution").html("<b>Resolution: </b>" + this.width + " x " + this.height);
-        var index = devicePositions.map(function (e) { return e.id; }).indexOf(this.id);
-        devicePositions[index].x1 = this.left + this.width * this.scaling;
-        devicePositions[index].y1 = this.top + this.height * this.scaling;
     };
     //Create the HTML etc. for the device
     this.create = function () {
@@ -315,6 +307,10 @@ function RemoteDevice(id, url, layer, top, left, isRemote) {
     };
     //Load an URL on the device
     this.loadURL = function (url) {
+        if (url.indexOf(this.id) === -1) {
+            this.originalUrl = url;
+            this.originalHost = "http://" + new URL(url).hostname;
+        }
         this.url = url;
         this.$device.find(".url").val(url);
         socket.emit("load", url, this.id);

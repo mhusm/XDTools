@@ -112,7 +112,7 @@
 
 \chapter*{Abstract}
 
-Nowadays, many people have access to multiple devices simultaneously. However, those devices are rarely used in a collaborative fashion. Cross-device applications aim to facilitate such collaborations by distributing interfaces among devices and synchronizing data between them. Recently, many frameworks for developing cross-device applications have been created. Despite this abundance of frameworks, only few cross-device applications are used in the wild. One reason for the limited proliferation of cross-device applications could be the limited support for testing and debugging them. Without proper testing, releasing a high-quality product is a difficult task. Our analysis has shown that existing cross-device frameworks provide little to no support for testing and debugging and debugging tools for testing traditional and responsive web applications are typically not well suited for debugging multiple devices simultaneously. In this thesis, we have developed XDTools, a set of tools that supports the testing and debugging of cross-device applications, in particular web-based applications. XDTools extends traditional debugging tools with support for multiple devices, e.g. the JavaScript console available in browsers, and also introduces some new tools, e.g. connection management. In order to inform the design and as a preliminary evaluation of XDTools, we have developed two sample applications that were tested with XDTools during development. We have also conducted a user study where participants used XDTools to complete tasks in a cross-device environment. The study showed promising results and some enthusiastic feedback was provided. Most of the participants appreciated the tools provided by XDTools and found that they are well suited for cross-device application testing. Thus, XDTools already improves the debugging process of cross-device applications and serves as a basis for further research in cross-device application testing.
+Nowadays, many people have access to multiple devices simultaneously. However, those devices are mostly used independently. Cross-device applications aim to enable better collaboration between devices by distributing interfaces among devices and synchronizing data between them. Recently, many frameworks for developing such applications have been created. Despite this abundance of frameworks, cross-device applications are rarely used in the wild. One reason for the weak proliferation of cross-device applications could be the limited support for testing and debugging them. Without proper testing, releasing a high-quality product is a risky undertaking. Our analysis has shown that existing cross-device frameworks provide little to no support for testing and debugging. Also, debugging tools for testing traditional and responsive web applications are typically not well-suited for debugging multiple devices simultaneously. In this thesis, we have developed XDTools, a set of tools that support the testing and debugging of web-based cross-device applications. XDTools extends traditional debugging tools with support for multiple devices, like the JavaScript console available in browsers, and also introduces some new tools, for example connection management. In order to inform the design and as a preliminary evaluation of XDTools, we have developed two sample applications that were tested with XDTools during development. We have also conducted a user study where participants used XDTools to complete tasks in a cross-device environment. The study showed promising results and we have received enthusiastic feedback. Most of the participants appreciated the tools provided by XDTools and found that they were well-suited for cross-device application testing. Thus, XDTools improves the debugging process of cross-device applications and serves as a basis for further research in cross-device application testing.
 
 \tableofcontents
 
@@ -153,16 +153,26 @@ Nowadays, many people have access to multiple devices simultaneously. However, t
 
 
 \listoffigures
-\listoftables
 
 \chapter*{Acknowledgements}
 
-TODO
+\begin{center}
+	\textbf{I would like to thank:}
+\end{center}
+
+\textit{Maria Husmann}, for her support, her reviews and her great ideas.
+
+\textit{Prof. Dr. Moira Norrie}, head of the GlobIS research group, for allowing me to write this thesis.
+
+\textit{All participants of the user study}, for their time and effort.
 
 \newpage
 \thispagestyle{empty}
 
 \bibliographystyle{plain}
 \bibliography{bibliography}
+
+\newpage
+\includepdf[pages={1-}]{declaration_of_originality.pdf}
 
 \end{document} 

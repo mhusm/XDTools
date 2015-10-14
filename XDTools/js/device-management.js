@@ -2,8 +2,7 @@
     This file covers everything related to creating/removing devices and saving custom devices.
 */
 
-var mainDevices = [],
-    devicePositions = [];
+var mainDevices = [];
 
 $(document).ready(function () {
 
@@ -147,8 +146,8 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
         $("#sessions").find(".auto-connect input").each(function () {
             if ($(this).is(":checked")) {
                 foundAutoConnect = true;
-                device.$device.find(".main input").click();
-                device.$device.find("select").val(id);
+                //device.$device.find(".main input").click();
+                device.$device.find("select").val($(this).closest(".session").find(".main-device").text());
                 connectDevice(id, this.dataset.deviceId);
             }
         });

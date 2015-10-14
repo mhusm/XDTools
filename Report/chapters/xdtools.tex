@@ -1,6 +1,6 @@
 \chapter{XDTools}
 
-XDTools is an integrated set of tools that can be loaded directly into the browser. XDTools allows developers to test and debug their cross-device applications in multiple ways. The following sections will describe XDTools in detail.
+XDTools is an integrated set of cross-device testing and debugging tools that can be loaded directly into the browser. The following sections will describe XDTools in detail.
 
 \section{Overview of Features}
 
@@ -8,7 +8,7 @@ In Figure~\ref{fig:complete}, the complete interface of XDTools except for recor
 
 \begin{figure}[H]
   \centering
-    \includegraphics[width=1.0\textwidth]{images/screenshots/complete_3.png}
+    \includegraphics[width=0.95\textwidth]{images/screenshots/complete_3.png}
 	\caption[Screenshot: Complete Interface]{The complete interface (without record and replay)}
 	\label{fig:complete}
 \end{figure}
@@ -31,27 +31,21 @@ Figure~\ref{fig:complete_remote} shows a picture of the remote device that is co
 
 \begin{figure}[H]
   \centering
-    \includegraphics[width=1.0\textwidth]{images/screenshots/remote_device.jpg}
+    \includegraphics[width=0.95\textwidth]{images/screenshots/remote_device.jpg}
 	\caption[Screenshot: Remote Device]{The connected remote device}
 	\label{fig:complete_remote}
 \end{figure}
 
-XDTools also provides some options for disabling individual features, such as the shared JavaScript console. If a feature is disabled, the respective interface component is simply hidden. The options also show all stored custom devices, device configurations and event sequences and allow the developer to delete any of them. A screenshot of the options can be seen in Figure~\ref{fig:options}.
+XDTools also provides some options for disabling individual features, such as record and replay. If a feature is disabled, the respective interface components are simply hidden. The options also show all stored custom devices, device configurations and event sequences and allow the developer to delete any of them. A screenshot of the options can be seen in Figure~\ref{fig:options}.
 
 \begin{figure}[H]
   \centering
-    \includegraphics[width=0.9\textwidth]{images/screenshots/options.png}
+    \includegraphics[width=0.75\textwidth]{images/screenshots/options.png}
 	\caption[Screenshot: Options]{Options of our main application}
 	\label{fig:options}
 \end{figure}
 
-Devices can be activated and deactivated. If a device is inactive, it is not included in the following features:
-\begin{itemize}
-	\item Shared JavaScript console
-	\item Shared CSS editor
-	\item Function debugging
-\end{itemize}
-All those features perform some interactions with the devices automatically, thus they should ignore inactive devices. Other features like record and replay still include inactive devices because manual interaction is needed before something happens with the device. Devices can be activated and deactivated by clicking on their name/ID that is displayed above the JavaScript console. When the device is active, the background of its name is in the color of the device, otherwise it is grey and the text color is in the color of the device. Figure~\ref{fig:active_inactive} illustrates the difference between active and inactive devices. The first device is inactive, the other two devices are active.
+Devices can be activated and deactivated by clicking on their name/ID that is displayed above the JavaScript console. When the device is active, the background of its name is in the color of the device, otherwise it is grey and the text color is in the color of the device. Figure~\ref{fig:active_inactive} illustrates the difference between active and inactive devices. The first device is inactive, the other two devices are active.
 
 \begin{figure}[H]
   \centering
@@ -60,25 +54,33 @@ All those features perform some interactions with the devices automatically, thu
 	\label{fig:active_inactive}
 \end{figure}
 
+If a device is inactive, it is not included in the following features:
+\begin{itemize}
+	\item Shared JavaScript console
+	\item Shared CSS editor
+	\item Function debugging
+\end{itemize}
+All those features perform some interactions with the devices automatically, thus they should ignore inactive devices. Other features like record and replay still include inactive devices because manual interaction is needed before something happens with the device. 
+
 \section{Emulation of Multiple Devices}
 
 XDTools allows the developer to emulate multiple devices simultaneously. The developer can either select the devices that they want to emulate from a list of existing devices or create a custom device. The developer can create a custom device just for one-time use, or they can save it to the list of existing devices for later use. This allows developers to quickly extend the devices they have access to with new devices. Devices can be assigned to one of four categories:
 \begin{itemize}
-	\item Desktop devices: For simplicity, this category includes desktop PCs as well as laptops.
+	\item Desktop devices: For simplicity, this category includes all PCs, including laptops.
 	\item Tablets
 	\item Mobile phones
 	\item Wearables
 \end{itemize}
-Although some devices may not easily be classified or fit into multiple categories, e.g. 2-in-1 devices that can either be used as a tablet or laptop by just plugging in a keyboard, those categories give a rough overview of the different types of devices. This categorization of devices also makes it easier for developers to emulate different types of devices without having to know any exact device names. By just adding some devices from each category, the developer can make sure that a large range of devices is covered, as devices in the same category typically have similar properties such as screen size and input modalities. The list of existing devices includes multiple devices from each of those categories. For the desktop devices, the list provides some typical resolutions of desktop PCs and laptops. The list for tablets and mobile phones includes most of the well-known devices in that area. The list of wearables so far only includes some smart watches, as most other wearables do not have access to a modern web browser (yet). Figure~\ref{fig:adding_emulated} shows the menu for adding emulated devices while the developer is adding a device from the list of predefined devices.
+Although some devices may not easily be classified or fit into multiple categories, e.g. 2-in-1 devices that can either be used as a tablet or laptop by just plugging in a keyboard, those categories give a rough overview of the different types of devices. This categorization of devices makes it easier for developers to emulate different types of devices without having to know any exact device names. By just adding some devices from each category, the developer can make sure that a large range of devices is covered. The list of existing devices includes multiple devices from each of those categories. For the desktop devices, the list just provides some typical resolutions. The list for tablets and mobile phones includes most of the well-known devices in that area. The list of wearables so far only includes some smart watches, as most other wearables do not have access to a modern web browser (yet). Figure~\ref{fig:adding_emulated} shows the menu for adding emulated devices while the developer is adding a device from the list of predefined devices.
 
 \begin{figure}[H]
   \centering
-    \includegraphics[width=0.8\textwidth]{images/screenshots/adding_device_predefined.png}
+    \includegraphics[width=0.75\textwidth]{images/screenshots/adding_device_predefined.png}
 	\caption[Screenshot: Adding emulated devices]{Adding an emulated device}
 	\label{fig:adding_emulated}
 \end{figure}
 
-Once the developer has created an emulated device (see Figure~\ref{fig:emulated_device}), the device is assigned a unique ID and they can move it to the desired location on the screen. Instead of ordering devices automatically, we chose to give the developer the freedom to choose how to place the emulated devices. This makes it easier to accurately simulate specific scenarios, e.g. a presentation room where two large screens are placed next to each other. To conquer the challenge of limited screen size, all emulated devices can be scaled up and down. Scaling a device does not change the resolution of the device and thus has no influence on the look of the application. This allows the developer to have more space available for devices. If the developer has difficulties performing an interaction on a device because it is scaled down, they can just scale it up again. However, dynamically changing the resolution of an emulated device is also possible. The developer can continuously increase or decrease the resolution of the device to immediately see what the application looks like on different resolutions. Finally, the developer can also change the layer of the device. Changing the layer of a device essentially moves the device to the front or back, thus devices can overlap each other and the developer can move the device that they want to use to the front.
+Before an emulated device is created, it is assigned a unique ID. Once it is created (see Figure~\ref{fig:emulated_device}), the developer can move it to the desired location on the screen. Instead of ordering devices automatically, we decided to give the developer the freedom to choose how to order the emulated devices. This makes it easier to accurately simulate specific scenarios, e.g. a presentation room where two large screens are placed next to each other. To conquer the challenge of limited screen size, all emulated devices can be scaled up and down. Scaling a device does not change the resolution of the device and thus has no influence on the look of the application. This allows the developer to have more space available for devices. If the developer has difficulties performing an interaction on a device because it is scaled down, they can just scale it up again. However, dynamically changing the resolution of an emulated device is also possible. The developer can continuously increase or decrease the resolution of the device to immediately see what the application looks like on different resolutions. Finally, the developer can also change the layer of the device. Changing the layer of a device essentially moves the device to the front or back, thus devices can overlap each other and the developer can move the device that they want to use to the front.
 
 \begin{figure}[H]
   \centering
@@ -110,11 +112,11 @@ Finally, XDTools also includes a mechanism that prevents the sharing of local re
  
 \section{Easy Integration of Real and Emulated Devices}
 
-QR codes have become increasingly popular over the last few years and almost all devices nowadays are equipped with at least one camera. Thus, XDTools includes a QR code that can be displayed and scanned by developers to connect a real device to XDTools. As a fallback mechanisms, devices can also be connected by typing a URL in the browser of the device. This makes it easy and efficient to connect a large number of real devices to XDTools. When the URL is opened, the device loads the application under test. The real devices only show the application under test and no additional interface elements. The developer can use the application on the real device, but everything related to testing and debugging is coordinated through the developer's machine running XDTools. Each connected device is represented by a proxy within XDTools. The proxy of the real device also contains a settings menu similar to the one of an emulated device. However, the settings menu is missing a few things:
+As mentioned before, the developer should be able to connect real devices to XDTools. QR codes have become increasingly popular over the last few years and almost all devices nowadays are equipped with at least one camera. Thus, XDTools includes a QR code that can be displayed and scanned by developers to connect a real device to XDTools. As a fallback mechanism, devices can also be connected by typing a URL in the browser of the device. This makes it easy and efficient to connect a large number of real devices to XDTools. When the URL is opened, the device loads the application under test. The real devices only show the application under test and no additional interface elements. Thus, the developer can use the application on the real device, but everything related to testing and debugging is coordinated through the PC running XDTools. Each connected device is represented by a proxy within XDTools. The proxy of the real device also contains a settings menu similar to the one of an emulated device. However, the settings menu is missing a few things:
 \begin{itemize}
 	\item Scaling of the device: There is no need to scale real devices, as the application under test is shown on the device itself.
 	\item Switching orientation: The orientation of a real device can be switched on the real device itself by simply rotating the real device.
-	\item Inspecting the HTML: The developer's machine has no access to the HTML of the real device, thus it cannot be inspected.
+	\item Inspecting the HTML: The developer's PC has no access to the HTML of the real device, thus it cannot be inspected.
 \end{itemize}
 Figure~\ref{fig:settings_menu_remote} shows the settings menu of a remote device. The settings menu only contains the interface elements for setting the URL of the device, refreshing the device, changing the layer of the device and connecting the device to other devices.
 
@@ -131,17 +133,17 @@ The developer can use emulated devices alongside real devices. Thus, XDTools all
 
 \section{Easy Switching of Device Configurations}
 
-XDTools allows the developer to create some emulated devices, save this device configuration for later, and then re-use it. A device configuration stores the following information for each emulated device:
+XDTools allows the developer to create some emulated devices, save this device configuration for later, and then re-use it. For each emulated device in a device configuration, the following information is stored:
 \begin{itemize}
-	\item The device's name and ID.
-	\item The resolution of the device.
-	\item The position of the device.
-	\item The scaling of the device.
-	\item The layer of the device.
+	\item Its ID.
+	\item Its resolution.
+	\item Its position.
+	\item Its scaling.
+	\item Its layer.
 \end{itemize}
-Storing device configurations makes it easy for the developer to re-use device configurations and switch between different device configurations efficiently. Thus, testing a cross-device application with many different device scenarios can be done without much effort. A user can just load one device configuration, try out the application and switch to the next device configuration if everything works as expected. The developer can also create a device configuration where only the static devices used with the application under test are saved in the configuration and dynamically add more devices.
+Storing device configurations makes it easy for the developer to re-use device configurations and switch between different device configurations efficiently. Thus, testing a cross-device application with many different device scenarios can be done without much effort. A user can just load one device configuration, try out the application and switch to the next device configuration if everything works as expected. The developer can also create a device configuration where only static devices used with the application under test are saved in the configuration and dynamically add more devices.
 
-If the developer wants to save a device configuration, they can type the name of the device configuration into an input field and then click the save button to save the current device configuration under that name. If they want to load a device configuration, they can type its name into the same input field and click the load button to load the device configuration with that name (if it exists). Autocompletion is used for providing suggestions for existing device configurations that could be loaded (see Figure~\ref{fig:session_management}). 
+If the developer wants to save a device configuration, they can type the name of the device configuration into an input field and then click the save button to save the current device configuration under that name. If they want to load a device configuration instead, they can type its name into the same input field and click the load button to load the device configuration with that name (if it exists). Autocompletion is used for providing suggestions for device configurations that could be loaded (see Figure~\ref{fig:session_management}). 
 
 \begin{figure}[H]
   \centering
@@ -156,7 +158,7 @@ In the previous chapter, we described the requirements for a tight integration o
 
 \subsection{Shared JavaScript Console}
 
-XDTools includes a JavaScript console that is shared between all emulated and real devices. Each emulated and real device forwards all logging messages to the console. The console then aggregates the logging messages from all devices. Each message is displayed in the color of the device that it was sent from. This color-coding makes it trivial to identify the device a message originated from. Apart from forwarding logging messages, the devices also forward their JavaScript errors. Whenever a JavaScript error occurs, the JavaScript error message is sent to the console, together with the stack trace if available. When a JavaScript error with stack trace is received by the console, the stack trace is split into multiple lines where each line represents one entry of the stack trace. By default, the developer only sees the error message itself without the stack trace. By clicking on a button next to the error message, the developer can extend and collapse the stack trace. Figure~\ref{fig:stack_trace} shows what such a stack trace looks like in the JavaScript console.
+XDTools includes a JavaScript console that is shared between all emulated and real devices. Each emulated and real device forwards all logging messages to the console which then aggregates these messages. Each message is displayed in the color of the device that it was sent from. This color-coding makes it trivial to identify the device a message originated from. Apart from forwarding logging messages, the devices also forward their JavaScript errors. Whenever a JavaScript error occurs, the JavaScript error message is sent to the console, together with the stack trace if available. When a JavaScript error with stack trace is received by the console, the stack trace is split into multiple lines where each line represents one entry of the stack trace. By default, the developer only sees the error message itself without the stack trace. By clicking on a button next to the error message, the developer can extend and collapse the stack trace. Figure~\ref{fig:stack_trace} shows what such a stack trace looks like in the JavaScript console.
 
 \begin{figure}[H]
   \centering
@@ -174,13 +176,13 @@ For easier identification of the type of a message, all messages are assigned to
 \end{itemize}
 Depending on the type of message, a different symbol is used in front of the message when it is displayed in the shared JavaScript console. This makes it easy to see if a message is an error or just a simple logging message.
 
-The large number of messages that are displayed in the console due to the aggregation of many devices makes it difficult to look for a specific message. To solve this problem, the messages in the console can be filtered. The messages in the console can be filtered by the type of message, e.g. show only error messages, or by text. If the console messages are filtered by text, all messages that do not contain the text to filter by anywhere are hidden. If the filter is removed, the hidden messages are shown again. If a device is deactivated, it does not forward any messages or errors anymore and all existing messages are filtered out until the device is activated again. 
+Due to the aggregation of multiple devices, a large number of messages is displayed in the console, making it difficult to look for a specific message. To solve this problem, the messages in the console can be filtered by the type of message, e.g. show only error messages, or by text. If the console messages are filtered by text, all messages that do not contain the text to filter by anywhere are hidden. If the filter is removed, the hidden messages are shown again. If a device is deactivated, it does not forward any messages or errors anymore and all existing messages are filtered out until the device is activated again. 
 
-The console also allows sending commands to multiple devices. If the developer wants to send a command to the devices, they can type the command into an input field below the console and press the enter key. The developer can either send the command to all devices or they can deactivate some devices and only send the message to a subset of devices. Being able to send a command only to a subset of devices is important in a cross-device setting because some commands might only make sense on some devices and executing them on all devices could lead to potential errors or a decrease in performance. The return values of commands are also displayed in the console, again color-coded to match the device they came from. Thus, otherwise complicated tasks like checking the value of a global variable on all devices become trivial. The console works exactly the same for emulated and real devices. This aggregation of console outputs from both emulated and real devices at least partially eliminates the need for remote debugging.
+The console also allows sending commands to multiple devices. If the developer wants to send a command to the devices, they can type the command into an input field below the console and press the enter key. The developer can either send the command to all devices or they can deactivate some devices and only send the message to a subset of devices. Being able to send a command only to a subset of devices is important in a cross-device setting because some commands might only make sense on some devices and executing them on all devices could lead to potential errors or a decrease in performance. The return values of commands are also displayed in the console, again color-coded to match the device they came from. Thus, otherwise time-consuming tasks like checking the value of a global variable on all devices become trivial. The console works exactly the same for emulated and real devices. This aggregation of console outputs from both emulated and real devices at least partially eliminates the need for remote debugging.
 
 The shared JavaScript console also has a history function similar to the console in Chrome DevTools. By using the arrow keys, the developer can navigate through the history and call previous commands again.
 
-The screenshot in Figure~\ref{fig:js_console} shows the shared JavaScript console including a few examples of how to use it. First, the developer tries to call a function but makes a typo. Because the function with the typo in the name does not exist, an error message is displayed by all devices that received the command. The developer then notices the typo, types the correct function and sees the return values of the function (the coordinates of a cinema) on the devices. Finally, the developer wants to see which roles have been assigned to the devices. They type the name of the variable that stores the roles and the value of this variableis shown in the console for all devices.
+The screenshot in Figure~\ref{fig:js_console} shows the shared JavaScript console including a few examples of how to use it. First, the developer tries to call a function but makes a typo. Because the function with the typo in the name does not exist, an error message is displayed by all devices. The developer then notices the typo, types the correct function and sees the return values of the function (the coordinates of a cinema). Finally, the developer wants to see which roles have been assigned to the devices. They type the name of the variable that stores the roles and the value of this variable is shown in the console.
 
 \begin{figure}[H]
   \centering
@@ -193,9 +195,9 @@ The screenshot in Figure~\ref{fig:js_console} shows the shared JavaScript consol
 
 Function debugging allows developers to debug a function on multiple emulated devices without having to add breakpoints on each device individually.
 
-In an area at the bottom of XDTools, the developer has access to an input field where they can type the name of a function that they want to debug. Below the input field, the list of functions that are currently being debugged is shown. Whenever one of the debugged functions is called on any device, the debugger pauses at the beginning of the function and the developer can perform their debugging actions. The device on which the function is called is highlighted until the function call returns. This makes it easy to identify the device that is currently being debugged.
+If the developer opens the Chrome DevTools, an additional area at the bottom of XDTools appears. In this area, the developer has access to an input field where they can type the name of a function that they want to debug. Below the input field, the list of functions that are currently being debugged is shown. Whenever one of the debugged functions is called on any device, the debugger pauses at the beginning of the function and the developer can perform their debugging actions. The device on which the function is called is highlighted until the function call returns, making it easy to identify the device that is currently being debugged.
 
-Figure~\ref{fig:function_debugging_complete} shows a screenshot while a function is being debugged. In the screenshot the highlighted device, the Chrome DevTools with the source code of the debugged function and the list of debugged functions can be seen.
+Figure~\ref{fig:function_debugging_complete} shows a screenshot while a function is being debugged. The screenshot shows the highlighted device, the Chrome DevTools with the source code of the debugged function and the list of debugged functions.
 
 \begin{figure}[H]
   \centering
@@ -264,9 +266,7 @@ So far, automatic connection is only possible for applications that connect via 
 
 \section{Coordinated Record and Replay}
 
-XDTools allows the developer to record a sequence of interactions on a device and replay them. Recording can be started on one device at any time. Once recording has started, the developer can perform the desired interactions on the device. After finishing recording, the interactions can be replayed on the same device, moved to other devices, or saved for later.  Furthermore, event sequences can be cut into multiple parts. The timing of the replays can be configured arbitrarily by dragging and dropping event sequences. This allows the developer to configure replays in many different ways: They can be executed in parallel, one after another, or anything in-between. The replays can be started on all devices simultaneously or on one device at a time. This makes it easy to simulate multiple users and devices. Since the events contained in an event sequence are performed by a real user, i.e. the developer, the timing of the individual events in an event sequence is very realistic.
-
-After a device finishes recording, the event sequence is visualized (Figure~\ref{fig:record_replay}).
+XDTools allows the developer to record a sequence of interactions on a device and replay it. Recording can be started on a device at any time. Once recording has started, the developer can perform the desired interactions on the device. After a device finishes recording, the event sequence is visualized (Figure~\ref{fig:record_replay}). The interactions can then be replayed on the same device, moved to other devices, or saved for later.  Furthermore, event sequences can be cut into multiple parts. The timing of the replays can be configured arbitrarily by dragging and dropping event sequences. This allows the developer to configure replays in many different ways: They can be executed in parallel, one after another, or anything in-between. The replays can be started on all devices simultaneously or on one device at a time. This makes it easy to simulate multiple users and devices. Since the events in an event sequence are performed by a real user, i.e. the developer, the timing of the individual events in an event sequence is very realistic.
 
 \begin{figure}[H]
   \centering
@@ -275,4 +275,4 @@ After a device finishes recording, the event sequence is visualized (Figure~\ref
 	\label{fig:record_replay}
 \end{figure}
 
-The developer can also add breakpoints to the replay. Next to the event visualizations, a timeline is shown as well as a narrow empty column where the developer can click to add a breakpoint at a certain point in time. As soon as all events that occur before this point of time have been replayed, the replay pauses and the developer can inspect the state of the devices. If a breakpoint is reached, the breakpoint that was reached is highlighted. After the developer chooses to continue, replay is continued until the next breakpoint is reached. After the last breakpoint has been reached, the replay continues until all events have been replayed. The developer can also add breaks of one second between events to delay all following events by clicking on a button and dragging the mouse to the place where the break should be inserted. This allows the developer to spend some more time looking at the application under test before the replay continues without having to set breakpoints. 
+The developer can also add breakpoints to the replay. Next to the event visualizations, a timeline is shown as well as a narrow column where the developer can click to add a breakpoint at a certain point in time. As soon as all events that occur before this point of time have been replayed, the replay pauses and the developer can inspect the state of the devices. If a breakpoint is reached, it is highlighted. After the developer chooses to continue, replay is continued until the next breakpoint is reached. After the last breakpoint has been reached, the replay continues until all events have been replayed. The developer can also add breaks of one second between events to delay all following events by clicking on a button and dragging the mouse to the place where the break should be inserted. This allows the developer to spend some more time looking at the application under test before the replay continues without having to set breakpoints. 

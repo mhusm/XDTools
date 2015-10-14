@@ -27,15 +27,24 @@ $(document).ready(function () {
         activeDevices[device.id] = device;
         device.create();
         device.disconnect();
+        var foundAutoConnect = false;
         $("#sessions").find(".auto-connect input").each(function () {
             if ($(this).is(":checked")) {
+                foundAutoConnect = true;
+                //device.$device.find(".main input").click();
+                device.$device.find("select").val($(this).closest(".session").find(".main-device").text());
                 connectDevice(id, this.dataset.deviceId);
             }
         });
+        if (!foundAutoConnect) {
+            $(".session input[data-device-id='" + device.id + "']").click();
+        }
     });
 
     socket.on("remoteDeviceDisconnected", function (id) {
-        deleteDevice(id);
+        if (activeDevices[id]) {
+            deleteDevice(id);
+        }
     });
 
     //Make elements non-draggable after dragging

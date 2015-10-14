@@ -2,7 +2,7 @@ function getConnectionURL() {
     //TODO: adjust implementation of this function to connect devices to each other:
     //      Adjust IP to the IP where the application is running
     //      Adjust URL if you are running another application (possibly from another framework)
-    return "http://129.132.173.2:8084/index.html?connect=" + XDmvc.deviceId;
+    return "http://129.132.173.2:8083/index.html?connect=" + XDmvc.deviceId;
 }
 
 var XDTest = {
@@ -987,28 +987,6 @@ function initialize() {
                 if (!XDTest.debuggedFunctions[command.functionName]) {
                     var originalFunction = eval(command.functionName);
                     var newFunction = function () {
-                        /*
-                        var originalArguments = arguments;
-                        var func = function (ev) {
-                            try {
-                                originalFunction.apply(this, originalArguments);
-                            }
-                            finally {
-                                var newCommand = {
-                                    "name": "functionExecuted",
-                                    "functionName": command.functionName
-                                };
-                                window.parent.postMessage(JSON.stringify(newCommand), "*");
-                                window.removeEventListener("message", func, false);
-                            }
-                        };
-                        //window.addEventListener("message", func, false);
-                        var newCommand = {
-                            "name": "functionBreakpointReached",
-                            "functionName": command.functionName
-                        };
-                        window.parent.postMessage(JSON.stringify(newCommand), "*");
-                        */
                         var newEl = document.createElement("div");
                         newEl.style.width = "100%";
                         newEl.style.height = "100%";

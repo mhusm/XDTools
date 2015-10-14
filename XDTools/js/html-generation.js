@@ -151,12 +151,6 @@ var HTML = {
             "<button type='button' class='btn btn-sm btn-default inspect-function'>Inspect</button>" +
             "<hr /></div>";
     },
-    ObservedObject: function (selectedLayer, objectName) {
-        return "<div class='object' data-layer='" + selectedLayer + "'>" + "" +
-            "<span class='name'>" + objectName + "</span>" +
-            "<span class='glyphicon glyphicon-remove remove-object'></span>" +
-            "<hr /></div>";
-    },
     SequenceButtons: function () {
         return "<button class='btn btn-default btn-sm seq-remove-button'>" +
         "<span class='glyphicon glyphicon-remove'></span>" +

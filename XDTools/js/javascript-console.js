@@ -105,6 +105,7 @@ function JavaScriptConsole() {
                 activeDevices[this.dataset.deviceId].sendCommand(command2);
             });
         }
+        this.applyFilter();
     };
 
     this.appendMessage = function (msg, deviceID, type) {
@@ -114,10 +115,7 @@ function JavaScriptConsole() {
             message = message + "<span class='content'>" + process(msg) + "</span></div>";
             $(message).appendTo(this.$history).css("color", "hsla(" + colors[index].color + ", 60%, 50%, 1)");
             this.scrollToBottom();
-            if ($("#filter").val() !== "") {
-                this.filterByName($("#filter").val());
-            }
-            this.filterByClass(this.$jsConsole.find(".category.marked").data("class"));
+            this.applyFilter();
         }
     };
 
@@ -145,8 +143,6 @@ function JavaScriptConsole() {
                 splittedError = msg.split(" at "),
                 message = "<div class='history-line' data-device-id='" + deviceID + "'><span class='error-line'><span class='glyphicon glyphicon-remove-sign'></span> </span>";
             if (splittedError.length > 1) {
-                var func = splittedError[1].substring(0, splittedError[1].indexOf(" "));
-                splittedError[1] = splittedError[1].replace(func, "<span class='error-function'>" + func + "</span>");
                 message = message + "<span class='content'>" + splittedError[0] + "</span><span class='glyphicon glyphicon-collapse-down collapse-stack'></span><span class='stack'>";
                 for (var i = 1, j = splittedError.length; i < j; ++i) {
                     message = message + "<div class='stack-line'>at " + splittedError[i] + "</div>";
@@ -156,16 +152,17 @@ function JavaScriptConsole() {
             else {
                 message = message + "<span class='content'>" + splittedError[0] + "</span></div>";
             }
-            $(message).appendTo(this.$history).css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)")
-                .find(".error-function").popover({
-                    placement: 'bottom',
-                    container: '.history-line[data-device-id="' + deviceID + '"]',
-                    trigger: 'click',
-                    html: true,
-                    content: "<button type='button' class='btn btn-default btn-sm debug-js-error'>Debug</button>"
-                });
+            $(message).appendTo(this.$history).css("color", "hsla(" + colors[index].color + ", 70%, 50%, 1)");
             this.scrollToBottom();
+            this.applyFilter();
         }
+    };
+
+    this.applyFilter = function() {
+        if ($("#filter").val() !== "") {
+            this.filterByName($("#filter").val());
+        }
+        this.filterByClass(this.$jsConsole.find(".category.marked").data("class"));
     };
 }
 
@@ -178,43 +175,5 @@ function process(msg) {
     }
     else {
         return msg;
-    }
-}
-
-
-//TODO: finish this
-function generateObjectHTML(obj) {
-    if (obj === null) {
-        return "null";
-    }
-    else if (obj === "" || obj === 0) {
-        return obj;
-    }
-    else if (!obj) {
-        return "undefined";
-    }
-    else if (typeof obj === "object" || obj instanceof Object) {
-        if (Object.prototype.toString.call(obj) === '[object Array]') {
-            return "[]";
-            var newobj = "[",
-                elements = [];
-            for (var i = 0; i < obj.length; ++i) {
-                elements.push(generateObjectHTML(obj[i]));
-            }
-            newobj = newobj + elements.join("; ") + "]";
-            return newobj;
-        }
-        else {
-            var keys = Object.keys(obj),
-                newobject = "Object ";
-            for (var i = 0; i < keys.length; ++i) {
-                newobject = newobject + "<br />" + keys[i] + ": ";
-                newobject = newobject + generateObjectHTML(obj[keys[i]]);
-            }
-            return newobject;
-        }
-    }
-    else {
-        return obj;
     }
 }

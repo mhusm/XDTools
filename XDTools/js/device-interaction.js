@@ -43,7 +43,6 @@ $(document).ready(function () {
             removeCSSProperties(deviceID);
             $history.scrollTop($history[0].scrollHeight);
             undebugDevice(deviceID);
-            unobserveDevice(deviceID);
         }
         else {
             $(this).css("background-color", "hsla(" + colors[index].color + ", 60%, 50%, 1)");
@@ -54,7 +53,6 @@ $(document).ready(function () {
             reactivateCSSProperties(deviceID);
             $history.scrollTop($history[0].scrollHeight);
             debugDevice(deviceID);
-            observeDevice(deviceID);
         }
         $(this).toggleClass("active");
     });
@@ -92,6 +90,9 @@ $(document).ready(function () {
             mainDeviceId = $(this).val();
         if (mainDeviceId) {
             connectDevice(deviceID, mainDeviceId);
+        }
+        else {
+            activeDevices[deviceID].disconnect();
         }
     });
 
