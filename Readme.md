@@ -25,6 +25,7 @@
 3. Open "http://[hostname of your machine]" in Google Chrome. If you want to connect real devices, use a hostname that is reachable by those devices, e.g. the IP address of your machine. Do not use "127.0.0.1" or "localhost".
 4. Insert "<script src='http://[hostname of your machine]/js/remote.js'></script>" at the beginning of the head tag in all HTML pages of the application you want to test
 5. Change the URL at the top of XDTools to the IP address of the application you want to test. If you use the URL instead of the IP address, rainbow-dns will not work properly.
+6. Update "getConnectionURL" in remote.js to your application. 
 
 ## Using XDTools
 
