@@ -1,1 +1,0 @@
-The links to the images in the presentation are hosted on the XDTest server running on my computer. If the computer is not running, the images cannot be displayed (adapt links to view the presentation anyway).
