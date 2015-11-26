@@ -1,5 +1,8 @@
 # XDTools - Readme
 
+## About this project
+XDTools is under development at the [Globis Group at ETH Zürich](https://globis.ethz.ch). The project is coordinated by [Maria Husmann](https://globis.ethz.ch/#!/person/maria-husmann/). Most of implemenation was done by Nina Heyder.
+
 ## Installation (Windows 7)
 
 1. Install Node.js
