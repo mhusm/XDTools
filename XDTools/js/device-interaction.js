@@ -215,8 +215,13 @@ function updateLayers(newLayers) {
 
 //Connect a side device to a main device
 function connectDevice(deviceID, mainDeviceId) {
-    var command = new Command("requestConnectionURL", deviceID);
-    activeDevices[mainDeviceId].sendCommand(command);
+    if (useUrlForConnecting) {
+        var command = new Command("requestConnectionURL", deviceID);
+        activeDevices[mainDeviceId].sendCommand(command);
+    } else {
+        var command = new Command("requestConnectionParam", deviceID);
+        activeDevices[mainDeviceId].sendCommand(command);
+    }
     if ($("#sessions").find("input[data-device-id='" + deviceID + "']").is(":checked")) {
         $("#sessions").find("input[data-device-id='" + mainDeviceId + "']").click();
     }

@@ -148,7 +148,9 @@ function addDevice(deviceName, width, height, devicePixelRatio) {
                 foundAutoConnect = true;
                 //device.$device.find(".main input").click();
                 device.$device.find("select").val($(this).closest(".session").find(".main-device").text());
-                connectDevice(id, this.dataset.deviceId);
+                device.$device.find("iframe").load(function(){
+                    connectDevice(id, this.dataset.deviceId);
+                }.bind(this));
             }
         });
         if (!foundAutoConnect) {

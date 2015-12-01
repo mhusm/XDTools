@@ -7,7 +7,8 @@ var savedSequences = JSON.parse(localStorage.getItem("saved-sequences")) || [],
             "jsConsole": true,
             "functionDebugging": true,
             "cssEditor": true
-        };
+        },
+    useUrlForConnecting = false;
 
 $(document).ready(function () {
 
@@ -207,6 +208,7 @@ function loadDevice(devices, i) {
                 foundAutoConnect = true;
                 device.$device.find(".main input").click();
                 device.$device.find("select").val(id);
+                console.log("connect device load");
                 connectDevice(id, this.dataset.deviceId);
             }
         });
