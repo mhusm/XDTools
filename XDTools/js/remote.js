@@ -2,7 +2,23 @@ function getConnectionURL() {
     //TODO: adjust implementation of this function to connect devices to each other:
     //      Adjust IP to the IP where the application is running
     //      Adjust URL if you are running another application (possibly from another framework)
-    return "http://129.132.173.2:8083/index.html?connect=" + XDmvc.deviceId;
+//    return "http://129.132.114.114:8082/combined.html?connect=" + XDmvc.deviceId;
+    console.log(window.location);
+    return "http://129.132.114.114:8082/gallery.html?connect=" + XDmvc.deviceId;
+}
+
+function getConnectionParam() {
+    //TODO: adjust implementation of this function to connect devices to each other:
+    // Return a parameter that is required to connect to this devices
+    return XDmvc.deviceId;
+}
+
+function connectWithParam(param) {
+    //TODO: adjust implementation of this function to connect devices to each other:
+    //   Establish a connection to a device. Device information is given in param. It is up to you to define it.
+    XDmvc.connectTo(param);
+    XDmvc.addRole("visitor")
+    XDmvc.removeRole("owner")
 }
 
 var XDTest = {
@@ -981,6 +997,19 @@ function initialize() {
                         "mainDeviceID": command.mainDeviceID
                     };
                 window.parent.postMessage(JSON.stringify(command), "*");
+            }
+            else if (command.name === "requestConnectionParam") {
+                var param = getConnectionParam(),
+                    command = {
+                        "name": "receiveConnectionParam",
+                        "param": param,
+                        "deviceID": command.deviceID,
+                        "mainDeviceID": command.mainDeviceID
+                    };
+                window.parent.postMessage(JSON.stringify(command), "*");
+            }
+            else if (command.name === "connectWithParam") {
+                connectWithParam(command.param);
             }
             else if (command.name === "debug") {
                 if (!XDTest.debuggedFunctions[command.functionName]) {

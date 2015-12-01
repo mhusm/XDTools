@@ -54,6 +54,9 @@ function processCommand(command, deviceID) {
     else if (command.name === "receiveConnectionURL") {
         activeDevices[command.deviceID].connect(command.url);
     }
+    else if (command.name === "receiveConnectionParam") {
+        activeDevices[command.deviceID].connectWithParam(command.param);
+    }
     else if (command.name === "debuggingPrepared") {
         socket.emit("debug", activeDevices[deviceID].url, "XDTest.debuggedFunctions['" + command.functionName + "']", deviceID);
     }
@@ -67,7 +70,8 @@ function Command(name, deviceID) {
     this.deviceID = deviceID;
     this.parentDomain = "http://" + window.location.host;
     this.toString = function () {
-        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain});
+//        return JSON.stringify({"name": this.name, "deviceID": this.deviceID, "parentDomain": this.parentDomain});
+        return JSON.stringify(this);
     };
 }
 

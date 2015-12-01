@@ -24,7 +24,10 @@
 
             var url = new URL(window.location.href),
                     socket = io(":" + (url.port || 80) + "/remote"),
-                    iframe = document.getElementsByTagName("iframe")[0];
+                    iframe = document.getElementsByTagName("iframe")[0],
+                    iframeReady = false,
+                    commands = [];
+
 
             window.addEventListener("message", function (ev) {
                 socket.emit("command", ev.data);
@@ -33,15 +36,29 @@
             //Refresh device
             socket.on("refresh", function (){
                 iframe.src = iframe.src;
+                iframeReady = false;
             });
             //Load URL on device
             socket.on("load", function (url) {
                 iframe.src = url;
+                iframeReady = false;
             });
+
+            iframe.addEventListener("load", function(event){
+                commands.forEach(function(c){
+                    iframe.contentWindow.postMessage(c, iframe.src);
+                });
+                commands = [];
+            });
+
 
             //Forward command to the iframe of the remote device
             socket.on("command", function (command) {
-                iframe.contentWindow.postMessage(command, iframe.src);
+                if (iframeReady) {
+                    iframe.contentWindow.postMessage(command, iframe.src);
+                } else {
+                    commands.push(command);
+                }
             });
 
         }, false);

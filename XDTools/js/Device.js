@@ -53,6 +53,28 @@ function Device(id, url, layer, top, left, isRemote) {
         });
         $session.remove();
     };
+    this.connectWithParam = function (param) {
+        console.log("device connect with param");
+        console.log(param);
+        var command = new Command("connectWithParam", this.id);
+        command.param = param;
+        this.sendCommand(command);
+        if (this.firstConnect) {
+            this.oldURL = this.url;
+            this.firstConnect = false;
+        }
+        var mainDeviceIndex = mainDevices.indexOf(this.id);
+        if (mainDeviceIndex !== -1) {
+            mainDevices.splice(mainDeviceIndex, 1);
+        }
+        $(".main-devices option[data-device-id='" + this.id + "']").remove();
+        var $session = $(".session[data-device-id='" + this.id + "']");
+        $session.find("ul").find(".session-device").each(function () {
+            var deviceID = $(this).text();
+            activeDevices[deviceID].disconnect();
+        });
+        $session.remove();
+    };
     //Disconnect the device from another device and load the URL that was loaded before
     this.disconnect = function () {
         if (this.oldURL) {
@@ -249,6 +271,12 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
     //Reload the current URL
     this.reloadURL = function () {
         this.$device.find("iframe").attr("src", this.url);
+        this.$device.find("iframe").load(function(){
+            var mainDevice = this.id;
+            $(".session[data-device-id='" + this.id + "'] ul").find(".session-device").each(function () {
+                connectDevice($(this).text(), mainDevice);
+            })
+        }.bind(this));
         addCSSProperties(this.id);
         if (!this.isRemote) {
             debugDevice(this.id);
