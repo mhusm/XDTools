@@ -1,6 +1,8 @@
 {
-  "name": "master-thesis-nina",
-  "version": "0.0.1",
+  "name": "XDTools",
+  "version": "0.1.0",
+  "author": "Nina Heyder, Maria Husmann <husmann@inf.ethz.ch>",
+  "description": "A set of tools for testing and debugging cross-device applications",
   "dependencies": {
     "express": "^4.12.3",
     "request": "^2.55.0",

@@ -1,34 +1,34 @@
 # XDTools - Readme
 
 ## About this project
-XDTools is under development at the [Globis Group at ETH Zürich](https://globis.ethz.ch). The project is coordinated by [Maria Husmann](https://globis.ethz.ch/#!/person/maria-husmann/). Most of implemenation was done by Nina Heyder.
+XDTools is under development at the [Globis Group at ETH Zürich](https://globis.ethz.ch). The project is coordinated by [Maria Husmann](https://globis.ethz.ch/#!/person/maria-husmann/). Most of implementation was done by Nina Heyder.
 
 ## Installation (Windows 7)
 
 1. Install Node.js
 2. Install rainbow-dns by typing "npm install -g rainbow-dns" in the command prompt
-3. Look up the IP of your default DNS server: Type "ipconfig /all" into the command prompt
+3. Look up the IP of your default DNS server: Type `ipconfig /all` into the command prompt
 4. Set up Windows to use the rainbow-dns DNS server:
   1. Open the Control Panel.
   2. Open the Network and Sharing Center.
-  3. Click on "Change adapter settings"
-  4. Right-click on the adapter and select "Properties"
+  3. Click on `Change adapter settings`
+  4. Right-click on the adapter and select `Properties`
   5. Select Internet Protocol -> Properties
-  6. Choose the option "Use the following DNS server addresses"
+  6. Choose the option `Use the following DNS server addresses`
   7. Add 127.0.0.1 as preferred DNS server and your default DNS server as alternate DNS server
 5. Modify the following lines in the api.js file of rainbow-dns:
-  - Line 14, 25, 37: Append '.header("Access-Control-Allow-Origin", "*")' to the end of the line
-  - Line 41: Add the following at the beginning of the function: 'var serverConfig = {cors: true};' and add 'serverConfig' as the last argument to the 'new Hapi.Server' call
-6. Add the Chrome extension to Google Chrome. If you want to use a port other than 80 for XDTools, adjust line 16 in "devtools.js".  
+  - Line 14, 25, 37: Append `.header("Access-Control-Allow-Origin", "*")` to the end of the line
+  - Line 41: Add the following at the beginning of the function: `var serverConfig = {cors: true};` and add `serverConfig` as the last argument to the `new Hapi.Server` call
+6. Add the Chrome extension to Google Chrome. If you want to use a port other than 80 for XDTools, adjust line 16 in `devtools.js`.  
 
 ## Starting XDTools
 
-1. Start rainbow-dns by typing "rainbow-dns --fwdhost [enter IP of your default DNS server] --domain xdtest.com" in the command prompt
+1. Start rainbow-dns by typing `rainbow-dns --fwdhost [enter IP of your default DNS server] --domain xdtest.com` in the command prompt
 2. Navigate to the main folder of the application in the command prompt and type "node server.js"
-3. Open "http://[hostname of your machine]" in Google Chrome. If you want to connect real devices, use a hostname that is reachable by those devices, e.g. the IP address of your machine. Do not use "127.0.0.1" or "localhost".
-4. Insert "<script src='http://[hostname of your machine]/js/remote.js'></script>" at the beginning of the head tag in all HTML pages of the application you want to test
+3. Open `http://[hostname of your machine]` in Google Chrome. If you want to connect real devices, use a hostname that is reachable by those devices, e.g. the IP address of your machine. Do not use `127.0.0.1` or `localhost`.
+4. Insert `<script src='http://[hostname of your machine]/js/remote.js'></script>` at the beginning of the head tag in all HTML pages of the application you want to test
 5. Change the URL at the top of XDTools to the IP address of the application you want to test. If you use the URL instead of the IP address, rainbow-dns will not work properly.
-6. Update "getConnectionURL" in remote.js to your application. 
+6. Update `getConnectionURL` in remote.js to your application. 
 
 ## Using XDTools
 
@@ -64,7 +64,7 @@ You can click the "Clear"-button in the top-right corner of XDTools to remove al
 
 ### Connecting Real Devices
 
-You can click on the "QR code" button on the top XDTools and scan the QR code that is shown with a real device. You can also just open the URL "http://[hostname of your machine]/remote.html" in Google Chrome on the real device.
+You can click on the "QR code" button on the top XDTools and scan the QR code that is shown with a real device. You can also just open the URL `http://[hostname of your machine]/remote.html` in Google Chrome on the real device.
 
 Once the device is connected, it is represented by a proxy in XDTools. The proxy can also be moved around and has a settings menu.
 
