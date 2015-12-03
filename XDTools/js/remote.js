@@ -37,9 +37,17 @@ function getConnectionParam() {
 function connectWithParam(param) {
     //TODO: adjust implementation of this function to connect devices to each other:
     //   Establish a connection to a device. Device information is given in param. It is up to you to define it.
-    XDmvc.connectTo(param);
-    XDmvc.addRole("visitor")
-    XDmvc.removeRole("owner")
+    if (XDmvc.d2d && XDmvc.d2d.serverReady) {
+        XDmvc.connectTo(param);
+        XDmvc.addRole("visitor");
+        XDmvc.removeRole("owner");
+    } else {
+        XDmvc.on("XDserverReady", function(){
+            XDmvc.connectTo(param);
+            XDmvc.addRole("visitor");
+            XDmvc.removeRole("owner");
+        });
+    }
 }
 
 
