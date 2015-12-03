@@ -67,6 +67,7 @@
             });
 
             iframe.addEventListener("load", function(event){
+                iframeReady = true;
                 commands.forEach(function(c){
                     iframe.contentWindow.postMessage(c, iframe.src);
                 });
