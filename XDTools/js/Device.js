@@ -75,8 +75,6 @@ function Device(id, url, layer, top, left, isRemote) {
         $session.remove();
     };
     this.connectWithParam = function (param) {
-        console.log("device connect with param");
-        console.log(param);
         var command = new Command("connectWithParam", this.id);
         command.param = param;
         this.sendCommand(command);
@@ -292,12 +290,15 @@ function LocalDevice(name, id, width, height, devicePixelRatio, url, originalHos
     //Reload the current URL
     this.reloadURL = function () {
         this.$device.find("iframe").attr("src", this.url);
-        this.$device.find("iframe").load(function(){
+        var connect = function(){
             var mainDevice = this.id;
             $(".session[data-device-id='" + this.id + "'] ul").find(".session-device").each(function () {
                 connectDevice($(this).text(), mainDevice);
             })
-        }.bind(this));
+        }.bind(this);
+        // make sure to unregister event handlers
+        this.$device.find("iframe").off("load", undefined, connect );
+        this.$device.find("iframe").on("load", undefined, connect );
         addCSSProperties(this.id);
         if (!this.isRemote) {
             debugDevice(this.id);
