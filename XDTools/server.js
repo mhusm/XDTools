@@ -22,7 +22,7 @@
 var app = require("express")(),
     http = require("http").Server(app),
     io = require("socket.io")(http),
-    url = "http://w3schools.com",
+    url = "http://google.com",
     shortid = require("shortid"),
     remoteDevices = [],
     devToolsConnected = false,
