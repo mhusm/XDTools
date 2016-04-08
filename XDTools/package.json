@@ -1,5 +1,5 @@
 {
-  "name": "XDTools",
+  "name": "xdtools",
   "version": "0.1.0",
   "author": "Nina Heyder, Maria Husmann <husmann@inf.ethz.ch>",
   "description": "A set of tools for testing and debugging cross-device applications",
