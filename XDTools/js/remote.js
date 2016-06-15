@@ -24,8 +24,7 @@ function getConnectionURL() {
     //      Adjust IP to the IP where the application is running
     //      Adjust URL if you are running another application (possibly from another framework)
 //    return "http://129.132.114.114:8082/combined.html?connect=" + XDmvc.deviceId;
-    console.log(window.location);
-    return "http://129.132.114.114:8082/gallery.html?connect=" + XDmvc.deviceId;
+    return window.location.href.replace(window.location.hostname, "129.132.114.114");
 }
 
 function getConnectionParam() {

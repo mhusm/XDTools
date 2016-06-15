@@ -29,7 +29,7 @@ var savedSequences = JSON.parse(localStorage.getItem("saved-sequences")) || [],
             "functionDebugging": true,
             "cssEditor": true
         },
-    useUrlForConnecting = false;
+    useUrlForConnecting = true;
 
 $(document).ready(function () {
 

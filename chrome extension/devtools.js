@@ -19,6 +19,14 @@
  *
  */
 var socket = io.connect("http://127.0.0.1/devtools");
+var removeHash = function(url) {
+    // Find first slash after http://
+    var end = url.indexOf("#");
+    // remove everything after
+    url = end > -1 ?  url.substring(0, end) : url;
+    return url;
+};
+
 
 socket.on("inspect", function (deviceURL, layer) {
     var func = function (result) {
@@ -43,7 +51,7 @@ socket.on("inspectFunction", function (deviceURL, functionName) {
 
 function inspectHTML(url, layer) {
     var options = {
-        frameURL: url,
+        frameURL: removeHash(url),
         useContentScriptContext: false
     };
     chrome.devtools.inspectedWindow.eval(
@@ -73,7 +81,7 @@ function existsDocument(resources, url) {
 
 function inspectFunction(url, functionName) {
     var options = {
-        frameURL: url,
+        frameURL: removeHash(url),
         useContentScriptContext: false
     };
     chrome.devtools.inspectedWindow.eval(
@@ -84,7 +92,7 @@ function inspectFunction(url, functionName) {
 
 function debugFunction(url, functionName) {
     var options = {
-        frameURL: url,
+        frameURL: removeHash(url),
         useContentScriptContext: false
     };
     chrome.devtools.inspectedWindow.eval(
@@ -95,7 +103,7 @@ function debugFunction(url, functionName) {
 
 function undebugFunction(url, functionName) {
     var options = {
-        frameURL: url,
+        frameURL: removeHash(url),
         useContentScriptContext: false
     };
     chrome.devtools.inspectedWindow.eval(

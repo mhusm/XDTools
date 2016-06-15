@@ -57,7 +57,7 @@ $(document).ready(function () {
     $(document).on("click", ".inspect-function", function () {
         var selectedLayer = $(this).closest(".function").data("layer"),
             functionName = $(this).closest(".function").find(".name").text();
-        inspectFunction(functionName);
+        inspectFunction(functionName, selectedLayer);
     });
 });
 
@@ -137,7 +137,7 @@ function emitUndebugCommand(url, functionName, deviceID) {
     //activeDevices[deviceID].sendCommand(new DebugCommand("undebug", deviceID, functionName));
 }
 
-function inspectFunction(functionName) {
+function inspectFunction(functionName, layer) {
     var found = false;
     $.each(activeDevices, function (key, device) {
         if (!device.isRemote && !found) {
