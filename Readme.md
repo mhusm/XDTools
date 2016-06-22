@@ -84,6 +84,7 @@ All active devices forward their logging messages and JavaScript errors to the s
 If a command is typed into the console, it is sent to all active devices and executed on them. The return value of the command is shown in the console.
 
 On the top of the console, the messages can be filtered by type and/or by text.
+![Screenshot of JavaScript console](screenshots/js_console.png)
 
 ### Function Debugging
 
@@ -92,6 +93,9 @@ If a debugged function is called on an emulated device, the execution is interru
 
 In some cases, the Chrome DevTools have to be re-opened for function debugging to work. In most cases, a warning will be shown in XDTools telling you to re-open the DevTools.
 However, if function debugging does not work and no warning is shown, re-opening the DevTools might still fix the problem.
+
+![Screenshot of debugging](screenshots/debugging.png)
+
 
 ### HTML Inspection
 
