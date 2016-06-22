@@ -1,7 +1,7 @@
 # XDTools - Readme
 
 ## About this project
-XDTools is under development at the [Globis Group at ETH Zürich](https://globis.ethz.ch). The project is coordinated by [Maria Husmann](https://globis.ethz.ch/#!/person/maria-husmann/). Most of implementation was done by Nina Heyder.
+XDTools is under development at the [Globis Group at ETH Zürich](https://globis.ethz.ch). The project is coordinated by [Maria Husmann](https://globis.ethz.ch/#!/person/maria-husmann/). Most of implementation was done by Nina Heyder. An associated paper with the title *Is a Framework Enough?: Cross-device Testing and Debugging* will be presented at the 8th ACM SIGCHI Symposium on Engineering Interactive Computing Systems (EICS 2016) and can be found in the [ACM digital library](http://dl.acm.org/citation.cfm?id=2933249&CFID=634558376).
 
 ![Usage scenario of XDTools](screenshots/scenario.png)
 
